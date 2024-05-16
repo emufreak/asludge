@@ -1,0 +1,1 @@
+int get2bytes (BPTR fp);

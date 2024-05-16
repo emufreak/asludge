@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.map": "c",
+        "*.s": "c",
+        "helpers.h": "c"
+    }
+}
