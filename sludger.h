@@ -3,7 +3,12 @@
 
 #include <proto/exec.h>
 
-BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, int fileVersion);
+typedef struct _FILETIME {
+	ULONG dwLowDateTime;
+	ULONG dwHighDateTime;
+} FILETIME;
+
+BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, int *fileVersion);
 BOOL initSludge (char *);
 
 #endif

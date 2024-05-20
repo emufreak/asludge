@@ -67,6 +67,7 @@ int main_sludge(int argc, char *argv[])
 
 	setGameFilePath (sludgeFile);
 	if (! initSludge (sludgeFile)) return 0;
+	
 	//Amiga Cleanup
 	FreeVec(sludgeFile);
 }

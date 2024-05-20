@@ -1,94 +1,95 @@
 
 Discarded input sections
 
- .text          0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .data          0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss           0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.SystemInts
-                0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.SystemDMA
-                0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.SystemADKCON
-                0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.VBR       0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.SystemIrq
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.ActiView  0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.GetVBR   0x00000000       0x70 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.SetInterruptHandler
-                0x00000000       0x12 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.GetInterruptHandler
-                0x00000000        0xc C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.WaitLine
-                0x00000000       0x3a C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.TakeSystem
-                0x00000000      0x126 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.FreeSystem
-                0x00000000      0x122 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.p61Music
-                0x00000000       0x26 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.Wait10   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.Wait11   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.Wait12   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.Wait13   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+ .text          0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .data          0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss           0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .data.realWinWidth
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .data.realWinHeight
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .bss.dialogValue
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.gameName  0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.gameName  0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.amiga_quit
-                0x00000000       0x2c C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.memclr   0x00000000       0xd6 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.memset   0x00000000       0x30 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.memcpy   0x00000000       0x4c C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.memmove  0x00000000       0xae C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0x2c C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.convertString
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.SystemInts
+                0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.SystemDMA
+                0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.SystemADKCON
+                0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.VBR       0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.SystemIrq
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.ActiView  0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.GetVBR   0x00000000       0x70 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.SetInterruptHandler
+                0x00000000       0x12 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.GetInterruptHandler
+                0x00000000        0xc C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.WaitLine
+                0x00000000       0x3a C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.TakeSystem
+                0x00000000      0x126 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.FreeSystem
+                0x00000000      0x122 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.p61Music
+                0x00000000       0x26 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.Wait10   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.Wait11   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.Wait12   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.Wait13   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.memclr   0x00000000       0xd6 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.memcpy   0x00000000       0x4c C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.memmove  0x00000000       0xae C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_clear
-                0x00000000       0x16 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0x16 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_rect
-                0x00000000       0x6e C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0x6e C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_filled_rect
-                0x00000000       0x6e C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0x6e C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_text
-                0x00000000       0x4c C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0x4c C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.my_strncpy
-                0x00000000       0x3e C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0x3e C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_register_bitmap
-                0x00000000      0x106 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000      0x106 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_register_palette
-                0x00000000       0xb2 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0xb2 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_register_copperlist
-                0x00000000       0x98 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0x98 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_unregister
-                0x00000000       0x1c C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0x1c C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_load
-                0x00000000       0x82 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0x82 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_save
-                0x00000000       0x86 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cciug5VS.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cciug5VS.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cccFNUBb.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccSyTAkt.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccKcOCYK.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccKcOCYK.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccOe21L2.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cciSiKHk.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccQdjXMC.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cco5XmQT.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cco5XmQT.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccyQj71a.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccyQj71a.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccIHkdns.debug.temp.o
+                0x00000000       0x86 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccARs082.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccARs082.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cc0mJBq4.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc0mJBq4.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccgdnWG4.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccyaUl64.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cca47UD5.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cccHATk6.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cc8CobX6.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc8CobX6.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc86i8w6.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc00iyg6.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccaWaud6.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccs1BGi6.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccs1BGi6.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccsDgjj6.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccsDgjj6.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccMlJgn5.debug.temp.o
  .text          0x00000000        0x0 obj/gcc8_a_support.o
  .data          0x00000000        0x0 obj/gcc8_a_support.o
  .bss           0x00000000        0x0 obj/gcc8_a_support.o
  .text.__mulsi3
                 0x00000000       0x22 obj/gcc8_a_support.o
- .text.__udivsi3
-                0x00000000       0x5c obj/gcc8_a_support.o
- .text.__divsi3
-                0x00000000       0x2e obj/gcc8_a_support.o
  .text.__modsi3
                 0x00000000       0x2e obj/gcc8_a_support.o
  .text.__umodsi3
@@ -98,20 +99,20 @@ Discarded input sections
  .bss           0x00000000        0x0 obj/depacker_doynax.o
  .text.depacker_doynax
                 0x00000000       0xd2 obj/depacker_doynax.o
- .debug_line    0x00000000       0xbb obj/depacker_doynax.o
+ .debug_line    0x00000000       0xbc obj/depacker_doynax.o
  .debug_info    0x00000000       0x35 obj/depacker_doynax.o
  .debug_abbrev  0x00000000       0x21 obj/depacker_doynax.o
  .debug_aranges
                 0x00000000       0x20 obj/depacker_doynax.o
- .debug_str     0x00000000       0x8b obj/depacker_doynax.o
+ .debug_str     0x00000000       0x8d obj/depacker_doynax.o
  .text.depacker_doynax_vasm
                 0x00000000       0xd2 obj/depacker_doynax_vasm.o
  .debug_aranges
                 0x00000000       0x20 obj/depacker_doynax_vasm.o
- .debug_info    0x00000000       0x97 obj/depacker_doynax_vasm.o
+ .debug_info    0x00000000       0x99 obj/depacker_doynax_vasm.o
  .debug_abbrev  0x00000000       0x12 obj/depacker_doynax_vasm.o
  .debug_ranges  0x00000000       0x18 obj/depacker_doynax_vasm.o
- .debug_line    0x00000000       0xd5 obj/depacker_doynax_vasm.o
+ .debug_line    0x00000000       0xd6 obj/depacker_doynax_vasm.o
 
 Memory Configuration
 
@@ -121,17 +122,20 @@ Name             Origin             Length             Attributes
 Linker script and memory map
 
 Address of section .text set to 0x0
-LOAD C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cciug5VS.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cccFNUBb.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccSyTAkt.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccKcOCYK.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccOe21L2.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cciSiKHk.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccQdjXMC.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cco5XmQT.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccyQj71a.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccIHkdns.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccARs082.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc0mJBq4.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccgdnWG4.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccyaUl64.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cca47UD5.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cccHATk6.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc8CobX6.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc86i8w6.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc00iyg6.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccaWaud6.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccs1BGi6.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccsDgjj6.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccMlJgn5.debug.temp.o
 LOAD obj/gcc8_a_support.o
 LOAD obj/depacker_doynax.o
 LOAD obj/depacker_doynax_vasm.o
@@ -193,10 +197,10 @@ LOAD obj/depacker_doynax_vasm.o
 .iplt
  *(.iplt)
 
-.text           0x00000000     0x1042
+.text           0x00000000     0x2584
  *(.text.unlikely .text.*_unlikely .text.unlikely.*)
  .text.unlikely
-                0x00000000       0xb8 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0xb8 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
                 0x00000000                _start
  *(.text.exit .text.exit.*)
  *(.text.startup .text.startup.*)
@@ -204,48 +208,78 @@ LOAD obj/depacker_doynax_vasm.o
  *(SORT_BY_NAME(.text.sorted.*))
  *(.text .stub .text.* .gnu.linkonce.t.*)
  .text.initSludge
-                0x000000b8      0x104 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x000000b8      0x684 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.openAndVerify
-                0x000001bc      0x368 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.WaitVbl  0x00000524       0x5c C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.p61Init  0x00000580       0x24 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.p61End   0x000005a4       0x26 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.main     0x000005ca      0x1b4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
-                0x000005ca                main
- .text.makeNullAnim
-                0x0000077e       0x66 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.get2bytes
-                0x000007e4       0x5c C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.readString
-                0x00000840       0xa8 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.strlen   0x000008e8       0x18 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
-                0x000008e8                strlen
- .text.strcpy   0x00000900       0x28 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
-                0x00000900                strcpy
- .text.copyString
-                0x00000928       0x6e C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.joinStrings
-                0x00000996       0xb0 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x0000073c      0x370 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.main_sludge
-                0x00000a46      0x1b0 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000aac      0x1b0 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.setGameFilePath
-                0x00000bf6      0x1c6 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000c5c      0x1c6 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.getNumberedString
+                0x00000e22       0xfe C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.setFileIndices
+                0x00000f20      0x2cc C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.WaitVbl  0x000011ec       0x5c C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.p61Init  0x00001248       0x24 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.p61End   0x0000126c       0x26 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.main     0x00001292      0x1b4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+                0x00001292                main
+ .text.makeNullAnim
+                0x00001446       0x66 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.encodeFilename
+                0x000014ac      0x392 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.floatSwap
+                0x0000183e       0x2c C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.get2bytes
+                0x0000186a       0x5c C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.get4bytes
+                0x000018c6       0xc0 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.getFloat
+                0x00001986       0x7c C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.readString
+                0x00001a02       0xa8 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.strcmp   0x00001aaa       0x40 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+                0x00001aaa                strcmp
+ .text.strlen   0x00001aea       0x18 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+                0x00001aea                strlen
+ .text.strcpy   0x00001b02       0x28 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+                0x00001b02                strcpy
+ .text.copyString
+                0x00001b2a       0x6e C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.joinStrings
+                0x00001b98       0xb0 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.getPrefsFilename
+                0x00001c48       0xb8 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.makeLanguageTable
+                0x00001d00      0x134 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.readIniFile
+                0x00001e34      0x386 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.stringToInt
+                0x000021ba       0x8a C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.fileExists
-                0x00000dbc       0x6a C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .text.KPrintF  0x00000e26       0x6a C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00002244       0x6a C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.memset   0x000022ae       0x30 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+                0x000022ae                memset
+ .text.KPrintF  0x000022de       0x6a C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.warpmode
-                0x00000e90      0x12e C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00002348      0x12e C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_cmd
-                0x00000fbe       0x40 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00002476       0x40 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_start_idle
-                0x00000ffe       0x1a C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x000024b6       0x1a C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .text.debug_stop_idle
-                0x00001018       0x18 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x000024d0       0x18 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .text.__udivsi3
+                0x000024e8       0x5c obj/gcc8_a_support.o
+                0x000024e8                __udivsi3
+ .text.__divsi3
+                0x00002544       0x2e obj/gcc8_a_support.o
+                0x00002544                __divsi3
  .text.KPutCharX
-                0x00001030        0xe obj/gcc8_a_support.o
-                0x00001030                KPutCharX
- .text.PutChar  0x0000103e        0x4 obj/gcc8_a_support.o
-                0x0000103e                PutChar
+                0x00002572        0xe obj/gcc8_a_support.o
+                0x00002572                KPutCharX
+ .text.PutChar  0x00002580        0x4 obj/gcc8_a_support.o
+                0x00002580                PutChar
  *(.gnu.warning)
 
 .fini
@@ -254,11 +288,11 @@ LOAD obj/depacker_doynax_vasm.o
                 [!provide]                        PROVIDE (_etext = .)
                 [!provide]                        PROVIDE (etext = .)
 
-.rodata         0x00001042     0x1d2b
+.rodata         0x00002584     0x2027
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x00001042     0x1d2b C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
-                0x00001162                incbin_player_start
-                0x00002ac8                incbin_player_end
+ .rodata        0x00002584     0x2027 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+                0x000029d2                incbin_player_start
+                0x00004338                incbin_player_end
 
 .rodata1
  *(.rodata1)
@@ -283,7 +317,7 @@ LOAD obj/depacker_doynax_vasm.o
 
 .exception_ranges
  *(.exception_ranges*)
-                0x00004000                        . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE))
+                0x000065ab                        . = DATA_SEGMENT_ALIGN (CONSTANT (MAXPAGESIZE), CONSTANT (COMMONPAGESIZE))
 
 .eh_frame
  *(.eh_frame)
@@ -302,7 +336,7 @@ LOAD obj/depacker_doynax_vasm.o
 .exception_ranges
  *(.exception_ranges*)
 
-.tdata          0x00004000        0x0
+.tdata          0x000065ab        0x0
                 [!provide]                        PROVIDE (__tdata_start = .)
  *(.tdata .tdata.* .gnu.linkonce.td.*)
 
@@ -310,22 +344,22 @@ LOAD obj/depacker_doynax_vasm.o
  *(.tbss .tbss.* .gnu.linkonce.tb.*)
  *(.tcommon)
 
-.preinit_array  0x00004000        0x0
-                0x00004000                        PROVIDE (__preinit_array_start = .)
+.preinit_array  0x000065ab        0x0
+                0x000065ab                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array)
-                0x00004000                        PROVIDE (__preinit_array_end = .)
+                0x000065ab                        PROVIDE (__preinit_array_end = .)
 
-.init_array     0x00004000        0x0
-                0x00004000                        PROVIDE (__init_array_start = .)
+.init_array     0x000065ab        0x0
+                0x000065ab                        PROVIDE (__init_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
  *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
-                0x00004000                        PROVIDE (__init_array_end = .)
+                0x000065ab                        PROVIDE (__init_array_end = .)
 
-.fini_array     0x00004000        0x0
-                0x00004000                        PROVIDE (__fini_array_start = .)
+.fini_array     0x000065ab        0x0
+                0x000065ab                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
  *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
-                0x00004000                        PROVIDE (__fini_array_end = .)
+                0x000065ab                        PROVIDE (__fini_array_end = .)
 
 .ctors
  *crtbegin.o(.ctors)
@@ -350,7 +384,7 @@ LOAD obj/depacker_doynax_vasm.o
 
 .dynamic
  *(.dynamic)
-                0x00004000                        . = DATA_SEGMENT_RELRO_END (., 0x0)
+                0x000065ab                        . = DATA_SEGMENT_RELRO_END (., 0x0)
 
 .got
  *(.got.plt)
@@ -358,57 +392,94 @@ LOAD obj/depacker_doynax_vasm.o
  *(.got)
  *(.igot)
 
-.data           0x00004000        0x8
+.data           0x000065ac       0x10
  *(.data .data.* .gnu.linkonce.d.*)
- .data.player   0x00004000        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .data.module   0x00004004        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+ .data.desiredfps
+                0x000065ac        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .data.sliceBusy
+                0x000065b0        0x2 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .data.player   0x000065b2        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .data.module   0x000065b6        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .data.allowAnyFilename
+                0x000065ba        0x2 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
 
 .INCBIN.MEMF_CHIP
-                0x00004008     0x1479
+                0x000065bc     0x1479
  .INCBIN.MEMF_CHIP
-                0x00004008     0x1479 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
-                0x00004008                incbin_module_start
-                0x00005480                incbin_module_end
+                0x000065bc     0x1479 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+                0x000065bc                incbin_module_start
+                0x00007a34                incbin_module_end
 
 .data1
  *(.data1)
-                0x00005481                        _edata = .
+                0x00007a35                        _edata = .
                 [!provide]                        PROVIDE (edata = .)
-                0x00005481                        . = .
-                0x00005481                        __bss_start = .
+                0x00007a35                        . = .
+                0x00007a35                        __bss_start = .
 
-.bss            0x00005482       0x36
+.bss            0x00007a36       0x8e
  *(.dynbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss.winWidth  0x00005482        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+ .bss.winWidth  0x00007a36        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .bss.winHeight
-                0x00005486        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00007a3a        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .bss.gameVersion
-                0x0000548a        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00007a3e        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.specialSettings
+                0x00007a42        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .bss.numBIFNames
-                0x0000548e        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00007a46        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .bss.allBIFNames
-                0x00005492        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00007a4a        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .bss.numUserFunc
-                0x00005496        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.SysBase   0x0000549a        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.custom    0x0000549e        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.DOSBase   0x000054a2        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.GfxBase   0x000054a6        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .bss.gamePath  0x000054aa        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00007a4e        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.allUserFunc
+                0x00007a52        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.numResourceNames
+                0x00007a56        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.allResourceNames
+                0x00007a5a        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.fileTime  0x00007a5e        0x8 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.globalVars
+                0x00007a66        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.numGlobals
+                0x00007a6a        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.gamePath  0x00007a6e        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .bss.bundleFolder
-                0x000054ae        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00007a72        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.bigDataFile
+                0x00007a76        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.startIndex
+                0x00007a7a        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.startOfDataIndex
+                0x00007a7e        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.startOfTextIndex
+                0x00007a82        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.startOfSubIndex
+                0x00007a86        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.startOfObjectIndex
+                0x00007a8a        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.SysBase   0x00007a8e        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.custom    0x00007a92        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.DOSBase   0x00007a96        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.GfxBase   0x00007a9a        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.languageTable
+                0x00007a9e        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.languageName
+                0x00007aa2        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .bss.gameSettings
+                0x00007aa6       0x18 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .bss.mouseCursorAnim
-                0x000054b2        0x4 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00007abe        0x4 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  *(COMMON)
-                0x000054b8                        . = ALIGN ((. != 0x0)?0x4:0x1)
- *fill*         0x000054b6        0x2 
-                0x000054b8                        . = ALIGN (0x4)
-                0x000054b8                        . = SEGMENT_START ("ldata-segment", .)
-                0x000054b8                        . = ALIGN (0x4)
-                0x000054b8                        _end = .
+                0x00007ac4                        . = ALIGN ((. != 0x0)?0x4:0x1)
+ *fill*         0x00007ac2        0x2 
+                0x00007ac4                        . = ALIGN (0x4)
+                0x00007ac4                        . = SEGMENT_START ("ldata-segment", .)
+                0x00007ac4                        . = ALIGN (0x4)
+                0x00007ac4                        _end = .
                 [!provide]                        PROVIDE (end = .)
-                0x000054b8                        . = DATA_SEGMENT_END (.)
+                0x00007ac4                        . = DATA_SEGMENT_END (.)
 
 .stab
  *(.stab)
@@ -430,7 +501,7 @@ LOAD obj/depacker_doynax_vasm.o
 
 .comment        0x00000000       0x12
  *(.comment)
- .comment       0x00000000       0x12 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+ .comment       0x00000000       0x12 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
                                  0x13 (size before relaxing)
 
 .gnu.build.attributes
@@ -448,86 +519,100 @@ LOAD obj/depacker_doynax_vasm.o
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x1f0
+.debug_aranges  0x00000000      0x250
  *(.debug_aranges)
  .debug_aranges
-                0x00000000      0x1a0 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000      0x200 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
  .debug_aranges
-                0x000001a0       0x50 obj/gcc8_a_support.o
+                0x00000200       0x50 obj/gcc8_a_support.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0xb4ab
+.debug_info     0x00000000    0x10476
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000     0x21fb C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .debug_info    0x000021fb      0x142 C:\Users\uersu\AppData\Local\Temp\cciug5VS.debug.temp.o
-                0x000021fb                graphics.c.df750bc9
- .debug_info    0x0000233d     0x14cb C:\Users\uersu\AppData\Local\Temp\cccFNUBb.debug.temp.o
-                0x0000233d                sludger.c.26bb39e9
- .debug_info    0x00003808     0x4071 C:\Users\uersu\AppData\Local\Temp\ccSyTAkt.debug.temp.o
-                0x00003808                main.c.28482f42
- .debug_info    0x00007879      0x373 C:\Users\uersu\AppData\Local\Temp\ccKcOCYK.debug.temp.o
-                0x00007879                people.c.ef023f6d
- .debug_info    0x00007bec      0xb5a C:\Users\uersu\AppData\Local\Temp\ccOe21L2.debug.temp.o
-                0x00007bec                moreio.c.3f390a85
- .debug_info    0x00008746      0x3ac C:\Users\uersu\AppData\Local\Temp\cciSiKHk.debug.temp.o
-                0x00008746                stringy.c.595e98a1
- .debug_info    0x00008af2     0x1051 C:\Users\uersu\AppData\Local\Temp\ccQdjXMC.debug.temp.o
-                0x00008af2                main_sludge.c.a28f9b8f
- .debug_info    0x00009b43      0xa12 C:\Users\uersu\AppData\Local\Temp\cco5XmQT.debug.temp.o
-                0x00009b43                helpers.c.8296a9d2
- .debug_info    0x0000a555      0x1d2 C:\Users\uersu\AppData\Local\Temp\ccyQj71a.debug.temp.o
-                0x0000a555                cursors.c.6237d846
- .debug_info    0x0000a727      0xcff C:\Users\uersu\AppData\Local\Temp\ccIHkdns.debug.temp.o
-                0x0000a727                gcc8_c_support.c.7b853710
- .debug_info    0x0000b426       0x85 obj/gcc8_a_support.o
+ .debug_info    0x00000000     0x39d2 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .debug_info    0x000039d2      0x121 C:\Users\uersu\AppData\Local\Temp\ccARs082.debug.temp.o
+                0x000039d2                timing.c.5f68b502
+ .debug_info    0x00003af3      0x149 C:\Users\uersu\AppData\Local\Temp\cc0mJBq4.debug.temp.o
+                0x00003af3                graphics.c.b568d2c0
+ .debug_info    0x00003c3c     0x2402 C:\Users\uersu\AppData\Local\Temp\ccgdnWG4.debug.temp.o
+                0x00003c3c                sludger.c.e88152ff
+ .debug_info    0x0000603e     0x1053 C:\Users\uersu\AppData\Local\Temp\ccyaUl64.debug.temp.o
+                0x0000603e                main_sludge.c.b34645d7
+ .debug_info    0x00007091     0x12ff C:\Users\uersu\AppData\Local\Temp\cca47UD5.debug.temp.o
+                0x00007091                fileset.c.cc91ed14
+ .debug_info    0x00008390     0x4073 C:\Users\uersu\AppData\Local\Temp\cccHATk6.debug.temp.o
+                0x00008390                main.c.8b9785a5
+ .debug_info    0x0000c403      0x375 C:\Users\uersu\AppData\Local\Temp\cc8CobX6.debug.temp.o
+                0x0000c403                people.c.b1f2626f
+ .debug_info    0x0000c778      0xfc0 C:\Users\uersu\AppData\Local\Temp\cc86i8w6.debug.temp.o
+                0x0000c778                moreio.c.aeae4fdc
+ .debug_info    0x0000d738      0x3d5 C:\Users\uersu\AppData\Local\Temp\cc00iyg6.debug.temp.o
+                0x0000d738                stringy.c.b191dffd
+ .debug_info    0x0000db0d      0xffb C:\Users\uersu\AppData\Local\Temp\ccaWaud6.debug.temp.o
+                0x0000db0d                language.c.5f94b023
+ .debug_info    0x0000eb08      0xa14 C:\Users\uersu\AppData\Local\Temp\ccs1BGi6.debug.temp.o
+                0x0000eb08                helpers.c.65626a47
+ .debug_info    0x0000f51c      0x1d4 C:\Users\uersu\AppData\Local\Temp\ccsDgjj6.debug.temp.o
+                0x0000f51c                cursors.c.0dc5ca4b
+ .debug_info    0x0000f6f0      0xd01 C:\Users\uersu\AppData\Local\Temp\ccMlJgn5.debug.temp.o
+                0x0000f6f0                gcc8_c_support.c.af0a41ba
+ .debug_info    0x000103f1       0x85 obj/gcc8_a_support.o
 
-.debug_abbrev   0x00000000      0xe41
+.debug_abbrev   0x00000000     0x124e
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0xd2 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .debug_abbrev  0x000000d2       0x3f C:\Users\uersu\AppData\Local\Temp\cciug5VS.debug.temp.o
- .debug_abbrev  0x00000111      0x1cf C:\Users\uersu\AppData\Local\Temp\cccFNUBb.debug.temp.o
- .debug_abbrev  0x000002e0      0x2ca C:\Users\uersu\AppData\Local\Temp\ccSyTAkt.debug.temp.o
- .debug_abbrev  0x000005aa       0xee C:\Users\uersu\AppData\Local\Temp\ccKcOCYK.debug.temp.o
- .debug_abbrev  0x00000698      0x130 C:\Users\uersu\AppData\Local\Temp\ccOe21L2.debug.temp.o
- .debug_abbrev  0x000007c8       0xea C:\Users\uersu\AppData\Local\Temp\cciSiKHk.debug.temp.o
- .debug_abbrev  0x000008b2      0x19b C:\Users\uersu\AppData\Local\Temp\ccQdjXMC.debug.temp.o
- .debug_abbrev  0x00000a4d      0x10a C:\Users\uersu\AppData\Local\Temp\cco5XmQT.debug.temp.o
- .debug_abbrev  0x00000b57       0x65 C:\Users\uersu\AppData\Local\Temp\ccyQj71a.debug.temp.o
- .debug_abbrev  0x00000bbc      0x266 C:\Users\uersu\AppData\Local\Temp\ccIHkdns.debug.temp.o
- .debug_abbrev  0x00000e22       0x1f obj/gcc8_a_support.o
+ .debug_abbrev  0x00000000       0xd2 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .debug_abbrev  0x000000d2       0x2c C:\Users\uersu\AppData\Local\Temp\ccARs082.debug.temp.o
+ .debug_abbrev  0x000000fe       0x40 C:\Users\uersu\AppData\Local\Temp\cc0mJBq4.debug.temp.o
+ .debug_abbrev  0x0000013e      0x217 C:\Users\uersu\AppData\Local\Temp\ccgdnWG4.debug.temp.o
+ .debug_abbrev  0x00000355      0x19b C:\Users\uersu\AppData\Local\Temp\ccyaUl64.debug.temp.o
+ .debug_abbrev  0x000004f0      0x183 C:\Users\uersu\AppData\Local\Temp\cca47UD5.debug.temp.o
+ .debug_abbrev  0x00000673      0x2ca C:\Users\uersu\AppData\Local\Temp\cccHATk6.debug.temp.o
+ .debug_abbrev  0x0000093d       0xee C:\Users\uersu\AppData\Local\Temp\cc8CobX6.debug.temp.o
+ .debug_abbrev  0x00000a2b      0x189 C:\Users\uersu\AppData\Local\Temp\cc86i8w6.debug.temp.o
+ .debug_abbrev  0x00000bb4       0xea C:\Users\uersu\AppData\Local\Temp\cc00iyg6.debug.temp.o
+ .debug_abbrev  0x00000c9e      0x1bc C:\Users\uersu\AppData\Local\Temp\ccaWaud6.debug.temp.o
+ .debug_abbrev  0x00000e5a      0x10a C:\Users\uersu\AppData\Local\Temp\ccs1BGi6.debug.temp.o
+ .debug_abbrev  0x00000f64       0x65 C:\Users\uersu\AppData\Local\Temp\ccsDgjj6.debug.temp.o
+ .debug_abbrev  0x00000fc9      0x266 C:\Users\uersu\AppData\Local\Temp\ccMlJgn5.debug.temp.o
+ .debug_abbrev  0x0000122f       0x1f obj/gcc8_a_support.o
 
-.debug_line     0x00000000     0x3865
+.debug_line     0x00000000     0x54aa
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000     0x1ed9 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .debug_line    0x00001ed9       0xc4 C:\Users\uersu\AppData\Local\Temp\cciug5VS.debug.temp.o
- .debug_line    0x00001f9d      0x33a C:\Users\uersu\AppData\Local\Temp\cccFNUBb.debug.temp.o
- .debug_line    0x000022d7      0x52d C:\Users\uersu\AppData\Local\Temp\ccSyTAkt.debug.temp.o
- .debug_line    0x00002804      0x1ae C:\Users\uersu\AppData\Local\Temp\ccKcOCYK.debug.temp.o
- .debug_line    0x000029b2      0x2e1 C:\Users\uersu\AppData\Local\Temp\ccOe21L2.debug.temp.o
- .debug_line    0x00002c93      0x1e8 C:\Users\uersu\AppData\Local\Temp\cciSiKHk.debug.temp.o
- .debug_line    0x00002e7b      0x35a C:\Users\uersu\AppData\Local\Temp\ccQdjXMC.debug.temp.o
- .debug_line    0x000031d5      0x2d0 C:\Users\uersu\AppData\Local\Temp\cco5XmQT.debug.temp.o
- .debug_line    0x000034a5       0xc0 C:\Users\uersu\AppData\Local\Temp\ccyQj71a.debug.temp.o
- .debug_line    0x00003565      0x1d6 C:\Users\uersu\AppData\Local\Temp\ccIHkdns.debug.temp.o
- .debug_line    0x0000373b      0x12a obj/gcc8_a_support.o
+ .debug_line    0x00000000     0x3325 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .debug_line    0x00003325       0xb7 C:\Users\uersu\AppData\Local\Temp\ccARs082.debug.temp.o
+ .debug_line    0x000033dc       0xc7 C:\Users\uersu\AppData\Local\Temp\cc0mJBq4.debug.temp.o
+ .debug_line    0x000034a3      0x38d C:\Users\uersu\AppData\Local\Temp\ccgdnWG4.debug.temp.o
+ .debug_line    0x00003830      0x35e C:\Users\uersu\AppData\Local\Temp\ccyaUl64.debug.temp.o
+ .debug_line    0x00003b8e      0x32b C:\Users\uersu\AppData\Local\Temp\cca47UD5.debug.temp.o
+ .debug_line    0x00003eb9      0x531 C:\Users\uersu\AppData\Local\Temp\cccHATk6.debug.temp.o
+ .debug_line    0x000043ea      0x1b1 C:\Users\uersu\AppData\Local\Temp\cc8CobX6.debug.temp.o
+ .debug_line    0x0000459b      0x332 C:\Users\uersu\AppData\Local\Temp\cc86i8w6.debug.temp.o
+ .debug_line    0x000048cd      0x1ec C:\Users\uersu\AppData\Local\Temp\cc00iyg6.debug.temp.o
+ .debug_line    0x00004ab9      0x357 C:\Users\uersu\AppData\Local\Temp\ccaWaud6.debug.temp.o
+ .debug_line    0x00004e10      0x2d3 C:\Users\uersu\AppData\Local\Temp\ccs1BGi6.debug.temp.o
+ .debug_line    0x000050e3       0xc3 C:\Users\uersu\AppData\Local\Temp\ccsDgjj6.debug.temp.o
+ .debug_line    0x000051a6      0x1d9 C:\Users\uersu\AppData\Local\Temp\ccMlJgn5.debug.temp.o
+ .debug_line    0x0000537f      0x12b obj/gcc8_a_support.o
 
-.debug_frame    0x00000000      0xe50
+.debug_frame    0x00000000     0x14c8
  *(.debug_frame)
- .debug_frame   0x00000000      0xd84 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .debug_frame   0x00000d84       0xcc obj/gcc8_a_support.o
+ .debug_frame   0x00000000     0x13fc C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .debug_frame   0x000013fc       0xcc obj/gcc8_a_support.o
 
-.debug_str      0x00000000      0x44f
+.debug_str      0x00000000      0x588
  *(.debug_str)
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
- .debug_str     0x00000000       0xa6 C:\Users\uersu\AppData\Local\Temp\cccFNUBb.debug.temp.o
- .debug_str     0x000000a6      0x111 C:\Users\uersu\AppData\Local\Temp\ccSyTAkt.debug.temp.o
- .debug_str     0x000001b7       0x29 C:\Users\uersu\AppData\Local\Temp\ccOe21L2.debug.temp.o
- .debug_str     0x000001e0       0x4c C:\Users\uersu\AppData\Local\Temp\cciSiKHk.debug.temp.o
- .debug_str     0x0000022c       0xe0 C:\Users\uersu\AppData\Local\Temp\ccQdjXMC.debug.temp.o
- .debug_str     0x0000030c       0x8a C:\Users\uersu\AppData\Local\Temp\ccIHkdns.debug.temp.o
- .debug_str     0x00000396       0xb9 obj/gcc8_a_support.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
+ .debug_str     0x00000000      0x101 C:\Users\uersu\AppData\Local\Temp\ccgdnWG4.debug.temp.o
+ .debug_str     0x00000101       0xe0 C:\Users\uersu\AppData\Local\Temp\ccyaUl64.debug.temp.o
+ .debug_str     0x000001e1       0x37 C:\Users\uersu\AppData\Local\Temp\cca47UD5.debug.temp.o
+ .debug_str     0x00000218      0x111 C:\Users\uersu\AppData\Local\Temp\cccHATk6.debug.temp.o
+ .debug_str     0x00000329       0x6b C:\Users\uersu\AppData\Local\Temp\cc86i8w6.debug.temp.o
+ .debug_str     0x00000394       0x4c C:\Users\uersu\AppData\Local\Temp\cc00iyg6.debug.temp.o
+ .debug_str     0x000003e0       0x63 C:\Users\uersu\AppData\Local\Temp\ccaWaud6.debug.temp.o
+ .debug_str     0x00000443       0x8a C:\Users\uersu\AppData\Local\Temp\ccMlJgn5.debug.temp.o
+ .debug_str     0x000004cd       0xbb obj/gcc8_a_support.o
 
 .debug_loc
  *(.debug_loc)
@@ -564,7 +649,7 @@ LOAD obj/depacker_doynax_vasm.o
                 0x00000000       0xfc
  *(.debug_loclists)
  .debug_loclists
-                0x00000000       0xfc C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000       0xfc C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
 
 .debug_macro
  *(.debug_macro)
@@ -573,10 +658,10 @@ LOAD obj/depacker_doynax_vasm.o
  *(.debug_names)
 
 .debug_rnglists
-                0x00000000      0x1ec
+                0x00000000      0x258
  *(.debug_rnglists)
  .debug_rnglists
-                0x00000000      0x1ec C:\Users\uersu\AppData\Local\Temp\ccCoyuen.ltrans0.ltrans.o
+                0x00000000      0x258 C:\Users\uersu\AppData\Local\Temp\ccUpry75.ltrans0.ltrans.o
 
 .debug_str_offsets
  *(.debug_str_offsets)

@@ -2,6 +2,9 @@
     "files.associations": {
         "*.map": "c",
         "*.s": "c",
-        "helpers.h": "c"
+        "helpers.h": "c",
+        "errors.h": "c",
+        "dos.h": "c",
+        "dos_protos.h": "c"
     }
 }
