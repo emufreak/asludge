@@ -15,8 +15,11 @@ struct settingsStruct
 	BOOL debugMode;
 };
 
+int getLanguageForFileB ();
 unsigned int stringToInt (char * s);
 extern struct settingsStruct gameSettings;
 void makeLanguageTable (BPTR table);
+void readIniFile (char * filename);
+
 
 #endif

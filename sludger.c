@@ -8,6 +8,7 @@
 #include "language.h"
 #include "moreio.h"
 #include "people.h"
+#include "statusba.h"
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 #include "variable.h"
@@ -25,6 +26,7 @@ int numUserFunc = 0;
 char * * allUserFunc = NULL;
 int numResourceNames = 0;
 char * * allResourceNames = NULL;
+int languageNum = -1;
 
 FILETIME fileTime;
 
@@ -124,11 +126,11 @@ BOOL initSludge (char * filename) {
 
 	BPTR lock = CreateDir( gameName );
 	if(lock == 0) {
-		KPrintF("Could not create game Directory\n");
-		Write(Output(), (APTR)"initsludge:Could not create game Directory\n", 43);
+		//Directory does already exist
+		lock = Lock(gameName, ACCESS_READ);
 	}
 
-	if (!SetCurrentDirName(gameName)) {
+	if (!CurrentDir(lock)) {
 		KPrintF("initsludge: Failed changing to directory %s\n", gameName);
 		Write(Output(), (APTR)"initsludge:Failed changing to directory\n", 40);
 		return FALSE;
@@ -138,6 +140,29 @@ BOOL initSludge (char * filename) {
 
 	readIniFile (filename);
 
+	// Now set file indices properly to the chosen language.
+	languageNum = getLanguageForFileB ();
+	if (languageNum < 0) KPrintF("Can't find the translation data specified!");
+	setFileIndices (NULL, gameSettings.numLanguages, languageNum);
+
+	if (dataFol[0]) {
+		char *dataFolder = encodeFilename(dataFol);
+		lock = CreateDir( dataFolder );
+		if(lock == 0) {
+			//Directory does already exist
+			lock = Lock(dataFolder, ACCESS_READ);		
+		}
+
+
+		if (!CurrentDir(lock)) {
+			(Output(), (APTR)"initsludge:This game's data folder is inaccessible!\n", 52);
+		}
+		FreeVec(dataFolder);
+	}
+
+ 	positionStatus (10, winHeight - 15);
+
+	return TRUE;
 }
 
 BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, int *fileVersion) {

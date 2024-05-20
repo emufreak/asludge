@@ -86,8 +86,9 @@ void setGameFilePath (char * f) {
 	}
 
 	if (got != -1) {
-		f[got] = 0;		
-		if (!SetCurrentDirName(f)) {
+		f[got] = 0;	
+		BPTR lock = Lock(f, ACCESS_READ);	
+		if (!CurrentDir(lock)) {
 			KPrintF("setGameFilePath:: Failed changing to directory %s\n", f);
 		}
 		f[got] = PATHSLASH;
@@ -99,11 +100,13 @@ void setGameFilePath (char * f) {
 		return;
 	}
 
-	if (! GetCurrentDirName (gamePath, 398)) {
+	BPTR lock = Lock(gamePath, ACCESS_READ);	
+	if (! CurrentDir(lock)) {
 		KPrintF("setGameFilePath: Can't get game directory.\n");
 	}
-
-	if (!SetCurrentDirName(currentDir)) {	
+	
+	lock = Lock(currentDir, ACCESS_READ);	
+	if (!CurrentDir(lock)) {	
 		KPrintF("setGameFilePath: Failed changing to directory %s\n", currentDir);
 	}
 

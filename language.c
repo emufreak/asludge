@@ -11,6 +11,17 @@ int *languageTable;
 char **languageName;
 struct settingsStruct gameSettings;
 
+int getLanguageForFileB ()
+{
+	int indexNum = -1;
+
+	for (unsigned int i = 0; i <= gameSettings.numLanguages; i ++) {
+		if (languageTable[i] == gameSettings.languageID) indexNum = i;
+	}
+
+	return indexNum;
+}
+
 char * getPrefsFilename (char * filename) {
 	// Yes, this trashes the original string, but
 	// we also free it at the end (warning!)...
