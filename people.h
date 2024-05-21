@@ -1,3 +1,5 @@
+#include <proto/exec.h>
+
 #define EXTRA_FRONT			1
 #define EXTRA_FIXEDSIZE		2
 #define EXTRA_NOSCALE		2	// Alternative name
@@ -19,3 +21,5 @@ struct animFrame {
 };
 
 struct personaAnimation * makeNullAnim ();
+
+BOOL initPeople ();

@@ -14,7 +14,7 @@
 #include "variable.h"
 #include "version.h"
 
-
+struct inputType input;
 int gameVersion;
 int specialSettings;
 extern struct personaAnimation * mouseCursorAnim;

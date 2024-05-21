@@ -1,6 +1,21 @@
 #include <proto/exec.h>
 
 #include "people.h"
+#include "support/gcc8_c_support.h"
+#include "region.h"
+
+struct screenRegion personRegion;
+
+extern struct screenRegion * allScreenRegions;
+
+BOOL initPeople () {
+	personRegion.sX = 0;
+	personRegion.sY = 0;
+	personRegion.di = -1;
+	allScreenRegions = NULL;
+
+	return TRUE;
+}
 
 struct personaAnimation * makeNullAnim () {
 

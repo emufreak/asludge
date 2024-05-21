@@ -1,7 +1,11 @@
 #include <proto/dos.h>
 #include <proto/exec.h>
+#include "backdrop.h"
+#include "floor.h"
 #include "support/gcc8_c_support.h"
 #include "main_sludge.h"
+#include "objtypes.h"
+#include "people.h"
 #include "graphics.h"
 #include "stringy.h"
 #include "helpers.h"
@@ -68,6 +72,29 @@ int main_sludge(int argc, char *argv[])
 	setGameFilePath (sludgeFile);
 	if (! initSludge (sludgeFile)) return 0;
 	
+	if (! resizeBackdrop (winWidth, winHeight)) {
+		KPrintF("Couldn't allocate memory for backdrop");
+		return FALSE;
+	}
+
+	if (! initPeople ())
+	{
+		KPrintF("Couldn't initialise people stuff");
+		return FALSE;
+	}
+
+	if (! initFloor ())
+	{
+		KPrintF("Couldn't initialise floor stuff");
+		return FALSE;
+	}
+
+	if (! initObjectTypes ())
+	{
+		KPrintF("Couldn't initialise object type stuff");
+		return FALSE;
+	}
+
 	//Amiga Cleanup
 	FreeVec(sludgeFile);
 }
