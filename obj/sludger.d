@@ -1,5 +1,6 @@
 obj/sludger.o: C:/Users/uersu/Documents/GitData/asludge/sludger.c \
  C:/Users/uersu/Documents/GitData/asludge/sludger.h \
+ C:/Users/uersu/Documents/GitData/asludge/csludge.h \
  C:/Users/uersu/Documents/GitData/asludge/errors.h \
  C:/Users/uersu/Documents/GitData/asludge/fileset.h \
  C:/Users/uersu/Documents/GitData/asludge/graphics.h \
@@ -12,6 +13,7 @@ obj/sludger.o: C:/Users/uersu/Documents/GitData/asludge/sludger.c \
  C:/Users/uersu/Documents/GitData/asludge/variable.h \
  C:/Users/uersu/Documents/GitData/asludge/version.h
 C:/Users/uersu/Documents/GitData/asludge/sludger.h:
+C:/Users/uersu/Documents/GitData/asludge/csludge.h:
 C:/Users/uersu/Documents/GitData/asludge/errors.h:
 C:/Users/uersu/Documents/GitData/asludge/fileset.h:
 C:/Users/uersu/Documents/GitData/asludge/graphics.h:

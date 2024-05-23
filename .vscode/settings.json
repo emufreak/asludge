@@ -6,6 +6,8 @@
         "errors.h": "c",
         "dos.h": "c",
         "dos_protos.h": "c",
-        "moreio.h": "c"
+        "moreio.h": "c",
+        "gcc8_c_support.h": "c",
+        "exec.h": "c"
     }
 }

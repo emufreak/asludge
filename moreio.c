@@ -94,6 +94,16 @@ float getFloat (BPTR fp) {
 	return f;
 }
 
+void put2bytes (int numtoput, BPTR fp) {
+	FPutC( fp, (char) (numtoput / 256));
+	FPutC( fp, (char) (numtoput % 256));
+}
+
+void putFloat (float f, BPTR fp) {
+	f = floatSwap(f);
+	Write( fp, &f, sizeof (float));
+}
+
 char * readString (BPTR fp) {
 
 	int a, len = get2bytes (fp);

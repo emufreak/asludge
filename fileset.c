@@ -18,6 +18,10 @@ char * convertString(char * s) {
 	return NULL;
 }
 
+void finishAccess () {
+	sliceBusy = FALSE;
+}
+
 char * getNumberedString (int value) {
 
 	if (sliceBusy) {
@@ -32,6 +36,25 @@ char * getNumberedString (int value) {
 	char * s = readString (bigDataFile);    
 	
 	return s;
+}
+
+
+BOOL openSubSlice (int num) {
+//	FILE * dbug = fopen ("debuggy.txt", "at");
+
+//	fprintf (dbug, "\nTrying to open sub %i\n", num);
+
+	if (sliceBusy) {
+		KPrintF("Can't read from data file", "I'm already reading something");
+		return FALSE;
+	}
+
+//	fprintf (dbug, "Going to position %li\n", startOfSubIndex + (num << 2));
+	Seek(bigDataFile, startOfSubIndex + (num << 2), OFFSET_BEGINNING);
+	Seek(bigDataFile, get4bytes (bigDataFile), OFFSET_BEGINNING);
+//	fprintf (dbug, "Told to skip forward to %li\n", ftell (bigDataFile));
+//	fclose (dbug);
+	return sliceBusy = TRUE;
 }
 
 void setFileIndices (BPTR fp, unsigned int numLanguages, unsigned int skipBefore) {
@@ -57,7 +80,7 @@ void setFileIndices (BPTR fp, unsigned int numLanguages, unsigned int skipBefore
         Seek(fp, get4bytes(fp),0);		
 		skipBefore --;
 	}
-	startOfTextIndex = startIndex = Seek( fp, 0, OFFSET_CURRENT) + 4;
+	startOfTextIndex = Seek( fp, 0, OFFSET_CURRENT) + 4;
 
 	Seek(fp, get4bytes (fp), OFFSET_BEGINNING);
 

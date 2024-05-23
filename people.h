@@ -1,4 +1,12 @@
+#ifndef __SLUDGE_PEOPLE_H__
+#define __SLUDGE_PEOPLE_H__
+
 #include <proto/exec.h>
+
+struct animFrame {
+	int frameNum, howMany;
+	int noise;
+};
 
 #define EXTRA_FRONT			1
 #define EXTRA_FIXEDSIZE		2
@@ -15,11 +23,36 @@ struct personaAnimation {
 	int numFrames;
 };
 
-struct animFrame {
-	int frameNum, howMany;
-	int noise;
+struct persona {
+	struct personaAnimation * * animation;
+	int numDirections;
+};
+
+struct onScreenPerson {
+	float x, y;
+	int height, floaty, walkSpeed;
+	float scale;
+	struct onScreenPerson * next;
+	int walkToX, walkToY, thisStepX, thisStepY, inPoly, walkToPoly;
+	BOOL walking, spinning;
+	struct loadedFunction * continueAfterWalking;
+	struct personaAnimation * myAnim;
+	struct personaAnimation * lastUsedAnim;
+	struct persona * myPersona;
+	int frameNum, frameTick, angle, wantAngle, angleOffset;
+	BOOL show;
+	int direction, directionWhenDoneWalking;
+	struct objectType * thisType;
+	int extra, spinSpeed;
+	unsigned char r,g,b,colourmix,transparency;
 };
 
 struct personaAnimation * makeNullAnim ();
 
+struct personaAnimation * copyAnim (struct personaAnimation * orig);
 BOOL initPeople ();
+void deleteAnim (struct personaAnimation * orig);
+void makeSilent (struct onScreenPerson me);
+
+
+#endif

@@ -30,8 +30,18 @@ int languageNum = -1;
 
 FILETIME fileTime;
 
+struct variableStack * noStack = NULL;
 struct variable * globalVars;
 int numGlobals;
+struct loadedFunction * allRunningFunctions = NULL;
+char * loadNow = NULL;
+BOOL captureAllKeys = FALSE;
+unsigned char brightnessLevel = 255;
+
+BOOL handleInput () {
+	//Amiga Todo: Actually handle input
+	return runSludge ();
+}
 
 BOOL initSludge (char * filename) {
 	int a = 0;
@@ -165,6 +175,45 @@ BOOL initSludge (char * filename) {
 	return TRUE;
 }
 
+BOOL loadFunctionCode (struct loadedFunction * newFunc) {
+	unsigned int numLines, numLinesRead;
+	int a;
+
+	if (! openSubSlice (newFunc -> originalNumber)) return FALSE;
+	
+
+	newFunc-> unfreezable	= FGetC (bigDataFile);
+	numLines				= get2bytes (bigDataFile);
+	newFunc -> numArgs		= get2bytes (bigDataFile);
+	newFunc -> numLocals	= get2bytes (bigDataFile);
+	newFunc -> compiledLines = AllocVec( sizeof(struct lineOfCode) * numLines,MEMF_ANY);
+	if (! newFunc -> compiledLines) {
+		KPrintF("loadFunctionCode: cannot allocate memory");
+		return FALSE;
+	}
+
+	for (numLinesRead = 0; numLinesRead < numLines; numLinesRead ++) {
+		newFunc -> compiledLines[numLinesRead].theCommand = (enum sludgeCommand) FGetC(bigDataFile);
+		newFunc -> compiledLines[numLinesRead].param = get2bytes (bigDataFile);
+	}
+
+	finishAccess ();
+
+	// Now we need to reserve memory for the local variables
+	if(newFunc->numLocals > 1) {
+		newFunc -> localVars = AllocVec( sizeof(struct variable) * newFunc->numLocals,MEMF_ANY);
+		if (!newFunc -> localVars) {
+			KPrintF("loadFunctionCode: cannot allocate memory");
+			return FALSE;
+		}
+
+		for (a = 0; a < newFunc -> numLocals; a ++) {
+			initVarNew (newFunc -> localVars[a]);
+		}
+	}
+	return TRUE;
+}
+
 BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, int *fileVersion) {
 	BPTR fp = Open(filename,MODE_OLDFILE);
 
@@ -205,4 +254,95 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
 		return NULL;
 	}
 	return fp;
+}
+
+void restartFunction (struct loadedFunction * fun) {
+	fun -> next = allRunningFunctions;
+	allRunningFunctions = fun;
+}
+
+BOOL runSludge () {
+	
+	struct loadedFunction * thisFunction = allRunningFunctions;
+	struct loadedFunction * nextFunction;
+
+	while (thisFunction) {
+		nextFunction = thisFunction -> next;
+
+		if (! thisFunction -> freezerLevel) {
+			if (thisFunction -> timeLeft) {
+				if (thisFunction -> timeLeft < 0) {				
+					thisFunction -> timeLeft = 0;
+				} else if (! -- (thisFunction -> timeLeft)) {
+				}
+			} else {
+				if (thisFunction -> isSpeech) {
+					thisFunction -> isSpeech = FALSE;
+					killAllSpeech ();
+				}
+				if (! continueFunction (thisFunction))
+					return FALSE;
+			}
+		}
+
+		thisFunction = nextFunction;
+	}
+
+	if (loadNow) {
+		if (loadNow[0] == ':') {
+			saveGame (loadNow + 1);
+			setVariable (saverFunc -> reg, SVT_INT, 1);
+		} else {
+			if (! loadGame (loadNow)) return false;
+		}
+		delete loadNow;
+		loadNow = NULL;
+	}
+
+	return TRUE;
+}
+
+int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack * vStack, BOOL returnSommet) {
+	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
+	if(!newFunc) {
+		KPrintF("startNewFunction: Cannot allocate memory");
+		return 0;
+	}
+	newFunc -> originalNumber = funcNum;
+
+	loadFunctionCode (newFunc);
+
+	if (newFunc -> numArgs != (int)numParamsExpected) {
+		KPrintF("Wrong number of parameters!");
+		return NULL; 
+	}
+	if (newFunc -> numArgs > newFunc -> numLocals)  {
+		KPrintF ("More arguments than local variable space!");
+		return NULL; 
+	}
+	
+	// Now, lets copy the parameters from the calling function's stack...
+
+	while (numParamsExpected) {
+		numParamsExpected --;
+		if (vStack == NULL) {
+			KPrintF("Corrupted file! The stack's empty and there were still parameters expected");
+			return NULL;
+		}
+		copyVariable (vStack -> thisVar, newFunc -> localVars[numParamsExpected]);
+		trimStack (vStack);
+	}
+
+	newFunc -> cancelMe = FALSE;
+	newFunc -> timeLeft = 0;
+	newFunc -> returnSomething = returnSommet;
+	newFunc -> calledBy = calledBy;
+	newFunc -> stack = NULL;
+	newFunc -> freezerLevel = 0;
+	newFunc -> runThisLine = 0;
+	newFunc -> isSpeech = 0;
+	newFunc -> reg -> varType = SVT_NULL;
+
+	restartFunction (newFunc);
+	return 1;
 }

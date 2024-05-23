@@ -1,16 +1,20 @@
 #include <proto/dos.h>
 #include <proto/exec.h>
 #include "backdrop.h"
+#include "fileset.h"
 #include "floor.h"
 #include "support/gcc8_c_support.h"
 #include "main_sludge.h"
 #include "objtypes.h"
 #include "people.h"
+#include "statusba.h"
 #include "graphics.h"
 #include "stringy.h"
 #include "helpers.h"
 #include "moreio.h"
 #include "sludger.h"
+#include "talk.h"
+#include "variable.h"
 
 #define PATHSLASH '/'
 #define MAX_PATH        1024          // maximum size of a path name
@@ -20,11 +24,14 @@ extern float cameraZoom;
 
 extern int specialSettings;
 
+extern struct variableStack * noStack;
+
 int dialogValue = 0;
 
 char * gameName = NULL;
 char * gamePath = NULL;
 char *bundleFolder;
+int weAreDoneSoQuit;
 
 int main_sludge(int argc, char *argv[])
 {	
@@ -95,6 +102,17 @@ int main_sludge(int argc, char *argv[])
 		return FALSE;
 	}
 
+	initSpeech ();
+	initStatusBar ();
+
+	gameName = getNumberedString(1);
+	//initSoundStuff (hMainWindow); Todo Amiga: Maybe move soundstuff here
+	startNewFunctionNum (0, 0, NULL, noStack, TRUE);
+
+	weAreDoneSoQuit = 0;
+	while ( !weAreDoneSoQuit ) {
+		handleInput();
+	}
 	//Amiga Cleanup
 	FreeVec(sludgeFile);
 }

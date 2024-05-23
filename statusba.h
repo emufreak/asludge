@@ -12,4 +12,5 @@ struct statusStuff {
 	int statusLR, statusLG, statusLB;
 };
 
+void initStatusBar ();
 void positionStatus (int x, int y);

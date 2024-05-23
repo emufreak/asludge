@@ -14,6 +14,7 @@ BOOL backdropExists = FALSE;
 struct parallaxLayer * parallaxStuff = NULL;
 extern int cameraX, cameraY;
 extern float cameraZoom;
+int lightMapNumber;
 
 void killBackDrop () {
 	deleteTextures (1, &backdropTextureName);

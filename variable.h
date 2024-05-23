@@ -21,7 +21,7 @@ union variableData {
 	struct stackHandler *				theStack;
 	struct personaAnimation *	animHandler;
 	struct persona *    		costumeHandler;
-	struct fastArrayHandler *			fastArray;
+	struct fastArrayHandler *			fastArray; //Amiga Todo. Check if this works
 };
 
 struct variable {
@@ -33,5 +33,8 @@ struct variableStack {
 	struct variable					thisVar;
 	struct variableStack	* 			next;
 };
+
+BOOL copyVariable (const struct variable from, struct variable to);
+void trimStack (struct variableStack * stack);
 
 #define initVarNew(thisVar) 	thisVar.varType = SVT_NULL
