@@ -14,6 +14,9 @@
 #include "variable.h"
 #include "version.h"
 
+struct eventHandlers mainHandlers;
+struct eventHandlers * currentEvents = & mainHandlers;
+
 struct inputType input;
 int gameVersion;
 int specialSettings;
@@ -37,6 +40,34 @@ struct loadedFunction * allRunningFunctions = NULL;
 char * loadNow = NULL;
 BOOL captureAllKeys = FALSE;
 unsigned char brightnessLevel = 255;
+extern struct loadedFunction * saverFunc;
+
+void abortFunction (struct loadedFunction * fun) {
+	int a;
+
+	pauseFunction (fun);
+	while (fun -> stack) trimStack (fun -> stack);
+	FreeVec( fun -> compiledLines);
+	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (fun -> localVars[a]);
+	FreeVec(fun -> localVars);
+	unlinkVar (fun -> reg);
+	if (fun -> calledBy) abortFunction (fun -> calledBy);
+	FreeVec(fun);
+	fun = NULL;
+}
+
+void finishFunction (struct loadedFunction * fun) {
+	int a;
+
+	pauseFunction (fun);
+	if (fun -> stack) KPrintF("finishfunction:", ERROR_NON_EMPTY_STACK);
+	FreeVec( fun -> compiledLines);
+	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (fun -> localVars[a]);
+	FreeVec(fun -> localVars);
+	unlinkVar (fun -> reg);
+	FreeVec(fun):
+	fun = NULL;
+}
 
 BOOL handleInput () {
 	//Amiga Todo: Actually handle input
@@ -214,6 +245,16 @@ BOOL loadFunctionCode (struct loadedFunction * newFunc) {
 	return TRUE;
 }
 
+void loadHandlers (BPTR fp) {
+	currentEvents -> leftMouseFunction		= get2bytes (fp);
+	currentEvents -> leftMouseUpFunction	= get2bytes (fp);
+	currentEvents -> rightMouseFunction		= get2bytes (fp);
+	currentEvents -> rightMouseUpFunction	= get2bytes (fp);
+	currentEvents -> moveMouseFunction		= get2bytes (fp);
+	currentEvents -> focusFunction			= get2bytes (fp);
+	currentEvents -> spaceFunction			= get2bytes (fp);
+}
+
 BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, int *fileVersion) {
 	BPTR fp = Open(filename,MODE_OLDFILE);
 
@@ -256,6 +297,18 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
 	return fp;
 }
 
+void pauseFunction (struct loadedFunction * fun) {
+	struct loadedFunction * * huntAndDestroy = & allRunningFunctions;
+	while (* huntAndDestroy) {
+		if (fun == * huntAndDestroy) {
+			(* huntAndDestroy) = (* huntAndDestroy) -> next;
+			fun->next = NULL;
+		} else {
+			huntAndDestroy = & (* huntAndDestroy) -> next;
+		}
+	}
+}
+
 void restartFunction (struct loadedFunction * fun) {
 	fun -> next = allRunningFunctions;
 	allRunningFunctions = fun;
@@ -291,15 +344,25 @@ BOOL runSludge () {
 	if (loadNow) {
 		if (loadNow[0] == ':') {
 			saveGame (loadNow + 1);
-			setVariable (saverFunc -> reg, SVT_INT, 1);
+			setVariable (saverFunc->reg, SVT_INT, 1);
 		} else {
-			if (! loadGame (loadNow)) return false;
+			if (! loadGame (loadNow)) return FALSE;
 		}
-		delete loadNow;
+		FreeVec(loadNow);
 		loadNow = NULL;
 	}
 
 	return TRUE;
+}
+
+void saveHandlers (FILE * fp) {
+	put2bytes (currentEvents -> leftMouseFunction,		fp);
+	put2bytes (currentEvents -> leftMouseUpFunction,	fp);
+	put2bytes (currentEvents -> rightMouseFunction,		fp);
+	put2bytes (currentEvents -> rightMouseUpFunction,	fp);
+	put2bytes (currentEvents -> moveMouseFunction,		fp);
+	put2bytes (currentEvents -> focusFunction,			fp);
+	put2bytes (currentEvents -> spaceFunction,			fp);
 }
 
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack * vStack, BOOL returnSommet) {

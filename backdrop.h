@@ -15,3 +15,5 @@ void killBackDrop ();
 void killParallax ();
 BOOL resizeBackdrop (int x, int y);
 BOOL reserveBackdrop ();
+void saveSnapshot(BPTR fp);
+void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp);

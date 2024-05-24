@@ -1,9 +1,11 @@
-#include <proto/exec.h>
+#include <proto/dos.h>
 
+#include "moreio.h"
 #include "talk.h"
 #include "support/gcc8_c_support.h"
 
 struct speechStruct * speech;
+float speechSpeed = 1;
 
 void initSpeech () {
 	speech = AllocVec(sizeof(struct speechStruct), MEMF_ANY);
@@ -37,4 +39,31 @@ void killAllSpeech () {
 		FreeVec(killMe -> textLine);
 		FreeVec(killMe);
 	}
+}
+
+void saveSpeech (struct speechStruct * sS, BPTR fp) {
+	struct speechLine * viewLine = sS -> allSpeech;
+	
+	putFloat (speechSpeed, fp);
+	
+		// Write y co-ordinate
+		put2bytes (sS -> speechY, fp);
+		
+		// Write which character's talking
+		put2bytes (sS -> lookWhosTalking, fp);		
+		if (sS -> currentTalker) {
+			FPutC (fp, 1);
+			put2bytes (sS->currentTalker->thisType->objectNum, fp);
+		} else {
+			FPutC (fp, 0);
+		}
+		
+		// Write what's being said
+		while (viewLine) {
+			FPutC (fp, 1);
+			writeString (viewLine -> textLine, fp);
+			put2bytes (viewLine -> x, fp);
+			viewLine = viewLine -> next;
+		}
+		FPutC (fp, 0);
 }

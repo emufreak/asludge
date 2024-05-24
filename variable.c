@@ -4,33 +4,41 @@
 #include "stringy.h"
 #include "variable.h"
 
-void unlinkVar (struct variable thisVar) {
-	switch (thisVar.varType) {
+
+const char * typeName[] = {"undefined", "number", "user function", "string",
+							"built-in function", "file", "stack",
+							"object type", "animation", "costume"};
+
+void unlinkVar (struct variable *thisVar) {
+	switch (thisVar->varType) {
 		case SVT_STRING:
-        FreeVec(thisVar.varData.theString);
-		thisVar.varData.theString = NULL;
+        FreeVec(thisVar->varData.theString);
+		thisVar->varData.theString = NULL;
 		break;
 
 		case SVT_STACK:
-		thisVar.varData.theStack -> timesUsed --;
-		if (thisVar.varData.theStack -> timesUsed <= 0) {
-			while (thisVar.varData.theStack -> first) trimStack (thisVar.varData.theStack -> first);
-			FreeVec(thisVar.varData.theStack);
-			thisVar.varData.theStack = NULL;
+		thisVar->varData.theStack -> timesUsed --;
+		if (thisVar->varData.theStack -> timesUsed <= 0) {
+			while (thisVar->varData.theStack -> first) trimStack (thisVar->varData.theStack -> first);
+			FreeVec(thisVar->varData.theStack);
+			thisVar->varData.theStack = NULL;
 		}
+
+
+
 		break;
 
 		case SVT_FASTARRAY:
-		thisVar.varData.fastArray -> timesUsed --;
-		if (thisVar.varData.theStack -> timesUsed <= 0) {
-            FreeVec( thisVar.varData.fastArray -> fastVariables);
-			FreeVec(thisVar.varData.fastArray);
-			thisVar.varData.fastArray = NULL;
+		thisVar->varData.fastArray -> timesUsed --;
+		if (thisVar->varData.theStack -> timesUsed <= 0) {
+            FreeVec( thisVar->varData.fastArray -> fastVariables);
+			FreeVec(thisVar->varData.fastArray);
+			thisVar->varData.fastArray = NULL;
 		}
 		break;
 
 		case SVT_ANIM:
-		deleteAnim (thisVar.varData.animHandler);
+		deleteAnim (thisVar->varData.animHandler);
 		break;
 
 		default:
@@ -84,6 +92,12 @@ BOOL copyMain (const struct variable from, struct variable to) {
 BOOL copyVariable (const struct variable from, struct variable to) {
 	unlinkVar (to);
 	return copyMain (from, to);
+}
+
+void setVariable (struct variable *thisVar, enum variableType vT, int value) {
+	unlinkVar (*thisVar);
+	thisVar->varType = vT;
+	thisVar->varData.intValue = value;
 }
 
 void trimStack (struct variableStack * stack) {

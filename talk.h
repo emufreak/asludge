@@ -1,3 +1,5 @@
+#include <proto/exec.h>
+
 #include "people.h"
 
 struct speechLine {
@@ -14,3 +16,4 @@ struct speechStruct {
 
 void initSpeech ();
 void killAllSpeech ();
+void saveSpeech (struct speechStruct * sS, BPTR fp);

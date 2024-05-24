@@ -14,3 +14,4 @@ struct statusStuff {
 
 void initStatusBar ();
 void positionStatus (int x, int y);
+void saveStatusBars (BPTR fp);

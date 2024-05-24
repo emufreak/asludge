@@ -5,3 +5,5 @@ struct screenRegion {
 	struct objectType * thisType;
 	struct screenRegion * next;
 };
+
+void killAllRegions ();

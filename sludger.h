@@ -9,6 +9,16 @@ typedef struct _FILETIME {
 	ULONG dwHighDateTime;
 } FILETIME;
 
+struct eventHandlers {
+	int leftMouseFunction;
+	int leftMouseUpFunction;
+	int rightMouseFunction;
+	int rightMouseUpFunction;
+	int moveMouseFunction;
+	int focusFunction;
+	int spaceFunction;
+};
+
 struct lineOfCode {
 	enum sludgeCommand				theCommand;
 	ULONG						param;
@@ -33,10 +43,13 @@ struct inputType {
 	int mouseX, mouseY, keyPressed;
 };
 
+void finishFunction (struct loadedFunction * fun);
 BOOL handleInput ();
+void loadHandlers (BPTR fp);
 BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, int *fileVersion);
 BOOL runSludge();
 BOOL initSludge (char *);
+void pauseFunction (struct loadedFunction * fun);
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack * vStack, BOOL returnSommet);
 
 #endif

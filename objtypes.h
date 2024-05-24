@@ -1,3 +1,6 @@
+#ifndef OBJTYPES_H
+#define OBJTYPES_H
+
 #include <proto/exec.h>
 
 struct combination {
@@ -16,3 +19,9 @@ struct objectType {
 };
 
 BOOL initObjectTypes ();
+void removeObjectType (struct objectType * oT);
+struct objectType * loadObjectRef (BPTR fp);
+void saveObjectRef (struct objectType * r, BPTR fp);
+
+
+#endif

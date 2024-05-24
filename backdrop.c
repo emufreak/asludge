@@ -1,3 +1,5 @@
+#include <proto/dos.h>
+
 #include "backdrop.h"
 #include "graphics.h"
 #include "sludger.h"
@@ -15,6 +17,7 @@ struct parallaxLayer * parallaxStuff = NULL;
 extern int cameraX, cameraY;
 extern float cameraZoom;
 int lightMapNumber;
+unsigned int snapshotTextureName = 0;
 
 void killBackDrop () {
 	deleteTextures (1, &backdropTextureName);
@@ -43,4 +46,15 @@ BOOL resizeBackdrop (int x, int y) {
 	sceneWidth = x;
 	sceneHeight = y;
 	return TRUE;
+}
+
+
+void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp) {
+	if (me) {
+		saveParallaxRecursive (me -> next, fp);
+		FPutC (fp, 1);
+		put2bytes (me->fileNum, fp);
+		put2bytes (me ->fractionX, fp);
+		put2bytes (me->fractionY, fp);
+	}
 }

@@ -35,6 +35,8 @@ struct variableStack {
 };
 
 BOOL copyVariable (const struct variable from, struct variable to);
+void setVariable (struct variable thisVar, enum variableType vT, int value);
 void trimStack (struct variableStack * stack);
+void unlinkVar (struct variable *thisVar);
 
 #define initVarNew(thisVar) 	thisVar.varType = SVT_NULL

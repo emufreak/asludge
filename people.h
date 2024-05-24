@@ -50,9 +50,12 @@ struct onScreenPerson {
 struct personaAnimation * makeNullAnim ();
 
 struct personaAnimation * copyAnim (struct personaAnimation * orig);
-BOOL initPeople ();
 void deleteAnim (struct personaAnimation * orig);
+BOOL initPeople ();
+void killAllPeople ();
+BOOL loadAnim (struct personaAnimation * p, BPTR fp) {
 void makeSilent (struct onScreenPerson me);
-
+BOOL saveAnim (struct personaAnimation * p, BPTR fp);
+BOOL saveCostume (struct persona * cossy, BPTR fp);
 
 #endif

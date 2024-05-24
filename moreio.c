@@ -94,14 +94,46 @@ float getFloat (BPTR fp) {
 	return f;
 }
 
+short getSigned (BPTR fp) {
+	short f;
+	LONG bytes_read = Read(fp, &f, sizeof(short));
+	if (bytes_read != sizeof (short)) {
+		KPrintF("getSigned: Reading error in getSigned.\n");
+	}
+	f = shortSwap(f);
+	return f;
+}
+
 void put2bytes (int numtoput, BPTR fp) {
 	FPutC( fp, (char) (numtoput / 256));
 	FPutC( fp, (char) (numtoput % 256));
 }
 
+void put4bytes (ULONG i, BPTR fp) {
+	//	fwrite (&i, sizeof (long int), 1, fp);
+	unsigned char f1, f2, f3, f4;
+
+	f4 = i / (256*256*256);
+	i = i % (256*256*256);
+	f3 = i / (256*256);
+	i = i % (256*256);
+	f2 = i / 256;
+	f1 = i % 256;
+
+	FPutC (fp,f1);
+	FPutC (fp,f2);
+	FPutC (fp,f3);
+	FPutC (fp,f4);
+}
+
 void putFloat (float f, BPTR fp) {
 	f = floatSwap(f);
 	Write( fp, &f, sizeof (float));
+}
+
+void putSigned (short f, BPTR fp) {
+	f = shortSwap(f);
+	Write(fp, &f, sizeof(short));
 }
 
 char * readString (BPTR fp) {
@@ -116,4 +148,12 @@ char * readString (BPTR fp) {
 	s[len] = 0;
 	//debugOut ("MOREIO: readString: %s\n", s);
 	return s;
+}
+
+void writeString (char * s, BPTR fp) {
+	int a, len = strlen (s);
+	put2bytes (len, fp);
+	for (a = 0; a < len; a ++) {
+		FPutC (fp,s[a] + 1);
+	}
 }
