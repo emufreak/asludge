@@ -1,3 +1,4 @@
+#include <proto/dos.h>
 #include <proto/exec.h>
 
 #ifndef _ZBUFFER_H_
@@ -15,5 +16,8 @@ struct zBufferData {
 };
 
 void killZBuffer();
+BOOL setZBuffer (unsigned int y);
+void sortZPal (int *oldpal, int *newpal, int size);
+
 
 #endif

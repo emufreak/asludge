@@ -18,4 +18,8 @@ struct flor {
 };
 
 void noFloor();
+BOOL polysShareSide (struct floorPolygon a, struct floorPolygon b);
+void killFloor ();
+BOOL setFloor (int fileNum);
+void setFloorNull();
 BOOL initFloor ();

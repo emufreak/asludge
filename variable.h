@@ -1,3 +1,6 @@
+#ifndef __VARIABLE_H__
+#define __VARIABLE_H__
+
 enum variableType {SVT_NULL, SVT_INT, SVT_FUNC, SVT_STRING,
 				   SVT_BUILT, SVT_FILE, SVT_STACK,
 				   SVT_OBJTYPE, SVT_ANIM, SVT_COSTUME,
@@ -34,9 +37,13 @@ struct variableStack {
 	struct variableStack	* 			next;
 };
 
-BOOL copyVariable (const struct variable from, struct variable to);
-void setVariable (struct variable thisVar, enum variableType vT, int value);
+BOOL copyVariable (const struct variable *from, struct variable *to);
+char * getTextFromAnyVar (const variable *from);
+BOOL loadVariable (struct variable * to, BPTR fp);
+void setVariable (struct variable *thisVar, enum variableType vT, int value);
 void trimStack (struct variableStack * stack);
 void unlinkVar (struct variable *thisVar);
 
 #define initVarNew(thisVar) 	thisVar.varType = SVT_NULL
+
+#endif

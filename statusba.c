@@ -5,9 +5,21 @@
 #include "graphics.h"
 #include "statusba.h"
 
-
 struct statusStuff mainStatus;
 struct statusStuff * nowStatus = & mainStatus;
+
+void clearStatusBar () {
+	struct statusBar * stat = nowStatus -> firstStatusBar;
+	struct statusBar * kill;
+	nowStatus -> litStatus = -1;
+	while (stat) {
+		kill = stat;
+		stat = stat -> next;
+		FreeVec(kill -> text);
+		FreeVec(kill);
+	}
+	nowStatus -> firstStatusBar = NULL;
+}
 
 void initStatusBar () {
 	mainStatus.firstStatusBar = NULL;
@@ -17,6 +29,40 @@ void initStatusBar () {
 	mainStatus.statusY = winHeight - 15;
 	//statusBarColour (255, 255, 255); Amiga Todo: Amigize this
 	//statusBarLitColour (255, 255, 128); Amiga Todo: Amigize this
+}
+
+BOOL loadStatusBars (BPTR fp) {
+	clearStatusBar ();
+
+	nowStatus -> alignStatus = get2bytes (fp);
+	nowStatus -> litStatus = getSigned (fp);
+	nowStatus -> statusX = get2bytes (fp);
+	nowStatus -> statusY = get2bytes (fp);
+
+	nowStatus -> statusR = FGetC (fp);
+	nowStatus -> statusG = FGetC (fp);
+	nowStatus -> statusB = FGetC (fp);
+	nowStatus -> statusLR = FGetC (fp);
+	nowStatus -> statusLG = FGetC (fp);
+	nowStatus -> statusLB = FGetC (fp);
+
+	//setFontColour (verbLinePalette, nowStatus -> statusR, nowStatus -> statusG, nowStatus -> statusB); Amiga Todo: Amigize this
+	//setFontColour (litVerbLinePalette, nowStatus -> statusLR, nowStatus -> statusLG, nowStatus -> statusLB); Amiga Todo: Amigize this
+	// Read what's being said
+	struct statusBar * * viewLine = & (nowStatus -> firstStatusBar);
+	struct statusBar * newOne;
+	while (FGetC (fp)) {
+		newOne = AllocVec( sizeof( struct statusBar),MEMF_ANY);
+		if (!newOne) { 
+			KPrintF("loadStatusBars: Cannot allocate memory");
+			return FALSE;
+		}
+		newOne -> text = readString (fp);
+		newOne -> next = NULL;
+		(* viewLine) = newOne;
+		viewLine = & (newOne -> next);
+	}
+	return TRUE;
 }
 
 void positionStatus (int x, int y) {

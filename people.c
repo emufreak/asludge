@@ -1,6 +1,9 @@
 #include <proto/exec.h>
 
+#include "loadsave.h"
+#include "moreio.h"
 #include "people.h"
+#include "sprbanks.h"
 #include "sludger.h"
 #include "support/gcc8_c_support.h"
 #include "region.h"
@@ -11,9 +14,11 @@
 #define ANI_TALK 2
 
 struct screenRegion personRegion;
-
 extern struct screenRegion * allScreenRegions;
 struct onScreenPerson * allPeople = NULL;
+
+short int scaleHorizon = 75;
+short int scaleDivide = 150;
 
 struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 	int num = orig -> numFrames;
@@ -107,6 +112,113 @@ BOOL loadAnim (struct personaAnimation * p, BPTR fp) {
 	return TRUE;
 }
 
+BOOL loadCostume (struct persona * cossy, BPTR fp) {
+	int a;
+	cossy -> numDirections = get2bytes (fp);
+	cossy -> animation = AllocVec(sizeof( struct personaAnimation) * cossy -> numDirections * 3,MEMF_ANY);
+	if (!(cossy -> animation)) {
+		KPrintF("loadcostume: Cannot allocate memory");
+		return FALSE;
+	}
+	for (a = 0; a < cossy -> numDirections * 3; a ++) {
+		cossy -> animation[a] = AllocVec( sizeof( struct personaAnimation), MEMF_ANY);
+		if (!(cossy -> animation[a])) {
+			KPrintF("loadcostume: Cannot allocate memory");
+			return FALSE;
+		}
+
+		if (! loadAnim (cossy -> animation[a], fp)) return FALSE;
+	}
+//	debugCostume ("Loaded", cossy);
+	return TRUE;
+}
+
+BOOL loadPeople (BPTR fp) {
+	struct onScreenPerson * * pointy = & allPeople;
+	struct onScreenPerson * me;
+
+	scaleHorizon = getSigned (fp);
+	scaleDivide = getSigned (fp);
+
+	int countPeople = get2bytes (fp);
+	int a;
+
+	allPeople = NULL;
+	for (a = 0; a < countPeople; a ++) {
+		me = AllocVec( sizeof( struct onScreenPerson), MEMF_ANY);
+		if (!me) {
+			KPrintF("loadPeople: Cannot allocate memory");
+			return FALSE;
+		}
+
+		me -> myPersona = AllocVec( sizeof( struct persona), MEMF_ANY);
+		if (!(me -> myPersona)) {
+			KPrintF("loadPeople: Cannot allocate memory");
+			return FALSE;
+		}
+
+		me -> myAnim = AllocVec( sizeof( struct personaAnimation), MEMF_ANY);
+		if (!(me -> myAnim)) {
+			KPrintF("loadPeople: Cannot allocate memory");
+			return FALSE;
+		}
+
+		me -> x = getFloat (fp);
+		me -> y = getFloat (fp);
+
+		loadCostume (me -> myPersona, fp);
+		loadAnim (me -> myAnim, fp);
+
+		me -> lastUsedAnim = FGetC (fp) ? me -> myAnim : NULL;
+
+		me -> scale = getFloat (fp);
+
+		me -> extra = get2bytes (fp);
+		me -> height = get2bytes (fp);
+		me -> walkToX = get2bytes (fp);
+		me -> walkToY = get2bytes (fp);
+		me -> thisStepX = get2bytes (fp);
+		me -> thisStepY = get2bytes (fp);
+		me -> frameNum = get2bytes (fp);
+		me -> frameTick = get2bytes (fp);
+		me -> walkSpeed = get2bytes (fp);
+		me -> spinSpeed = get2bytes (fp);
+		me -> floaty = getSigned (fp);
+		me -> show = FGetC (fp);
+		me -> walking = FGetC (fp);
+		me -> spinning = FGetC (fp);
+		if (FGetC (fp)) {
+			me -> continueAfterWalking = loadFunction (fp);
+			if (! me -> continueAfterWalking) return FALSE;
+		} else {
+			me -> continueAfterWalking = NULL;
+		}
+		me -> direction = get2bytes(fp);
+		me -> angle = get2bytes(fp);	
+		me -> angleOffset = get2bytes(fp);	
+		me -> wantAngle = get2bytes(fp);
+		me -> directionWhenDoneWalking = getSigned(fp);
+		me -> inPoly = getSigned(fp);
+		me -> walkToPoly = getSigned(fp);		
+		me -> r = FGetC (fp);
+		me -> g = FGetC (fp);
+		me -> b = FGetC (fp);
+		me -> colourmix = FGetC (fp);
+		me -> transparency = FGetC (fp);		
+		me -> thisType = loadObjectRef (fp);
+		// aaLoad
+		FGetC (fp);
+		getFloat (fp);
+		getFloat (fp);
+
+		me -> next = NULL;
+		* pointy = me;
+		pointy = & (me -> next);
+	}
+//	db ("End of loadPeople");
+	return TRUE;
+}
+
 void makeSilent (struct onScreenPerson me) {
 	setFrames (me, ANI_STAND);
 }
@@ -146,5 +258,72 @@ BOOL saveCostume (struct persona * cossy, BPTR fp) {
 		if (! saveAnim (cossy -> animation[a], fp)) return FALSE;
 	}
 
+	return TRUE;
+}
+
+BOOL savePeople (BPTR fp) {
+	struct onScreenPerson * me = allPeople;
+	int countPeople = 0, a;
+
+	putSigned (scaleHorizon, fp);
+	putSigned (scaleDivide, fp);
+
+	while (me) {
+		countPeople ++;
+		me = me -> next;
+	}
+
+	put2bytes (countPeople, fp);
+
+	me = allPeople;
+	for (a = 0; a < countPeople; a ++) {
+
+		putFloat (me -> x, fp);
+		putFloat (me -> y, fp);
+
+		saveCostume (me -> myPersona, fp);
+		saveAnim (me -> myAnim, fp);
+		fputc (me -> myAnim == me -> lastUsedAnim, fp);
+
+		putFloat (me -> scale, fp);
+
+		put2bytes (me -> extra, fp);
+		put2bytes (me -> height, fp);
+		put2bytes (me -> walkToX, fp);
+		put2bytes (me -> walkToY, fp);
+		put2bytes (me -> thisStepX, fp);
+		put2bytes (me -> thisStepY, fp);
+		put2bytes (me -> frameNum, fp);
+		put2bytes (me -> frameTick, fp);
+		put2bytes (me -> walkSpeed, fp);
+		put2bytes (me -> spinSpeed, fp);
+		putSigned (me -> floaty, fp);
+		FPutC (fp, me -> show);
+		FPutC (fp, me -> walking);
+		FPutC (fp, me -> spinning);
+		if (me -> continueAfterWalking) {
+			FPutC (fp, 1);
+			saveFunction (me -> continueAfterWalking, fp);
+		} else {
+			FPutC (fp, 1);
+		}
+		put2bytes (me -> direction, fp);
+		put2bytes (me -> angle, fp);
+		put2bytes (me -> angleOffset, fp);
+		put2bytes (me -> wantAngle, fp);
+		putSigned (me -> directionWhenDoneWalking, fp);
+		putSigned (me -> inPoly, fp);
+		putSigned (me -> walkToPoly, fp);
+
+		FPutC (fp, me -> r);
+		FPutC (fp, me -> g);
+		FPutC (fp, me -> b);
+		FPutC (fp, me -> colourmix);
+		FPutC (fp, me -> transparency);
+		
+		saveObjectRef (fp, me -> thisType);
+
+		me = me -> next;
+	}
 	return TRUE;
 }

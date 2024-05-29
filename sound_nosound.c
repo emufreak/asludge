@@ -1,5 +1,6 @@
 
-#include "sound_bass.h"
+#include "sound_nosound.h"
+#include "moreio.h"
 
 #define MAX_SAMPLES 8
 
@@ -17,17 +18,18 @@ struct soundThing {
 
 struct soundThing soundCache[MAX_SAMPLES];
 
-void saveSounds (BPTR fp) {
-	if (soundOK) {
-		for (int i = 0; i < MAX_SAMPLES; i ++) {
-			if (soundCache[i].looping) {
-				fputc (1, fp);
-				put2bytes (soundCache[i].fileLoaded, fp);
-				put2bytes (soundCache[i].vol, fp);
-			}
-		}
+void loadSounds (BPTR fp) {
+	while (FGetC (fp)) {
+		get2bytes (fp);
+		get2bytes (fp);
 	}
-	FPutC (fp, 0);
+	
+	defSoundVol = get2bytes (fp);
+	defVol = get2bytes (fp);
+}
+
+void saveSounds (BPTR fp) {
+	FPutC (fp,0);
 	put2bytes (defSoundVol, fp);
 	put2bytes (defVol, fp);
 }

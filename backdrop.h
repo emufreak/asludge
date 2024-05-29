@@ -1,5 +1,7 @@
 #include <proto/exec.h>
 
+extern unsigned int winWidth, winHeight, sceneWidth, sceneHeight;
+
 struct parallaxLayer {
 	UBYTE * texture;
 	unsigned int textureName;
@@ -13,7 +15,9 @@ struct parallaxLayer {
 
 void killBackDrop ();
 void killParallax ();
+void nosnapshot ();
 BOOL resizeBackdrop (int x, int y);
 BOOL reserveBackdrop ();
+BOOL restoreSnapshot (BPTR fp);
 void saveSnapshot(BPTR fp);
 void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp);

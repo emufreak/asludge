@@ -1,6 +1,7 @@
 #include <proto/dos.h>
 
 #include "moreio.h"
+#include "objtypes.h"
 #include "talk.h"
 #include "support/gcc8_c_support.h"
 
@@ -39,6 +40,44 @@ void killAllSpeech () {
 		FreeVec(killMe -> textLine);
 		FreeVec(killMe);
 	}
+}
+
+BOOL loadSpeech (struct speechStruct * sS, BPTR fp) {
+	speech -> currentTalker = NULL;
+	killAllSpeech ();
+
+	speechSpeed = getFloat (fp);
+	
+	// Read y co-ordinate
+	sS -> speechY = get2bytes (fp);
+
+	// Read which character's talking
+	sS -> lookWhosTalking = get2bytes (fp);
+
+	if (FGetC (fp)) {
+		sS -> currentTalker = findPerson (get2bytes (fp));
+	} else {
+		sS -> currentTalker = NULL;
+	}
+		
+	// Read what's being said
+	struct speechLine * * viewLine = & sS -> allSpeech;
+	struct speechLine * newOne;
+	speech -> lastFile = -1;
+	while (FGetC (fp)) {
+		newOne = AllocVec( sizeof(struct speechLine),MEMF_ANY);
+		if (!newOne) { 
+			KPrintF("loadSpeech: Cannot allocate memory");
+			return FALSE;
+		}
+		newOne -> textLine = readString (fp);
+		newOne -> x	= get2bytes (fp);
+		newOne -> next = NULL;
+		(* viewLine) = newOne;
+		viewLine = & (newOne -> next);
+	}
+
+	return TRUE;
 }
 
 void saveSpeech (struct speechStruct * sS, BPTR fp) {

@@ -2,6 +2,7 @@
 #define __SLUDGE_PEOPLE_H__
 
 #include <proto/exec.h>
+#include <proto/dos.h>
 
 struct animFrame {
 	int frameNum, howMany;
@@ -53,9 +54,12 @@ struct personaAnimation * copyAnim (struct personaAnimation * orig);
 void deleteAnim (struct personaAnimation * orig);
 BOOL initPeople ();
 void killAllPeople ();
-BOOL loadAnim (struct personaAnimation * p, BPTR fp) {
+BOOL loadAnim (struct personaAnimation * p, BPTR fp);
+BOOL loadCostume (struct persona * cossy, BPTR fp);
+BOOL loadPeople (BPTR fp);
 void makeSilent (struct onScreenPerson me);
 BOOL saveAnim (struct personaAnimation * p, BPTR fp);
 BOOL saveCostume (struct persona * cossy, BPTR fp);
+BOOL savePeople (BPTR fp);
 
 #endif

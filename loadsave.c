@@ -1,12 +1,19 @@
 #include <proto/dos.h>
 
+#include "backdrop.h"
 #include "errors.h"
+#include "fileset.h"
 #include "floor.h"
+#include "language.h"
 #include "moreio.h"
 #include "loadsave.h"
 #include "people.h"
+#include "region.h"
 #include "sludger.h"
+#include "sound_nosound.h"
+#include "statusba.h"
 #include "support/gcc8_c_support.h"
+#include "talk.h"
 #include "variable.h"
 #include "version.h"
 #include "zbuffer.h"
@@ -23,7 +30,7 @@ extern float cameraZoom;
 extern BOOL captureAllKeys;
 extern struct flor * currentFloor;						// In floor.cpp
 extern unsigned char fadeMode;							// In transition.cpp
-extern struct FILETIME fileTime;						// In sludger.cpp
+extern FILETIME fileTime;								// In sludger.cpp
 extern short fontSpace;									// in fonttext.cpp
 extern char * fontOrderString;							// "	"	" 
 extern struct variable * globalVars;					// In sludger.cpp
@@ -72,19 +79,31 @@ void clearStackLib () {
 
 int ssgVersion;
 
+struct stackHandler * getStackFromLibrary (int n) {
+	n = stackLibTotal - n;
+	while (n) {
+		stackLib = stackLib -> next;
+		n --;
+	}
+	return stackLib -> stack;
+}
+
 struct loadedFunction * loadFunction (BPTR fp) {
 	int a;
 
 	// Reserve memory...
 
-	loadedFunction * buildFunc = new loadedFunction;
-	if (! checkNew (buildFunc)) return NULL;
+	struct loadedFunction * buildFunc = AllocVec( sizeof( struct loadedFunction),MEMF_ANY);	
+	if (! buildFunc) {
+		KPrintF("loadFunction: Cannot allocate memory");
+		return NULL;
+	} 
 
 	// See what it was called by and load if we need to...
 
 	buildFunc -> originalNumber = get2bytes (fp);
 	buildFunc -> calledBy = NULL;
-	if (fgetc (fp)) {
+	if (FGetC (fp)) {
 		buildFunc -> calledBy = loadFunction (fp);
 		if (! buildFunc -> calledBy) return NULL;
 	}
@@ -92,10 +111,10 @@ struct loadedFunction * loadFunction (BPTR fp) {
 	buildFunc -> timeLeft = get4bytes (fp);
 	buildFunc -> runThisLine = get2bytes (fp);
 	buildFunc -> freezerLevel = 0;
-	buildFunc -> cancelMe = fgetc (fp);
-	buildFunc -> returnSomething = fgetc (fp);
-	buildFunc -> isSpeech = fgetc (fp);
-	loadVariable (& (buildFunc -> reg), fp);
+	buildFunc -> cancelMe = FGetC (fp);
+	buildFunc -> returnSomething = FGetC (fp);
+	buildFunc -> isSpeech = FGetC (fp);
+	loadVariable (buildFunc -> reg, fp);
 	loadFunctionCode (buildFunc);
 
 	buildFunc -> stack = loadStack (fp, NULL);
@@ -114,7 +133,7 @@ BOOL loadGame (char * fname) {
 
 	while (allRunningFunctions) finishFunction (allRunningFunctions);
 
-	fp = openAndVerify (fname, 'S', 'A', ERROR_GAME_LOAD_NO, ssgVersion);
+	fp = openAndVerify (fname, 'S', 'A', ERROR_GAME_LOAD_NO, &ssgVersion);
 	if (fp == NULL) return FALSE;
 
 	unsigned int bytes_read = Read( fp, &savedGameTime, sizeof (FILETIME));
@@ -131,9 +150,9 @@ BOOL loadGame (char * fname) {
 
 	// DON'T ADD ANYTHING NEW BEFORE THIS POINT!
 
-	allowAnyFilename = FgetC (fp);
-	captureAllKeys = FgetC (fp);
-	FgetC (fp); // updateDisplay (part of movie playing)
+	allowAnyFilename = FGetC (fp);
+	captureAllKeys = FGetC (fp);
+	FGetC (fp); // updateDisplay (part of movie playing)
 
 	BOOL fontLoaded = FGetC (fp);
 	int fontNum;
@@ -156,7 +175,7 @@ BOOL loadGame (char * fname) {
 	float camerZ;
 	camerZ = getFloat(fp);
 
-	brightnessLevel = fgetc (fp);
+	brightnessLevel = FGetC (fp);
 
 	loadHandlers (fp);
 	loadRegions (fp);
@@ -165,14 +184,14 @@ BOOL loadGame (char * fname) {
 	if (! mouseCursorAnim) {
 		KPrintF("loadGame: Cannot allocate memory");
 		return FALSE;
-	if (! loadAnim (mouseCursorAnim, fp) {
+	if (! loadAnim (mouseCursorAnim, fp)) {
 		KPrintF("loadGame: Cannot load anim");
 		return FALSE;		
 	}
 	mouseCursorFrameNum = get2bytes (fp);
 
 	struct loadedFunction * rFunc;
-	struct loadedFunction * * buildList = allRunningFunctions;
+	struct loadedFunction * * buildList = &allRunningFunctions;
 
 
 	int countFunctions = get2bytes (fp);
@@ -184,65 +203,40 @@ BOOL loadGame (char * fname) {
 	}
 
 	for (a = 0; a < numGlobals; a ++) {
-		unlinkVar (globalVars[a]);
+		unlinkVar (&globalVars[a]);
 		loadVariable (& globalVars[a], fp);
 	}
 
 	loadPeople (fp);
 
 
-	if (fgetc (fp)) {
-		if (! setFloor (get2bytes (fp))) return false;
+	if (FGetC (fp)) {
+		if (! setFloor (get2bytes (fp))) return FALSE;
 	} else setFloorNull ();
 
-	if (fgetc (fp)) {
-		if (! setZBuffer (get2bytes (fp))) return false;
+	if (FGetC (fp)) {
+		if (! setZBuffer (get2bytes (fp))) return FALSE;
 	}
 
-	if (fgetc (fp)) {
-		if (! loadLightMap (get2bytes (fp))) return false;
-	}
-
-	if (ssgVersion >= VERSION(1,4)) {
-		lightMapMode = fgetc (fp) % 3;
-	}
-
-	speechMode = fgetc (fp);
-	fadeMode = fgetc (fp);
+	speechMode = FGetC (fp);
+	fadeMode = FGetC (fp);
 	loadSpeech (speech, fp);
 	loadStatusBars (fp);
 	loadSounds (fp);
 
 	saveEncoding = get2bytes (fp);
 
-	if (ssgVersion >= VERSION(1,6))
-	{
-		if (ssgVersion < VERSION (2,0)) {
-			// aaLoad
-			fgetc (fp);
-			getFloat (fp);
-			getFloat (fp);
-		}
 
-		blur_loadSettings(fp);
+	// Read parallax layers
+	while (FGetC (fp)) {
+		int im = get2bytes (fp);
+		int fx = get2bytes (fp);
+		int fy = get2bytes (fp);
+
+		//if (! loadParallax (im, fx, fy)) return FALSE; Todo Amigize this?
 	}
 
-	if (ssgVersion >= VERSION(1,3)) {
-		currentBlankColour = get2bytes (fp);
-		currentBurnR = fgetc (fp);
-		currentBurnG = fgetc (fp);
-		currentBurnB = fgetc (fp);
-
-		// Read parallax layers
-		while (fgetc (fp)) {
-			int im = get2bytes (fp);
-			int fx = get2bytes (fp);
-			int fy = get2bytes (fp);
-
-			if (! loadParallax (im, fx, fy)) return false;
-		}
-
-		int selectedLanguage = fgetc (fp);
+		int selectedLanguage = FGetC (fp);
 		if (selectedLanguage != languageNum) {
 			// Load the saved language!
 			languageNum = selectedLanguage;
@@ -251,20 +245,18 @@ BOOL loadGame (char * fname) {
 	}
 
 	nosnapshot ();
-	if (ssgVersion >= VERSION(1,4)) {
-		if (fgetc (fp)) {
-			if (! restoreSnapshot (fp)) return false;
-		}
+	if (FGetC (fp)) {
+		if (! restoreSnapshot (fp)) return FALSE;
 	}
 
-	fclose (fp);
+	Close (fp);
 	clearStackLib ();
 
 	cameraX = camerX;
 	cameraY = camerY;
 	cameraZoom = camerZ;
 
-	return true;
+	return TRUE;
 }
 
 void saveFunction (struct loadedFunction * fun, BPTR fp) {
@@ -278,10 +270,10 @@ void saveFunction (struct loadedFunction * fun, BPTR fp) {
 	}
 	put4bytes (fun -> timeLeft, fp);
 	put2bytes (fun -> runThisLine, fp);
-	FputC (fp, fun -> cancelMe);
-	FputC (fp, fun -> returnSomething);
-	FputC (fp, fun -> isSpeech);
-	saveVariable (& (fun -> reg), fp);
+	FPutC (fp, fun -> cancelMe);
+	FPutC (fp, fun -> returnSomething);
+	FPutC (fp, fun -> isSpeech);
+	saveVariable ((fun -> reg), fp);
 
 	if (fun -> freezerLevel) {
 		KPrintF(ERROR_GAME_SAVE_FROZEN);		
@@ -388,6 +380,64 @@ BOOL saveGame (char * fname) {
 	return TRUE;
 }
 
+struct variableStack * loadStack (BPTR fp, struct variableStack ** last) {
+	int elements = get2bytes (fp);
+	int a;
+	struct variableStack * first = NULL;
+	struct variableStack * * changeMe = & first;
+
+	for (a = 0; a < elements; a ++) {
+		struct variableStack * nS = AllocVec(sizeof( struct variableStack),MEMF_ANY);
+		if (!(nS)) {
+			KPrintF("Cannot allocate memory for stackhandler");
+			return NULL;
+		}
+		loadVariable (& (nS -> thisVar), fp);
+		if (last && a == elements - 1)
+		{
+			*last = nS;
+		}
+		nS -> next = NULL;
+		(* changeMe) = nS;
+		changeMe = & (nS -> next);
+	}
+
+	return first;
+}
+
+struct stackHandler * loadStackRef (BPTR fp) {
+	struct stackHandler * nsh;
+
+	if (FGetC (fp)) {	// It's one we've loaded already...
+		nsh = getStackFromLibrary (get2bytes (fp));
+		nsh -> timesUsed ++;
+	} else {
+
+		// Load the new stack
+
+		nsh = AllocVec( sizeof( struct stackHandler),MEMF_ANY);
+		if (!nsh) {
+			KPrintF("Cannot allocate memory for stackhandler");
+			return NULL;
+		}
+		nsh -> last = NULL;
+		nsh -> first = loadStack (fp, & nsh->last);
+		nsh -> timesUsed = 1;
+		// Add it to the library of loaded stacks
+
+		struct stackLibrary * s = AllocVec(sizeof( struct stackLibrary),MEMF_ANY);
+		if (!s) {
+			KPrintF("Cannot allocate memory for stackhandler");
+			return NULL;
+		}
+		s -> stack = nsh;
+		s -> next = stackLib;
+		stackLib = s;
+		stackLibTotal ++;
+	}
+	return nsh;
+}
+
 //----------------------------------------------------------------------
 // For saving and loading stacks...
 //----------------------------------------------------------------------
@@ -416,7 +466,7 @@ BOOL saveStackRef (struct stackHandler * vs, BPTR fp) {
 	int a = 0;
 	while (s) {
 		if (s -> stack == vs) {
-			fputc (1, fp);
+			FPutC (fp, 1);
 			put2bytes (stackLibTotal - a, fp);
 			return TRUE;
 		}

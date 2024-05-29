@@ -1,4 +1,5 @@
 #include <proto/exec.h>
+#include <proto/dos.h>
 
 #include "fileset.h"
 #include "moreio.h"
@@ -38,6 +39,22 @@ char * getNumberedString (int value) {
 	return s;
 }
 
+unsigned int openFileFromNum (int num) {
+//	FILE * dbug = fopen ("debuggy.txt", "at");
+
+	if (sliceBusy) {
+		KPrintF("Can't read from data file", "I'm already reading something");
+		return 0;
+	}
+
+	Seek( bigDataFile,  startOfDataIndex + (num << 2), 0);	
+	Seek( bigDataFile, get4bytes (bigDataFile), 1);
+//	fprintf (dbug, "Jumping to %li (for data) \n", ftell (bigDataFile));
+	sliceBusy = TRUE;
+//	fclose (dbug);
+
+	return get4bytes (bigDataFile);
+}
 
 BOOL openSubSlice (int num) {
 //	FILE * dbug = fopen ("debuggy.txt", "at");

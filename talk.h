@@ -16,4 +16,5 @@ struct speechStruct {
 
 void initSpeech ();
 void killAllSpeech ();
+BOOL loadSpeech (struct speechStruct * sS, BPTR fp);
 void saveSpeech (struct speechStruct * sS, BPTR fp);

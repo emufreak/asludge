@@ -18,6 +18,7 @@ struct objectType {
 	struct combination * allCombis;
 };
 
+struct objectType * findObjectType (int i);
 BOOL initObjectTypes ();
 void removeObjectType (struct objectType * oT);
 struct objectType * loadObjectRef (BPTR fp);

@@ -2,6 +2,7 @@
 
 #include "backdrop.h"
 #include "graphics.h"
+#include "moreio.h"
 #include "sludger.h"
 #include "zbuffer.h"
 
@@ -39,6 +40,11 @@ void killParallax () {
 	}
 }
 
+void nosnapshot () {
+	deleteTextures (1, &snapshotTextureName);
+	snapshotTextureName = 0;
+}
+
 BOOL resizeBackdrop (int x, int y) {
     killBackDrop ();
 	killParallax ();
@@ -48,6 +54,14 @@ BOOL resizeBackdrop (int x, int y) {
 	return TRUE;
 }
 
+BOOL restoreSnapshot (BPTR fp) {
+	unsigned int picWidth = get2bytes (fp);
+	unsigned int picHeight = get2bytes (fp);
+
+	//Todo: Amigize this?
+
+	return TRUE;
+}
 
 void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp) {
 	if (me) {

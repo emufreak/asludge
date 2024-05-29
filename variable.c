@@ -1,13 +1,63 @@
 #include <proto/exec.h>
-#include "support/gcc8_c_support.h"
+#include <proto/dos.h>
+
+#include "variable.h"
+#include "loadsave.h"
+#include "moreio.h"
+#include "objtypes.h"
 #include "people.h"
 #include "stringy.h"
-#include "variable.h"
+#include "support/gcc8_c_support.h"
+
 
 
 const char * typeName[] = {"undefined", "number", "user function", "string",
 							"built-in function", "file", "stack",
 							"object type", "animation", "costume"};
+
+BOOL loadVariable (struct variable * to, BPTR fp) {
+	to -> varType = (enum variableType) FGetC (fp);
+	switch (to -> varType) {
+		case SVT_INT:
+		case SVT_FUNC:
+		case SVT_BUILT:
+		case SVT_FILE:
+		case SVT_OBJTYPE:
+		to -> varData.intValue = get4bytes (fp);
+		return TRUE;
+
+		case SVT_STRING:
+		to -> varData.theString = readString (fp);
+		return TRUE;
+
+		case SVT_STACK:
+		to -> varData.theStack = loadStackRef (fp);
+
+		return TRUE;
+
+		case SVT_COSTUME:
+		to -> varData.costumeHandler = AllocVec(sizeof(struct persona), MEMF_ANY);
+		if (!(to -> varData.costumeHandler)) {
+			KPrintF("loadvariable: Cannot allocate memory");
+			return FALSE;
+		}
+		loadCostume (to -> varData.costumeHandler, fp);
+		return TRUE;
+
+		case SVT_ANIM:
+		to -> varData.animHandler = AllocVec( sizeof( struct personaAnimation),MEMF_ANY);
+		if (!(to -> varData.animHandler)) {
+			KPrintF("loadvariable: Cannot allocate memory");
+			return FALSE;
+		}
+		loadAnim (to -> varData.animHandler, fp);
+		return TRUE;
+
+		default:
+		break;
+	}
+	return TRUE;
+}
 
 void unlinkVar (struct variable *thisVar) {
 	switch (thisVar->varType) {
@@ -89,13 +139,90 @@ BOOL copyMain (const struct variable from, struct variable to) {
 	return FALSE;
 }
 
-BOOL copyVariable (const struct variable from, struct variable to) {
+BOOL copyVariable (const struct variable *from, struct variable *to) {
 	unlinkVar (to);
-	return copyMain (from, to);
+	return copyMain(*from, *to);
+}
+
+char * getTextFromAnyVar (const struct variable *from) {
+	switch (from->varType) {
+		case SVT_STRING:
+		return copyString (from->varData.theString);
+
+		case SVT_FASTARRAY:
+		{
+			char * builder = copyString ("FAST:");
+			char * builder2;
+			char * grabText;
+
+			for (int i = 0; i < from->varData.fastArray -> size; i ++) {
+				builder2 = joinStrings (builder, " ");
+				if (! builder2) return NULL;
+				FreeVec(builder);
+				grabText = getTextFromAnyVar (from->varData.fastArray -> fastVariables[i]);
+				builder = joinStrings (builder2, grabText);
+				if (! builder) return NULL;
+				FreeVec(grabText);
+				grabText = NULL;
+				FreeVec(builder2);
+				builder2 = NULL;
+			}
+			return builder;
+		}
+
+		case SVT_STACK:
+		{
+			char * builder = copyString ("ARRAY:");
+			char * builder2;
+			char * grabText;
+
+			struct variableStack * stacky = from->varData.theStack -> first;
+
+			while (stacky) {
+				builder2 = joinStrings (builder, " ");
+				if (! builder2) return NULL;
+				FreeVec(builder);
+				grabText = getTextFromAnyVar (stacky -> thisVar);
+				builder = joinStrings (builder2, grabText);
+				if (! builder) return NULL;
+				FreeVec(grabText);
+				grabText = NULL;
+				FreeVec(builder2);
+				builder2 = NULL;
+				stacky = stacky -> next;
+			}
+			return builder;
+		}
+
+		case SVT_INT:
+		{
+			char * buff = AllocVec(10, MEMF_ANY);
+			if (! checkNew (buff)) return NULL;
+			sprintf (buff, "%i", from->varData.intValue);
+			return buff;
+		}
+
+		case SVT_FILE:
+		{
+
+			return joinStrings ("", resourceNameFromNum (from->varData.intValue));
+		}
+
+		case SVT_OBJTYPE:
+		{
+			struct objectType * thisType = findObjectType (from->varData.intValue);
+			if (thisType) return copyString (thisType -> screenName);
+		}
+
+		default:
+		break;
+	}
+
+	return copyString (typeName[from->varType]);
 }
 
 void setVariable (struct variable *thisVar, enum variableType vT, int value) {
-	unlinkVar (*thisVar);
+	unlinkVar (thisVar);
 	thisVar->varType = vT;
 	thisVar->varData.intValue = value;
 }
@@ -105,6 +232,6 @@ void trimStack (struct variableStack * stack) {
 	stack = stack -> next;
 
 	// When calling this, we've ALWAYS checked that stack != NULL
-	unlinkVar (killMe -> thisVar);
+	unlinkVar (&(killMe -> thisVar));
 	FreeVec(killMe);
 }

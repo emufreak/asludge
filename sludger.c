@@ -2,16 +2,17 @@
 #include <proto/dos.h>
 
 #include "sludger.h"
+#include "builtin.h"
 #include "errors.h"
 #include "fileset.h"
 #include "graphics.h"
+#include "loadsave.h"
 #include "language.h"
 #include "moreio.h"
 #include "people.h"
 #include "statusba.h"
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
-#include "variable.h"
 #include "version.h"
 
 struct eventHandlers mainHandlers;
@@ -48,12 +49,418 @@ void abortFunction (struct loadedFunction * fun) {
 	pauseFunction (fun);
 	while (fun -> stack) trimStack (fun -> stack);
 	FreeVec( fun -> compiledLines);
-	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (fun -> localVars[a]);
+	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	FreeVec(fun -> localVars);
 	unlinkVar (fun -> reg);
 	if (fun -> calledBy) abortFunction (fun -> calledBy);
 	FreeVec(fun);
 	fun = NULL;
+}
+
+BOOL continueFunction (struct loadedFunction * fun) {
+	BOOL keepLooping = TRUE;
+	BOOL advanceNow;
+	unsigned int param;
+	enum sludgeCommand com;
+
+	if (fun -> cancelMe) {
+		abortFunction (fun);
+		return TRUE;
+	}
+
+	while (keepLooping) {
+		advanceNow = TRUE;
+		param = fun -> compiledLines[fun -> runThisLine].param;
+		com = fun -> compiledLines[fun -> runThisLine].theCommand;
+//		fprintf (stderr, "com: %d param: %d (%s)\n", com, param,
+//				(com < numSludgeCommands) ? sludgeText[com] : ERROR_UNKNOWN_MCODE); fflush(stderr);
+
+		switch (com) {
+			case SLU_RETURN:
+			if (fun -> calledBy) {
+				struct loadedFunction * returnTo = fun -> calledBy;
+				if (fun -> returnSomething) copyVariable (fun -> reg, returnTo -> reg);
+				finishFunction (fun);
+				fun = returnTo;
+				restartFunction (fun);
+			} else {
+				finishFunction (fun);
+				advanceNow = FALSE;		// So we don't do anything else with "fun"
+				keepLooping = FALSE;	// So we drop out of the loop
+			}
+			break;
+
+			case SLU_CALLIT:
+			switch (fun -> reg->varType) {
+				case SVT_FUNC:
+				pauseFunction (fun);		
+				if (! startNewFunctionNum (fun -> reg->varData.intValue, param, fun, fun -> stack,TRUE)) return FALSE;
+				fun = allRunningFunctions;
+				advanceNow = FALSE;		// So we don't do anything else with "fun"
+				break;
+
+				case SVT_BUILT:
+					{
+					enum builtReturn br = callBuiltIn (fun -> reg->varData.intValue, param, fun);
+
+					switch (br) {
+						case BR_ERROR:
+							KPrintF("Unknown error. This shouldn't happen. Please notify the SLUDGE developers.");
+							return FALSE;
+
+						case BR_PAUSE:
+						pauseFunction (fun);
+						// No break!
+
+						case BR_KEEP_AND_PAUSE:
+						keepLooping = false;
+						break;
+
+						case BR_ALREADY_GONE:
+						keepLooping = false;
+						advanceNow = false;
+						break;
+
+						case BR_CALLAFUNC:
+						{
+							int i = fun -> reg.varData.intValue;
+							setVariable (fun -> reg, SVT_INT, 1);
+							pauseFunction (fun);
+							if (numBIFNames) setFatalInfo (
+								(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
+								(i < numUserFunc) ? allUserFunc[i] : "Unknown user function");
+							if (! startNewFunctionNum (i, 0, fun, noStack, false)) return false;
+							fun = allRunningFunctions;
+							advanceNow = false;		// So we don't do anything else with "fun"
+						}
+						break;
+
+						default:
+						break;
+					}
+				}
+				break;
+
+				default:
+				return fatal (ERROR_CALL_NONFUNCTION);
+			}
+			break;
+
+			// These all grab things and shove 'em into the register
+
+			case SLU_LOAD_NULL:
+			setVariable (fun -> reg, SVT_NULL, 0);
+			break;
+
+			case SLU_LOAD_FILE:
+			setVariable (fun -> reg, SVT_FILE, param);
+			break;
+
+			case SLU_LOAD_VALUE:
+			setVariable (fun -> reg, SVT_INT, param);
+			break;
+
+			case SLU_LOAD_LOCAL:
+			if (! copyVariable (&(fun -> localVars[param]), fun -> reg)) return FALSE;
+			break;
+
+			case SLU_AND:
+			setVariable (fun -> reg, SVT_INT, getBoolean (fun -> reg) && getBoolean (fun -> stack -> thisVar));
+			trimStack (fun -> stack);
+			break;
+
+			case SLU_OR:
+			setVariable (fun -> reg, SVT_INT, getBoolean (fun -> reg) || getBoolean (fun -> stack -> thisVar));
+			trimStack (fun -> stack);
+			break;
+
+			case SLU_LOAD_FUNC:
+			setVariable (fun -> reg, SVT_FUNC, param);
+			break;
+
+			case SLU_LOAD_BUILT:
+			setVariable (fun -> reg, SVT_BUILT, param);
+			break;
+
+			case SLU_LOAD_OBJTYPE:
+			setVariable (fun -> reg, SVT_OBJTYPE, param);
+			break;
+
+			case SLU_UNREG:
+			if (dialogValue != 1) fatal (ERROR_HACKER);
+			break;
+
+			case SLU_LOAD_STRING:
+				if (! loadStringToVar (fun -> reg, param)) {
+					return false;
+				}
+			break;
+
+			case SLU_INDEXGET:
+			case SLU_INCREMENT_INDEX:
+			case SLU_DECREMENT_INDEX:
+			switch (fun -> stack -> thisVar.varType) {
+				case SVT_NULL:
+				if (com == SLU_INDEXGET) {
+					setVariable (fun -> reg, SVT_NULL, 0);
+					trimStack (fun -> stack);
+				} else {
+					return fatal (ERROR_INCDEC_UNKNOWN);
+				}
+				break;
+
+				case SVT_FASTARRAY:
+				case SVT_STACK:
+				if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
+					return fatal (ERROR_INDEX_EMPTY);
+				} else {
+					int ii;
+					if (! getValueType (ii, SVT_INT, fun -> reg)) return false;
+					variable * grab = (fun -> stack -> thisVar.varType == SVT_FASTARRAY) ?
+						fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii)
+							:
+						stackGetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii);
+
+					trimStack (fun -> stack);
+
+					if (! grab) {
+						setVariable (fun -> reg, SVT_NULL, 0);
+					} else {
+						int ii;
+						switch (com) {
+							case SLU_INCREMENT_INDEX:
+							if (! getValueType (ii, SVT_INT, * grab)) return false;
+							setVariable (fun -> reg, SVT_INT, ii);
+							grab -> varData.intValue = ii + 1;
+							break;
+
+							case SLU_DECREMENT_INDEX:
+							if (! getValueType (ii, SVT_INT, * grab)) return false;
+							setVariable (fun -> reg, SVT_INT, ii);
+							grab -> varData.intValue = ii - 1;
+							break;
+
+							default:
+							if (! copyVariable (* grab, fun -> reg)) return false;
+						}
+					}
+				}
+				break;
+
+				default:
+				return fatal (ERROR_INDEX_NONSTACK);
+			}
+			break;
+
+			case SLU_INDEXSET:
+			switch (fun -> stack -> thisVar.varType) {
+				case SVT_STACK:
+				if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
+					return fatal (ERROR_INDEX_EMPTY);
+				} else {
+					int ii;
+					if (! getValueType (ii, SVT_INT, fun -> reg)) return false;
+					if (! stackSetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii, fun -> stack -> next -> thisVar)) {
+						return false;
+					}
+					trimStack (fun -> stack);
+					trimStack (fun -> stack);
+				}
+				break;
+
+				case SVT_FASTARRAY:
+				{
+					int ii;
+					if (! getValueType (ii, SVT_INT, fun -> reg)) return false;
+					variable * v = fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii);
+					if (v == NULL) return fatal ("Not within bounds of fast array.");
+					if (! copyVariable (fun -> stack -> next -> thisVar, * v)) return false;
+					trimStack (fun -> stack);
+					trimStack (fun -> stack);
+				}
+				break;
+
+				default:
+				return fatal (ERROR_INDEX_NONSTACK);
+			}
+			break;
+
+			// What can we do with the register? Well, we can copy it into a local
+			// variable, a global or onto the stack...
+
+			case SLU_INCREMENT_LOCAL:
+			{
+				int ii;
+				if (! getValueType (ii, SVT_INT, fun -> localVars[param])) return false;
+				setVariable (fun -> reg, SVT_INT, ii);
+				setVariable (fun -> localVars[param], SVT_INT, ii + 1);
+			}
+			break;
+
+			case SLU_INCREMENT_GLOBAL:
+			{
+				int ii;
+				if (! getValueType (ii, SVT_INT, globalVars[param])) return false;
+				setVariable (fun -> reg, SVT_INT, ii);
+				setVariable (globalVars[param], SVT_INT, ii + 1);
+			}
+			break;
+
+			case SLU_DECREMENT_LOCAL:
+			{
+				int ii;
+				if (! getValueType (ii, SVT_INT, fun -> localVars[param])) return false;
+				setVariable (fun -> reg, SVT_INT, ii);
+				setVariable (fun -> localVars[param], SVT_INT, ii - 1);
+			}
+			break;
+
+			case SLU_DECREMENT_GLOBAL:
+			{
+				int ii;
+				if (! getValueType (ii, SVT_INT, globalVars[param])) return false;
+				setVariable (fun -> reg, SVT_INT, ii);
+				setVariable (globalVars[param], SVT_INT, ii - 1);
+			}
+			break;
+
+			case SLU_SET_LOCAL:
+			if (! copyVariable (fun -> reg, fun -> localVars[param])) return false;
+			break;
+
+			case SLU_SET_GLOBAL:
+//			newDebug ("  Copying TO global variable", param);
+//			newDebug ("  Global type at the moment", globalVars[param].varType);
+			if (! copyVariable (fun -> reg, globalVars[param])) return false;
+//			newDebug ("  New type", globalVars[param].varType);
+			break;
+
+			case SLU_LOAD_GLOBAL:
+//			newDebug ("  Copying FROM global variable", param);
+//			newDebug ("  Global type at the moment", globalVars[param].varType);
+			if (! copyVariable (globalVars[param], fun -> reg)) return false;
+			break;
+
+			case SLU_STACK_PUSH:
+			if (! addVarToStack (fun -> reg, fun -> stack)) return false;
+			break;
+
+			case SLU_QUICK_PUSH:
+			if (! addVarToStackQuick (fun -> reg, fun -> stack)) return false;
+			break;
+
+			case SLU_NOT:
+			setVariable (fun -> reg, SVT_INT, ! getBoolean (fun -> reg));
+			break;
+
+			case SLU_BR_ZERO:
+			if (! getBoolean (fun -> reg)) {
+				advanceNow = false;
+				fun -> runThisLine = param;
+			}
+			break;
+
+			case SLU_BRANCH:
+			advanceNow = false;
+			fun -> runThisLine = param;
+			break;
+
+			case SLU_NEGATIVE:
+			{
+				int i;
+				if (! getValueType (i, SVT_INT, fun -> reg)) return false;
+				setVariable (fun -> reg, SVT_INT, -i);
+			}
+			break;
+
+			// All these things rely on there being somet' on the stack
+
+			case SLU_MULT:
+			case SLU_PLUS:
+			case SLU_MINUS:
+			case SLU_MODULUS:
+			case SLU_DIVIDE:
+			case SLU_EQUALS:
+			case SLU_NOT_EQ:
+			case SLU_LESSTHAN:
+			case SLU_MORETHAN:
+			case SLU_LESS_EQUAL:
+			case SLU_MORE_EQUAL:
+			if (fun -> stack) {
+				int firstValue, secondValue;
+
+				switch (com) {
+					case SLU_PLUS:
+					addVariablesInSecond (fun -> stack -> thisVar, fun -> reg);
+					trimStack (fun -> stack);
+					break;
+
+					case SLU_EQUALS:
+					compareVariablesInSecond (fun -> stack -> thisVar, fun -> reg);
+					trimStack (fun -> stack);
+					break;
+
+					case SLU_NOT_EQ:
+					compareVariablesInSecond (fun -> stack -> thisVar, fun -> reg);
+					trimStack (fun -> stack);
+	               fun -> reg.varData.intValue = ! fun -> reg.varData.intValue;
+					break;
+
+					default:
+					if (! getValueType (firstValue, SVT_INT, fun -> stack -> thisVar)) return false;
+					if (! getValueType (secondValue, SVT_INT, fun -> reg)) return false;
+					trimStack (fun -> stack);
+
+					switch (com) {
+						case SLU_MULT:
+						setVariable (fun -> reg, SVT_INT, firstValue * secondValue);
+						break;
+
+						case SLU_MINUS:
+						setVariable (fun -> reg, SVT_INT, firstValue - secondValue);
+						break;
+
+						case SLU_MODULUS:
+						setVariable (fun -> reg, SVT_INT, firstValue % secondValue);
+						break;
+
+						case SLU_DIVIDE:
+						setVariable (fun -> reg, SVT_INT, firstValue / secondValue);
+						break;
+
+						case SLU_LESSTHAN:
+						setVariable (fun -> reg, SVT_INT, firstValue < secondValue);
+						break;
+
+						case SLU_MORETHAN:
+						setVariable (fun -> reg, SVT_INT, firstValue > secondValue);
+						break;
+
+						case SLU_LESS_EQUAL:
+						setVariable (fun -> reg, SVT_INT, firstValue <= secondValue);
+						break;
+
+						case SLU_MORE_EQUAL:
+						setVariable (fun -> reg, SVT_INT, firstValue >= secondValue);
+						break;
+
+						default:
+						break;
+					}
+				}
+			} else {
+				return fatal (ERROR_NOSTACK);
+			}
+			break;
+
+			default:
+			return fatal (ERROR_UNKNOWN_CODE);
+		}
+
+		if (advanceNow) fun -> runThisLine ++;
+
+	}
+	return true;
 }
 
 void finishFunction (struct loadedFunction * fun) {
@@ -62,10 +469,10 @@ void finishFunction (struct loadedFunction * fun) {
 	pauseFunction (fun);
 	if (fun -> stack) KPrintF("finishfunction:", ERROR_NON_EMPTY_STACK);
 	FreeVec( fun -> compiledLines);
-	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (fun -> localVars[a]);
+	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	FreeVec(fun -> localVars);
 	unlinkVar (fun -> reg);
-	FreeVec(fun):
+	FreeVec(fun);
 	fun = NULL;
 }
 
@@ -204,6 +611,20 @@ BOOL initSludge (char * filename) {
  	positionStatus (10, winHeight - 15);
 
 	return TRUE;
+}
+
+void killSpeechTimers () {
+	struct loadedFunction * thisFunction = allRunningFunctions;
+
+	while (thisFunction) {
+		if (thisFunction -> freezerLevel == 0 && thisFunction -> isSpeech && thisFunction -> timeLeft) {
+			thisFunction -> timeLeft = 0;
+			thisFunction -> isSpeech = FALSE;
+		}
+		thisFunction = thisFunction -> next;
+	}
+
+	killAllSpeech ();
 }
 
 BOOL loadFunctionCode (struct loadedFunction * newFunc) {
@@ -355,7 +776,7 @@ BOOL runSludge () {
 	return TRUE;
 }
 
-void saveHandlers (FILE * fp) {
+void saveHandlers (BPTR fp) {
 	put2bytes (currentEvents -> leftMouseFunction,		fp);
 	put2bytes (currentEvents -> leftMouseUpFunction,	fp);
 	put2bytes (currentEvents -> rightMouseFunction,		fp);
@@ -392,7 +813,7 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
 			KPrintF("Corrupted file! The stack's empty and there were still parameters expected");
 			return NULL;
 		}
-		copyVariable (vStack -> thisVar, newFunc -> localVars[numParamsExpected]);
+		copyVariable (vStack -> thisVar, newFunc->localVars[numParamsExpected]);
 		trimStack (vStack);
 	}
 

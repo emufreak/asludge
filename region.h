@@ -6,4 +6,6 @@ struct screenRegion {
 	struct screenRegion * next;
 };
 
+void loadRegions (BPTR fp);
+void saveRegions (BPTR fp);
 void killAllRegions ();

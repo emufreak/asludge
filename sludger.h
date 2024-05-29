@@ -1,8 +1,9 @@
 #ifndef SLUDGER_H
 #define SLUDGER_H
 
-#include <proto/exec.h>
+#include <proto/dos.h>
 #include "csludge.h"
+#include "variable.h"
 
 typedef struct _FILETIME {
 	ULONG dwLowDateTime;
@@ -43,13 +44,18 @@ struct inputType {
 	int mouseX, mouseY, keyPressed;
 };
 
+void abortFunction (struct loadedFunction * fun);
+BOOL continueFunction (struct loadedFunction * fun);
 void finishFunction (struct loadedFunction * fun);
 BOOL handleInput ();
+void killSpeechTimers ();
+BOOL loadFunctionCode (struct loadedFunction * newFunc);
 void loadHandlers (BPTR fp);
 BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, int *fileVersion);
 BOOL runSludge();
 BOOL initSludge (char *);
 void pauseFunction (struct loadedFunction * fun);
+void saveHandlers (BPTR fp);
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack * vStack, BOOL returnSommet);
 
 #endif

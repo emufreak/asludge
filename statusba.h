@@ -12,6 +12,8 @@ struct statusStuff {
 	int statusLR, statusLG, statusLB;
 };
 
+void clearStatusBar ();
 void initStatusBar ();
+BOOL loadStatusBars (BPTR fp);
 void positionStatus (int x, int y);
 void saveStatusBars (BPTR fp);
