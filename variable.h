@@ -38,7 +38,9 @@ struct variableStack {
 };
 
 BOOL copyVariable (const struct variable *from, struct variable *to);
-char * getTextFromAnyVar (const variable *from);
+struct personaAnimation * getAnimationFromVar (struct variable *thisVar);
+BOOL getBoolean (const struct variable *from);
+char * getTextFromAnyVar (const struct variable *from);
 BOOL loadVariable (struct variable * to, BPTR fp);
 void setVariable (struct variable *thisVar, enum variableType vT, int value);
 void trimStack (struct variableStack * stack);

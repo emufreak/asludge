@@ -9,6 +9,7 @@
         "moreio.h": "c",
         "gcc8_c_support.h": "c",
         "exec.h": "c",
-        "sludger.h": "c"
+        "sludger.h": "c",
+        "statusba.h": "c"
     }
 }

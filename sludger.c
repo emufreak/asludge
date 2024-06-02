@@ -15,33 +15,33 @@
 #include "support/gcc8_c_support.h"
 #include "version.h"
 
-struct eventHandlers mainHandlers;
-struct eventHandlers * currentEvents = & mainHandlers;
-
-struct inputType input;
-int gameVersion;
-int specialSettings;
-extern struct personaAnimation * mouseCursorAnim;
 extern int desiredfps;
+extern int dialogValue;
+extern struct personaAnimation * mouseCursorAnim;
 
-int numBIFNames = 0;
 char * * allBIFNames = NULL;
-int numUserFunc = 0;
-char * * allUserFunc = NULL;
-int numResourceNames = 0;
 char * * allResourceNames = NULL;
-int languageNum = -1;
-
-FILETIME fileTime;
-
-struct variableStack * noStack = NULL;
-struct variable * globalVars;
-int numGlobals;
-struct loadedFunction * allRunningFunctions = NULL;
-char * loadNow = NULL;
-BOOL captureAllKeys = FALSE;
 unsigned char brightnessLevel = 255;
+struct loadedFunction * allRunningFunctions = NULL;
+char * * allUserFunc = NULL;
+BOOL captureAllKeys = FALSE;
+struct eventHandlers * currentEvents = & mainHandlers;
+FILETIME fileTime;
+int gameVersion;
 extern struct loadedFunction * saverFunc;
+struct variable * globalVars;
+struct inputType input;
+int languageNum = -1;
+int lastFramesPerSecond = -1;
+char * loadNow = NULL;
+struct eventHandlers mainHandlers;
+struct variableStack * noStack = NULL;
+int numBIFNames = 0;
+int numGlobals;
+int numResourceNames = 0;
+int numUserFunc = 0;
+int specialSettings;
+
 
 void abortFunction (struct loadedFunction * fun) {
 	int a;
@@ -113,25 +113,22 @@ BOOL continueFunction (struct loadedFunction * fun) {
 						// No break!
 
 						case BR_KEEP_AND_PAUSE:
-						keepLooping = false;
+						keepLooping = FALSE;
 						break;
 
 						case BR_ALREADY_GONE:
-						keepLooping = false;
-						advanceNow = false;
+						keepLooping = FALSE;
+						advanceNow = FALSE;
 						break;
 
 						case BR_CALLAFUNC:
 						{
-							int i = fun -> reg.varData.intValue;
+							int i = fun -> reg->varData.intValue;
 							setVariable (fun -> reg, SVT_INT, 1);
-							pauseFunction (fun);
-							if (numBIFNames) setFatalInfo (
-								(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
-								(i < numUserFunc) ? allUserFunc[i] : "Unknown user function");
-							if (! startNewFunctionNum (i, 0, fun, noStack, false)) return false;
+							pauseFunction (fun);							
+							if (! startNewFunctionNum (i, 0, fun, noStack, FALSE)) return FALSE;
 							fun = allRunningFunctions;
-							advanceNow = false;		// So we don't do anything else with "fun"
+							advanceNow = FALSE;		// So we don't do anything else with "fun"
 						}
 						break;
 
@@ -142,7 +139,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				break;
 
 				default:
-				return fatal (ERROR_CALL_NONFUNCTION);
+				KPrintF(ERROR_CALL_NONFUNCTION);
+				return FALSE;
 			}
 			break;
 
@@ -187,12 +185,15 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			break;
 
 			case SLU_UNREG:
-			if (dialogValue != 1) fatal (ERROR_HACKER);
+			if (dialogValue != 1) {
+				KPrintF(ERROR_HACKER);
+				return FALSE;
+			}
 			break;
 
 			case SLU_LOAD_STRING:
 				if (! loadStringToVar (fun -> reg, param)) {
-					return false;
+					return FALSE;
 				}
 			break;
 
@@ -215,8 +216,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					return fatal (ERROR_INDEX_EMPTY);
 				} else {
 					int ii;
-					if (! getValueType (ii, SVT_INT, fun -> reg)) return false;
-					variable * grab = (fun -> stack -> thisVar.varType == SVT_FASTARRAY) ?
+					if (! getValueType (ii, SVT_INT, fun -> reg)) return FALSE;
+					struct variable * grab = (fun -> stack -> thisVar.varType == SVT_FASTARRAY) ?
 						fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii)
 							:
 						stackGetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii);

@@ -1,3 +1,4 @@
+BOOL allowAnyFilename = TRUE;
 char * encodeFilename (char * nameIn);
 float floatSwap( float f );
 int get2bytes (BPTR fp);

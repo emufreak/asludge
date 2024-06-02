@@ -144,6 +144,40 @@ BOOL copyVariable (const struct variable *from, struct variable *to) {
 	return copyMain(*from, *to);
 }
 
+struct personaAnimation * getAnimationFromVar (struct variable *thisVar) {
+	if (thisVar->varType == SVT_ANIM)
+		return copyAnim (thisVar->varData.animHandler);
+
+	if (thisVar->varType == SVT_INT && thisVar->varData.intValue == 0)
+		return makeNullAnim();
+
+	KPrintF("Expecting an animation variable; found variable of type", typeName[thisVar->varType]);
+	return NULL;
+}
+
+BOOL getBoolean (const struct variable *from) {
+	switch (from->varType) {
+		case SVT_NULL:
+		return FALSE;
+
+		case SVT_INT:
+		return (BOOL) (from->varData.intValue != 0);
+
+		case SVT_STACK:
+		return (BOOL) (from->varData.theStack -> first != NULL);
+
+		case SVT_STRING:
+		return (BOOL) (from->varData.theString[0] != 0);
+
+		case SVT_FASTARRAY:
+		return (BOOL) (from->varData.fastArray -> size != 0);
+
+		default:
+		break;
+	}
+	return TRUE;
+}
+
 char * getTextFromAnyVar (const struct variable *from) {
 	switch (from->varType) {
 		case SVT_STRING:

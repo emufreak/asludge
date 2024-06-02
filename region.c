@@ -7,6 +7,20 @@
 struct screenRegion * allScreenRegions = NULL;
 struct screenRegion * overRegion = NULL;
 
+
+struct screenRegion * getRegionForObject (int obj) {
+	struct screenRegion * thisRegion = allScreenRegions;
+
+	while (thisRegion) {
+		if (obj == thisRegion -> thisType -> objectNum) {
+			return thisRegion;
+		}
+		thisRegion = thisRegion -> next;
+	}
+
+	return NULL;
+}
+
 void killAllRegions () {
 	struct screenRegion * killRegion;
 	while (allScreenRegions) {

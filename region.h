@@ -6,6 +6,7 @@ struct screenRegion {
 	struct screenRegion * next;
 };
 
+struct screenRegion * getRegionForObject (int obj);
 void loadRegions (BPTR fp);
 void saveRegions (BPTR fp);
 void killAllRegions ();

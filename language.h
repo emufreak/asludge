@@ -15,6 +15,8 @@ struct settingsStruct
 	BOOL debugMode;
 };
 
+extern struct settingsStruct gameSettings;
+
 int getLanguageForFileB ();
 unsigned int stringToInt (char * s);
 extern struct settingsStruct gameSettings;
