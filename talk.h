@@ -14,7 +14,12 @@ struct speechStruct {
 	int speechY, lastFile, lookWhosTalking;	
 };
 
+void addSpeechLine (char * theLine, int x, int *offset);
 void initSpeech ();
 void killAllSpeech ();
 BOOL loadSpeech (struct speechStruct * sS, BPTR fp);
 void saveSpeech (struct speechStruct * sS, BPTR fp);
+void setFrames (struct onScreenPerson *m, int a);
+int wrapSpeech(char * theText, int objT, int sampleFile, BOOL animPerson);
+int wrapSpeechPerson (char * theText, struct onScreenPerson *thePerson, int sampleFile, BOOL animPerson);
+int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile);

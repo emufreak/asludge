@@ -4,6 +4,7 @@
 #include "graphics.h"
 #include "moreio.h"
 #include "sludger.h"
+#include "support/gcc8_c_support.h"
 #include "zbuffer.h"
 
 extern struct inputType input;
@@ -18,7 +19,45 @@ struct parallaxLayer * parallaxStuff = NULL;
 extern int cameraX, cameraY;
 extern float cameraZoom;
 int lightMapNumber;
+int viewportHeight, viewportWidth;
+int viewportOffsetX = 0, viewportOffsetY = 0;
 unsigned int snapshotTextureName = 0;
+
+void blankScreen(int x1, int y1, int x2, int y2) {
+	if (y1 < 0) y1 = 0;
+	if (x1 < 0) x1 = 0;
+	if (x2 > (int)sceneWidth) x2 = (int)sceneWidth;
+	if (y2 > (int)sceneHeight) y2 = (int)sceneHeight;
+
+	int picWidth = x2 - x1;
+	int picHeight = y2 - y1;
+
+	//setPixelCoords(TRUE);
+
+	int xoffset = 0;
+	while (xoffset < picWidth) {
+		int w = (picWidth - xoffset < viewportWidth) ? picWidth - xoffset : viewportWidth;
+
+		int yoffset = 0;
+		while (yoffset < picHeight) {
+			int h = (picHeight - yoffset < viewportHeight) ? picHeight - yoffset : viewportHeight;
+		
+			KPrintF("Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
+
+			yoffset += viewportHeight;
+		}
+		xoffset += viewportWidth;
+	}
+
+	//setPixelCoords(FALSE);
+}
+
+void darkScreen () {
+	KPrintF("Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
+}
+
+
+
 
 void killBackDrop () {
 	deleteTextures (1, &backdropTextureName);
@@ -38,6 +77,15 @@ void killParallax () {
 		if( k) FreeVec(k);
 		k = NULL;
 	}
+}
+
+void loadBackDrop (int fileNum, int x, int y) {
+
+	KPrintF("loadBackDrop: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
+}
+
+void mixBackDrop (int fileNum, int x, int y) {
+	KPrintF("mixBackdrop: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
 }
 
 void nosnapshot () {

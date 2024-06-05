@@ -13,11 +13,14 @@
 #include "statusba.h"
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
+#include "variable.h"
 #include "version.h"
 
 extern int desiredfps;
 extern int dialogValue;
 extern struct personaAnimation * mouseCursorAnim;
+
+struct eventHandlers mainHandlers;
 
 char * * allBIFNames = NULL;
 char * * allResourceNames = NULL;
@@ -34,7 +37,6 @@ struct inputType input;
 int languageNum = -1;
 int lastFramesPerSecond = -1;
 char * loadNow = NULL;
-struct eventHandlers mainHandlers;
 struct variableStack * noStack = NULL;
 int numBIFNames = 0;
 int numGlobals;
@@ -163,12 +165,12 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			break;
 
 			case SLU_AND:
-			setVariable (fun -> reg, SVT_INT, getBoolean (fun -> reg) && getBoolean (fun -> stack -> thisVar));
+			setVariable (fun -> reg, SVT_INT, getBoolean (fun -> reg) && getBoolean(&(fun -> stack -> thisVar)));
 			trimStack (fun -> stack);
 			break;
 
 			case SLU_OR:
-			setVariable (fun -> reg, SVT_INT, getBoolean (fun -> reg) || getBoolean (fun -> stack -> thisVar));
+			setVariable (fun -> reg, SVT_INT, getBoolean (fun -> reg) || getBoolean (&(fun -> stack -> thisVar)));
 			trimStack (fun -> stack);
 			break;
 
@@ -206,17 +208,19 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					setVariable (fun -> reg, SVT_NULL, 0);
 					trimStack (fun -> stack);
 				} else {
-					return fatal (ERROR_INCDEC_UNKNOWN);
+					KPrintF((ERROR_INCDEC_UNKNOWN));
+					return FALSE;
 				}
 				break;
 
 				case SVT_FASTARRAY:
 				case SVT_STACK:
 				if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
-					return fatal (ERROR_INDEX_EMPTY);
+					KPrintF((ERROR_INDEX_EMPTY));
+					return FALSE;
 				} else {
 					int ii;
-					if (! getValueType (ii, SVT_INT, fun -> reg)) return FALSE;
+					if (! getValueType(&ii, SVT_INT,&fun -> reg)) return FALSE;
 					struct variable * grab = (fun -> stack -> thisVar.varType == SVT_FASTARRAY) ?
 						fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii)
 							:
@@ -230,26 +234,27 @@ BOOL continueFunction (struct loadedFunction * fun) {
 						int ii;
 						switch (com) {
 							case SLU_INCREMENT_INDEX:
-							if (! getValueType (ii, SVT_INT, * grab)) return false;
+							if (! getValueType (&ii, SVT_INT, grab)) return FALSE;
 							setVariable (fun -> reg, SVT_INT, ii);
 							grab -> varData.intValue = ii + 1;
 							break;
 
 							case SLU_DECREMENT_INDEX:
-							if (! getValueType (ii, SVT_INT, * grab)) return false;
+							if (! getValueType (&ii, SVT_INT, grab)) return FALSE;
 							setVariable (fun -> reg, SVT_INT, ii);
 							grab -> varData.intValue = ii - 1;
 							break;
 
 							default:
-							if (! copyVariable (* grab, fun -> reg)) return false;
+							if (! copyVariable (grab, fun -> reg)) return FALSE;
 						}
 					}
 				}
 				break;
 
 				default:
-				return fatal (ERROR_INDEX_NONSTACK);
+				KPrintF((ERROR_INDEX_NONSTACK));
+				return FALSE;
 			}
 			break;
 
@@ -257,12 +262,13 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			switch (fun -> stack -> thisVar.varType) {
 				case SVT_STACK:
 				if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
-					return fatal (ERROR_INDEX_EMPTY);
+					KPrintF((ERROR_INDEX_EMPTY));
+					return FALSE;
 				} else {
 					int ii;
-					if (! getValueType (ii, SVT_INT, fun -> reg)) return false;
+					if (! getValueType(&ii, SVT_INT,&fun -> reg)) return FALSE;
 					if (! stackSetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii, fun -> stack -> next -> thisVar)) {
-						return false;
+						return FALSE;
 					}
 					trimStack (fun -> stack);
 					trimStack (fun -> stack);
@@ -272,17 +278,19 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				case SVT_FASTARRAY:
 				{
 					int ii;
-					if (! getValueType (ii, SVT_INT, fun -> reg)) return false;
-					variable * v = fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii);
-					if (v == NULL) return fatal ("Not within bounds of fast array.");
-					if (! copyVariable (fun -> stack -> next -> thisVar, * v)) return false;
+					if (! getValueType (&ii, SVT_INT, &fun->reg)) return FALSE;
+					struct variable * v = fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii);
+					if (v == NULL) KPrintF(("Not within bounds of fast array."));
+					return FALSE;
+					if (! copyVariable (&(fun -> stack -> next -> thisVar), v)) return FALSE;
 					trimStack (fun -> stack);
 					trimStack (fun -> stack);
 				}
 				break;
 
 				default:
-				return fatal (ERROR_INDEX_NONSTACK);
+				KPrintF((ERROR_INDEX_NONSTACK));
+				return FALSE;
 			}
 			break;
 
@@ -292,62 +300,62 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			case SLU_INCREMENT_LOCAL:
 			{
 				int ii;
-				if (! getValueType (ii, SVT_INT, fun -> localVars[param])) return false;
+				if (! getValueType(&ii, SVT_INT,&fun -> localVars[param])) return FALSE;
 				setVariable (fun -> reg, SVT_INT, ii);
-				setVariable (fun -> localVars[param], SVT_INT, ii + 1);
+				setVariable (&(fun -> localVars[param]), SVT_INT, ii + 1);
 			}
 			break;
 
 			case SLU_INCREMENT_GLOBAL:
 			{
 				int ii;
-				if (! getValueType (ii, SVT_INT, globalVars[param])) return false;
+				if (! getValueType(&ii, SVT_INT,&globalVars[param])) return FALSE;
 				setVariable (fun -> reg, SVT_INT, ii);
-				setVariable (globalVars[param], SVT_INT, ii + 1);
+				setVariable (&globalVars[param], SVT_INT, ii + 1);
 			}
 			break;
 
 			case SLU_DECREMENT_LOCAL:
 			{
 				int ii;
-				if (! getValueType (ii, SVT_INT, fun -> localVars[param])) return false;
+				if (! getValueType(&ii, SVT_INT,&fun -> localVars[param])) return FALSE;
 				setVariable (fun -> reg, SVT_INT, ii);
-				setVariable (fun -> localVars[param], SVT_INT, ii - 1);
+				setVariable (&(fun -> localVars[param]), SVT_INT, ii - 1);
 			}
 			break;
 
 			case SLU_DECREMENT_GLOBAL:
 			{
 				int ii;
-				if (! getValueType (ii, SVT_INT, globalVars[param])) return false;
+				if (! getValueType(&ii, SVT_INT,&globalVars[param])) return FALSE;
 				setVariable (fun -> reg, SVT_INT, ii);
-				setVariable (globalVars[param], SVT_INT, ii - 1);
+				setVariable (&globalVars[param], SVT_INT, ii - 1);
 			}
 			break;
 
 			case SLU_SET_LOCAL:
-			if (! copyVariable (fun -> reg, fun -> localVars[param])) return false;
+			if (! copyVariable (fun -> reg, &(fun -> localVars[param]))) return FALSE;
 			break;
 
 			case SLU_SET_GLOBAL:
 //			newDebug ("  Copying TO global variable", param);
 //			newDebug ("  Global type at the moment", globalVars[param].varType);
-			if (! copyVariable (fun -> reg, globalVars[param])) return false;
+			if (! copyVariable (fun -> reg, &globalVars[param])) return FALSE;
 //			newDebug ("  New type", globalVars[param].varType);
 			break;
 
 			case SLU_LOAD_GLOBAL:
 //			newDebug ("  Copying FROM global variable", param);
 //			newDebug ("  Global type at the moment", globalVars[param].varType);
-			if (! copyVariable (globalVars[param], fun -> reg)) return false;
+			if (! copyVariable (&globalVars[param], fun -> reg)) return FALSE;
 			break;
 
 			case SLU_STACK_PUSH:
-			if (! addVarToStack (fun -> reg, fun -> stack)) return false;
+			if (! addVarToStack (fun -> reg, fun -> stack)) return FALSE;
 			break;
 
 			case SLU_QUICK_PUSH:
-			if (! addVarToStackQuick (fun -> reg, fun -> stack)) return false;
+			if (! addVarToStackQuick (fun -> reg, fun -> stack)) return FALSE;
 			break;
 
 			case SLU_NOT:
@@ -356,20 +364,20 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 			case SLU_BR_ZERO:
 			if (! getBoolean (fun -> reg)) {
-				advanceNow = false;
+				advanceNow = FALSE;
 				fun -> runThisLine = param;
 			}
 			break;
 
 			case SLU_BRANCH:
-			advanceNow = false;
+			advanceNow = FALSE;
 			fun -> runThisLine = param;
 			break;
 
 			case SLU_NEGATIVE:
 			{
 				int i;
-				if (! getValueType (i, SVT_INT, fun -> reg)) return false;
+				if (! getValueType(&i, SVT_INT,&fun -> reg)) return FALSE;
 				setVariable (fun -> reg, SVT_INT, -i);
 			}
 			break;
@@ -397,19 +405,19 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					break;
 
 					case SLU_EQUALS:
-					compareVariablesInSecond (fun -> stack -> thisVar, fun -> reg);
+					compareVariablesInSecond (&(fun -> stack -> thisVar), &(fun -> reg));
 					trimStack (fun -> stack);
 					break;
 
 					case SLU_NOT_EQ:
-					compareVariablesInSecond (fun -> stack -> thisVar, fun -> reg);
+					compareVariablesInSecond (&(fun -> stack -> thisVar), &(fun -> reg));
 					trimStack (fun -> stack);
-	               fun -> reg.varData.intValue = ! fun -> reg.varData.intValue;
+	               	fun -> reg->varData.intValue = ! fun -> reg->varData.intValue;
 					break;
 
 					default:
-					if (! getValueType (firstValue, SVT_INT, fun -> stack -> thisVar)) return false;
-					if (! getValueType (secondValue, SVT_INT, fun -> reg)) return false;
+					if (! getValueType (&firstValue, SVT_INT, &fun->stack->thisVar)) return FALSE;
+					if (! getValueType(&secondValue, SVT_INT,&fun -> reg)) return FALSE;
 					trimStack (fun -> stack);
 
 					switch (com) {
@@ -450,18 +458,20 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					}
 				}
 			} else {
-				return fatal (ERROR_NOSTACK);
+				KPrintF((ERROR_NOSTACK));
+				return FALSE;
 			}
 			break;
 
 			default:
-			return fatal (ERROR_UNKNOWN_CODE);
+			KPrintF((ERROR_UNKNOWN_CODE));
+			return FALSE;
 		}
 
 		if (advanceNow) fun -> runThisLine ++;
 
 	}
-	return true;
+	return TRUE;
 }
 
 void finishFunction (struct loadedFunction * fun) {
@@ -814,7 +824,7 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
 			KPrintF("Corrupted file! The stack's empty and there were still parameters expected");
 			return NULL;
 		}
-		copyVariable (vStack -> thisVar, newFunc->localVars[numParamsExpected]);
+		copyVariable (&vStack -> thisVar, &newFunc->localVars[numParamsExpected]);
 		trimStack (vStack);
 	}
 

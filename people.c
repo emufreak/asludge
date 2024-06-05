@@ -67,6 +67,15 @@ void deleteAnim (struct personaAnimation * orig) {
 	}
 }
 
+struct onScreenPerson * findPerson (int v) {
+	struct onScreenPerson * thisPerson = allPeople;
+	while (thisPerson) {
+		if (v == thisPerson -> thisType -> objectNum) break;
+		thisPerson = thisPerson -> next;
+	}
+	return thisPerson;
+}
+
 BOOL initPeople () {
 	personRegion.sX = 0;
 	personRegion.sY = 0;

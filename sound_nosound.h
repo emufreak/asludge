@@ -10,3 +10,4 @@ struct soundList {
 
 void loadSounds (BPTR fp);
 void saveSounds (BPTR fp);
+BOOL startSound (int f, BOOL loopy);

@@ -20,6 +20,7 @@ struct objectType {
 
 struct objectType * findObjectType (int i);
 BOOL initObjectTypes ();
+struct objectType * loadObjectType (int i);
 void removeObjectType (struct objectType * oT);
 struct objectType * loadObjectRef (BPTR fp);
 void saveObjectRef (struct objectType * r, BPTR fp);

@@ -94,3 +94,11 @@ void saveStatusBars (BPTR fp) {
 	}
 	FPutC (fp,0);
 }
+
+const char * statusBarText () {
+	if (nowStatus -> firstStatusBar) {
+		return nowStatus -> firstStatusBar -> text;
+	} else {
+		return "";
+	}
+}

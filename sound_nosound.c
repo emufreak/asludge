@@ -33,3 +33,8 @@ void saveSounds (BPTR fp) {
 	put2bytes (defSoundVol, fp);
 	put2bytes (defVol, fp);
 }
+
+BOOL startSound (int f, BOOL loopy) {	
+//#pragma unused (f,loopy)
+	return TRUE;
+}

@@ -13,8 +13,12 @@ struct parallaxLayer {
 	struct parallaxLayer * prev;
 };
 
+void blankScreen(int x1, int y1, int x2, int y2);
+void darkScreen ();
 void killBackDrop ();
 void killParallax ();
+void loadBackDrop (int fileNum, int x, int y);
+void mixBackDrop (int fileNum, int x, int y);
 void nosnapshot ();
 BOOL resizeBackdrop (int x, int y);
 BOOL reserveBackdrop ();

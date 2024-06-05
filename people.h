@@ -52,6 +52,7 @@ struct personaAnimation * makeNullAnim ();
 
 struct personaAnimation * copyAnim (struct personaAnimation * orig);
 void deleteAnim (struct personaAnimation * orig);
+struct onScreenPerson * findPerson (int v);
 BOOL initPeople ();
 void killAllPeople ();
 BOOL loadAnim (struct personaAnimation * p, BPTR fp);

@@ -37,11 +37,19 @@ struct variableStack {
 	struct variableStack	* 			next;
 };
 
+void compareVariablesInSecond (const struct variable *var1, struct variable *var2);
+int compareVars (const struct variable var1, const struct variable var2);
+BOOL copyMain (const struct variable from, struct variable to);
 BOOL copyVariable (const struct variable *from, struct variable *to);
+char * decodeFilename(char * nameIn);
 struct personaAnimation * getAnimationFromVar (struct variable *thisVar);
 BOOL getBoolean (const struct variable *from);
+BOOL getSavedGamesStack(struct stackHandler * sH, char * ext);
+BOOL getValueType (int *toHere, enum variableType vT, const struct variable *v);
 char * getTextFromAnyVar (const struct variable *from);
+BOOL loadStringToVar (struct variable *thisVar, int value);
 BOOL loadVariable (struct variable * to, BPTR fp);
+void makeTextVar (struct variable *thisVar, const char * txt);
 void setVariable (struct variable *thisVar, enum variableType vT, int value);
 void trimStack (struct variableStack * stack);
 void unlinkVar (struct variable *thisVar);

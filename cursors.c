@@ -10,3 +10,7 @@ void pickAnimCursor (struct personaAnimation * pp) {
 	mouseCursorFrameNum = 0;
 	mouseCursorCountUp = 0;
 }
+
+void pasteCursor (int x, int y, struct personaAnimation * c) {
+	KPrintF("pasteCursor: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
+}

@@ -52,6 +52,7 @@ void killSpeechTimers ();
 BOOL loadFunctionCode (struct loadedFunction * newFunc);
 void loadHandlers (BPTR fp);
 BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, int *fileVersion);
+void restartFunction (struct loadedFunction * fun);
 BOOL runSludge();
 BOOL initSludge (char *);
 void pauseFunction (struct loadedFunction * fun);

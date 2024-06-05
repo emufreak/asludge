@@ -17,3 +17,4 @@ void initStatusBar ();
 BOOL loadStatusBars (BPTR fp);
 void positionStatus (int x, int y);
 void saveStatusBars (BPTR fp);
+const char * statusBarText ();

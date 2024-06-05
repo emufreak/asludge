@@ -1,12 +1,43 @@
 #include <proto/dos.h>
 
+#include "backdrop.h"
 #include "moreio.h"
 #include "objtypes.h"
+#include "region.h"
+#include "sound_nosound.h"
 #include "talk.h"
 #include "support/gcc8_c_support.h"
 
+#define ANGLEFIX (180.0 / 3.14157)
+#define ANI_STAND 0
+#define ANI_WALK 1
+#define ANI_TALK 2
+
+extern float cameraZoom;
+extern int fontHeight, cameraX, cameraY, speechMode;
+
 struct speechStruct * speech;
 float speechSpeed = 1;
+
+
+void addSpeechLine (char * theLine, int x, int *offset) {
+	int halfWidth = (stringWidth (theLine) >> 1)/cameraZoom;
+	int xx1 = x - (halfWidth);
+	int xx2 = x + (halfWidth);
+	struct speechLine * newLine = AllocVec(sizeof(struct speechLine),MEMF_ANY);
+	checkNew (newLine);
+
+	newLine -> next = speech -> allSpeech;
+	newLine -> textLine = copyString (theLine);
+	newLine -> x = xx1;
+	speech -> allSpeech = newLine;
+	if ((xx1 < 5) && (offset < (5 - xx1))) {
+		offset = 5 - xx1;
+	} else if (((float) xx2 >= ((float)winWidth/cameraZoom) - 5) && ((float) *offset > (((float)winWidth/cameraZoom) - 5.0 - xx2))) {
+		*offset = (int) ((float)winWidth/cameraZoom) - 5 - xx2;
+	}
+}
+
 
 void initSpeech () {
 	speech = AllocVec(sizeof(struct speechStruct), MEMF_ANY);
@@ -80,6 +111,10 @@ BOOL loadSpeech (struct speechStruct * sS, BPTR fp) {
 	return TRUE;
 }
 
+void makeTalker (struct onScreenPerson *me) {
+	setFrames (me, ANI_TALK);
+}
+
 void saveSpeech (struct speechStruct * sS, BPTR fp) {
 	struct speechLine * viewLine = sS -> allSpeech;
 	
@@ -105,4 +140,89 @@ void saveSpeech (struct speechStruct * sS, BPTR fp) {
 			viewLine = viewLine -> next;
 		}
 		FPutC (fp, 0);
+}
+
+void setFrames (struct onScreenPerson *m, int a) {
+	m->myAnim = m->myPersona -> animation[(a * m->myPersona -> numDirections) + m->direction];
+}
+
+int wrapSpeech(char * theText, int objT, int sampleFile, BOOL animPerson) {
+    int i;
+
+    speech->lookWhosTalking = objT;
+    struct onScreenPerson * thisPerson = findPerson(objT);
+    if (thisPerson) {
+        //setObjFontColour(thisPerson->thisType); Todo Amigize this
+        i = wrapSpeechPerson(theText, thisPerson, sampleFile, animPerson);
+    } else {
+        struct screenRegion * thisRegion = getRegionForObject(objT);
+        if (thisRegion) {
+            //setObjFontColour(thisRegion->thisType); Todo Amigize this
+            i = wrapSpeechXY(theText, ((thisRegion->x1 + thisRegion->x2) >> 1) - cameraX, thisRegion->y1 - thisRegion->thisType->speechGap - cameraY, thisRegion->thisType->wrapSpeech, sampleFile);
+        } else {
+            struct objectType * temp = findObjectType(objT);
+            //setObjFontColour(temp); Todo: Amigize this
+            i = wrapSpeechXY(theText, winWidth >> 1, 10, temp->wrapSpeech, sampleFile);
+        }
+    }
+    return i;
+}
+
+int wrapSpeechPerson (char * theText, struct onScreenPerson *thePerson, int sampleFile, BOOL animPerson) {
+	int i = wrapSpeechXY (theText, thePerson->x - cameraX, thePerson->y - cameraY - (thePerson->scale * (thePerson->height - thePerson->floaty)) - thePerson->thisType -> speechGap, thePerson->thisType -> wrapSpeech, sampleFile);
+	if (animPerson) {
+		makeTalker (thePerson);
+		speech -> currentTalker = thePerson;
+	}
+	return i;
+}
+
+int wrapSpeechXY(char * theText, int x, int y, int wrap, int sampleFile) {
+    int a, offset = 0;
+    killAllSpeech();
+
+    int speechTime = (strlen(theText) + 20) * speechSpeed;
+    if (speechTime < 1) speechTime = 1;
+
+    if (sampleFile != -1) {
+        if (speechMode >= 1) {
+            if (startSound(sampleFile, FALSE)) {
+                speechTime = -10;
+                speech->lastFile = sampleFile;
+                if (speechMode == 2) return -10;
+            }
+        }
+    }
+    speech->speechY = y;
+
+    while (strlen(theText) > (unsigned long) wrap) {
+        a = wrap;
+        while (theText[a] != ' ') {
+            a--;
+            if (a == 0) {
+                a = wrap;
+                break;
+            }
+        }
+        theText[a] = 0;
+        addSpeechLine(theText, x, offset);
+        theText[a] = ' ';
+        theText += a + 1;
+        y -= fontHeight / cameraZoom;
+    }
+    addSpeechLine(theText, x, offset);
+    y -= fontHeight / cameraZoom;
+
+    if (y < 0) speech->speechY -= y;
+    else if (speech->speechY > cameraY + (float)(winHeight - fontHeight / 3) / cameraZoom) speech->speechY = cameraY + (float)(winHeight - fontHeight / 3) / cameraZoom;
+
+    if (offset) {
+        struct speechLine * viewLine = speech->allSpeech;
+        while (viewLine) {
+            viewLine->x += offset;
+            viewLine = viewLine->next;
+        }
+    }
+
+    return speechTime;
 }

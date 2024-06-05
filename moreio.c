@@ -7,6 +7,48 @@
 
 BOOL allowAnyFilename = TRUE;
 
+char * copyString(const char * c) {
+    char * r = (char *)AllocVec(strlen(c) + 1, MEMF_ANY);
+    if (!r) return NULL;
+    strcpy(r, c);
+    return r;
+}
+
+char * decodeFilename(char * nameIn) {
+	if (allowAnyFilename) {
+		char * newName = (char *)AllocVec(strlen(nameIn) + 1, MEMF_ANY);
+		if (!newName) return NULL;
+
+		int i = 0;
+		while (*nameIn) {
+			if (*nameIn == '_') {
+				nameIn++;
+				switch (*nameIn) {
+					case 'L':	newName[i] = '<';	nameIn++;	break;
+					case 'G':	newName[i] = '>';	nameIn++;	break;
+					case 'P':	newName[i] = '|';	nameIn++;	break;
+					case 'U':	newName[i] = '_';	nameIn++;	break;
+					case 'S':	newName[i] = '\"';	nameIn++;	break;
+					case 'B':	newName[i] = '\\';	nameIn++;	break;
+					case 'F':	newName[i] = '/';	nameIn++;	break;
+					case 'C':	newName[i] = ':';	nameIn++;	break;
+					case 'A':	newName[i] = '*';	nameIn++;	break;
+					case 'Q':	newName[i] = '?';	nameIn++;	break;
+					default:	newName[i] = '_';
+				}
+			} else {
+				newName[i] = *nameIn;
+				nameIn++;
+			}
+			i++;
+		}
+		newName[i] = 0;
+		return newName;
+	} else {
+		return copyString(nameIn);
+	}
+}
+
 char * encodeFilename (char * nameIn) {
 	if (! nameIn) return NULL;
 	if (allowAnyFilename) {

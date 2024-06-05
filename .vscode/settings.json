@@ -10,6 +10,13 @@
         "gcc8_c_support.h": "c",
         "exec.h": "c",
         "sludger.h": "c",
-        "statusba.h": "c"
+        "statusba.h": "c",
+        "makefile": "c",
+        "*.dll": "c",
+        "*.exe": "c",
+        "*.o": "c",
+        "*.asm": "c",
+        "stringy.h": "c",
+        "variable.h": "c"
     }
 }
