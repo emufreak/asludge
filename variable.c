@@ -1,9 +1,12 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 
+
 #include "variable.h"
+#include "fileset.h"
 #include "loadsave.h"
 #include "moreio.h"
+#include "newfatal.h"
 #include "objtypes.h"
 #include "people.h"
 #include "stringy.h"
@@ -24,6 +27,20 @@ BOOL addVarToStack(const struct variable * va, struct variableStack ** thisStack
         FreeVec(newStack);
         return FALSE;
     }
+
+    newStack->next = *thisStack;
+    *thisStack = newStack;
+    return TRUE;
+}
+
+BOOL addVarToStackQuick(struct variable *va, struct variableStack **thisStack) {
+    struct variableStack *newStack = AllocVec(sizeof(struct variableStack), MEMF_ANY);
+    if (!newStack) return FALSE;
+
+//    if (!copyMain(va, &newStack->thisVar)) return FALSE;
+
+    memcpy(&(newStack->thisVar), va, sizeof(struct variable));
+    va->varType = SVT_NULL;
 
     newStack->next = *thisStack;
     *thisStack = newStack;
@@ -82,6 +99,53 @@ int compareVars (const struct variable var1, const struct variable var2) {
 	return re;
 }
 
+BOOL copyStack (const struct variable * from, struct variable * to) {
+	to->varType = SVT_STACK;
+	to->varData.theStack = (struct stackHandler *)AllocVec(sizeof(struct stackHandler), MEMF_ANY);
+	if (!to->varData.theStack) return FALSE;
+	to->varData.theStack->first = NULL;
+	to->varData.theStack->last = NULL;
+	to->varData.theStack->timesUsed = 1;
+	struct variableStack * a = from->varData.theStack->first;
+
+	while (a) {
+		addVarToStack(&a->thisVar, &(to->varData.theStack->first));
+		if (to->varData.theStack->last == NULL) {
+			to->varData.theStack->last = to->varData.theStack->first;
+		}
+		a = a->next;
+	}
+
+	return TRUE;
+}
+
+int deleteVarFromStack (const struct variable * va, struct variableStack ** thisStack, BOOL allOfEm) {
+    struct variableStack ** huntVar = thisStack;
+    struct variableStack * killMe;
+    int reply = 0;
+
+    while (*huntVar) {
+        if (compareVars((*huntVar)->thisVar, *va)) {
+            killMe = *huntVar;
+            *huntVar = killMe->next;
+            unlinkVar(&killMe->thisVar);
+            FreeVec(killMe);
+            if (!allOfEm) return 1;
+            reply++;
+        } else {
+            huntVar = &((*huntVar)->next);
+        }
+    }
+
+    return reply;
+}
+
+
+struct variable * fastArrayGetByIndex (struct fastArrayHandler * vS, unsigned int theIndex) {
+	if (theIndex >= (unsigned int) vS -> size) return NULL;
+	return & vS -> fastVariables[theIndex];
+}
+
 BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
 	char * pattern = joinStrings("*", ext);
 	if (!pattern) return FALSE;
@@ -106,7 +170,7 @@ BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
 				char * decoded = decodeFilename(fib->fib_FileName);
 				makeTextVar(&newName, decoded);
 				FreeVec(decoded);
-				if (!addVarToStack(&newName, sH->first)) goto cleanup;
+				if (!addVarToStack(&newName, &sH->first)) goto cleanup;
 				if (sH->last == NULL) sH->last = sH->first;
 			}
 		}
@@ -388,10 +452,47 @@ char * getTextFromAnyVar (const struct variable *from) {
 	return copyString (typeName[from->varType]);
 }
 
+void newCostumeVariable (struct variable * thisVar, struct persona * i) {
+	unlinkVar(thisVar);
+	thisVar->varType = SVT_COSTUME;
+	thisVar->varData.costumeHandler = i;
+}
+
 void setVariable (struct variable *thisVar, enum variableType vT, int value) {
 	unlinkVar (thisVar);
 	thisVar->varType = vT;
 	thisVar->varData.intValue = value;
+}
+
+struct variable * stackGetByIndex (struct variableStack * vS, unsigned int theIndex) {
+    while (theIndex--) {
+        vS = vS->next;
+        if (!vS) {
+            return NULL;
+        }
+    }
+    return &(vS->thisVar);
+}
+
+// Would be a LOT better just to keep this up to date in deletevarfromstack function... ah well
+struct variableStack * stackFindLast (struct variableStack * hunt) {
+	if (hunt == NULL)
+		return NULL;
+
+	while (hunt->next)
+		hunt = hunt->next;
+
+	return hunt;
+}
+
+int stackSize (const struct stackHandler * me) {
+	int r = 0;
+	struct variableStack * a = me -> first;
+	while (a) {
+		r ++;
+		a = a -> next;
+	}
+	return r;
 }
 
 void trimStack (struct variableStack * stack) {

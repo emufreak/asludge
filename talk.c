@@ -1,23 +1,25 @@
 #include <proto/dos.h>
 
 #include "backdrop.h"
+#include "fonttext.h"
 #include "moreio.h"
 #include "objtypes.h"
 #include "region.h"
+#include "support/gcc8_c_support.h"
 #include "sound_nosound.h"
 #include "talk.h"
-#include "support/gcc8_c_support.h"
+
 
 #define ANGLEFIX (180.0 / 3.14157)
 #define ANI_STAND 0
 #define ANI_WALK 1
 #define ANI_TALK 2
 
-extern float cameraZoom;
+extern FLOAT cameraZoom;
 extern int fontHeight, cameraX, cameraY, speechMode;
 
 struct speechStruct * speech;
-float speechSpeed = 1;
+FLOAT speechSpeed = 1;
 
 
 void addSpeechLine (char * theLine, int x, int *offset) {
@@ -33,8 +35,8 @@ void addSpeechLine (char * theLine, int x, int *offset) {
 	speech -> allSpeech = newLine;
 	if ((xx1 < 5) && (offset < (5 - xx1))) {
 		offset = 5 - xx1;
-	} else if (((float) xx2 >= ((float)winWidth/cameraZoom) - 5) && ((float) *offset > (((float)winWidth/cameraZoom) - 5.0 - xx2))) {
-		*offset = (int) ((float)winWidth/cameraZoom) - 5 - xx2;
+	} else if (((FLOAT) xx2 >= ((FLOAT)winWidth/cameraZoom) - 5) && ((FLOAT) *offset > (((FLOAT)winWidth/cameraZoom) - 5.0 - xx2))) {
+		*offset = (int) ((FLOAT)winWidth/cameraZoom) - 5 - xx2;
 	}
 }
 
@@ -214,7 +216,7 @@ int wrapSpeechXY(char * theText, int x, int y, int wrap, int sampleFile) {
     y -= fontHeight / cameraZoom;
 
     if (y < 0) speech->speechY -= y;
-    else if (speech->speechY > cameraY + (float)(winHeight - fontHeight / 3) / cameraZoom) speech->speechY = cameraY + (float)(winHeight - fontHeight / 3) / cameraZoom;
+    else if (speech->speechY > cameraY + (FLOAT)(winHeight - fontHeight / 3) / cameraZoom) speech->speechY = cameraY + (FLOAT)(winHeight - fontHeight / 3) / cameraZoom;
 
     if (offset) {
         struct speechLine * viewLine = speech->allSpeech;

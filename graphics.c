@@ -1,5 +1,6 @@
 #include <proto/exec.h>
 #include "graphics.h"
+#include "support/gcc8_c_support.h"
 
 unsigned int winWidth, winHeight;
 extern int specialSettings;
@@ -33,4 +34,8 @@ void deleteTextures(unsigned int n,  unsigned int * textures)
 			}
 		}
 	}
+}
+
+void setGraphicsWindow(BOOL fullscreen) {
+	KPrintF("setGraphicsWindow: Not implemented on Amiga yet"); //TODO
 }

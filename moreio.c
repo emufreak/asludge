@@ -88,11 +88,11 @@ char * encodeFilename (char * nameIn) {
 	}
 }
 
-float floatSwap( float f )
+FLOAT FLOATSwap( FLOAT f )
 {
 	union
 	{
-		float f;
+		FLOAT f;
 		unsigned char b[4];
 	} dat1, dat2;
 
@@ -126,13 +126,13 @@ ULONG get4bytes (BPTR fp) {
 	return x;
 }
 
-float getFloat (BPTR fp) {
-	float f;
-	LONG blocks_read = FRead( fp, &f, sizeof (float), 1 ); 
+FLOAT getFloat (BPTR fp) {
+	FLOAT f;
+	LONG blocks_read = FRead( fp, &f, sizeof (FLOAT), 1 ); 
 	if (blocks_read != 1) {
 		KPrintF("Reading error in getFloat.\n");
 	}
-	return floatSwap(f);
+	return FLOATSwap(f);
 	return f;
 }
 
@@ -168,9 +168,9 @@ void put4bytes (ULONG i, BPTR fp) {
 	FPutC (fp,f4);
 }
 
-void putFloat (float f, BPTR fp) {
-	f = floatSwap(f);
-	Write( fp, &f, sizeof (float));
+void putFloat (FLOAT f, BPTR fp) {
+	f = FLOATSwap(f);
+	Write( fp, &f, sizeof (FLOAT));
 }
 
 void putSigned (short f, BPTR fp) {

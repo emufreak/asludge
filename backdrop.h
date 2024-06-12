@@ -25,3 +25,4 @@ BOOL reserveBackdrop ();
 BOOL restoreSnapshot (BPTR fp);
 void saveSnapshot(BPTR fp);
 void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp);
+BOOL snapshot ();

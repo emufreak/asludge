@@ -55,6 +55,24 @@ void loadRegions (BPTR fp) {
 	* pointy = NULL;
 }
 
+void removeScreenRegion (int objectNum) {
+    struct screenRegion ** huntRegion = &allScreenRegions;
+    struct screenRegion * killMe;
+
+    while (*huntRegion) {
+        if ((*huntRegion)->thisType->objectNum == objectNum) {
+            killMe = *huntRegion;
+            *huntRegion = killMe->next;
+            removeObjectType(killMe->thisType);
+            if (killMe == overRegion) overRegion = NULL;
+            FreeVec(killMe);
+            killMe = NULL;
+        } else {
+            huntRegion = &((*huntRegion)->next);
+        }
+    }
+}
+
 void saveRegions (BPTR fp) {
 	int numRegions = 0;
 	struct screenRegion * thisRegion = allScreenRegions;

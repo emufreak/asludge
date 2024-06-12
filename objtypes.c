@@ -7,6 +7,8 @@
 #include "support/gcc8_c_support.h"
 
 struct objectType * allObjectTypes = NULL;
+ULONG startOfDataIndex, startOfTextIndex,
+			  startOfSubIndex, startOfObjectIndex;
 
 struct objectType * findObjectType (int i) {
 	struct objectType * huntType = allObjectTypes;
@@ -17,6 +19,21 @@ struct objectType * findObjectType (int i) {
 	}
 
 	return loadObjectType (i);
+}
+
+int getCombinationFunction (int withThis, int thisObject) {
+	int i, num = 0;
+	struct objectType * obj = findObjectType (thisObject);
+
+	for (i = 0; i < obj -> numCom; i ++) {
+		if (obj -> allCombis[i].withObj == withThis)
+		{
+			num = obj -> allCombis[i].funcNum;
+			break;
+		}
+	}
+
+	return num;
 }
 
 BOOL initObjectTypes () {
@@ -31,44 +48,44 @@ struct objectType * loadObjectRef (BPTR fp) {
 }
 
 struct objectType * loadObjectType (int i) {
-	int a, nameNum;
-	struct objectType * newType = AllocVec( sizeof( struct objectType),MEMF_ANY);
+    int a, nameNum;
+    struct objectType * newType = AllocVec(sizeof(struct objectType), MEMF_ANY);
 
-	if (checkNew (newType)) {
-		if (openObjectSlice (i)) {
-			nameNum = get2bytes (bigDataFile);
-			newType -> r = (BYTE) FGetC (bigDataFile);
-			newType -> g = (BYTE) FGetC (bigDataFile);
-			newType -> b = (BYTE) FGetC (bigDataFile);
-			newType -> speechGap = FGetC (bigDataFile);
-			newType -> walkSpeed = FGetC (bigDataFile);
-			newType -> wrapSpeech = get4bytes (bigDataFile);
-			newType -> spinSpeed = get2bytes (bigDataFile);
+    if (newType) {
+        if (openObjectSlice(i)) {
+            nameNum = get2bytes(bigDataFile);
+            newType->r = (BYTE) FGetC(bigDataFile);
+            newType->g = (BYTE) FGetC(bigDataFile);
+            newType->b = (BYTE) FGetC(bigDataFile);
+            newType->speechGap = FGetC(bigDataFile);
+            newType->walkSpeed = FGetC(bigDataFile);
+            newType->wrapSpeech = get4bytes(bigDataFile);
+            newType->spinSpeed = get2bytes(bigDataFile);
 
-			FGetC (bigDataFile);
-			getFloat (bigDataFile);
-			getFloat (bigDataFile);			
-			
-			newType -> flags = get2bytes (bigDataFile);			
+            FGetC(bigDataFile);
+            getFloat(bigDataFile);
+            getFloat(bigDataFile);
 
-			newType -> numCom = get2bytes (bigDataFile);
-			newType -> allCombis = (newType -> numCom) ? AllocVec( sizeof( struct combination) * newType -> numCom,MEMF_ANY) : NULL;
+            newType->flags = get2bytes(bigDataFile);
 
-			for (a = 0; a < newType -> numCom; a ++) {
-				newType -> allCombis[a].withObj = get2bytes (bigDataFile);
-				newType -> allCombis[a].funcNum = get2bytes (bigDataFile);
+            newType->numCom = get2bytes(bigDataFile);
+            newType->allCombis = (newType->numCom) ? AllocVec(sizeof(struct combination) * newType->numCom, MEMF_ANY) : NULL;
 
-			}
-			finishAccess ();
-			newType -> screenName = getNumberedString (nameNum);
-			newType -> objectNum = i;
-			newType -> next = allObjectTypes;
-			allObjectTypes = newType;
-			return newType;
-		}
-	}
-	return NULL;
+            for (a = 0; a < newType->numCom; a++) {
+                newType->allCombis[a].withObj = get2bytes(bigDataFile);
+                newType->allCombis[a].funcNum = get2bytes(bigDataFile);
+            }
+            finishAccess();
+            newType->screenName = getNumberedString(nameNum);
+            newType->objectNum = i;
+            newType->next = allObjectTypes;
+            allObjectTypes = newType;
+            return newType;
+        }
+    }
+    return NULL;
 }
+
 
 void removeObjectType (struct objectType * oT) {
 	struct objectType * * huntRegion = allObjectTypes;

@@ -18,6 +18,7 @@ struct ExecBase *SysBase;
 volatile struct Custom *custom;
 struct DosLibrary *DOSBase;
 struct GfxBase *GfxBase;
+struct MathBase *MathBase;
 
 //backup
 static UWORD SystemInts;
@@ -235,6 +236,10 @@ int main(int argc, char *argv[]) {
 	// used for printing
 	DOSBase = (struct DosLibrary*)OpenLibrary((CONST_STRPTR)"dos.library", 0);
 	if (!DOSBase)
+		Exit(0);
+
+	MathBase = (struct MathLibrary*) OpenLibrary("mathffp.library", 0);
+	if(!MathBase)
 		Exit(0);
 
 	KPrintF("Hello debugger from Amiga!\n");

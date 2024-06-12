@@ -26,7 +26,7 @@ extern struct loadedFunction * allRunningFunctions;		// In sludger.cpp
 extern BOOL allowAnyFilename;
 extern unsigned char brightnessLevel;					// "	"	"
 extern int cameraX, cameraY;	
-extern float cameraZoom;
+extern FLOAT cameraZoom;
 extern BOOL captureAllKeys;
 extern struct flor * currentFloor;						// In floor.cpp
 extern unsigned char fadeMode;							// In transition.cpp
@@ -172,7 +172,7 @@ BOOL loadGame (char * fname) {
 
 	int camerX = get2bytes (fp);
 	int camerY = get2bytes (fp);
-	float camerZ;
+	FLOAT camerZ;
 	camerZ = getFloat(fp);
 
 	brightnessLevel = FGetC (fp);

@@ -59,6 +59,15 @@ void abortFunction (struct loadedFunction * fun) {
 	fun = NULL;
 }
 
+void completeTimers () {
+	struct loadedFunction * thisFunction = allRunningFunctions;
+
+	while (thisFunction) {
+		if (thisFunction->freezerLevel == 0) thisFunction->timeLeft = 0;
+		thisFunction = thisFunction->next;
+	}
+}
+
 BOOL continueFunction (struct loadedFunction * fun) {
 	BOOL keepLooping = TRUE;
 	BOOL advanceNow;
@@ -267,7 +276,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				} else {
 					int ii;
 					if (! getValueType(&ii, SVT_INT,&fun -> reg)) return FALSE;
-					if (! stackSetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii, fun -> stack -> next -> thisVar)) {
+					if (! stackSetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii, &fun -> stack -> next -> thisVar)) {
 						return FALSE;
 					}
 					trimStack (fun -> stack);
@@ -795,6 +804,17 @@ void saveHandlers (BPTR fp) {
 	put2bytes (currentEvents -> moveMouseFunction,		fp);
 	put2bytes (currentEvents -> focusFunction,			fp);
 	put2bytes (currentEvents -> spaceFunction,			fp);
+}
+
+BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va) {
+	while (theIndex--) {
+		vS = vS->next;
+		if (!vS) {
+			KPrintF("Index past end of stack.");
+			return FALSE;
+		}
+	}
+	return copyVariable(va, &(vS->thisVar));
 }
 
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack * vStack, BOOL returnSommet) {

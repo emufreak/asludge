@@ -18,6 +18,7 @@ struct objectType {
 	struct combination * allCombis;
 };
 
+int getCombinationFunction (int withThis, int thisObject);
 struct objectType * findObjectType (int i);
 BOOL initObjectTypes ();
 struct objectType * loadObjectType (int i);

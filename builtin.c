@@ -1,9 +1,13 @@
 #include <proto/exec.h>
+#include <libraries/mathffp.h>
+#include <clib/mathffp_protos.h>
+
 
 #include "allfiles.h"
 #include "backdrop.h"
 #include "builtin.h"
 #include "cursors.h"
+#include "fonttext.h"
 #include "graphics.h"
 #include "language.h"
 #include "moreio.h"
@@ -15,6 +19,7 @@
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 #include "talk.h"
+#include "utils.h"
 #include "variable.h"
 
 extern BOOL allowAnyFilename;
@@ -32,13 +37,13 @@ extern struct statusStuff * nowStatus;
 extern int numBIFNames, numUserFunc;
 extern unsigned short saveEncoding;
 extern unsigned int sceneWidth, sceneHeight;
-extern float speechSpeed;
+extern FLOAT speechSpeed;
 extern struct screenRegion * overRegion;
 
 typedef enum builtReturn (* builtInSludgeFunc) (int numParams, struct loadedFunction * fun);
 
 int cameraX, cameraY;
-float cameraZoom = 1.0;
+FLOAT cameraZoom = 1.0;
 char * launchMe = NULL;
 struct variable * launchResult = NULL;
 struct loadedFunction * saverFunc;
@@ -49,7 +54,6 @@ struct builtInFunctionData
 	builtInSludgeFunc func;
 };
 
-#define NUM_FUNCS			(sizeof (builtInFunctionArray) / sizeof (builtInFunctionArray[0]))
 
 int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEMOUSE
 	-1, 0, 0, -1, -1, 1, 1, 1, 1, 4, 1, 1, 2, 1,// FOCUS -> REMOVEREGION
@@ -60,7 +64,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	0, 1, 1, 0, 2,  							// dark, save, load, quit, rename
 	1, 3, 3, 1, 2, 1, 1, 3, 1, 0, 0, 2, 1,		// stackSize, pasteString, startMusic, defvol, vol, stopmus, stopsound, setfont, alignStatus, show x 2, pos'Status, setFloor
 	-1, -1, 1, 1, 2, 1, 1, 1, -1, -1, -1, 1, 1,	// force, jump, peekstart, peekend, enqueue, getSavedGames, inFont, loopSound, removeChar, stopCharacter
-	1, 0, 3, 3, 1, 2, 1, 2, 2,					// launch, howFrozen, pastecol, litcol, checksaved, float, cancelfunc, walkspeed, delAll
+	1, 0, 3, 3, 1, 2, 1, 2, 2,					// launch, howFrozen, pastecol, litcol, checksaved, FLOAT, cancelfunc, walkspeed, delAll
 	2, 3, 1, 2, 2, 0, 0, 1, 2, 3, 1, -1,		// extras, mixoverlay, pastebloke, getMScreenX/Y, setSound(Default/-)Volume, looppoints, speechMode, setLightMap
 	-1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,			// think, getCharacterDirection, is(char/region/moving), deleteGame, renameGame, hardScroll, stringWidth, speechSpeed, normalCharacter
 	2, 1, 2, 1, 3, 1, 1, 2, 1,					// fetchEvent, setBrightness, spin, fontSpace, burnString, captureAll, cacheSound, setSpinSpeed, transitionMode
@@ -80,6 +84,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 #pragma mark Built in functions
 
 #define builtIn(a) 			static enum builtReturn builtIn_ ## a (int numParams, struct loadedFunction * fun)
+
 #define UNUSEDALL		 	(void) (0 && sizeof(numParams) && sizeof (fun));
 
 BOOL failSecurityCheck(char * fn) {
@@ -412,13 +417,13 @@ builtIn(aimCamera)
 	if (! getValueType(&cameraX, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 
-	cameraX -= (float)(winWidth >> 1)/ cameraZoom;
-	cameraY -= (float)(winHeight >> 1)/ cameraZoom;
+	cameraX -= (FLOAT)(winWidth >> 1)/ cameraZoom;
+	cameraY -= (FLOAT)(winHeight >> 1)/ cameraZoom;
 
 	if (cameraX < 0) cameraX = 0;
-	else if (cameraX > sceneWidth - (float)winWidth/ cameraZoom) cameraX = sceneWidth - (float)winWidth/ cameraZoom;
+	else if (cameraX > sceneWidth - (FLOAT)winWidth/ cameraZoom) cameraX = sceneWidth - (FLOAT)winWidth/ cameraZoom;
 	if (cameraY < 0) cameraY = 0;
-	else if (cameraY > sceneHeight - (float)winHeight/ cameraZoom) cameraY = sceneHeight - (float)winHeight/ cameraZoom;
+	else if (cameraY > sceneHeight - (FLOAT)winHeight/ cameraZoom) cameraY = sceneHeight - (FLOAT)winHeight/ cameraZoom;
 	return BR_CONTINUE;
 }
 
@@ -434,9 +439,9 @@ builtIn(zoomCamera)
 	input.mouseY = input.mouseY * cameraZoom;
 
 
-	cameraZoom = (float) z * 0.01;
-	if ((float) winWidth / cameraZoom > sceneWidth) cameraZoom = (float)winWidth / sceneWidth;
-	if ((float) winHeight / cameraZoom > sceneHeight) cameraZoom = (float)winHeight / sceneHeight;
+	cameraZoom = (FLOAT) z * 0.01;
+	if ((FLOAT) winWidth / cameraZoom > sceneWidth) cameraZoom = (FLOAT)winWidth / sceneWidth;
+	if ((FLOAT) winHeight / cameraZoom > sceneHeight) cameraZoom = (FLOAT)winHeight / sceneHeight;
 	//setPixelCoords (FALSE); Todo: Amigize this
 
 	input.mouseX = input.mouseX / cameraZoom;
@@ -482,9 +487,9 @@ builtIn(substring)
     wholeString = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(fun->stack);
     
-    if (u8_strlen(wholeString) < start + length) {
-        length = u8_strlen(wholeString) - start;
-        if (u8_strlen(wholeString) < start) {
+    if (strlen(wholeString) < (ULONG) start + length) {
+        length = strlen(wholeString) - start;
+        if (strlen(wholeString) < (ULONG) start) {
             start = 0;
         }
     }
@@ -492,8 +497,8 @@ builtIn(substring)
         length = 0;
     }
     
-    int startoffset = u8_offset(wholeString, start);
-    int endoffset = u8_offset(wholeString, start + length);
+    int startoffset = start;
+    int endoffset = start + length;
 
     newString = AllocVec(endoffset - startoffset + 1, MEMF_ANY);
     if (!newString) {
@@ -513,7 +518,7 @@ builtIn(stringLength)
 	UNUSEDALL
 	char * newText = getTextFromAnyVar (&(fun -> stack -> thisVar));
 	trimStack (fun -> stack);
-	setVariable (fun -> reg, SVT_INT, stringLength(newText));
+	setVariable (fun -> reg, SVT_INT, strlen(newText));
 	FreeVec(newText);
 	return BR_CONTINUE;
 }
@@ -532,7 +537,7 @@ builtIn(newStack)
     fun->reg->varData.theStack->timesUsed = 1;
     
     while (numParams--) {
-        if (!addVarToStack(fun->stack->thisVar, fun->reg->varData.theStack->first)) return BR_ERROR;
+        if (!addVarToStack(&fun->stack->thisVar, &fun->reg->varData.theStack->first)) return BR_ERROR;
         if (fun->reg->varData.theStack->last == NULL) {
             fun->reg->varData.theStack->last = fun->reg->varData.theStack->first;
         }
@@ -575,7 +580,7 @@ builtIn(copyStack)
 		return BR_ERROR;
 	}
 	// Return value
-	if (! copyStack (fun -> stack -> thisVar, fun -> reg)) return BR_ERROR;
+	if (! copyStack (&fun -> stack -> thisVar, fun -> reg)) return BR_ERROR;
 	trimStack (fun -> stack);
 	return BR_CONTINUE;
 }
@@ -584,11 +589,11 @@ builtIn(pushToStack)
 {
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
-		fatal ("Parameter isn't a stack");
+		KPrintF("Parameter isn't a stack");
 		return BR_ERROR;
 	}
 
-	if (! addVarToStack (fun -> stack -> thisVar, fun -> stack -> next -> thisVar.varData.theStack -> first))
+	if (! addVarToStack (&fun -> stack -> thisVar, &fun -> stack -> next -> thisVar.varData.theStack -> first))
 		return BR_ERROR;
 
 	if (fun -> stack -> next -> thisVar.varData.theStack -> first -> next == NULL)
@@ -603,21 +608,21 @@ builtIn(enqueue)
 {
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
-		fatal ("Parameter isn't a stack");
+		KPrintF ("Parameter isn't a stack");
 		return BR_ERROR;
 	}
 
 	if (fun -> stack -> next -> thisVar.varData.theStack -> first == NULL)
 	{
-		if (! addVarToStack (fun -> stack -> thisVar, fun -> stack -> next -> thisVar.varData.theStack -> first))
+		if (! addVarToStack (&fun -> stack -> thisVar, &fun -> stack -> next -> thisVar.varData.theStack -> first))
 			return BR_ERROR;
 
 		fun -> stack -> next -> thisVar.varData.theStack -> last = fun -> stack -> next -> thisVar.varData.theStack -> first;
 	}
 	else
 	{
-		if (! addVarToStack (fun -> stack -> thisVar,
-							 fun -> stack -> next -> thisVar.varData.theStack -> last -> next))
+		if (! addVarToStack (&fun -> stack -> thisVar,
+							 &fun -> stack -> next -> thisVar.varData.theStack -> last -> next))
 			return BR_ERROR;
 		fun -> stack -> next -> thisVar.varData.theStack -> last = fun -> stack -> next -> thisVar.varData.theStack -> last -> next;
 	}
@@ -637,8 +642,8 @@ builtIn(deleteFromStack)
 
 	// Return value
 	setVariable (fun -> reg, SVT_INT,
-				 deleteVarFromStack (fun -> stack -> thisVar,
-									 fun -> stack -> next -> thisVar.varData.theStack -> first, FALSE));
+				 deleteVarFromStack (&fun -> stack -> thisVar,
+									 &fun -> stack -> next -> thisVar.varData.theStack -> first, FALSE));
 
 	// Horrible hacking because 'last' value might now be wrong!
 	fun->stack->next->thisVar.varData.theStack->last = stackFindLast (fun->stack->next->thisVar.varData.theStack->first);
@@ -652,14 +657,14 @@ builtIn(deleteAllFromStack)
 {
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
-		fatal ("Parameter isn't a stack.");
+		KPrintF ("Parameter isn't a stack.");
 		return BR_ERROR;
 	}
 
 	// Return value
 	setVariable (fun -> reg, SVT_INT,
-				 deleteVarFromStack (fun -> stack -> thisVar,
-									 fun -> stack -> next -> thisVar.varData.theStack -> first, TRUE));
+				 deleteVarFromStack (&fun -> stack -> thisVar,
+									 &fun -> stack -> next -> thisVar.varData.theStack -> first, TRUE));
 
 	// Horrible hacking because 'last' value might now be wrong!
 	fun->stack->next->thisVar.varData.theStack->last = stackFindLast (fun->stack->next->thisVar.varData.theStack->first);
@@ -673,11 +678,11 @@ builtIn(popFromStack)
 {
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
-		fatal ("Parameter isn't a stack.");
+		KPrintF ("Parameter isn't a stack.");
 		return BR_ERROR;
 	}
 	if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
-		fatal ("The stack's empty.");
+		KPrintF ("The stack's empty.");
 		return BR_ERROR;
 	}
 
@@ -692,11 +697,11 @@ builtIn(peekStart)
 {
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
-		fatal ("Parameter isn't a stack.");
+		KPrintF ("Parameter isn't a stack.");
 		return BR_ERROR;
 	}
 	if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
-		fatal ("The stack's empty.");
+		KPrintF ("The stack's empty.");
 		return BR_ERROR;
 	}
 
@@ -710,11 +715,11 @@ builtIn(peekEnd)
 {
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
-		fatal ("Parameter isn't a stack.");
+		KPrintF ("Parameter isn't a stack.");
 		return BR_ERROR;
 	}
 	if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
-		fatal ("The stack's empty.");
+		KPrintF ("The stack's empty.");
 		return BR_ERROR;
 	}
 
@@ -888,7 +893,7 @@ builtIn(costume)
     if (!newPersona) return BR_ERROR;
     newPersona->numDirections = numParams / 3;
     if (numParams == 0 || newPersona->numDirections * 3 != numParams) {
-        fatal("Illegal number of parameters (should be greater than 0 and divisible by 3)");
+        KPrintF("Illegal number of parameters (should be greater than 0 and divisible by 3)");
         return BR_ERROR;
     }
     int iii;
@@ -932,7 +937,7 @@ builtIn(launch)
     FreeVec(newTextA);
     setGraphicsWindow(FALSE);
     setVariable(fun->reg, SVT_INT, 1);
-    launchResult = &fun->reg;
+    launchResult = fun->reg;
 
     return BR_KEEP_AND_PAUSE;
 }
@@ -1133,7 +1138,7 @@ builtIn(loopSound)
 	int fileNumber;
 
 	if (numParams < 1) {
-		fatal("Built-in function loopSound() must have at least 1 parameter.");
+		KPrintF("Built-in function loopSound() must have at least 1 parameter.");
 		return BR_ERROR;
 	} else if (numParams < 2) {
 
@@ -1156,7 +1161,7 @@ builtIn(loopSound)
 		}
 		while (numParams) {
 			if (!getValueType(&fileNumber, SVT_FILE,&fun->stack->thisVar)) {
-				fatal("Illegal parameter given built-in function loopSound().");
+				KPrintF("Illegal parameter given built-in function loopSound().");
 				return BR_ERROR;
 			}
 			s = AllocVec(sizeof(struct soundList), MEMF_ANY);
@@ -1312,7 +1317,7 @@ builtIn(setSpeechMode)
 	if (! getValueType(&speechMode, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (speechMode < 0 || speechMode > 2) {
-		fatal ("Valid parameters are be SPEECHANDTEXT, SPEECHONLY or TEXTONLY");
+		KPrintF ("Valid parameters are be SPEECHANDTEXT, SPEECHONLY or TEXTONLY");
 		return BR_ERROR;
 	}
 	return BR_CONTINUE;
@@ -1515,17 +1520,14 @@ builtIn(setCharacterDrawMode)
 	setDrawMode (di, obj);
 	return BR_CONTINUE;
 }
+
 builtIn(setCharacterTransparency)
 {
 	UNUSEDALL
-	int obj, x;
-	if (! getValueType(&x, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (fun -> stack);
-	if (! getValueType(&obj, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (fun -> stack);
-	setPersonTransparency (obj, x);
+	KPrintF("setCharacterTransparency: Not implemented on Amiga");
 	return BR_CONTINUE;
 }
+
 builtIn(setCharacterColourise)
 {
 	UNUSEDALL
@@ -1630,7 +1632,7 @@ builtIn(floatCharacter)
 	trimStack (fun -> stack);
 	if (! getValueType(&obj, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	setVariable (fun -> reg, SVT_INT, floatCharacter (di, obj));
+	setVariable (fun -> reg, SVT_INT, FLOATCharacter (di, obj));
 	return BR_CONTINUE;
 }
 
@@ -1732,7 +1734,7 @@ static enum builtReturn moveChr(int numParams, struct loadedFunction * fun, BOOL
 		}
 
 		default:
-			fatal ("Built-in function must have either 2 or 3 parameters.");
+			KPrintF ("Built-in function must have either 2 or 3 parameters.");
 			return BR_ERROR;
 	}
 }
@@ -1832,7 +1834,7 @@ static BOOL getFuncNumForCallback(int numParams, struct loadedFunction * fun, in
 			break;
 
 		default:
-			fatal ("Too many parameters.");
+			KPrintF ("Too many parameters.");
 			return FALSE;
 	}
 	return TRUE;
@@ -2293,7 +2295,7 @@ builtIn(saveCustomData)
 	trimStack(fun->stack);
 
 	if (fun->stack->thisVar.varType != SVT_STACK) {
-		fatal("First parameter isn't a stack");
+		KPrintF("First parameter isn't a stack");
 		return BR_ERROR;
 	}
 	if (!stackToFile(fileName, fun->stack->thisVar)) return BR_ERROR;
@@ -2422,7 +2424,7 @@ builtIn(makeFastArray)
 		default:
 			break;
 	}
-	fatal ("Parameter must be a number or a stack.");
+	KPrintF ("Parameter must be a number or a stack.");
 	return BR_ERROR;
 }
 
@@ -2500,7 +2502,7 @@ builtIn(setThumbnailSize)
 	trimStack (fun -> stack);
 	if (! getValueType(&thumbWidth, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (thumbWidth < 0 || thumbHeight < 0 || thumbWidth > winWidth || thumbHeight > winHeight) {
+	if (thumbWidth < 0 || thumbHeight < 0 || (unsigned int) thumbWidth > winWidth || (unsigned int) thumbHeight > winHeight) {
 		char buff[50];
 		sprintf (buff, "%d x %d", thumbWidth, thumbHeight);
 		KPrintF ("Invalid thumbnail size", buff);
@@ -2562,7 +2564,7 @@ builtIn(quitWithFatalError)
 	UNUSEDALL
 	char * mess = getTextFromAnyVar(&(fun -> stack -> thisVar));
 	trimStack (fun -> stack);
-	fatal (mess);
+	KPrintF (mess);
 	return BR_ERROR;
 }
 
@@ -2593,7 +2595,8 @@ builtIn(_rem_setMaximumAA)
 builtIn(setBackgroundEffect)
 {
 	UNUSEDALL
-	BOOL done = blur_createSettings(numParams, fun->stack);
+	BOOL done = TRUE;
+	//BOOL done = blur_createSettings(numParams, fun->stack); Amiga Todo: Amigize?
 	setVariable (fun -> reg, SVT_INT, done ? 1 : 0);
 	return BR_CONTINUE;
 }
@@ -2601,7 +2604,10 @@ builtIn(setBackgroundEffect)
 builtIn(doBackgroundEffect)
 {
 	UNUSEDALL
-	BOOL done = blurScreen ();
+	//BOOL done = blurScreen ();
+	BOOL done = TRUE;
+	KPrintF("doBackgroundEffect: Function not implemented on Amiga");
+	//Amiga Todo: Amigize this
 	setVariable (fun -> reg, SVT_INT, done ? 1 : 0);
 	return BR_CONTINUE;
 }
@@ -2609,14 +2615,183 @@ builtIn(doBackgroundEffect)
 #define FUNC(special,name)		{builtIn_ ## name},
 static struct builtInFunctionData builtInFunctionArray[] =
 {
-#include "functionlist.h"
+FUNC (TRUE, say)
+FUNC (TRUE, skipSpeech)
+FUNC (TRUE, statusText)
+FUNC (TRUE, pause)
+FUNC (TRUE, onLeftMouse)
+FUNC (TRUE, onRightMouse)
+FUNC (TRUE, setCursor)
+FUNC (TRUE, addOverlay)
+FUNC (TRUE, addCharacter)
+FUNC (TRUE, playSound)
+FUNC (TRUE, getMouseX)
+FUNC (TRUE, getMouseY)
+FUNC (TRUE, addScreenRegion)
+FUNC (TRUE, onMoveMouse)
+FUNC (TRUE, onFocusChange)
+FUNC (TRUE, getOverObject)
+FUNC (TRUE, blankScreen)
+FUNC (TRUE, moveCharacter)
+FUNC (TRUE, onKeyboard)
+FUNC (TRUE, getObjectX)
+FUNC (TRUE, getObjectY)
+FUNC (TRUE, random)
+FUNC (TRUE, spawnSub)
+FUNC (TRUE, blankArea)
+FUNC (TRUE, hideCharacter)
+FUNC (TRUE, showCharacter)
+FUNC (TRUE, callEvent)
+FUNC (TRUE, removeScreenRegion)
+FUNC (TRUE, animate)
+FUNC (TRUE, turnCharacter)
+FUNC (TRUE, removeAllCharacters)
+FUNC (TRUE, removeAllScreenRegions)
+FUNC (TRUE, setScale)
+FUNC (TRUE, newStack)
+FUNC (TRUE, pushToStack)
+FUNC (TRUE, popFromStack)
+FUNC (TRUE, clearStatus)
+FUNC (TRUE, addStatus)
+FUNC (TRUE, removeLastStatus)
+FUNC (TRUE, lightStatus)
+FUNC (TRUE, getStatusText)
+FUNC (TRUE, setStatusColour)
+FUNC (TRUE, deleteFromStack)
+FUNC (TRUE, freeze)
+FUNC (TRUE, unfreeze)
+FUNC (TRUE, pasteImage)
+FUNC (TRUE, copyStack)
+FUNC (TRUE, completeTimers)
+FUNC (TRUE, setCharacterDrawMode)
+FUNC (TRUE, anim)
+FUNC (TRUE, costume)
+FUNC (TRUE, pickOne)
+FUNC (TRUE, setCostume)
+FUNC (TRUE, wait)
+FUNC (TRUE, somethingSpeaking)
+FUNC (TRUE, substring)
+FUNC (TRUE, stringLength)
+FUNC (TRUE, darkBackground)
+FUNC (TRUE, saveGame)
+FUNC (TRUE, loadGame)
+FUNC (TRUE, quitGame)
+FUNC (TRUE, rename)
+FUNC (TRUE, stackSize)
+FUNC (TRUE, pasteString)
+FUNC (TRUE, startMusic)
+FUNC (TRUE, setDefaultMusicVolume)	
+FUNC (TRUE, setMusicVolume)	
+FUNC (TRUE, stopMusic)
+FUNC (TRUE, stopSound)
+FUNC (TRUE, setFont)
+FUNC (TRUE, alignStatus)
+FUNC (TRUE, showFloor)
+FUNC (TRUE, showBoxes)
+FUNC (TRUE, positionStatus)
+FUNC (TRUE, setFloor)
+FUNC (TRUE, forceCharacter)
+FUNC (TRUE, jumpCharacter)
+FUNC (TRUE, peekStart)
+FUNC (TRUE, peekEnd)
+FUNC (TRUE, enqueue)
+FUNC (TRUE, setZBuffer)
+FUNC (TRUE, getMatchingFiles)
+FUNC (TRUE, inFont)
+FUNC (TRUE, onLeftMouseUp)
+FUNC (TRUE, onRightMouseUp)
+FUNC (TRUE, loopSound)
+FUNC (TRUE, removeCharacter)
+FUNC (TRUE, stopCharacter)
+FUNC (TRUE, launch)
+FUNC (TRUE, howFrozen)
+FUNC (TRUE, setPasteColour)
+FUNC (TRUE, setLitStatusColour)
+FUNC (TRUE, fileExists)
+FUNC (TRUE, floatCharacter)
+FUNC (TRUE, cancelSub)
+FUNC (TRUE, setCharacterWalkSpeed)
+FUNC (TRUE, deleteAllFromStack)
+FUNC (TRUE, setCharacterExtra)
+FUNC (TRUE, mixOverlay)
+FUNC (TRUE, pasteCharacter)
+FUNC (TRUE, setSceneDimensions)
+FUNC (TRUE, aimCamera)
+FUNC (TRUE, getMouseScreenX)
+FUNC (TRUE, getMouseScreenY)
+FUNC (TRUE, setDefaultSoundVolume)
+FUNC (TRUE, setSoundVolume)
+FUNC (TRUE, setSoundLoopPoints)
+FUNC (TRUE, setSpeechMode)
+FUNC (TRUE, setLightMap)
+FUNC (TRUE, think)
+FUNC (TRUE, getCharacterDirection)
+FUNC (TRUE, isCharacter)
+FUNC (TRUE, isScreenRegion)
+FUNC (TRUE, isMoving)
+FUNC (TRUE, deleteFile)
+FUNC (TRUE, renameFile)
+FUNC (TRUE, hardScroll)
+FUNC (TRUE, stringWidth)
+FUNC (TRUE, setSpeechSpeed)
+FUNC (TRUE, normalCharacter)
+FUNC (TRUE, fetchEvent)
+FUNC (TRUE, transitionLevel)
+FUNC (TRUE, spinCharacter)
+FUNC (TRUE, setFontSpacing)
+FUNC (TRUE, burnString)
+FUNC (TRUE, captureAllKeys)
+FUNC (TRUE, cacheSound)
+FUNC (TRUE, setCharacterSpinSpeed)
+FUNC (TRUE, transitionMode)
+FUNC (false,  _rem_movieStart)
+FUNC (false,  _rem_movieAbort)
+FUNC (false,  _rem_moviePlaying)
+FUNC (false,  _rem_updateDisplay)
+FUNC (TRUE, getSoundCache)
+FUNC (TRUE, saveCustomData)
+FUNC (TRUE, loadCustomData)
+FUNC (TRUE, setCustomEncoding)
+FUNC (TRUE, freeSound)
+FUNC (TRUE, parallaxAdd)
+FUNC (TRUE, parallaxClear)
+FUNC (TRUE, setBlankColour)
+FUNC (TRUE, setBurnColour)
+FUNC (TRUE, getPixelColour)
+FUNC (TRUE, makeFastArray)
+FUNC (TRUE, getCharacterScale)
+FUNC (TRUE, getLanguageID)
+FUNC (false, _rem_launchWith)
+FUNC (TRUE, getFramesPerSecond)
+FUNC (TRUE, showThumbnail)
+FUNC (TRUE, setThumbnailSize)
+FUNC (TRUE, hasFlag)
+FUNC (TRUE, snapshotGrab)
+FUNC (TRUE, snapshotClear)
+FUNC (TRUE, bodgeFilenames)
+FUNC (false,  _rem_registryGetString)
+FUNC (TRUE, quitWithFatalError)
+FUNC (TRUE, _rem_setCharacterAA)
+FUNC (TRUE, _rem_setMaximumAA)
+FUNC (TRUE, setBackgroundEffect)
+FUNC (TRUE, doBackgroundEffect)
+FUNC (TRUE, setCharacterAngleOffset)
+FUNC (TRUE, setCharacterTransparency)
+FUNC (TRUE, setCharacterColourise)
+FUNC (TRUE, zoomCamera)
+FUNC (TRUE, playMovie)
+FUNC (TRUE, stopMovie)
+FUNC (TRUE, pauseMovie)
 };
 #undef FUNC
+
+#define NUM_FUNCS			(sizeof (builtInFunctionArray) / sizeof (builtInFunctionArray[0]))
+
 
 enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunction * fun) {
    // fprintf (stderr, "Calling function %d: %s\n", whichFunc, builtInFunctionNames[whichFunc]);    fflush (stderr);
 
-	if (whichFunc < NUM_FUNCS) {
+	if ((unsigned int)whichFunc < NUM_FUNCS) {
 		if (paramNum[whichFunc] != -1) {
 			if (paramNum[whichFunc] != numParams) {
 				char buff[100];

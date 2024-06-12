@@ -56,6 +56,24 @@ unsigned int openFileFromNum (int num) {
 	return get4bytes (bigDataFile);
 }
 
+BOOL openObjectSlice (int num) {
+    // BPTR dbug = FOpen("debuggy.txt", MODE_NEWFILE);
+
+    // FPrintf(dbug, "\nTrying to open object %i\n", num);
+
+    if (sliceBusy) {
+        KPrintF("Can't read from data file", "I'm already reading something");
+        return FALSE;
+    }
+
+    // FPrintf(dbug, "Going to position %ld\n", startOfObjectIndex + (num << 2));
+    FSeek(bigDataFile, startOfObjectIndex + (num << 2), OFFSET_BEGINNING);
+    FSeek(bigDataFile, get4bytes(bigDataFile), OFFSET_BEGINNING);
+    // FPrintf(dbug, "Told to skip forward to %ld\n", FTell(bigDataFile));
+    // FClose(dbug);
+    return sliceBusy = TRUE;
+}
+
 BOOL openSubSlice (int num) {
 //	FILE * dbug = fopen ("debuggy.txt", "at");
 

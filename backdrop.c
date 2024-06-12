@@ -17,7 +17,7 @@ unsigned int backdropTextureName = 0;
 BOOL backdropExists = FALSE;
 struct parallaxLayer * parallaxStuff = NULL;
 extern int cameraX, cameraY;
-extern float cameraZoom;
+extern FLOAT cameraZoom;
 int lightMapNumber;
 int viewportHeight, viewportWidth;
 int viewportOffsetX = 0, viewportOffsetY = 0;
@@ -119,4 +119,10 @@ void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp) {
 		put2bytes (me ->fractionX, fp);
 		put2bytes (me->fractionY, fp);
 	}
+}
+
+BOOL snapshot () {
+
+	KPrintF("snapshot: Not yet implemented on Amiga"); //Todo
+	return TRUE;
 }

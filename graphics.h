@@ -11,6 +11,7 @@ struct textureList {
 extern BOOL NPOT_textures;
 extern unsigned int winWidth, winHeight;
 void deleteTextures(unsigned int n,  unsigned int * textures);
+void setGraphicsWindow(BOOL fullscreen);
 
 #endif
 

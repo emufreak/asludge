@@ -28,13 +28,30 @@ void loadSounds (BPTR fp) {
 	defVol = get2bytes (fp);
 }
 
+BOOL playMOD (int f, int a, int fromTrack) {
+//#pragma unused (f,a,fromTrack)
+    return TRUE;
+}
+
 void saveSounds (BPTR fp) {
 	FPutC (fp,0);
 	put2bytes (defSoundVol, fp);
 	put2bytes (defVol, fp);
 }
 
+void setMusicVolume (int a, int v) {
+//#pragma unused (a,v)
+}
+
+void setSoundVolume (int a, int v) {
+//#pragma unused (a,v)
+}
+
 BOOL startSound (int f, BOOL loopy) {	
 //#pragma unused (f,loopy)
 	return TRUE;
+}
+
+void stopMOD (int i) {
+//#pragma unused(i)
 }

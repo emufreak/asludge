@@ -45,6 +45,7 @@ struct inputType {
 };
 
 void abortFunction (struct loadedFunction * fun);
+void completeTimers ();
 BOOL continueFunction (struct loadedFunction * fun);
 void finishFunction (struct loadedFunction * fun);
 BOOL handleInput ();
@@ -57,6 +58,7 @@ BOOL runSludge();
 BOOL initSludge (char *);
 void pauseFunction (struct loadedFunction * fun);
 void saveHandlers (BPTR fp);
+BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va);
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack * vStack, BOOL returnSommet);
 
 #endif

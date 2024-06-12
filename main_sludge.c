@@ -20,7 +20,7 @@
 #define MAX_PATH        1024          // maximum size of a path name
 int realWinWidth = 640, realWinHeight = 480;
 
-extern float cameraZoom;
+extern FLOAT cameraZoom;
 
 extern int specialSettings;
 

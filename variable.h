@@ -37,11 +37,16 @@ struct variableStack {
 	struct variableStack	* 			next;
 };
 
+BOOL addVarToStack(const struct variable * va, struct variableStack ** thisStack);
+BOOL addVarToStackQuick(struct variable *va, struct variableStack **thisStack);
 void compareVariablesInSecond (const struct variable *var1, struct variable *var2);
 int compareVars (const struct variable var1, const struct variable var2);
 BOOL copyMain (const struct variable from, struct variable to);
+BOOL copyStack (const struct variable * from, struct variable * to);
 BOOL copyVariable (const struct variable *from, struct variable *to);
 char * decodeFilename(char * nameIn);
+int deleteVarFromStack(const struct variable *va, struct variableStack **thisStack, BOOL allOfEm);
+struct variable * fastArrayGetByIndex (struct fastArrayHandler * vS, unsigned int theIndex);
 struct personaAnimation * getAnimationFromVar (struct variable *thisVar);
 BOOL getBoolean (const struct variable *from);
 BOOL getSavedGamesStack(struct stackHandler * sH, char * ext);
@@ -50,7 +55,10 @@ char * getTextFromAnyVar (const struct variable *from);
 BOOL loadStringToVar (struct variable *thisVar, int value);
 BOOL loadVariable (struct variable * to, BPTR fp);
 void makeTextVar (struct variable *thisVar, const char * txt);
+void newCostumeVariable (struct variable * thisVar, struct persona * i);
 void setVariable (struct variable *thisVar, enum variableType vT, int value);
+int stackSize (const struct stackHandler * me);
+struct variableStack * stackFindLast (struct variableStack * hunt);
 void trimStack (struct variableStack * stack);
 void unlinkVar (struct variable *thisVar);
 

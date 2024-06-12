@@ -17,6 +17,18 @@
         "*.o": "c",
         "*.asm": "c",
         "stringy.h": "c",
-        "variable.h": "c"
+        "variable.h": "c",
+        "interrupts.h": "c",
+        "zbuffer.h": "c",
+        "people.h": "c",
+        "sound_nosound.h": "c",
+        "allfiles.h": "c",
+        "backdrop.h": "c",
+        "cursors.h": "c",
+        "fonttext.h": "c",
+        "graphics.h": "c",
+        "language.h": "c",
+        "utils.h": "c",
+        "functionlist.h": "c"
     }
 }

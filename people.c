@@ -192,7 +192,7 @@ BOOL loadPeople (BPTR fp) {
 		me -> frameTick = get2bytes (fp);
 		me -> walkSpeed = get2bytes (fp);
 		me -> spinSpeed = get2bytes (fp);
-		me -> floaty = getSigned (fp);
+		me -> y = getSigned (fp);
 		me -> show = FGetC (fp);
 		me -> walking = FGetC (fp);
 		me -> spinning = FGetC (fp);

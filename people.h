@@ -30,9 +30,9 @@ struct persona {
 };
 
 struct onScreenPerson {
-	float x, y;
+	FLOAT x, y;
 	int height, floaty, walkSpeed;
-	float scale;
+	FLOAT scale;
 	struct onScreenPerson * next;
 	int walkToX, walkToY, thisStepX, thisStepY, inPoly, walkToPoly;
 	BOOL walking, spinning;
