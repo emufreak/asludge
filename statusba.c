@@ -3,7 +3,10 @@
 
 #include "allfiles.h"
 #include "graphics.h"
+#include "moreio.h"
 #include "statusba.h"
+#include "stringy.h"
+#include "support/gcc8_c_support.h"
 
 struct statusStuff mainStatus;
 struct statusStuff * nowStatus = & mainStatus;

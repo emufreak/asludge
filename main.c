@@ -22,6 +22,7 @@ volatile struct Custom *custom;
 struct DosLibrary *DOSBase;
 struct GfxBase *GfxBase;
 struct MathIEEEBase *MathIeeeSingBasBase;
+struct MathIEEEBase *MathIeeeDoubBasBase;
 struct MathIEEEBase *MathIeeeDoubTransBase;
 struct MathIEEEBase *MathIeeeSingTransBase; 
 
@@ -253,6 +254,10 @@ int main(int argc, char *argv[]) {
 
 	MathIeeeDoubTransBase =  (struct MathIEEEBase *) OpenLibrary("mathieeedoubtrans.library",0);
 	if (!MathIeeeDoubTransBase)		
+		Exit(0);
+
+	MathIeeeDoubBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeedoubbas.library",0);
+	if( !MathIeeeDoubBasBase) 
 		Exit(0);
 
 	KPrintF("Hello debugger from Amiga!\n");

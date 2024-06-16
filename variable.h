@@ -60,6 +60,7 @@ BOOL makeFastArrayFromStack (struct variable *to, const struct stackHandler *sta
 BOOL makeFastArraySize (struct variable *to, int size);
 void newCostumeVariable (struct variable * thisVar, struct persona * i);
 void setVariable (struct variable *thisVar, enum variableType vT, int value);
+struct variable * stackGetByIndex (struct variableStack * vS, unsigned int theIndex);
 int stackSize (const struct stackHandler * me);
 struct variableStack * stackFindLast (struct variableStack * hunt);
 void trimStack (struct variableStack * stack);

@@ -526,13 +526,13 @@ BOOL makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, 
 	moveMe -> walkToY = y;
 	moveMe -> walkToPoly = inFloor (x, y);
 	if (moveMe -> walkToPoly == -1) {
-		if (! handleClosestPoint (moveMe -> walkToX, moveMe -> walkToY, moveMe -> walkToPoly)) return FALSE;
+		if (! handleClosestPoint (&moveMe -> walkToX, &moveMe -> walkToY, &moveMe -> walkToPoly)) return FALSE;
 	}
 
 	moveMe -> inPoly = inFloor (moveMe -> x, moveMe -> y);
 	if (moveMe -> inPoly == -1) {
 		int xxx = moveMe -> x, yyy = moveMe -> y;
-		if (! handleClosestPoint (xxx, yyy, moveMe -> inPoly)) return FALSE;
+		if (! handleClosestPoint (&xxx, &yyy, &moveMe -> inPoly)) return FALSE;
 	}
 
 	doBorderStuff (moveMe);
@@ -679,7 +679,7 @@ BOOL savePeople (BPTR fp) {
 		FPutC (fp, me -> colourmix);
 		FPutC (fp, me -> transparency);
 		
-		saveObjectRef (fp, me -> thisType);
+		saveObjectRef (me -> thisType, fp);
 
 		me = me -> next;
 	}

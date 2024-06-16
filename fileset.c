@@ -67,8 +67,8 @@ BOOL openObjectSlice (int num) {
     }
 
     // FPrintf(dbug, "Going to position %ld\n", startOfObjectIndex + (num << 2));
-    FSeek(bigDataFile, startOfObjectIndex + (num << 2), OFFSET_BEGINNING);
-    FSeek(bigDataFile, get4bytes(bigDataFile), OFFSET_BEGINNING);
+    Seek(bigDataFile, startOfObjectIndex + (num << 2), OFFSET_BEGINNING);
+    Seek(bigDataFile, get4bytes(bigDataFile), OFFSET_BEGINNING);
     // FPrintf(dbug, "Told to skip forward to %ld\n", FTell(bigDataFile));
     // FClose(dbug);
     return sliceBusy = TRUE;

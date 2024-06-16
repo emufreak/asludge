@@ -7,8 +7,6 @@
 #include "support/gcc8_c_support.h"
 
 struct objectType * allObjectTypes = NULL;
-ULONG startOfDataIndex, startOfTextIndex,
-			  startOfSubIndex, startOfObjectIndex;
 
 struct objectType * findObjectType (int i) {
 	struct objectType * huntType = allObjectTypes;
@@ -88,7 +86,7 @@ struct objectType * loadObjectType (int i) {
 
 
 void removeObjectType (struct objectType * oT) {
-	struct objectType * * huntRegion = allObjectTypes;
+	struct objectType * * huntRegion = &allObjectTypes;
 
 	while (* huntRegion) {
 		if ((* huntRegion) == oT) {

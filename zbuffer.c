@@ -2,6 +2,8 @@
 #include "backdrop.h"
 #include "fileset.h"
 #include "graphics.h"
+#include "moreio.h"
+#include "stringy.h"
 #include "support/gcc8_c_support.h"
 
 struct zBufferData zBuffer;
@@ -47,7 +49,7 @@ BOOL setZBuffer (unsigned int y) {
 		KPrintF("Extended Z-buffer format not supported in this version of the SLUDGE engine");
 		return FALSE;
 	}
-	if (zBuffer.width != sceneWidth || zBuffer.height != sceneHeight) {
+	if ((unsigned int) zBuffer.width != sceneWidth || (unsigned int) zBuffer.height != sceneHeight) {
 		char tmp[256];
 		sprintf (tmp, "Z-w: %d Z-h:%d w: %d, h:%d", zBuffer.width, zBuffer.height, sceneWidth, sceneHeight);
 		KPrintF("Z-buffer width and height don't match scene width and height", tmp);
@@ -55,11 +57,11 @@ BOOL setZBuffer (unsigned int y) {
 	}
 		
 	zBuffer.numPanels = FGetC (bigDataFile);
-	for (y = 0; y < zBuffer.numPanels; y ++) {
+	for (y = 0; y < (unsigned int) zBuffer.numPanels; y ++) {
 		yPalette[y] = get2bytes (bigDataFile);
 	}
 	sortZPal (yPalette, sorted, zBuffer.numPanels);
-	for (y = 0; y < zBuffer.numPanels; y ++) {
+	for (y = 0; y < (unsigned int) zBuffer.numPanels; y ++) {
 		zBuffer.panel[y] = yPalette[sorted[y]];
 		sortback[sorted[y]] = y; 
 	}
@@ -74,9 +76,9 @@ BOOL setZBuffer (unsigned int y) {
 	}
 
 	for (y = 0; y < sceneHeight; y ++) {
-		for (x = 0; x < sceneWidth; x ++) {
+		for (x = 0; (unsigned int) x < sceneWidth; x ++) {
 			if (stillToGo == 0) {
-				n = FgetC (bigDataFile);
+				n = FGetC (bigDataFile);
 				stillToGo = n >> 4;
 				if (stillToGo == 15) stillToGo = get2bytes (bigDataFile) + 16l;
 				else stillToGo ++;

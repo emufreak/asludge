@@ -1,4 +1,3 @@
-char * copyString(const char * c);
 char * encodeFilename (char * nameIn);
 FLOAT FLOATSwap( FLOAT f );
 int get2bytes (BPTR fp);

@@ -5,6 +5,7 @@
 #include "moreio.h"
 #include "objtypes.h"
 #include "region.h"
+#include "stringy.h"
 #include "support/gcc8_c_support.h"
 #include "sound_nosound.h"
 #include "talk.h"
@@ -27,14 +28,13 @@ void addSpeechLine (char * theLine, int x, int *offset) {
 	int xx1 = x - (halfWidth);
 	int xx2 = x + (halfWidth);
 	struct speechLine * newLine = AllocVec(sizeof(struct speechLine),MEMF_ANY);
-	checkNew (newLine);
 
 	newLine -> next = speech -> allSpeech;
 	newLine -> textLine = copyString (theLine);
 	newLine -> x = xx1;
 	speech -> allSpeech = newLine;
-	if ((xx1 < 5) && (offset < (5 - xx1))) {
-		offset = 5 - xx1;
+	if ((xx1 < 5) && (*offset < (5 - xx1))) {
+		*offset = 5 - xx1;
 	} else if (((FLOAT) xx2 >= ((FLOAT)winWidth/cameraZoom) - 5) && ((FLOAT) *offset > (((FLOAT)winWidth/cameraZoom) - 5.0 - xx2))) {
 		*offset = (int) ((FLOAT)winWidth/cameraZoom) - 5 - xx2;
 	}
@@ -211,12 +211,12 @@ int wrapSpeechXY(char * theText, int x, int y, int wrap, int sampleFile) {
             }
         }
         theText[a] = 0;
-        addSpeechLine(theText, x, offset);
+        addSpeechLine(theText, x, &offset);
         theText[a] = ' ';
         theText += a + 1;
         y -= fontHeight / cameraZoom;
     }
-    addSpeechLine(theText, x, offset);
+    addSpeechLine(theText, x, &offset);
     y -= fontHeight / cameraZoom;
 
     if (y < 0) speech->speechY -= y;

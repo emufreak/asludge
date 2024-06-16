@@ -300,8 +300,20 @@ DOUBLE __adddf3( DOUBLE a, DOUBLE b) {
 	return IEEEDPAdd( a, b);
 }
 
+DOUBLE __divdf3( DOUBLE a, DOUBLE b) {
+	return IEEEDPDiv( a, b);
+}
+
 FLOAT __divsf3( FLOAT a, FLOAT b) {
 	return IEEESPDiv( a, b);
+}
+
+int __eqsf2( FLOAT a, FLOAT b) {
+	return IEEESPCmp( a, b);
+}
+
+DOUBLE __extendsfdf2 (FLOAT a) {
+	return IEEEDPFieee( a );
 }
 
 DOUBLE __fixdfsi(DOUBLE value) {
@@ -312,17 +324,35 @@ LONG __fixsfsi(FLOAT value) {
 	return IEEESPFix(value);
 }
 
- //FLOAT IEEESPMul( FLOAT leftParm, FLOAT rightParm );
-FLOAT __mulsf3( FLOAT leftParm, FLOAT rightParm ) {
-	return IEEESPMul( leftParm, rightParm);
+
+DOUBLE __floatsidf (int i) {
+	return IEEEDPFlt((LONG) i);  
+}
+
+FLOAT __floatsisf(int i) {
+	return IEEESPFlt((LONG) i); 
 }
 
 FLOAT __floatunsisf(unsigned int i) {	
 	return IEEESPFlt((LONG) i); 
 }
 
-FLOAT __floatsisf(int i) {
-	return IEEESPFlt((LONG) i); 
+DOUBLE __muldf3( DOUBLE leftParm, DOUBLE rightParm ) {
+	return IEEEDPMul( leftParm, rightParm);
+}
+
+ //FLOAT IEEESPMul( FLOAT leftParm, FLOAT rightParm );
+FLOAT __mulsf3( FLOAT leftParm, FLOAT rightParm ) {
+	return IEEESPMul( leftParm, rightParm);
+}
+
+
+int __gesf2( FLOAT a, FLOAT b) {
+	return IEEESPCmp( a, b);
+}
+
+int __gtdf2( DOUBLE a, DOUBLE b) {
+	return IEEEDPCmp( a, b);
 }
 
 int __gtsf2( FLOAT a, FLOAT b) {
@@ -333,12 +363,28 @@ int __lesf2( FLOAT a, FLOAT b) {
 	return IEEESPCmp( a, b);
 }
 
+int __ltdf2( DOUBLE a, DOUBLE b) {
+	return IEEEDPCmp( a, b);
+}
+
 int __ltsf2( FLOAT a, FLOAT b) {
 	return IEEESPCmp( a, b);
 }
 
+int __nesf2( FLOAT a, FLOAT b) {
+	return IEEESPCmp( a, b);
+}
+
+DOUBLE __subdf3 (DOUBLE a, DOUBLE b) {
+	return IEEEDPSub( a, b);
+}
+
 FLOAT __subsf3 (float a, float b) {
 	return IEEESPSub( a, b);
+}
+
+FLOAT __truncdfsf2(DOUBLE a) {
+	return IEEEDPTieee( a);
 }
 
 FLOAT atan2f(FLOAT y, FLOAT x) {

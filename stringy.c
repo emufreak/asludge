@@ -31,17 +31,6 @@ char *strcpy(char *t, const char *s)
 	while(*t++ = *s++);
 }
 
-char * copyString (const char * copyMe) {
-	
-	char * newString = AllocVec(strlen(copyMe)+1, MEMF_ANY); 
-	if(newString == 0) {
-		KPrintF("copystring: Can't reserve memory for newString\n");
-		return NULL;	
-	}
-	strcpy (newString, copyMe);
-	return newString;
-}
-
 char * joinStrings (const char * s1, const char * s2) {
 	char * newString = AllocVec(strlen (s1) + strlen (s2) + 1, MEMF_ANY); 
 	char * t = newString;
