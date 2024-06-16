@@ -18,6 +18,19 @@ struct soundThing {
 
 struct soundThing soundCache[MAX_SAMPLES];
 
+int cacheSound (int f) {
+//#pragma unused (f)
+	return 0;
+}
+
+void huntKillFreeSound (int filenum) {
+//#pragma unused(filenum)
+}
+
+void huntKillSound (int filenum) {
+//#pragma unused(filenum)
+}
+
 void loadSounds (BPTR fp) {
 	while (FGetC (fp)) {
 		get2bytes (fp);
@@ -33,10 +46,25 @@ BOOL playMOD (int f, int a, int fromTrack) {
     return TRUE;
 }
 
+void playSoundList(struct soundList *s) {
+}
+
 void saveSounds (BPTR fp) {
 	FPutC (fp,0);
 	put2bytes (defSoundVol, fp);
 	put2bytes (defVol, fp);
+}
+
+void setDefaultMusicVolume (int v) {
+	defVol = v;
+}
+
+void setDefaultSoundVolume (int v) {
+	defSoundVol = v;
+}
+
+void setSoundLoop (int a, int s, int e) {
+//#pragma unused (a,s,e)
 }
 
 void setMusicVolume (int a, int v) {

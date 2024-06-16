@@ -192,6 +192,16 @@ char * readString (BPTR fp) {
 	return s;
 }
 
+short shortSwap( short s )
+{
+	unsigned char b1, b2;
+	
+	b1 = s & 255;
+	b2 = (s >> 8) & 255;
+	
+	return (b1 << 8) + b2;
+}
+
 void writeString (char * s, BPTR fp) {
 	int a, len = strlen (s);
 	put2bytes (len, fp);

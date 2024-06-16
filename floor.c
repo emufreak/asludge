@@ -1,14 +1,88 @@
 #include "floor.h"
 #include "fileset.h"
+#include "moreio.h"
 #include "support/gcc8_c_support.h"
+#include "line.h"
 
 struct flor * currentFloor = NULL;
+
+BOOL closestPointOnLine (int * closestX, int * closestY, int x1, int y1, int x2, int y2, int xP, int yP) {
+	int xDiff = x2 - x1;
+	int yDiff = y2 - y1;
+
+	double m = xDiff * (xP - x1) + yDiff * (yP - y1);
+	m /= (xDiff * xDiff) + (yDiff * yDiff);
+
+	if (m < 0) {
+		*closestX = x1;
+		*closestY = y1;
+	} else if (m > 1) {
+		*closestX = x2;
+		*closestY = y2;
+	} else {
+		*closestX = x1 + m * xDiff;
+		*closestY = y1 + m * yDiff;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+void drawFloor() {
+    int i, j, nV;
+    for (i = 0; i < currentFloor->numPolygons; i++) {
+        nV = currentFloor->polygon[i].numVertices;
+        if (nV > 1) {
+            for (j = 1; j < nV; j++) {
+                drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[j - 1]].x,
+                         currentFloor->vertex[currentFloor->polygon[i].vertexID[j - 1]].y,
+                         currentFloor->vertex[currentFloor->polygon[i].vertexID[j]].x,
+                         currentFloor->vertex[currentFloor->polygon[i].vertexID[j]].y);
+            }
+            drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[0]].x,
+                     currentFloor->vertex[currentFloor->polygon[i].vertexID[0]].y,
+                     currentFloor->vertex[currentFloor->polygon[i].vertexID[nV - 1]].x,
+                     currentFloor->vertex[currentFloor->polygon[i].vertexID[nV - 1]].y);
+        }
+    }
+}
+
+BOOL getMatchingCorners(struct floorPolygon *a, struct floorPolygon *b, int *cornerA, int *cornerB) {
+    int sharedVertices = 0;
+    int i, j;
+
+    for (i = 0; i < a->numVertices; i++) {
+        for (j = 0; j < b->numVertices; j++) {
+            if (a->vertexID[i] == b->vertexID[j]) {
+                if (sharedVertices++) {
+                    *cornerB = a->vertexID[i];
+                    return TRUE;
+                } else {
+                    *cornerA = a->vertexID[i];
+                }
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+
 
 void noFloor () {
 	currentFloor -> numPolygons = 0;
 	currentFloor -> polygon = NULL;
 	currentFloor -> vertex = NULL;
 	currentFloor -> matrix = NULL;
+}
+
+int inFloor (int x, int y) {
+	int i, r = -1;
+
+	for (i = 0; i < currentFloor -> numPolygons; i ++)
+		if (pointInFloorPolygon (&currentFloor -> polygon[i], x, y))
+			r = i;
+
+	return r;
 }
 
 BOOL initFloor () {
@@ -49,6 +123,27 @@ BOOL polysShareSide (struct floorPolygon a, struct floorPolygon b) {
 	}
 
 	return FALSE;
+}
+
+BOOL pointInFloorPolygon (struct floorPolygon * floorPoly, int x, int y) {
+	int i = 0, j, c = 0;
+	float xp_i, yp_i;
+	float xp_j, yp_j;
+
+	for (j = floorPoly->numVertices - 1; i < floorPoly->numVertices; j = i++) {
+
+		xp_i = currentFloor->vertex[floorPoly->vertexID[i]].x;
+		yp_i = currentFloor->vertex[floorPoly->vertexID[i]].y;
+		xp_j = currentFloor->vertex[floorPoly->vertexID[j]].x;
+		yp_j = currentFloor->vertex[floorPoly->vertexID[j]].y;
+
+		if ((((yp_i <= y) && (y < yp_j)) || ((yp_j <= y) && (y < yp_i))) &&
+			(x < (xp_j - xp_i) * (y - yp_i) / (yp_j - yp_i) + xp_i)) {
+
+			c = !c;
+		}
+	}
+	return c ? TRUE : FALSE;
 }
 
 BOOL setFloor (int fileNum) {

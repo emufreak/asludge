@@ -59,6 +59,23 @@ void abortFunction (struct loadedFunction * fun) {
 	fun = NULL;
 }
 
+int cancelAFunction (int funcNum, struct loadedFunction * myself, BOOL * killedMyself) {
+	int n = 0;
+	*killedMyself = FALSE;
+
+	struct loadedFunction * fun = allRunningFunctions;
+	while (fun) {
+		if (fun -> originalNumber == funcNum) {
+			fun -> cancelMe = TRUE;
+			n++;
+			if (fun == myself) *killedMyself = TRUE;
+		}
+		fun = fun -> next;
+	}
+	return n;
+}
+
+
 void completeTimers () {
 	struct loadedFunction * thisFunction = allRunningFunctions;
 

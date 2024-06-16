@@ -29,6 +29,7 @@
         "graphics.h": "c",
         "language.h": "c",
         "utils.h": "c",
-        "functionlist.h": "c"
+        "functionlist.h": "c",
+        "mathieeedoubtrans.h": "c"
     }
 }

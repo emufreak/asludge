@@ -7,6 +7,22 @@
 struct screenRegion * allScreenRegions = NULL;
 struct screenRegion * overRegion = NULL;
 
+BOOL addScreenRegion(int x1, int y1, int x2, int y2, int sX, int sY, int di, int objectNum) {
+    struct screenRegion *newRegion = AllocVec(sizeof(struct screenRegion), MEMF_ANY);
+    if (!newRegion) return FALSE;
+    newRegion->di = di;
+    newRegion->x1 = x1;
+    newRegion->y1 = y1;
+    newRegion->x2 = x2;
+    newRegion->y2 = y2;
+    newRegion->sX = sX;
+    newRegion->sY = sY;
+    newRegion->thisType = loadObjectType(objectNum);
+    newRegion->next = allScreenRegions;
+    allScreenRegions = newRegion;
+    return (BOOL) (newRegion->thisType != NULL);
+}
+
 
 struct screenRegion * getRegionForObject (int obj) {
 	struct screenRegion * thisRegion = allScreenRegions;
@@ -93,5 +109,17 @@ void saveRegions (BPTR fp) {
 		saveObjectRef (thisRegion -> thisType, fp);
 
 		thisRegion = thisRegion -> next;
+	}
+}
+
+void showBoxes () {
+	struct screenRegion * huntRegion = allScreenRegions;
+
+	while (huntRegion) {
+		drawVerticalLine (huntRegion -> x1, huntRegion -> y1, huntRegion -> y2);
+		drawVerticalLine (huntRegion -> x2, huntRegion -> y1, huntRegion -> y2);
+		drawHorizontalLine (huntRegion -> x1, huntRegion -> y1, huntRegion -> x2);
+		drawHorizontalLine (huntRegion -> x1, huntRegion -> y2, huntRegion -> x2);
+		huntRegion = huntRegion -> next;
 	}
 }

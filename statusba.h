@@ -12,9 +12,13 @@ struct statusStuff {
 	int statusLR, statusLG, statusLB;
 };
 
+void addStatusBar ();
 void clearStatusBar ();
 void initStatusBar ();
+void killLastStatus ();
 BOOL loadStatusBars (BPTR fp);
 void positionStatus (int x, int y);
 void saveStatusBars (BPTR fp);
+void setLitStatus (int i);
+void setStatusBar (char * txt);
 const char * statusBarText ();

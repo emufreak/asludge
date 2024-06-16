@@ -1,4 +1,5 @@
 #include "people.h"
+#include "support/gcc8_c_support.h"
 
 struct personaAnimation * mouseCursorAnim;
 int mouseCursorFrameNum = 0;

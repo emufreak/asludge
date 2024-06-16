@@ -1,6 +1,8 @@
 #ifndef __SLUDGE_GRAPHICS_H__
 #define __SLUDGE_GRAPHICS_H__
 
+#include <exec/types.h>
+
 struct textureList {
 	unsigned int name;
 	unsigned int width;

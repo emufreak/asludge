@@ -1,5 +1,7 @@
 #pragma once
 
+#include <exec/types.h>
+
 #ifdef __cplusplus
 	extern "C" {
 #endif
@@ -85,6 +87,9 @@ __attribute__((always_inline)) inline short divsw(int a, short b) {
     asm("divsw %1,%0":"+d"(a): "mid"(b): "cc");
     return a;
 }
+
+FLOAT atan2f(FLOAT y, FLOAT x);
+DOUBLE sqrt( DOUBLE input);
 
 #ifdef __cplusplus
 	} // extern "C"

@@ -49,12 +49,15 @@ int deleteVarFromStack(const struct variable *va, struct variableStack **thisSta
 struct variable * fastArrayGetByIndex (struct fastArrayHandler * vS, unsigned int theIndex);
 struct personaAnimation * getAnimationFromVar (struct variable *thisVar);
 BOOL getBoolean (const struct variable *from);
+struct persona * getCostumeFromVar(struct variable *thisVar);
 BOOL getSavedGamesStack(struct stackHandler * sH, char * ext);
 BOOL getValueType (int *toHere, enum variableType vT, const struct variable *v);
 char * getTextFromAnyVar (const struct variable *from);
 BOOL loadStringToVar (struct variable *thisVar, int value);
 BOOL loadVariable (struct variable * to, BPTR fp);
 void makeTextVar (struct variable *thisVar, const char * txt);
+BOOL makeFastArrayFromStack (struct variable *to, const struct stackHandler *stacky);
+BOOL makeFastArraySize (struct variable *to, int size);
 void newCostumeVariable (struct variable * thisVar, struct persona * i);
 void setVariable (struct variable *thisVar, enum variableType vT, int value);
 int stackSize (const struct stackHandler * me);

@@ -5,3 +5,5 @@ struct loadedSpriteBank {
 	struct spriteBank bank;
 	struct loadedSpriteBank * next;
 };
+
+struct loadedSpriteBank * loadBankForAnim (int ID);

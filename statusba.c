@@ -8,6 +8,15 @@
 struct statusStuff mainStatus;
 struct statusStuff * nowStatus = & mainStatus;
 
+void addStatusBar () {
+	struct statusBar * newStat = AllocVec(sizeof(struct statusBar), MEMF_ANY);
+	if (!newStat) {
+		newStat -> next = nowStatus -> firstStatusBar;
+		newStat -> text = copyString ("");
+		nowStatus -> firstStatusBar = newStat;
+	}
+}
+
 void clearStatusBar () {
 	struct statusBar * stat = nowStatus -> firstStatusBar;
 	struct statusBar * kill;
@@ -30,6 +39,16 @@ void initStatusBar () {
 	//statusBarColour (255, 255, 255); Amiga Todo: Amigize this
 	//statusBarLitColour (255, 255, 128); Amiga Todo: Amigize this
 }
+
+void killLastStatus () {
+	if (nowStatus -> firstStatusBar) {
+		struct statusBar * kill = nowStatus -> firstStatusBar;
+		nowStatus -> firstStatusBar = kill -> next;
+		FreeVec(kill -> text);
+		FreeVec(kill);
+	}
+}
+
 
 BOOL loadStatusBars (BPTR fp) {
 	clearStatusBar ();
@@ -93,6 +112,17 @@ void saveStatusBars (BPTR fp) {
 		viewLine = viewLine -> next;
 	}
 	FPutC (fp,0);
+}
+
+void setLitStatus (int i) {
+	nowStatus -> litStatus = i;
+}
+
+void setStatusBar (char * txt) {
+	if (nowStatus -> firstStatusBar) {
+		FreeVec(nowStatus -> firstStatusBar -> text);
+		nowStatus -> firstStatusBar -> text = copyString (txt);
+	}
 }
 
 const char * statusBarText () {

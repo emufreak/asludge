@@ -54,6 +54,10 @@ void initSpeech () {
     }
 }
 
+int isThereAnySpeechGoingOn () {
+	return speech -> allSpeech ? speech -> lookWhosTalking : -1;
+}
+
 void killAllSpeech () {
 	if (speech -> lastFile != -1) {
 		//huntKillSound (speech -> lastFile); Amiga Todo: Replace?

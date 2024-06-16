@@ -16,7 +16,7 @@ int getLanguageForFileB ()
 	int indexNum = -1;
 
 	for (unsigned int i = 0; i <= gameSettings.numLanguages; i ++) {
-		if (languageTable[i] == gameSettings.languageID) indexNum = i;
+		if ((unsigned int) languageTable[i] == gameSettings.languageID) indexNum = i;
 	}
 
 	return indexNum;

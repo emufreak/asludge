@@ -15,9 +15,12 @@ struct parallaxLayer {
 
 void blankScreen(int x1, int y1, int x2, int y2);
 void darkScreen ();
+void drawHorizontalLine (unsigned int x1, unsigned int y, unsigned int x2);
+void hardScroll (int distance);
 void killBackDrop ();
 void killParallax ();
 void loadBackDrop (int fileNum, int x, int y);
+BOOL loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY);
 void mixBackDrop (int fileNum, int x, int y);
 void nosnapshot ();
 BOOL resizeBackdrop (int x, int y);

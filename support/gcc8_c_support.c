@@ -1,8 +1,15 @@
 #ifndef __GCC8_SUPPORT_H__
 #define __GCC8_SUPPORT_H__
 
+#define PI 3.14159265358979323846
+
 #include "gcc8_c_support.h"
 #include <proto/exec.h>
+#include <proto/mathieeesingbas.h>
+#include <proto/mathieeesingtrans.h>
+#include <proto/mathieeedoubbas.h>
+#include <proto/mathieeedoubtrans.h>
+
 extern struct ExecBase* SysBase;
 
 
@@ -283,6 +290,76 @@ void debug_save(const void* addr, unsigned int size, const char* name) {
 	};
 	my_strncpy(resource.name, name, sizeof(resource.name));
 	debug_cmd(barto_cmd_save, (unsigned int)&resource, 0, 0);
+}
+
+FLOAT __addsf3( FLOAT a, FLOAT b) {
+	return IEEESPAdd( a, b);
+}
+
+DOUBLE __adddf3( DOUBLE a, DOUBLE b) {
+	return IEEEDPAdd( a, b);
+}
+
+FLOAT __divsf3( FLOAT a, FLOAT b) {
+	return IEEESPDiv( a, b);
+}
+
+DOUBLE __fixdfsi(DOUBLE value) {
+	return IEEEDPFix(value);
+}
+
+LONG __fixsfsi(FLOAT value) {
+	return IEEESPFix(value);
+}
+
+ //FLOAT IEEESPMul( FLOAT leftParm, FLOAT rightParm );
+FLOAT __mulsf3( FLOAT leftParm, FLOAT rightParm ) {
+	return IEEESPMul( leftParm, rightParm);
+}
+
+FLOAT __floatunsisf(unsigned int i) {	
+	return IEEESPFlt((LONG) i); 
+}
+
+FLOAT __floatsisf(int i) {
+	return IEEESPFlt((LONG) i); 
+}
+
+int __gtsf2( FLOAT a, FLOAT b) {
+	return IEEESPCmp( a, b);
+}
+
+int __lesf2( FLOAT a, FLOAT b) {
+	return IEEESPCmp( a, b);
+}
+
+int __ltsf2( FLOAT a, FLOAT b) {
+	return IEEESPCmp( a, b);
+}
+
+FLOAT __subsf3 (float a, float b) {
+	return IEEESPSub( a, b);
+}
+
+FLOAT atan2f(FLOAT y, FLOAT x) {
+    if (x > 0) {
+        return IEEESPAtan(y / x);
+    } else if (x < 0 && y >= 0) {
+        return IEEESPAtan(y / x) + PI;
+    } else if (x < 0 && y < 0) {
+        return IEEESPAtan(y / x) - PI;
+    } else if (x == 0 && y > 0) {
+        return PI / 2;
+    } else if (x == 0 && y < 0) {
+        return -PI / 2;
+    } else {
+        // This case is x == 0 and y == 0, atan2(0, 0) is undefined, but often treated as 0.
+        return 0;
+    }
+}
+
+DOUBLE sqrt( DOUBLE input) {
+	return IEEEDPSqrt(input);
 }
 
 #endif

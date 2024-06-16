@@ -16,6 +16,7 @@ struct speechStruct {
 
 void addSpeechLine (char * theLine, int x, int *offset);
 void initSpeech ();
+int isThereAnySpeechGoingOn ();
 void killAllSpeech ();
 BOOL loadSpeech (struct speechStruct * sS, BPTR fp);
 void saveSpeech (struct speechStruct * sS, BPTR fp);

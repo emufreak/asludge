@@ -121,7 +121,7 @@ void setGameFilePath (char * f) {
 	char currentDir[1000];
 
 	if (!GetCurrentDirName( currentDir, 998)) {
-		KPrintF("setGameFilePath: Can't get current directory.\n");
+		KPrintF("setGameFilePath:  current directory.\n");
 	}	
 
 	int got = -1, a;	

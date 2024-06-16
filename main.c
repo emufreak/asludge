@@ -9,6 +9,9 @@
 #include <hardware/custom.h>
 #include <hardware/dmabits.h>
 #include <hardware/intbits.h>
+#include <proto/exec.h>
+#include <proto/mathieeesingbas.h>
+
 #include "main_sludge.h"
 
 //config
@@ -18,7 +21,9 @@ struct ExecBase *SysBase;
 volatile struct Custom *custom;
 struct DosLibrary *DOSBase;
 struct GfxBase *GfxBase;
-struct MathBase *MathBase;
+struct MathIEEEBase *MathIeeeSingBasBase;
+struct MathIEEEBase *MathIeeeDoubTransBase;
+struct MathIEEEBase *MathIeeeSingTransBase; 
 
 //backup
 static UWORD SystemInts;
@@ -238,8 +243,16 @@ int main(int argc, char *argv[]) {
 	if (!DOSBase)
 		Exit(0);
 
-	MathBase = (struct MathLibrary*) OpenLibrary("mathffp.library", 0);
-	if(!MathBase)
+	MathIeeeSingBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingbas.library", 0);	
+	if (!MathIeeeSingBasBase)
+		Exit(0);
+
+	MathIeeeSingTransBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingtrans.library",0);
+	if (!MathIeeeSingTransBase)
+		Exit(0);
+
+	MathIeeeDoubTransBase =  (struct MathIEEEBase *) OpenLibrary("mathieeedoubtrans.library",0);
+	if (!MathIeeeDoubTransBase)		
 		Exit(0);
 
 	KPrintF("Hello debugger from Amiga!\n");

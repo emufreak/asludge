@@ -13,3 +13,5 @@ struct spriteBank {
 	struct sprite * sprites;
 	BOOL isFont;
 };
+
+BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont);

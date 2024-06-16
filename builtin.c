@@ -1,12 +1,10 @@
 #include <proto/exec.h>
-#include <libraries/mathffp.h>
-#include <clib/mathffp_protos.h>
-
 
 #include "allfiles.h"
 #include "backdrop.h"
 #include "builtin.h"
 #include "cursors.h"
+#include "floor.h"
 #include "fonttext.h"
 #include "graphics.h"
 #include "language.h"
@@ -14,6 +12,7 @@
 #include "people.h"
 #include "region.h"
 #include "sound_nosound.h"
+#include "savedata.h"
 #include "sludger.h"
 #include "statusba.h"
 #include "stringy.h"
@@ -21,6 +20,7 @@
 #include "talk.h"
 #include "utils.h"
 #include "variable.h"
+#include "zbuffer.h"
 
 extern BOOL allowAnyFilename;
 extern unsigned char brightnessLevel;
@@ -42,6 +42,7 @@ extern struct screenRegion * overRegion;
 
 typedef enum builtReturn (* builtInSludgeFunc) (int numParams, struct loadedFunction * fun);
 
+extern struct Library *MathBase;
 int cameraX, cameraY;
 FLOAT cameraZoom = 1.0;
 char * launchMe = NULL;
@@ -439,7 +440,7 @@ builtIn(zoomCamera)
 	input.mouseY = input.mouseY * cameraZoom;
 
 
-	cameraZoom = (FLOAT) z * 0.01;
+	cameraZoom = (FLOAT) z * (FLOAT) 0.01;
 	if ((FLOAT) winWidth / cameraZoom > sceneWidth) cameraZoom = (FLOAT)winWidth / sceneWidth;
 	if ((FLOAT) winHeight / cameraZoom > sceneHeight) cameraZoom = (FLOAT)winHeight / sceneHeight;
 	//setPixelCoords (FALSE); Todo: Amigize this
@@ -1531,7 +1532,8 @@ builtIn(setCharacterTransparency)
 builtIn(setCharacterColourise)
 {
 	UNUSEDALL
-	int obj, r, g, b, mix;
+	KPrintF("setCharacterColourise: Currently not implemented on Amiga");
+	/*int obj, r, g, b, mix;
 	if (! getValueType(&mix, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (! getValueType(&b, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1542,7 +1544,7 @@ builtIn(setCharacterColourise)
 	trimStack (fun -> stack);
 	if (! getValueType(&obj, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	setPersonColourise (obj, r, g, b, mix);
+	setPersonColourise (obj, r, g, b, mix);*/
 	return BR_CONTINUE;
 }
 
@@ -1620,7 +1622,7 @@ builtIn(setCostume)
 	trimStack (fun -> stack);
 	if (! getValueType(&obj, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	animatePerson (obj, pp);
+	animatePersonUsingPersona(obj, pp);
 	return BR_CONTINUE;
 }
 
@@ -1632,7 +1634,7 @@ builtIn(floatCharacter)
 	trimStack (fun -> stack);
 	if (! getValueType(&obj, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	setVariable (fun -> reg, SVT_INT, FLOATCharacter (di, obj));
+	setVariable (fun -> reg, SVT_INT, floatCharacter (di, obj));
 	return BR_CONTINUE;
 }
 
@@ -1829,7 +1831,7 @@ static BOOL getFuncNumForCallback(int numParams, struct loadedFunction * fun, in
 			break;
 
 		case 1:
-			if (! getValueType(&functionNum, SVT_FUNC,&fun -> stack -> thisVar)) return FALSE;
+			if (! getValueType(functionNum, SVT_FUNC,&fun -> stack -> thisVar)) return FALSE;
 			trimStack (fun -> stack);
 			break;
 
@@ -1943,7 +1945,7 @@ builtIn (cancelSub)
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
 	{
 		BOOL killedMyself;
-		cancelAFunction (functionNum, fun, killedMyself);
+		cancelAFunction (functionNum, fun, &killedMyself);
 		if (killedMyself) {
 			abortFunction (fun);
 			return BR_ALREADY_GONE;
@@ -1993,7 +1995,7 @@ builtIn(setSpeechSpeed)
 	int number;
 	if (! getValueType(&number, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	speechSpeed = number * 0.01;
+	speechSpeed = number * (FLOAT) 0.01;
 	setVariable (fun -> reg, SVT_INT, 1);
 	return BR_CONTINUE;
 }
@@ -2080,7 +2082,7 @@ builtIn(isCharacter)
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	struct structonScreenPerson * thisPerson = findPerson (objectNumber);
+	struct onScreenPerson * thisPerson = findPerson (objectNumber);
 	setVariable (fun -> reg, SVT_INT, thisPerson != NULL);
 	return BR_CONTINUE;
 }
@@ -2147,7 +2149,7 @@ builtIn(deleteFile)
     char *nam = encodeFilename(namNormal);
     FreeVec(namNormal);
     if (failSecurityCheck(nam)) return BR_ERROR;
-    setVariable(fun->reg, SVT_INT, remove(nam));
+    setVariable(fun->reg, SVT_INT, DeleteFile(nam));
     FreeVec(nam);
 
     return BR_CONTINUE;
@@ -2170,7 +2172,7 @@ builtIn(renameFile)
 	if (failSecurityCheck(nam)) return BR_ERROR;
 	FreeVec(temp);
 
-	setVariable(fun->reg, SVT_INT, rename(nam, newnam));
+	setVariable(fun->reg, SVT_INT, Rename(nam, newnam));
 	FreeVec(nam);
 	FreeVec(newnam);
 
@@ -2298,7 +2300,7 @@ builtIn(saveCustomData)
 		KPrintF("First parameter isn't a stack");
 		return BR_ERROR;
 	}
-	if (!stackToFile(fileName, fun->stack->thisVar)) return BR_ERROR;
+	if (!stackToFile(fileName, &fun->stack->thisVar)) return BR_ERROR;
 	trimStack(fun->stack);
 	FreeVec(fileName);
 	return BR_CONTINUE;
@@ -2437,7 +2439,7 @@ builtIn(getCharacterScale)
 
 	struct onScreenPerson * pers = findPerson (objectNumber);
 	if (pers) {
-		setVariable (fun -> reg, SVT_INT, pers -> scale * 100);
+		setVariable (fun -> reg, SVT_INT, pers -> scale * (FLOAT) 100); 
 	} else {
 		setVariable (fun -> reg, SVT_INT, 0);
 	}

@@ -146,6 +146,33 @@ struct variable * fastArrayGetByIndex (struct fastArrayHandler * vS, unsigned in
 	return & vS -> fastVariables[theIndex];
 }
 
+struct persona * getCostumeFromVar(struct variable *thisVar) {
+    struct persona *p = NULL;
+
+    switch (thisVar->varType) {
+        case SVT_ANIM:
+            p = AllocVec(sizeof(struct persona), MEMF_ANY);
+            if (!p) return NULL;
+            p->numDirections = 1;
+            p->animation = AllocVec(3 * sizeof(struct personaAnimation *), MEMF_ANY);
+            if (!p->animation) return NULL;
+
+            for (int iii = 0; iii < 3; iii++) {
+                p->animation[iii] = copyAnim(thisVar->varData.animHandler);
+            }
+            break;
+
+        case SVT_COSTUME:
+            return thisVar->varData.costumeHandler;
+            break;
+
+        default:
+            KPrintF("Expecting an animation variable; found variable of type", typeName[thisVar->varType]);
+    }
+
+    return p;
+}
+
 BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
 	char * pattern = joinStrings("*", ext);
 	if (!pattern) return FALSE;
@@ -245,6 +272,42 @@ BOOL loadVariable (struct variable * to, BPTR fp) {
 		break;
 	}
 	return TRUE;
+}
+
+BOOL makeFastArrayFromStack (struct variable *to, const struct stackHandler *stacky) {
+    int size = stackSize(stacky);
+    if (!makeFastArraySize(to, size)) return FALSE;
+
+    // Now let's fill up the new array
+
+    struct variableStack *allV = stacky->first;
+    size = 0;
+    while (allV) {
+        copyMain(allV->thisVar, to->varData.fastArray->fastVariables[size]);
+        size++;
+        allV = allV->next;
+    }
+    return TRUE;
+}
+
+
+BOOL makeFastArraySize (struct variable *to, int size) {
+    if (size < 0) {
+		KPrintF("makeFastArraySize: Can't create a fast array with a negative number of elements!");
+		return FALSE;
+	}		
+    unlinkVar(to);
+    to->varType = SVT_FASTARRAY;
+    to->varData.fastArray = AllocVec(sizeof(struct fastArrayHandler), MEMF_ANY);
+    if (!to->varData.fastArray) return FALSE;
+    to->varData.fastArray->fastVariables = AllocVec(size * sizeof(struct variable), MEMF_ANY);
+    if (!to->varData.fastArray->fastVariables) return FALSE;
+    for (int i = 0; i < size; i++) {
+        to->varData.fastArray->fastVariables[i].varType = SVT_NULL;
+    }
+    to->varData.fastArray->size = size;
+    to->varData.fastArray->timesUsed = 1;
+    return TRUE;
 }
 
 void makeTextVar (struct variable *thisVar, const char * txt) {

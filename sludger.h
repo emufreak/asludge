@@ -45,6 +45,7 @@ struct inputType {
 };
 
 void abortFunction (struct loadedFunction * fun);
+int cancelAFunction (int funcNum, struct loadedFunction * myself, BOOL * killedMyself);
 void completeTimers ();
 BOOL continueFunction (struct loadedFunction * fun);
 void finishFunction (struct loadedFunction * fun);

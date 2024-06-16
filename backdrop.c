@@ -2,6 +2,7 @@
 
 #include "backdrop.h"
 #include "graphics.h"
+#include "line.h"
 #include "moreio.h"
 #include "sludger.h"
 #include "support/gcc8_c_support.h"
@@ -56,7 +57,17 @@ void darkScreen () {
 	KPrintF("Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
 }
 
+void drawHorizontalLine (unsigned int x1, unsigned int y, unsigned int x2) {
+	drawLine (x1, y, x2, y);
+}
 
+void drawVerticalLine (unsigned int x, unsigned int y1, unsigned int y2) {
+	drawLine (x, y1, x, y2);
+}
+
+void hardScroll (int distance) {
+   	KPrintF("Amiga: Function not implemented."); //Todo: Amigize this
+}
 
 
 void killBackDrop () {
@@ -82,6 +93,11 @@ void killParallax () {
 void loadBackDrop (int fileNum, int x, int y) {
 
 	KPrintF("loadBackDrop: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
+}
+
+BOOL loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY) {
+	KPrintF("loadParallax: Not implemented yet."); //Amiga Todo: Amigize this	
+
 }
 
 void mixBackDrop (int fileNum, int x, int y) {
