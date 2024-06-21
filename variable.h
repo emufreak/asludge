@@ -37,6 +37,7 @@ struct variableStack {
 	struct variableStack	* 			next;
 };
 
+void addVariablesInSecond(struct variable * var1, struct variable * var2);
 BOOL addVarToStack(const struct variable * va, struct variableStack ** thisStack);
 BOOL addVarToStackQuick(struct variable *va, struct variableStack **thisStack);
 void compareVariablesInSecond (const struct variable *var1, struct variable *var2);

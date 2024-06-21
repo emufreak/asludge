@@ -1,5 +1,6 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
+#include "backdrop.h"
 #include "moreio.h"
 #include "objtypes.h"
 #include "region.h"

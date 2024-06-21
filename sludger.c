@@ -13,6 +13,7 @@
 #include "statusba.h"
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
+#include "talk.h"
 #include "variable.h"
 #include "version.h"
 
@@ -138,6 +139,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 						case BR_PAUSE:
 						pauseFunction (fun);
+						[[fallthrough]];
 						// No break!
 
 						case BR_KEEP_AND_PAUSE:
@@ -246,7 +248,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					return FALSE;
 				} else {
 					int ii;
-					if (! getValueType(&ii, SVT_INT,&fun -> reg)) return FALSE;
+					if (! getValueType(&ii, SVT_INT,fun -> reg)) return FALSE;
 					struct variable * grab = (fun -> stack -> thisVar.varType == SVT_FASTARRAY) ?
 						fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii)
 							:
@@ -292,7 +294,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					return FALSE;
 				} else {
 					int ii;
-					if (! getValueType(&ii, SVT_INT,&fun -> reg)) return FALSE;
+					if (! getValueType(&ii, SVT_INT,fun -> reg)) return FALSE;
 					if (! stackSetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii, &fun -> stack -> next -> thisVar)) {
 						return FALSE;
 					}
@@ -304,7 +306,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				case SVT_FASTARRAY:
 				{
 					int ii;
-					if (! getValueType (&ii, SVT_INT, &fun->reg)) return FALSE;
+					if (! getValueType (&ii, SVT_INT, fun->reg)) return FALSE;
 					struct variable * v = fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii);
 					if (v == NULL) KPrintF(("Not within bounds of fast array."));
 					return FALSE;
@@ -377,11 +379,11 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			break;
 
 			case SLU_STACK_PUSH:
-			if (! addVarToStack (fun -> reg, fun -> stack)) return FALSE;
+			if (! addVarToStack (fun -> reg, &fun -> stack)) return FALSE;
 			break;
 
 			case SLU_QUICK_PUSH:
-			if (! addVarToStackQuick (fun -> reg, fun -> stack)) return FALSE;
+			if (! addVarToStackQuick (fun -> reg, &fun -> stack)) return FALSE;
 			break;
 
 			case SLU_NOT:
@@ -403,7 +405,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			case SLU_NEGATIVE:
 			{
 				int i;
-				if (! getValueType(&i, SVT_INT,&fun -> reg)) return FALSE;
+				if (! getValueType(&i, SVT_INT,fun -> reg)) return FALSE;
 				setVariable (fun -> reg, SVT_INT, -i);
 			}
 			break;
@@ -426,24 +428,24 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 				switch (com) {
 					case SLU_PLUS:
-					addVariablesInSecond (fun -> stack -> thisVar, fun -> reg);
+					addVariablesInSecond (&fun -> stack -> thisVar, fun -> reg);
 					trimStack (fun -> stack);
 					break;
 
 					case SLU_EQUALS:
-					compareVariablesInSecond (&(fun -> stack -> thisVar), &(fun -> reg));
+					compareVariablesInSecond (&(fun -> stack -> thisVar), fun -> reg);
 					trimStack (fun -> stack);
 					break;
 
 					case SLU_NOT_EQ:
-					compareVariablesInSecond (&(fun -> stack -> thisVar), &(fun -> reg));
+					compareVariablesInSecond (&(fun -> stack -> thisVar), fun -> reg);
 					trimStack (fun -> stack);
 	               	fun -> reg->varData.intValue = ! fun -> reg->varData.intValue;
 					break;
 
 					default:
 					if (! getValueType (&firstValue, SVT_INT, &fun->stack->thisVar)) return FALSE;
-					if (! getValueType(&secondValue, SVT_INT,&fun -> reg)) return FALSE;
+					if (! getValueType(&secondValue, SVT_INT,fun -> reg)) return FALSE;
 					trimStack (fun -> stack);
 
 					switch (com) {

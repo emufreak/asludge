@@ -16,6 +16,7 @@ struct parallaxLayer {
 void blankScreen(int x1, int y1, int x2, int y2);
 void darkScreen ();
 void drawHorizontalLine (unsigned int x1, unsigned int y, unsigned int x2);
+void drawVerticalLine (unsigned int x, unsigned int y1, unsigned int y2);
 void hardScroll (int distance);
 void killBackDrop ();
 void killParallax ();

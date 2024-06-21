@@ -11,8 +11,11 @@
 #include <hardware/intbits.h>
 #include <proto/exec.h>
 #include <proto/mathieeesingbas.h>
-
+#include <proto/mathieeedoubbas.h>
+#include <proto/mathieeesingtrans.h>
+#include <libraries/mathieeesp.h>
 #include "main_sludge.h"
+
 
 //config
 #define MUSIC
@@ -22,9 +25,9 @@ volatile struct Custom *custom;
 struct DosLibrary *DOSBase;
 struct GfxBase *GfxBase;
 struct MathIEEEBase *MathIeeeSingBasBase;
+struct MathIEEEBase *MathIeeeSingTransBase;
 struct MathIEEEBase *MathIeeeDoubBasBase;
 struct MathIEEEBase *MathIeeeDoubTransBase;
-struct MathIEEEBase *MathIeeeSingTransBase; 
 
 //backup
 static UWORD SystemInts;
@@ -232,7 +235,8 @@ static void Wait13() { WaitLine(0x13); }
 
 int main(int argc, char *argv[]) {
 	SysBase = *((struct ExecBase**)4UL);
-	custom = (struct Custom*)0xdff000;
+	custom = (struct Custom*)0xdff000;	
+
 
 	// We will use the graphics library only to locate and restore the system copper list once we are through.
 	GfxBase = (struct GfxBase *)OpenLibrary((CONST_STRPTR)"graphics.library",0);
@@ -246,9 +250,9 @@ int main(int argc, char *argv[]) {
 
 	MathIeeeSingBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingbas.library", 0);	
 	if (!MathIeeeSingBasBase)
-		Exit(0);
+		Exit(0);	
 
-	MathIeeeSingTransBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingtrans.library",0);
+	MathIeeeSingTransBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingtrans.library",0);													
 	if (!MathIeeeSingTransBase)
 		Exit(0);
 
@@ -259,6 +263,7 @@ int main(int argc, char *argv[]) {
 	MathIeeeDoubBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeedoubbas.library",0);
 	if( !MathIeeeDoubBasBase) 
 		Exit(0);
+	
 
 	KPrintF("Hello debugger from Amiga!\n");
 
@@ -285,8 +290,6 @@ int main(int argc, char *argv[]) {
 	debug_register_palette(colors, "image.pal", 32, 0);
 	debug_register_copperlist(copper1, "copper1", 1024, 0);
 	debug_register_copperlist(copper2, "copper2", sizeof(copper2), 0);*/
-
-
 
 #ifdef MUSIC
 	p61End();

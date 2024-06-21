@@ -30,6 +30,8 @@
         "language.h": "c",
         "utils.h": "c",
         "functionlist.h": "c",
-        "mathieeedoubtrans.h": "c"
+        "mathieeedoubtrans.h": "c",
+        "mathieeesingtrans.h": "c",
+        "mathieeedoubbas.h": "c"
     }
 }

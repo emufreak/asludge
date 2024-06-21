@@ -1,4 +1,4 @@
-#include <exec/types.h>>
+#include <exec/types.h>
 
 #include "sprites.h"
 #include "support/gcc8_c_support.h"

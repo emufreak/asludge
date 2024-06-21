@@ -74,7 +74,7 @@ char* itoa(int value, char* str, int base) {
     return rc;
 }
 
-int vsprintf(char* str, const char* format, va_list args) {
+int vsprintf2(char* str, const char* format, va_list args) {
     char* s = str;
     const char* p = format;
     int i;
@@ -119,7 +119,7 @@ int sprintf(char* str, const char* format, ...) {
     int done;
 
     va_start(args, format);
-    done = vsprintf(str, format, args);
+    done = vsprintf2(str, format, args);
     va_end(args);
 
     return done;

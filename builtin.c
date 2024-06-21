@@ -123,7 +123,7 @@ static enum builtReturn sayCore (int numParams, struct loadedFunction * fun, BOO
 		case 3:
 			if (! getValueType (&fileNum, SVT_FILE, &fun->stack->thisVar)) return BR_ERROR;
 			trimStack (fun -> stack);
-			// No break; here
+			[[fallthrough]];
 
 		case 2:
 			newText = getTextFromAnyVar (&(fun -> stack->thisVar));
