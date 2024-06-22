@@ -104,6 +104,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 //		fprintf (stderr, "com: %d param: %d (%s)\n", com, param,
 //				(com < numSludgeCommands) ? sludgeText[com] : ERROR_UNKNOWN_MCODE); fflush(stderr);
 
+
 		switch (com) {
 			case SLU_RETURN:
 			if (fun -> calledBy) {

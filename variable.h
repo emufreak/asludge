@@ -42,7 +42,7 @@ BOOL addVarToStack(const struct variable * va, struct variableStack ** thisStack
 BOOL addVarToStackQuick(struct variable *va, struct variableStack **thisStack);
 void compareVariablesInSecond (const struct variable *var1, struct variable *var2);
 int compareVars (const struct variable var1, const struct variable var2);
-BOOL copyMain (const struct variable from, struct variable to);
+BOOL copyMain (const struct variable *from, struct variable *to);
 BOOL copyStack (const struct variable * from, struct variable * to);
 BOOL copyVariable (const struct variable *from, struct variable *to);
 char * decodeFilename(char * nameIn);

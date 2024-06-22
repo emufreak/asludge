@@ -23,7 +23,7 @@ BOOL addVarToStack(const struct variable * va, struct variableStack ** thisStack
     struct variableStack * newStack = (struct variableStack *)AllocVec(sizeof(struct variableStack), MEMF_ANY);
     if (!newStack) return FALSE;
 
-    if (!copyMain(*va, newStack->thisVar)) {
+    if (!copyMain(va, &newStack->thisVar)) {
         FreeVec(newStack);
         return FALSE;
     }
@@ -283,7 +283,7 @@ BOOL makeFastArrayFromStack (struct variable *to, const struct stackHandler *sta
     struct variableStack *allV = stacky->first;
     size = 0;
     while (allV) {
-        copyMain(allV->thisVar, to->varData.fastArray->fastVariables[size]);
+        copyMain(&allV->thisVar, &to->varData.fastArray->fastVariables[size]);
         size++;
         allV = allV->next;
     }
@@ -353,37 +353,37 @@ void unlinkVar (struct variable *thisVar) {
 	}
 }
 
-BOOL copyMain (const struct variable from, struct variable to) {
-	to.varType = from.varType;
-	switch (to.varType) {
+BOOL copyMain (const struct variable *from, struct variable *to) {
+	to->varType = from->varType;
+	switch (to->varType) {
 		case SVT_INT:
 		case SVT_FUNC:
 		case SVT_BUILT:
 		case SVT_FILE:
 		case SVT_OBJTYPE:
-		to.varData.intValue = from.varData.intValue;
+		to->varData.intValue = from->varData.intValue;
 		return TRUE;
 
 		case SVT_FASTARRAY:
-		to.varData.fastArray = from.varData.fastArray;
-		to.varData.fastArray -> timesUsed ++;
+		to->varData.fastArray = from->varData.fastArray;
+		to->varData.fastArray -> timesUsed ++;
 		return TRUE;
 
 		case SVT_STRING:
-		to.varData.theString = copyString (from.varData.theString);
-		return to.varData.theString ? TRUE : FALSE;
+		to->varData.theString = copyString (from->varData.theString);
+		return to->varData.theString ? TRUE : FALSE;
 
 		case SVT_STACK:
-		to.varData.theStack = from.varData.theStack;
-		to.varData.theStack -> timesUsed ++;
+		to->varData.theStack = from->varData.theStack;
+		to->varData.theStack -> timesUsed ++;
 		return TRUE;
 
 		case SVT_COSTUME:
-		to.varData.costumeHandler = from.varData.costumeHandler;
+		to->varData.costumeHandler = from->varData.costumeHandler;
 		return TRUE;
 
 		case SVT_ANIM:
-		to.varData.animHandler = copyAnim (from.varData.animHandler);
+		to->varData.animHandler = copyAnim (from->varData.animHandler);
 		return TRUE;
 
 		case SVT_NULL:
@@ -398,7 +398,7 @@ BOOL copyMain (const struct variable from, struct variable to) {
 
 BOOL copyVariable (const struct variable *from, struct variable *to) {
 	unlinkVar (to);
-	return copyMain(*from, *to);
+	return copyMain(from, to);
 }
 
 struct personaAnimation * getAnimationFromVar (struct variable *thisVar) {
