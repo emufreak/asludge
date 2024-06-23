@@ -114,7 +114,7 @@ struct loadedFunction * loadFunction (BPTR fp) {
 	buildFunc -> cancelMe = FGetC (fp);
 	buildFunc -> returnSomething = FGetC (fp);
 	buildFunc -> isSpeech = FGetC (fp);
-	loadVariable (buildFunc -> reg, fp);
+	loadVariable (&buildFunc -> reg, fp);
 	loadFunctionCode (buildFunc);
 
 	buildFunc -> stack = loadStack (fp, NULL);
@@ -273,7 +273,7 @@ void saveFunction (struct loadedFunction * fun, BPTR fp) {
 	FPutC (fp, fun -> cancelMe);
 	FPutC (fp, fun -> returnSomething);
 	FPutC (fp, fun -> isSpeech);
-	saveVariable ((fun -> reg), fp);
+	saveVariable (&fun -> reg, fp);
 
 	if (fun -> freezerLevel) {
 		KPrintF(ERROR_GAME_SAVE_FROZEN);		

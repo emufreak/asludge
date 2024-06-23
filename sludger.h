@@ -31,7 +31,7 @@ struct loadedFunction {
 	int							numLocals, timeLeft, numArgs;
 	struct variable *			localVars;
 	struct variableStack *		stack;
-	struct variable	*			reg; 
+	struct variable				reg; 
 	unsigned int				runThisLine;
 	struct loadedFunction *		calledBy;
 	struct loadedFunction *		next;

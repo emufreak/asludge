@@ -326,7 +326,7 @@ void unlinkVar (struct variable *thisVar) {
 		case SVT_STACK:
 		thisVar->varData.theStack -> timesUsed --;
 		if (thisVar->varData.theStack -> timesUsed <= 0) {
-			while (thisVar->varData.theStack -> first) trimStack (thisVar->varData.theStack -> first);
+			while (thisVar->varData.theStack -> first) trimStack (&thisVar->varData.theStack -> first);
 			FreeVec(thisVar->varData.theStack);
 			thisVar->varData.theStack = NULL;
 		}
@@ -558,9 +558,9 @@ int stackSize (const struct stackHandler * me) {
 	return r;
 }
 
-void trimStack (struct variableStack * stack) {
-	struct variableStack * killMe = stack;
-	stack = stack -> next;
+void trimStack (struct variableStack ** stack) {
+	struct variableStack* killMe = *stack;
+	*stack = (*stack)->next;
 
 	// When calling this, we've ALWAYS checked that stack != NULL
 	unlinkVar (&(killMe -> thisVar));

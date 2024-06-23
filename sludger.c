@@ -54,7 +54,7 @@ void abortFunction (struct loadedFunction * fun) {
 	FreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	FreeVec(fun -> localVars);
-	unlinkVar (fun -> reg);
+	unlinkVar (&fun -> reg);
 	if (fun -> calledBy) abortFunction (fun -> calledBy);
 	FreeVec(fun);
 	fun = NULL;
@@ -109,7 +109,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			case SLU_RETURN:
 			if (fun -> calledBy) {
 				struct loadedFunction * returnTo = fun -> calledBy;
-				if (fun -> returnSomething) copyVariable (fun -> reg, returnTo -> reg);
+				if (fun -> returnSomething) copyVariable (&fun -> reg, &returnTo -> reg);
 				finishFunction (fun);
 				fun = returnTo;
 				restartFunction (fun);
@@ -121,17 +121,17 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			break;
 
 			case SLU_CALLIT:
-			switch (fun -> reg->varType) {
+			switch (fun -> reg.varType) {
 				case SVT_FUNC:
 				pauseFunction (fun);		
-				if (! startNewFunctionNum (fun -> reg->varData.intValue, param, fun, fun -> stack,TRUE)) return FALSE;
+				if (! startNewFunctionNum (fun -> reg.varData.intValue, param, fun, fun -> stack,TRUE)) return FALSE;
 				fun = allRunningFunctions;
 				advanceNow = FALSE;		// So we don't do anything else with "fun"
 				break;
 
 				case SVT_BUILT:
 					{
-					enum builtReturn br = callBuiltIn (fun -> reg->varData.intValue, param, fun);
+					enum builtReturn br = callBuiltIn (fun -> reg.varData.intValue, param, fun);
 
 					switch (br) {
 						case BR_ERROR:
@@ -154,8 +154,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 						case BR_CALLAFUNC:
 						{
-							int i = fun -> reg->varData.intValue;
-							setVariable (fun -> reg, SVT_INT, 1);
+							int i = fun -> reg.varData.intValue;
+							setVariable (&fun -> reg, SVT_INT, 1);
 							pauseFunction (fun);							
 							if (! startNewFunctionNum (i, 0, fun, noStack, FALSE)) return FALSE;
 							fun = allRunningFunctions;
@@ -178,41 +178,41 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			// These all grab things and shove 'em into the register
 
 			case SLU_LOAD_NULL:
-			setVariable (fun -> reg, SVT_NULL, 0);
+			setVariable (&fun -> reg, SVT_NULL, 0);
 			break;
 
 			case SLU_LOAD_FILE:
-			setVariable (fun -> reg, SVT_FILE, param);
+			setVariable (&fun -> reg, SVT_FILE, param);
 			break;
 
 			case SLU_LOAD_VALUE:
-			setVariable (fun -> reg, SVT_INT, param);
+			setVariable (&fun -> reg, SVT_INT, param);
 			break;
 
 			case SLU_LOAD_LOCAL:
-			if (! copyVariable (&(fun -> localVars[param]), fun -> reg)) return FALSE;
+			if (! copyVariable (&(fun -> localVars[param]), &fun -> reg)) return FALSE;
 			break;
 
 			case SLU_AND:
-			setVariable (fun -> reg, SVT_INT, getBoolean (fun -> reg) && getBoolean(&(fun -> stack -> thisVar)));
+			setVariable (&fun -> reg, SVT_INT, getBoolean (&fun -> reg) && getBoolean(&(fun -> stack -> thisVar)));
 			trimStack (fun -> stack);
 			break;
 
 			case SLU_OR:
-			setVariable (fun -> reg, SVT_INT, getBoolean (fun -> reg) || getBoolean (&(fun -> stack -> thisVar)));
+			setVariable (&fun -> reg, SVT_INT, getBoolean (&fun -> reg) || getBoolean (&(fun -> stack -> thisVar)));
 			trimStack (fun -> stack);
 			break;
 
 			case SLU_LOAD_FUNC:
-			setVariable (fun -> reg, SVT_FUNC, param);
+			setVariable (&fun -> reg, SVT_FUNC, param);
 			break;
 
 			case SLU_LOAD_BUILT:
-			setVariable (fun -> reg, SVT_BUILT, param);
+			setVariable (&fun -> reg, SVT_BUILT, param);
 			break;
 
 			case SLU_LOAD_OBJTYPE:
-			setVariable (fun -> reg, SVT_OBJTYPE, param);
+			setVariable (&fun -> reg, SVT_OBJTYPE, param);
 			break;
 
 			case SLU_UNREG:
@@ -223,7 +223,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			break;
 
 			case SLU_LOAD_STRING:
-				if (! loadStringToVar (fun -> reg, param)) {
+				if (! loadStringToVar (&fun -> reg, param)) {
 					return FALSE;
 				}
 			break;
@@ -234,7 +234,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			switch (fun -> stack -> thisVar.varType) {
 				case SVT_NULL:
 				if (com == SLU_INDEXGET) {
-					setVariable (fun -> reg, SVT_NULL, 0);
+					setVariable (&fun -> reg, SVT_NULL, 0);
 					trimStack (fun -> stack);
 				} else {
 					KPrintF((ERROR_INCDEC_UNKNOWN));
@@ -249,7 +249,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					return FALSE;
 				} else {
 					int ii;
-					if (! getValueType(&ii, SVT_INT,fun -> reg)) return FALSE;
+					if (! getValueType(&ii, SVT_INT,&fun -> reg)) return FALSE;
 					struct variable * grab = (fun -> stack -> thisVar.varType == SVT_FASTARRAY) ?
 						fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii)
 							:
@@ -258,24 +258,24 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					trimStack (fun -> stack);
 
 					if (! grab) {
-						setVariable (fun -> reg, SVT_NULL, 0);
+						setVariable (&fun -> reg, SVT_NULL, 0);
 					} else {
 						int ii;
 						switch (com) {
 							case SLU_INCREMENT_INDEX:
 							if (! getValueType (&ii, SVT_INT, grab)) return FALSE;
-							setVariable (fun -> reg, SVT_INT, ii);
+							setVariable (&fun -> reg, SVT_INT, ii);
 							grab -> varData.intValue = ii + 1;
 							break;
 
 							case SLU_DECREMENT_INDEX:
 							if (! getValueType (&ii, SVT_INT, grab)) return FALSE;
-							setVariable (fun -> reg, SVT_INT, ii);
+							setVariable (&fun -> reg, SVT_INT, ii);
 							grab -> varData.intValue = ii - 1;
 							break;
 
 							default:
-							if (! copyVariable (grab, fun -> reg)) return FALSE;
+							if (! copyVariable (grab, &fun -> reg)) return FALSE;
 						}
 					}
 				}
@@ -295,7 +295,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					return FALSE;
 				} else {
 					int ii;
-					if (! getValueType(&ii, SVT_INT,fun -> reg)) return FALSE;
+					if (! getValueType(&ii, SVT_INT,&fun -> reg)) return FALSE;
 					if (! stackSetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii, &fun -> stack -> next -> thisVar)) {
 						return FALSE;
 					}
@@ -307,7 +307,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				case SVT_FASTARRAY:
 				{
 					int ii;
-					if (! getValueType (&ii, SVT_INT, fun->reg)) return FALSE;
+					if (! getValueType (&ii, SVT_INT, &fun->reg)) return FALSE;
 					struct variable * v = fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii);
 					if (v == NULL) KPrintF(("Not within bounds of fast array."));
 					return FALSE;
@@ -330,7 +330,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			{
 				int ii;
 				if (! getValueType(&ii, SVT_INT,&fun -> localVars[param])) return FALSE;
-				setVariable (fun -> reg, SVT_INT, ii);
+				setVariable (&fun -> reg, SVT_INT, ii);
 				setVariable (&(fun -> localVars[param]), SVT_INT, ii + 1);
 			}
 			break;
@@ -339,7 +339,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			{
 				int ii;
 				if (! getValueType(&ii, SVT_INT,&globalVars[param])) return FALSE;
-				setVariable (fun -> reg, SVT_INT, ii);
+				setVariable (&fun -> reg, SVT_INT, ii);
 				setVariable (&globalVars[param], SVT_INT, ii + 1);
 			}
 			break;
@@ -348,7 +348,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			{
 				int ii;
 				if (! getValueType(&ii, SVT_INT,&fun -> localVars[param])) return FALSE;
-				setVariable (fun -> reg, SVT_INT, ii);
+				setVariable (&fun -> reg, SVT_INT, ii);
 				setVariable (&(fun -> localVars[param]), SVT_INT, ii - 1);
 			}
 			break;
@@ -357,42 +357,42 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			{
 				int ii;
 				if (! getValueType(&ii, SVT_INT,&globalVars[param])) return FALSE;
-				setVariable (fun -> reg, SVT_INT, ii);
+				setVariable (&fun -> reg, SVT_INT, ii);
 				setVariable (&globalVars[param], SVT_INT, ii - 1);
 			}
 			break;
 
 			case SLU_SET_LOCAL:
-			if (! copyVariable (fun -> reg, &(fun -> localVars[param]))) return FALSE;
+			if (! copyVariable (&fun -> reg, &(fun -> localVars[param]))) return FALSE;
 			break;
 
 			case SLU_SET_GLOBAL:
 //			newDebug ("  Copying TO global variable", param);
 //			newDebug ("  Global type at the moment", globalVars[param].varType);
-			if (! copyVariable (fun -> reg, &globalVars[param])) return FALSE;
+			if (! copyVariable (&fun -> reg, &globalVars[param])) return FALSE;
 //			newDebug ("  New type", globalVars[param].varType);
 			break;
 
 			case SLU_LOAD_GLOBAL:
 //			newDebug ("  Copying FROM global variable", param);
 //			newDebug ("  Global type at the moment", globalVars[param].varType);
-			if (! copyVariable (&globalVars[param], fun -> reg)) return FALSE;
+			if (! copyVariable (&globalVars[param], &fun -> reg)) return FALSE;
 			break;
 
 			case SLU_STACK_PUSH:
-			if (! addVarToStack (fun -> reg, &fun -> stack)) return FALSE;
+			if (! addVarToStack (&fun -> reg, &fun -> stack)) return FALSE;
 			break;
 
 			case SLU_QUICK_PUSH:
-			if (! addVarToStackQuick (fun -> reg, &fun -> stack)) return FALSE;
+			if (! addVarToStackQuick (&fun -> reg, &fun -> stack)) return FALSE;
 			break;
 
 			case SLU_NOT:
-			setVariable (fun -> reg, SVT_INT, ! getBoolean (fun -> reg));
+			setVariable (&fun -> reg, SVT_INT, ! getBoolean (&fun -> reg));
 			break;
 
 			case SLU_BR_ZERO:
-			if (! getBoolean (fun -> reg)) {
+			if (! getBoolean (&fun -> reg)) {
 				advanceNow = FALSE;
 				fun -> runThisLine = param;
 			}
@@ -406,8 +406,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			case SLU_NEGATIVE:
 			{
 				int i;
-				if (! getValueType(&i, SVT_INT,fun -> reg)) return FALSE;
-				setVariable (fun -> reg, SVT_INT, -i);
+				if (! getValueType(&i, SVT_INT,&fun -> reg)) return FALSE;
+				setVariable (&fun -> reg, SVT_INT, -i);
 			}
 			break;
 
@@ -429,57 +429,57 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 				switch (com) {
 					case SLU_PLUS:
-					addVariablesInSecond (&fun -> stack -> thisVar, fun -> reg);
+					addVariablesInSecond (&fun -> stack -> thisVar, &fun -> reg);
 					trimStack (fun -> stack);
 					break;
 
 					case SLU_EQUALS:
-					compareVariablesInSecond (&(fun -> stack -> thisVar), fun -> reg);
+					compareVariablesInSecond (&(fun -> stack -> thisVar), &fun -> reg);
 					trimStack (fun -> stack);
 					break;
 
 					case SLU_NOT_EQ:
-					compareVariablesInSecond (&(fun -> stack -> thisVar), fun -> reg);
+					compareVariablesInSecond (&(fun -> stack -> thisVar), &fun -> reg);
 					trimStack (fun -> stack);
-	               	fun -> reg->varData.intValue = ! fun -> reg->varData.intValue;
+	               	fun -> reg.varData.intValue = ! fun -> reg.varData.intValue;
 					break;
 
 					default:
 					if (! getValueType (&firstValue, SVT_INT, &fun->stack->thisVar)) return FALSE;
-					if (! getValueType(&secondValue, SVT_INT,fun -> reg)) return FALSE;
+					if (! getValueType(&secondValue, SVT_INT,&fun -> reg)) return FALSE;
 					trimStack (fun -> stack);
 
 					switch (com) {
 						case SLU_MULT:
-						setVariable (fun -> reg, SVT_INT, firstValue * secondValue);
+						setVariable (&fun -> reg, SVT_INT, firstValue * secondValue);
 						break;
 
 						case SLU_MINUS:
-						setVariable (fun -> reg, SVT_INT, firstValue - secondValue);
+						setVariable (&fun -> reg, SVT_INT, firstValue - secondValue);
 						break;
 
 						case SLU_MODULUS:
-						setVariable (fun -> reg, SVT_INT, firstValue % secondValue);
+						setVariable (&fun -> reg, SVT_INT, firstValue % secondValue);
 						break;
 
 						case SLU_DIVIDE:
-						setVariable (fun -> reg, SVT_INT, firstValue / secondValue);
+						setVariable (&fun -> reg, SVT_INT, firstValue / secondValue);
 						break;
 
 						case SLU_LESSTHAN:
-						setVariable (fun -> reg, SVT_INT, firstValue < secondValue);
+						setVariable (&fun -> reg, SVT_INT, firstValue < secondValue);
 						break;
 
 						case SLU_MORETHAN:
-						setVariable (fun -> reg, SVT_INT, firstValue > secondValue);
+						setVariable (&fun -> reg, SVT_INT, firstValue > secondValue);
 						break;
 
 						case SLU_LESS_EQUAL:
-						setVariable (fun -> reg, SVT_INT, firstValue <= secondValue);
+						setVariable (&fun -> reg, SVT_INT, firstValue <= secondValue);
 						break;
 
 						case SLU_MORE_EQUAL:
-						setVariable (fun -> reg, SVT_INT, firstValue >= secondValue);
+						setVariable (&fun -> reg, SVT_INT, firstValue >= secondValue);
 						break;
 
 						default:
@@ -511,7 +511,7 @@ void finishFunction (struct loadedFunction * fun) {
 	FreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	FreeVec(fun -> localVars);
-	unlinkVar (fun -> reg);
+	unlinkVar (&fun -> reg);
 	FreeVec(fun);
 	fun = NULL;
 }
@@ -805,7 +805,7 @@ BOOL runSludge () {
 	if (loadNow) {
 		if (loadNow[0] == ':') {
 			saveGame (loadNow + 1);
-			setVariable (saverFunc->reg, SVT_INT, 1);
+			setVariable (&saverFunc->reg, SVT_INT, 1);
 		} else {
 			if (! loadGame (loadNow)) return FALSE;
 		}
@@ -876,7 +876,7 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
 	newFunc -> freezerLevel = 0;
 	newFunc -> runThisLine = 0;
 	newFunc -> isSpeech = 0;
-	newFunc -> reg -> varType = SVT_NULL;
+	newFunc -> reg.varType = SVT_NULL;
 
 	restartFunction (newFunc);
 	return 1;

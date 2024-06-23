@@ -64,7 +64,7 @@ void setVariable (struct variable *thisVar, enum variableType vT, int value);
 struct variable * stackGetByIndex (struct variableStack * vS, unsigned int theIndex);
 int stackSize (const struct stackHandler * me);
 struct variableStack * stackFindLast (struct variableStack * hunt);
-void trimStack (struct variableStack * stack);
+void trimStack (struct variableStack ** stack);
 void unlinkVar (struct variable *thisVar);
 
 #define initVarNew(thisVar) 	thisVar.varType = SVT_NULL
