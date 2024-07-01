@@ -11,8 +11,9 @@
 #include "moreio.h"
 #include "people.h"
 #include "region.h"
-#include "sound_nosound.h"
 #include "savedata.h"
+#include "sound_nosound.h"
+#include "sprbanks.h"
 #include "sludger.h"
 #include "statusba.h"
 #include "stringy.h"
@@ -868,10 +869,9 @@ builtIn(anim)
 		return BR_ERROR;
 	}
 
-	KPrintF("Not implemented yet on Amiga");
 
 	// First store the frame numbers and take 'em off the stack
-	/*struct personaAnimation * ba = createPersonaAnim (numParams - 1, fun -> stack);
+	struct personaAnimation * ba = createPersonaAnim (numParams - 1, &fun -> stack);
 
 	// Only remaining paramter is the file number
 	int fileNumber;
@@ -884,8 +884,7 @@ builtIn(anim)
 	setBankFile (ba, sprBanky);
 
 	// Return value
-	newAnimationVariable (&fun -> reg, ba);Todo Amigize This*/
-
+	newAnimationVariable (&fun -> reg, ba);
 	return BR_CONTINUE;
 }
 

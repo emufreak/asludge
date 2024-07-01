@@ -20,41 +20,17 @@ struct parallaxLayer * parallaxStuff = NULL;
 extern int cameraX, cameraY;
 extern FLOAT cameraZoom;
 int lightMapNumber;
-int viewportHeight, viewportWidth;
+int viewportHeight = 256;
+int viewportWidth = 320;
 int viewportOffsetX = 0, viewportOffsetY = 0;
 unsigned int snapshotTextureName = 0;
 
 void blankScreen(int x1, int y1, int x2, int y2) {
-	if (y1 < 0) y1 = 0;
-	if (x1 < 0) x1 = 0;
-	if (x2 > (int)sceneWidth) x2 = (int)sceneWidth;
-	if (y2 > (int)sceneHeight) y2 = (int)sceneHeight;
-
-	int picWidth = x2 - x1;
-	int picHeight = y2 - y1;
-
-	//setPixelCoords(TRUE);
-
-	int xoffset = 0;
-	while (xoffset < picWidth) {
-		int w = (picWidth - xoffset < viewportWidth) ? picWidth - xoffset : viewportWidth;
-
-		int yoffset = 0;
-		while (yoffset < picHeight) {
-			int h = (picHeight - yoffset < viewportHeight) ? picHeight - yoffset : viewportHeight;
-		
-			KPrintF("Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
-
-			yoffset += viewportHeight;
-		}
-		xoffset += viewportWidth;
-	}
-
-	//setPixelCoords(FALSE);
+	KPrintF("blankScreen: Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
 }
 
 void darkScreen () {
-	KPrintF("Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
+	KPrintF("darkScreen: Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
 }
 
 void drawHorizontalLine (unsigned int x1, unsigned int y, unsigned int x2) {

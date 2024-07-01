@@ -4,6 +4,8 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 
+#include "variable.h"
+
 struct animFrame {
 	int frameNum, howMany;
 	int noise;
@@ -54,6 +56,7 @@ void animatePerson (int obj, struct personaAnimation * fram);
 void animatePersonUsingPersona (int obj, struct persona * per);
 BOOL addPerson(int x, int y, int objNum, struct persona *p);
 struct personaAnimation * copyAnim (struct personaAnimation * orig);
+struct personaAnimation * createPersonaAnim (int num, struct variableStack **stacky);
 void deleteAnim (struct personaAnimation * orig);
 BOOL doBorderStuff (struct onScreenPerson * moveMe);
 struct onScreenPerson * findPerson (int v);
@@ -75,6 +78,7 @@ void rethinkAngle (struct onScreenPerson * thisPerson);
 BOOL saveAnim (struct personaAnimation * p, BPTR fp);
 BOOL saveCostume (struct persona * cossy, BPTR fp);
 BOOL savePeople (BPTR fp);
+void setBankFile (struct personaAnimation * newP, struct loadedSpriteBank * sB);
 BOOL setCharacterWalkSpeed (int f, int objNum);
 void setMyDrawMode (struct onScreenPerson *moveMe, int h);
 void setDrawMode (int h, int ob);

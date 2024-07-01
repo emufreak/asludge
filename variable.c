@@ -515,6 +515,13 @@ char * getTextFromAnyVar (const struct variable *from) {
 	return copyString (typeName[from->varType]);
 }
 
+
+void newAnimationVariable (struct variable *thisVar, struct personaAnimation * i) {
+	unlinkVar (thisVar);
+	thisVar->varType = SVT_ANIM;
+	thisVar->varData.animHandler = i;
+}
+
 void newCostumeVariable (struct variable * thisVar, struct persona * i) {
 	unlinkVar(thisVar);
 	thisVar->varType = SVT_COSTUME;

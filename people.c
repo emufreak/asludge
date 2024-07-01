@@ -141,7 +141,7 @@ struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 		// Argh! Frames! We need a whole NEW array of animFrame structures...
 
 		newAnim->frames = AllocVec(sizeof(struct animFrame) * num, MEMF_ANY);
-		if (newAnim->frames) {
+		if (!newAnim->frames) {
 			KPrintF("copyAnim: Cannot allocate memory");
 			return NULL;
 		}
@@ -156,6 +156,47 @@ struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 	}
 
 	return newAnim;
+}
+
+
+struct personaAnimation * createPersonaAnim (int num, struct variableStack **stacky) {
+	struct personaAnimation * newP = AllocVec( sizeof(struct personaAnimation), MEMF_ANY);
+	if( !newP) {
+		KPrintF("createPersonaAnim: Cannot allocate memory");
+		return NULL;
+	}
+
+	newP -> numFrames = num;
+	newP -> frames = AllocVec( sizeof( struct animFrame) * num,MEMF_ANY);
+	if( !newP->frames) {
+		KPrintF("createPersonaAnim: Cannot allocate memory");
+		return NULL;
+	}
+
+	int a = num, frameNum, howMany;
+
+	struct variableStack *tmp = *stacky;
+	while (a) {
+		a --;
+		newP -> frames[a].noise = 0;
+		if ( tmp->thisVar.varType == SVT_FILE) {
+			newP -> frames[a].noise = tmp -> thisVar.varData.intValue;
+		} else if ( tmp -> thisVar.varType == SVT_FUNC) {
+			newP -> frames[a].noise = - tmp -> thisVar.varData.intValue;
+		} else if ( tmp -> thisVar.varType == SVT_STACK) {
+			getValueType (&frameNum, SVT_INT, &tmp->thisVar.varData.theStack -> first -> thisVar);
+			getValueType (&howMany, SVT_INT, &tmp -> thisVar.varData.theStack -> first -> next -> thisVar);
+		} else {
+			getValueType (&frameNum, SVT_INT, &tmp -> thisVar);
+			howMany = 1;
+		}
+		trimStack (stacky);
+		newP -> frames[a].frameNum = frameNum;
+		newP -> frames[a].howMany = howMany;
+		tmp = *stacky;
+	}
+
+	return newP;
 }
 
 void deleteAnim (struct personaAnimation * orig) {
@@ -685,6 +726,11 @@ BOOL savePeople (BPTR fp) {
 	}
 	return TRUE;
 }
+
+void setBankFile (struct personaAnimation * newP, struct loadedSpriteBank * sB) { 
+	newP -> theSprites = sB; 
+}
+
 
 void setDrawMode (int h, int ob) {
 	struct onScreenPerson * moveMe = findPerson (ob);

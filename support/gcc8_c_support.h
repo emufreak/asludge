@@ -15,6 +15,7 @@
     #define ASM(...)
 #endif
 
+void WaitVbl();
 void *memcpy (void *, const void *, unsigned long);
 void *memset (void *, int, unsigned long);
 void *memmove (void *, const void *, unsigned long);

@@ -59,6 +59,7 @@ BOOL loadVariable (struct variable * to, BPTR fp);
 void makeTextVar (struct variable *thisVar, const char * txt);
 BOOL makeFastArrayFromStack (struct variable *to, const struct stackHandler *stacky);
 BOOL makeFastArraySize (struct variable *to, int size);
+void newAnimationVariable (struct variable *thisVar, struct personaAnimation * i);
 void newCostumeVariable (struct variable * thisVar, struct persona * i);
 void setVariable (struct variable *thisVar, enum variableType vT, int value);
 struct variable * stackGetByIndex (struct variableStack * vS, unsigned int theIndex);

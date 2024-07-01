@@ -50,7 +50,7 @@ void abortFunction (struct loadedFunction * fun) {
 	int a;
 
 	pauseFunction (fun);
-	while (fun -> stack) trimStack (fun -> stack);
+	while (fun -> stack) trimStack (&fun -> stack);
 	FreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	FreeVec(fun -> localVars);
@@ -101,6 +101,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 		advanceNow = TRUE;
 		param = fun -> compiledLines[fun -> runThisLine].param;
 		com = fun -> compiledLines[fun -> runThisLine].theCommand;
+		KPrintF("Processing Type %ld",com);
+
 //		fprintf (stderr, "com: %d param: %d (%s)\n", com, param,
 //				(com < numSludgeCommands) ? sludgeText[com] : ERROR_UNKNOWN_MCODE); fflush(stderr);
 
@@ -131,6 +133,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 				case SVT_BUILT:
 					{
+					KPrintF("Loading function %ld",fun -> reg.varData.intValue);
 					enum builtReturn br = callBuiltIn (fun -> reg.varData.intValue, param, fun);
 
 					switch (br) {
@@ -195,12 +198,12 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 			case SLU_AND:
 			setVariable (&fun -> reg, SVT_INT, getBoolean (&fun -> reg) && getBoolean(&(fun -> stack -> thisVar)));
-			trimStack (fun -> stack);
+			trimStack (&fun -> stack);
 			break;
 
 			case SLU_OR:
 			setVariable (&fun -> reg, SVT_INT, getBoolean (&fun -> reg) || getBoolean (&(fun -> stack -> thisVar)));
-			trimStack (fun -> stack);
+			trimStack (&fun -> stack);
 			break;
 
 			case SLU_LOAD_FUNC:
@@ -235,7 +238,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				case SVT_NULL:
 				if (com == SLU_INDEXGET) {
 					setVariable (&fun -> reg, SVT_NULL, 0);
-					trimStack (fun -> stack);
+					trimStack (&fun -> stack);
 				} else {
 					KPrintF((ERROR_INCDEC_UNKNOWN));
 					return FALSE;
@@ -255,7 +258,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 							:
 						stackGetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii);
 
-					trimStack (fun -> stack);
+					trimStack (&fun -> stack);
 
 					if (! grab) {
 						setVariable (&fun -> reg, SVT_NULL, 0);
@@ -299,8 +302,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					if (! stackSetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii, &fun -> stack -> next -> thisVar)) {
 						return FALSE;
 					}
-					trimStack (fun -> stack);
-					trimStack (fun -> stack);
+					trimStack (&fun -> stack);
+					trimStack (&fun -> stack);
 				}
 				break;
 
@@ -312,8 +315,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					if (v == NULL) KPrintF(("Not within bounds of fast array."));
 					return FALSE;
 					if (! copyVariable (&(fun -> stack -> next -> thisVar), v)) return FALSE;
-					trimStack (fun -> stack);
-					trimStack (fun -> stack);
+					trimStack (&fun -> stack);
+					trimStack (&fun -> stack);
 				}
 				break;
 
@@ -430,24 +433,24 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				switch (com) {
 					case SLU_PLUS:
 					addVariablesInSecond (&fun -> stack -> thisVar, &fun -> reg);
-					trimStack (fun -> stack);
+					trimStack (&fun -> stack);
 					break;
 
 					case SLU_EQUALS:
 					compareVariablesInSecond (&(fun -> stack -> thisVar), &fun -> reg);
-					trimStack (fun -> stack);
+					trimStack (&fun -> stack);
 					break;
 
 					case SLU_NOT_EQ:
 					compareVariablesInSecond (&(fun -> stack -> thisVar), &fun -> reg);
-					trimStack (fun -> stack);
+					trimStack (&fun -> stack);
 	               	fun -> reg.varData.intValue = ! fun -> reg.varData.intValue;
 					break;
 
 					default:
 					if (! getValueType (&firstValue, SVT_INT, &fun->stack->thisVar)) return FALSE;
 					if (! getValueType(&secondValue, SVT_INT,&fun -> reg)) return FALSE;
-					trimStack (fun -> stack);
+					trimStack (&fun -> stack);
 
 					switch (com) {
 						case SLU_MULT:
@@ -507,7 +510,8 @@ void finishFunction (struct loadedFunction * fun) {
 	int a;
 
 	pauseFunction (fun);
-	if (fun -> stack) KPrintF("finishfunction:", ERROR_NON_EMPTY_STACK);
+	if (fun -> stack) 
+		KPrintF("finishfunction:", ERROR_NON_EMPTY_STACK);
 	FreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	FreeVec(fun -> localVars);
@@ -692,7 +696,7 @@ BOOL loadFunctionCode (struct loadedFunction * newFunc) {
 	finishAccess ();
 
 	// Now we need to reserve memory for the local variables
-	if(newFunc->numLocals > 1) {
+	if(newFunc->numLocals > 0) {
 		newFunc -> localVars = AllocVec( sizeof(struct variable) * newFunc->numLocals,MEMF_ANY);
 		if (!newFunc -> localVars) {
 			KPrintF("loadFunctionCode: cannot allocate memory");
@@ -865,7 +869,7 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
 			return NULL;
 		}
 		copyVariable (&vStack -> thisVar, &newFunc->localVars[numParamsExpected]);
-		trimStack (vStack);
+		trimStack ( &vStack);
 	}
 
 	newFunc -> cancelMe = FALSE;

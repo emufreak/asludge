@@ -93,6 +93,7 @@ int main_sludge(int argc, char *argv[])
 	if (! initFloor ())
 	{
 		KPrintF("Couldn't initialise floor stuff");
+		
 		return FALSE;
 	}
 
@@ -110,8 +111,11 @@ int main_sludge(int argc, char *argv[])
 	startNewFunctionNum (0, 0, NULL, noStack, TRUE);
 
 	weAreDoneSoQuit = 0;
-	while ( !weAreDoneSoQuit ) {
+	while ( !weAreDoneSoQuit ) {		
 		handleInput();
+		debug_start_idle();
+		WaitVbl();
+		debug_stop_idle();		
 	}
 	//Amiga Cleanup
 	FreeVec(sludgeFile);
