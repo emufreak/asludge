@@ -38,7 +38,7 @@ struct inputType input;
 int languageNum = -1;
 int lastFramesPerSecond = -1;
 char * loadNow = NULL;
-struct variableStack * noStack = NULL;
+struct variableStack ** noStack = NULL;
 int numBIFNames = 0;
 int numGlobals;
 int numResourceNames = 0;
@@ -101,7 +101,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 		advanceNow = TRUE;
 		param = fun -> compiledLines[fun -> runThisLine].param;
 		com = fun -> compiledLines[fun -> runThisLine].theCommand;
-		KPrintF("Processing Type %ld",com);
+		//KPrintF("Processing Type %ld",com);
 
 //		fprintf (stderr, "com: %d param: %d (%s)\n", com, param,
 //				(com < numSludgeCommands) ? sludgeText[com] : ERROR_UNKNOWN_MCODE); fflush(stderr);
@@ -126,14 +126,14 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			switch (fun -> reg.varType) {
 				case SVT_FUNC:
 				pauseFunction (fun);		
-				if (! startNewFunctionNum (fun -> reg.varData.intValue, param, fun, fun -> stack,TRUE)) return FALSE;
+				if (! startNewFunctionNum (fun -> reg.varData.intValue, param, fun, &fun -> stack,TRUE)) return FALSE;
 				fun = allRunningFunctions;
 				advanceNow = FALSE;		// So we don't do anything else with "fun"
 				break;
 
 				case SVT_BUILT:
 					{
-					KPrintF("Loading function %ld",fun -> reg.varData.intValue);
+					//KPrintF("Loading function %ld",fun -> reg.varData.intValue);
 					enum builtReturn br = callBuiltIn (fun -> reg.varData.intValue, param, fun);
 
 					switch (br) {
@@ -207,7 +207,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			break;
 
 			case SLU_LOAD_FUNC:
-			setVariable (&fun -> reg, SVT_FUNC, param);
+    		setVariable (&fun -> reg, SVT_FUNC, param);
 			break;
 
 			case SLU_LOAD_BUILT:
@@ -514,7 +514,9 @@ void finishFunction (struct loadedFunction * fun) {
 		KPrintF("finishfunction:", ERROR_NON_EMPTY_STACK);
 	FreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
-	FreeVec(fun -> localVars);
+	if( fun->numLocals > 0) {
+		FreeVec(fun -> localVars);
+	}
 	unlinkVar (&fun -> reg);
 	FreeVec(fun);
 	fun = NULL;
@@ -706,6 +708,9 @@ BOOL loadFunctionCode (struct loadedFunction * newFunc) {
 		for (a = 0; a < newFunc -> numLocals; a ++) {
 			initVarNew (newFunc -> localVars[a]);
 		}
+	} else
+	{
+		newFunc->numLocals = NULL;
 	}
 	return TRUE;
 }
@@ -841,7 +846,8 @@ BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const st
 	return copyVariable(va, &(vS->thisVar));
 }
 
-int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack * vStack, BOOL returnSommet) {
+int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet) {
+		
 	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
 	if(!newFunc) {
 		KPrintF("startNewFunction: Cannot allocate memory");
@@ -863,13 +869,14 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
 	// Now, lets copy the parameters from the calling function's stack...
 
 	while (numParamsExpected) {
+		struct variableStack *vStacksimpleptr = *vStack;
 		numParamsExpected --;
-		if (vStack == NULL) {
+		if (*vStack == NULL) {
 			KPrintF("Corrupted file! The stack's empty and there were still parameters expected");
 			return NULL;
 		}
-		copyVariable (&vStack -> thisVar, &newFunc->localVars[numParamsExpected]);
-		trimStack ( &vStack);
+		copyVariable (&vStacksimpleptr -> thisVar, &newFunc->localVars[numParamsExpected]);
+		trimStack ( vStack);
 	}
 
 	newFunc -> cancelMe = FALSE;

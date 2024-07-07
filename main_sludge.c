@@ -24,7 +24,7 @@ extern FLOAT cameraZoom;
 
 extern int specialSettings;
 
-extern struct variableStack * noStack;
+extern struct variableStack ** noStack;
 
 int dialogValue = 0;
 

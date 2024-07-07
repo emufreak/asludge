@@ -47,8 +47,8 @@ unsigned int openFileFromNum (int num) {
 		return 0;
 	}
 
-	Seek( bigDataFile,  startOfDataIndex + (num << 2), 0);	
-	Seek( bigDataFile, get4bytes (bigDataFile), 1);
+	Seek( bigDataFile,  startOfDataIndex + (num << 2), OFFSET_BEGINING);	
+	Seek( bigDataFile, get4bytes (bigDataFile), OFFSET_CURRENT);
 //	fprintf (dbug, "Jumping to %li (for data) \n", ftell (bigDataFile));
 	sliceBusy = TRUE;
 //	fclose (dbug);
@@ -112,7 +112,7 @@ void setFileIndices (BPTR fp, unsigned int numLanguages, unsigned int skipBefore
 	// STRINGS
 	int skipAfter = numLanguages - skipBefore;
 	while (skipBefore) {
-        Seek(fp, get4bytes(fp),0);		
+        Seek(fp, get4bytes(fp),OFFSET_BEGINING);		
 		skipBefore --;
 	}
 	startOfTextIndex = Seek( fp, 0, OFFSET_CURRENT) + 4;

@@ -317,6 +317,7 @@ void makeTextVar (struct variable *thisVar, const char * txt) {
 }
 
 void unlinkVar (struct variable *thisVar) {
+
 	switch (thisVar->varType) {
 		case SVT_STRING:
         FreeVec(thisVar->varData.theString);
@@ -566,7 +567,9 @@ int stackSize (const struct stackHandler * me) {
 }
 
 void trimStack (struct variableStack ** stack) {
+
 	struct variableStack* killMe = *stack;
+
 	*stack = (*stack)->next;
 
 	// When calling this, we've ALWAYS checked that stack != NULL

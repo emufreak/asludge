@@ -33,7 +33,7 @@ extern char * gamePath;
 extern struct inputType input;
 extern int lastFramesPerSecond, thumbWidth, thumbHeight;
 extern char * loadNow;
-extern struct variableStack * noStack;
+extern struct variableStack ** noStack;
 extern struct statusStuff * nowStatus;
 extern int numBIFNames, numUserFunc;
 extern unsigned short saveEncoding;
@@ -49,6 +49,7 @@ FLOAT cameraZoom = 1.0;
 char * launchMe = NULL;
 struct variable * launchResult = NULL;
 struct loadedFunction * saverFunc;
+
 int speechMode = 0;
 
 struct builtInFunctionData
@@ -149,6 +150,7 @@ static enum builtReturn sayCore (int numParams, struct loadedFunction * fun, BOO
 builtIn(say)
 {
 	UNUSEDALL
+	//KPrintF("say something");
 	return sayCore (numParams, fun, TRUE);
 }
 
@@ -847,7 +849,7 @@ builtIn(inFont)
 builtIn(pasteString)
 {
     UNUSEDALL
-    /*char *newText = getTextFromAnyVar(&(fun->stack->thisVar));
+    char *newText = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
     int y, x;
     if (!getValueType(&y, SVT_INT,&fun->stack->thisVar)) return BR_ERROR;
@@ -855,9 +857,9 @@ builtIn(pasteString)
     if (!getValueType(&x, SVT_INT,&fun->stack->thisVar)) return BR_ERROR;
     trimStack(&fun->stack);
     if (x == IN_THE_CENTRE) x = (winWidth - stringWidth(newText)) >> 1;
-    fixFont(pastePalette);
-    pasteStringToBackdrop(newText, x, y, pastePalette);
-    FreeVec(newText); Todo Amigize this*/
+    //fixFont(pastePalette);
+    //pasteStringToBackdrop(newText, x, y, pastePalette); //Todo: Amigize this
+    FreeVec(newText); 
     return BR_CONTINUE;
 }
 
@@ -1005,7 +1007,7 @@ builtIn(quitGame)
 builtIn(_rem_movieStart)
 {
 	UNUSEDALL
-	/*trimStack (&fun -> stack);*/
+	trimStack (&fun -> stack);
 	KPrintF("Movie Stuff not supported on Amiga");
 	return BR_CONTINUE;
 }
