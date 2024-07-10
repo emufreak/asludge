@@ -1,6 +1,7 @@
 #include <proto/dos.h>
 #include <proto/exec.h>
 #include "backdrop.h"
+#include "custom.h"
 #include "fileset.h"
 #include "floor.h"
 #include "support/gcc8_c_support.h"
@@ -76,9 +77,15 @@ int main_sludge(int argc, char *argv[])
 		return 0;
 	}
 
-	setGameFilePath (sludgeFile);
+	setGameFilePath (sludgeFile);	
 	if (! initSludge (sludgeFile)) return 0;
 	
+	if( winWidth != 320 || winHeight != 256) {
+		KPrintF("This Screen Format is currently unsupported on Amiga. Only PAL Lowres supported atm. winWidth and winHeight will be reseted.");	
+		winWidth = 320;
+		winHeight = 256;
+	}
+
 	if (! resizeBackdrop (winWidth, winHeight)) {
 		KPrintF("Couldn't allocate memory for backdrop");
 		return FALSE;
@@ -113,10 +120,9 @@ int main_sludge(int argc, char *argv[])
 	weAreDoneSoQuit = 0;
 	while ( !weAreDoneSoQuit ) {		
 		handleInput();
-		debug_start_idle();
+		sludgeDisplay ();
 		WaitVbl();
-		debug_stop_idle();		
-	}
+	}	
 	//Amiga Cleanup
 	FreeVec(sludgeFile);
 }

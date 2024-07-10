@@ -835,6 +835,10 @@ void saveHandlers (BPTR fp) {
 	put2bytes (currentEvents -> spaceFunction,			fp);
 }
 
+void sludgeDisplay () {
+	CstSludgeDisplay();
+}
+
 BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va) {
 	while (theIndex--) {
 		vS = vS->next;

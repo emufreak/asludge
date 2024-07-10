@@ -1,6 +1,7 @@
 #include <proto/dos.h>
 
 #include "backdrop.h"
+#include "custom.h"
 #include "graphics.h"
 #include "line.h"
 #include "moreio.h"
@@ -26,7 +27,7 @@ int viewportOffsetX = 0, viewportOffsetY = 0;
 unsigned int snapshotTextureName = 0;
 
 void blankScreen(int x1, int y1, int x2, int y2) {
-	KPrintF("blankScreen: Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
+	
 }
 
 void darkScreen () {
@@ -47,6 +48,7 @@ void hardScroll (int distance) {
 
 
 void killBackDrop () {
+	CstFreeBuffer();
 	deleteTextures (1, &backdropTextureName);
 	backdropTextureName = 0;
 	backdropExists = FALSE;
@@ -85,13 +87,17 @@ void nosnapshot () {
 	snapshotTextureName = 0;
 }
 
+BOOL reserveBackdrop () {
+	return CstReserveBackdrop(sceneWidth, sceneHeight);
+}
+
 BOOL resizeBackdrop (int x, int y) {
     killBackDrop ();
 	killParallax ();
 	killZBuffer ();
 	sceneWidth = x;
-	sceneHeight = y;
-	return TRUE;
+	sceneHeight = y;	
+	return reserveBackdrop();
 }
 
 BOOL restoreSnapshot (BPTR fp) {

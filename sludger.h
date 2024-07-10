@@ -59,6 +59,7 @@ BOOL runSludge();
 BOOL initSludge (char *);
 void pauseFunction (struct loadedFunction * fun);
 void saveHandlers (BPTR fp);
+void sludgeDisplay ();
 BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va);
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet);
 

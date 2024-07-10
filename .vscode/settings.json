@@ -32,6 +32,8 @@
         "functionlist.h": "c",
         "mathieeedoubtrans.h": "c",
         "mathieeesingtrans.h": "c",
-        "mathieeedoubbas.h": "c"
+        "mathieeedoubbas.h": "c",
+        "types.h": "c",
+        "custom.h": "c"
     }
 }

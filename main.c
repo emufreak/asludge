@@ -89,8 +89,8 @@ void TakeSystem() {
 	WaitBlit();	
 	Disable();
 	
-	custom->intena=0x7fff;//disable all interrupts
-	custom->intreq=0x7fff;//Clear any interrupts that were pending
+	//custom->intena=0x7fff;//disable all interrupts
+	//custom->intreq=0x7fff;//Clear any interrupts that were pending
 	
 	custom->dmacon=0x7fff;//Clear all DMA channels
 
@@ -102,7 +102,7 @@ void TakeSystem() {
 	WaitVbl();
 
 	VBR=GetVBR();
-	SystemIrq=GetInterruptHandler(); //store interrupt register
+	SystemIrq=GetInterruptHandler(); //store interrupt register*/
 }
 
 void FreeSystem() { 
@@ -121,7 +121,7 @@ void FreeSystem() {
 	custom->copjmp1=0x7fff; //start coppper
 
 	/*Restore all interrupts and DMA settings. */
-	custom->intena=SystemInts|0x8000;
+	//custom->intena=SystemInts|0x8000;
 	custom->dmacon=SystemDMA|0x8000;
 	custom->adkcon=SystemADKCON|0x8000;
 
@@ -259,7 +259,8 @@ int main(int argc, char *argv[]) {
 #endif
 	warpmode(0);
 
-	//TakeSystem();
+	TakeSystem();
+
 	custom->dmacon = 0x87ff;
 	WaitVbl();
 
@@ -277,7 +278,7 @@ int main(int argc, char *argv[]) {
 #endif
 
 	// END
-	//FreeSystem();
+	FreeSystem();
 
 	CloseLibrary((struct Library*)DOSBase);
 	CloseLibrary((struct Library*)GfxBase);
