@@ -27,7 +27,7 @@ int viewportOffsetX = 0, viewportOffsetY = 0;
 unsigned int snapshotTextureName = 0;
 
 void blankScreen(int x1, int y1, int x2, int y2) {
-	
+	CstBlankScreen(x2, y2);
 }
 
 void darkScreen () {
@@ -69,7 +69,6 @@ void killParallax () {
 }
 
 void loadBackDrop (int fileNum, int x, int y) {
-
 	KPrintF("loadBackDrop: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
 }
 

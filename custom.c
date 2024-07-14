@@ -13,6 +13,7 @@
 #include <exec/types.h>
 #include <proto/dos.h>
 #include <proto/exec.h>
+#include <proto/graphics.h>
 #include <hardware/custom.h>
 
 #include "custom.h"
@@ -44,23 +45,39 @@ ULONG CstClColor[] = {
     0x1b00000, 0x1b20000, 0x1b40000, 0x1b60000, 0x1b80000, 0x1ba0000, 0x1bc0000, 0x1be0000 
 };
 
-UWORD CstBlankScreen( int width, int height) {
+void CstBlankScreen( int width, int height) {
   volatile struct Custom *custom = (struct Custom*)0xdff000;
 
   width /= 16;
 
   WaitBlit();
 
-  custom->bltafwm = 0xffff;
-  custom->bltalwm = 0xffff;
-  custom->bltamod = 0;
-  custom->bltbmod = 0;
-  custom->bltcmod = 0;
-  custom->bltdmod = 0;
-  custom->bltcon1 = 0;
-  custom->bltcon0 = 0x0100;
-  custom->bltdpt = CstDrawBuffer;
-  custom->bltsize = (height*5)<<6+width;  
+  //Both Buffers need to be done
+  for(int i=0;i<2;i++) {
+    custom->bltafwm = 0xffff;
+    custom->bltalwm = 0xffff;
+    custom->bltamod = 0;
+    custom->bltbmod = 0;
+    custom->bltcmod = 0;
+    custom->bltdmod = 0;
+    custom->bltcon1 = 0;
+    custom->bltcon0 = 0x0100;
+    ULONG bltdpt = CstDrawBuffer;
+    UWORD bltsize = height*64+width;    
+    UWORD blitsize = width*height*2;
+    for(int i2=0;i2<5;i2++)
+    {            
+      custom->bltdpt = bltdpt;
+      custom->bltsize = bltsize;            
+      WaitBlit();
+      bltdpt += blitsize;
+    }
+
+    WaitBlit();
+    WaitVbl();
+    CstSwapGraphics();
+  }
+
 }
 
 UWORD * CstCreateCopperlist( int width) {
@@ -107,13 +124,8 @@ UWORD * CstCreateCopperlist( int width) {
 
 void CstSetCl(UWORD *copperlist)
 {
-
   volatile struct Custom *custom = (struct Custom*)0xdff000;
-  /*UBYTE *tmp = DrawCopper;
-  DrawCopper = ViewCopper;
-  ViewCopper = tmp;*/
   custom->cop1lc = (ULONG) copperlist;
-  //custom->copjmp1 = tmp;
 }
 
 void CstSludgeDisplay() {  

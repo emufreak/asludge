@@ -101,7 +101,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 		advanceNow = TRUE;
 		param = fun -> compiledLines[fun -> runThisLine].param;
 		com = fun -> compiledLines[fun -> runThisLine].theCommand;
-		//KPrintF("Processing Type %ld",com);
+		KPrintF("Processing Type %ld",com);
 
 //		fprintf (stderr, "com: %d param: %d (%s)\n", com, param,
 //				(com < numSludgeCommands) ? sludgeText[com] : ERROR_UNKNOWN_MCODE); fflush(stderr);
