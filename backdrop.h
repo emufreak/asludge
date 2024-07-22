@@ -21,6 +21,7 @@ void hardScroll (int distance);
 void killBackDrop ();
 void killParallax ();
 void loadBackDrop (int fileNum, int x, int y);
+BOOL loadHSI (BPTR fp, int x, int y, BOOL reserve);
 BOOL loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY);
 void mixBackDrop (int fileNum, int x, int y);
 void nosnapshot ();

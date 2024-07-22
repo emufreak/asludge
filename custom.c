@@ -21,7 +21,7 @@
 
 
 
-
+UWORD *CstBackDrop;
 UWORD *CstCopperList;
 ULONG *CstViewBuffer;
 ULONG *CstDrawBuffer;
@@ -62,12 +62,12 @@ void CstBlankScreen( int width, int height) {
     custom->bltdmod = 0;
     custom->bltcon1 = 0;
     custom->bltcon0 = 0x0100;
-    ULONG bltdpt = CstDrawBuffer;
+    ULONG bltdpt = (ULONG) CstDrawBuffer;
     UWORD bltsize = height*64+width;    
     UWORD blitsize = width*height*2;
     for(int i2=0;i2<5;i2++)
     {            
-      custom->bltdpt = bltdpt;
+      custom->bltdpt = (APTR) bltdpt;
       custom->bltsize = bltsize;            
       WaitBlit();
       bltdpt += blitsize;
@@ -187,6 +187,7 @@ BOOL CstReserveBackdrop(int width, int height) {
 
   CstCopperList = CstCreateCopperlist( width);
   int size = width*height*5;
+  CstBackDrop = AllocVec(size,MEMF_CHIP);
   CstDrawBuffer = AllocVec(size,MEMF_CHIP);
   CstViewBuffer = AllocVec(size,MEMF_CHIP);
   if( !CstCopperList || ! CstDrawBuffer || !CstViewBuffer)
@@ -205,4 +206,5 @@ void CstFreeBuffer( ) {
   if( CstViewBuffer) FreeVec(CstViewBuffer);
   if( CstCopperList) FreeVec(CstCopperList);  
 }
+
 

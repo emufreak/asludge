@@ -1,12 +1,15 @@
 #include <proto/dos.h>
 
 #include "backdrop.h"
+#include "colours.h"
 #include "custom.h"
+#include "fileset.h"
 #include "graphics.h"
 #include "line.h"
 #include "moreio.h"
 #include "sludger.h"
 #include "support/gcc8_c_support.h"
+#include "tga.h"
 #include "zbuffer.h"
 
 extern struct inputType input;
@@ -32,6 +35,15 @@ void blankScreen(int x1, int y1, int x2, int y2) {
 
 void darkScreen () {
 	KPrintF("darkScreen: Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
+}
+
+void drawBackDrop () {
+
+	//setPrimaryColor(1.0, 1.0, 1.0, 1.0);
+
+	//if (parallaxStuff) {
+	//Amiga todo: Maybe some parallaxstuff here?
+	//}
 }
 
 void drawHorizontalLine (unsigned int x1, unsigned int y, unsigned int x2) {
@@ -69,7 +81,91 @@ void killParallax () {
 }
 
 void loadBackDrop (int fileNum, int x, int y) {
+	if (! openFileFromNum (fileNum)) {
+		KPrintF("Can't load overlay image");
+		return;
+	}
+	char *buffer = AllocVec(320*256, MEMF_ANY); //Dummy Buffer
+	unsigned int *pal = AllocVec(256*4, MEMF_ANY);
+	loadHSI(bigDataFile, x, y, FALSE);
+	finishAccess ();
 	KPrintF("loadBackDrop: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
+	FreeVec(buffer);
+	FreeVec(pal);
+}
+
+BOOL loadHSI (BPTR fp, int x, int y, BOOL reserve) 
+{
+
+	unsigned int t1, t2, n;
+	unsigned short c;
+	UBYTE * target;
+	ULONG transCol = reserve ? -1 : 63519;
+	unsigned int picWidth;
+	unsigned int picHeight;
+	unsigned int realPicWidth, realPicHeight;
+	long file_pointer = Seek(fp, 0, OFFSET_CURRENT);
+
+	int fileIsPNG = TRUE;
+
+	// Is this a PNG file?
+
+	unsigned char tmp[10];
+	ULONG bytes_read = FRead( fp, tmp, 1, 8); //Get Current position
+
+	if (bytes_read != 8) {
+		KPrintF("Reading error in loadHSI.\n");
+	}	
+
+    if ( tmp[0] == 0x89 && tmp[1] == 0x50 && tmp[2] == 0x4E && tmp[3] == 0x47 && tmp[4] == 0x0D && tmp[5] == 0x0A && tmp[6] == 0x1A && tmp[7] == 0x0A ) {
+		// PNG not supported
+		KPrintF("loadHSI: Png not supported");
+		return FALSE;
+	} else {
+		// No, it's old-school HSI
+		fileIsPNG = FALSE;
+		Seek( fp, file_pointer, OFFSET_BEGINNING);
+
+		picWidth = realPicWidth = get2bytes (fp);
+		picHeight = realPicHeight = get2bytes (fp);
+	}
+
+	if (x < 0 || x + realPicWidth > sceneWidth || y < 0 || y + realPicHeight > sceneHeight) {
+		return FALSE;
+	}		
+
+	
+	for (t2 = 0; t2 < realPicHeight; t2 ++) {
+		t1 = 0;
+		while (t1 < realPicWidth) {
+			c = (unsigned short) get2bytes (fp);
+			if (c & 32) {
+				n = FGetC (fp) + 1;
+				c -= 32;
+			} else {
+				n = 1;
+			}
+			while (n --) {
+				target = backdropTexture + 4*picWidth*t2 + t1*4;
+				if (c == transCol || c == 2015) {
+					target[0] = 0;
+					target[1] = 0;
+					target[2] = 0;
+					target[3] = 0;
+				} else {
+					target[0] = redValue(c);
+					target[1] = greenValue(c);
+					target[2] = blueValue(c);
+					target[3] = 255;
+				}
+				t1++;
+			}
+		}
+	}
+
+	
+	backdropExists = TRUE;
+	return TRUE;
 }
 
 BOOL loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY) {
@@ -87,6 +183,9 @@ void nosnapshot () {
 }
 
 BOOL reserveBackdrop () {
+	if(backdropTexture) FreeVec(backdropTexture);
+	backdropTexture = AllocVec( sceneWidth*sceneHeight*4, MEMF_ANY );
+
 	return CstReserveBackdrop(sceneWidth, sceneHeight);
 }
 

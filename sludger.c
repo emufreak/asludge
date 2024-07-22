@@ -1,6 +1,7 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 
+#include "custom.h"
 #include "sludger.h"
 #include "builtin.h"
 #include "errors.h"
@@ -605,7 +606,7 @@ BOOL initSludge (char * filename) {
 	numGlobals = get2bytes (fp);
 
 	globalVars = AllocVec( sizeof(struct variable) * numGlobals,MEMF_ANY);
-	if(globalVars == 0) {
+	if(globalVars == 0 && numGlobals > 0) {
 		KPrintF("initsludge: Cannot allocate memory for globalvars\n");
 		return FALSE;
 	}		 
