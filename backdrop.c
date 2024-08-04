@@ -85,13 +85,9 @@ void loadBackDrop (int fileNum, int x, int y) {
 		KPrintF("Can't load overlay image");
 		return;
 	}
-	char *buffer = AllocVec(320*256, MEMF_ANY); //Dummy Buffer
-	unsigned int *pal = AllocVec(256*4, MEMF_ANY);
-	loadHSI(bigDataFile, x, y, FALSE);
+	CstLoadBackdrop( bigDataFile, x, y);
 	finishAccess ();
-	KPrintF("loadBackDrop: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
-	FreeVec(buffer);
-	FreeVec(pal);
+	
 }
 
 BOOL loadHSI (BPTR fp, int x, int y, BOOL reserve) 

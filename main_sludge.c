@@ -35,7 +35,7 @@ char *bundleFolder;
 int weAreDoneSoQuit;
 
 int main_sludge(int argc, char *argv[])
-{	
+{
 	/* Dimensions of our window. */
 	//AMIGA TODO: Maybe remove as there will be no windowed mode
     winWidth = 320;
