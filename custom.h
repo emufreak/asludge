@@ -7,4 +7,4 @@ void CstLoadBackdrop( BPTR fp, int x, int y);
 void CstSludgeDisplay();
 BOOL CstReserveBackdrop(int width, int height);
 void CstSetCl(UWORD *copperlist);
-void CstSwapGraphics();
+void CstSwapBuffer();

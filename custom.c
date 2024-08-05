@@ -29,6 +29,7 @@ BOOL CstApplyBackDropCounter = 0; //Backdrop needs to be loaded twice. Once for 
 ULONG *CstViewBuffer;
 ULONG *CstDrawBuffer;
 UWORD *CstClColor;
+UWORD *CstPalette;
 
 ULONG CstClSprites[] = { 0x001200000, 0x001220000,0x001240000,0x001260000, 0x001280000, 
         0x0012a0000, 0x0012c0000, 0x0012e0000, 0x001300000, 0x001320000, 0x001340000,
@@ -79,7 +80,7 @@ void CstBlankScreen( int width, int height) {
 
     WaitBlit();
     WaitVbl();
-    CstSwapGraphics();
+    CstSwapBuffer();
   }
 
 }
@@ -130,11 +131,21 @@ UWORD * CstCreateCopperlist( int width) {
 
 void CstDisplayBackDrop() 
 {
-  ULONG *bplcursorsrc = CstBackDrop;
-  ULONG *bplcursordst = CstDrawBuffer;
+  ULONG *bplcursorsrc = (ULONG *) CstBackDrop;
+  ULONG *bplcursordst = (ULONG *) CstDrawBuffer;
   for(int i=0;i<CstBackdropSize/4;i++)
   {
     *bplcursordst++ = *bplcursorsrc++;
+  }
+
+  UWORD *tmp = CstClColor;
+  UWORD reg = 0x180;
+  UWORD *colorpos = CstPalette;
+
+  for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
+    *tmp++ = reg;
+    reg +=2;
+    *tmp++ = *colorpos++;
   }
 }
 
@@ -148,10 +159,9 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
   //Load Palette to Copper
   UWORD reg = 0x180;
-  UWORD *tmp = CstClColor;
-  for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
-    *tmp++ = reg;
-    reg +=2;
+  CstPalette = AllocVec(32*2,MEMF_ANY); //ToDo other number of bitplanes
+  UWORD *tmp = CstPalette;
+  for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes   
     *tmp++ = get2bytes(fp);
   }
 
@@ -161,14 +171,14 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   UWORD count = FRead( fp, tmpbuffer, 2, size/2);
   
   if(!count) {
-    KPrintF("Errow while reading stream");
+    KPrintF("Error while reading stream");
     return;
   }
   
 
-  tmp = CstBackDrop; //+ widthwords*y/2 + x / 16;
+  tmp = CstBackDrop; 
   UWORD offset = widthwords*y + x / 16;
-  tmp += offset;
+  tmp += offset;    
 
   for(int i3=0;i3<5;i3++) //ToDo other number of bitplanes
   {    
@@ -200,10 +210,11 @@ void CstSludgeDisplay() {
     CstDisplayBackDrop();
     CstApplyBackDropCounter--;
   }
-  CstSwapGraphics();
+  CstSwapBuffer();
+  
 }
 
-void CstSwapGraphics( ) {
+void CstSwapBuffer( ) {
   ULONG *tmp;
   tmp = CstViewBuffer;
   CstViewBuffer = CstDrawBuffer;
@@ -264,8 +275,20 @@ BOOL CstReserveBackdrop(int width, int height) {
   CstBackDrop = AllocVec(CstBackdropSize,MEMF_CHIP);
  	debug_register_bitmap(CstBackDrop, "CstBackDrop.bpl", 320, 256, 5, 0);
 
+  //Initialize Buffer
+  ULONG *cursor = CstBackDrop;
+  for(int i=0;i<CstBackdropSize/4;i++)
+  {
+    *cursor++ = 0;
+  }  
+  
   CstDrawBuffer = AllocVec(CstBackdropSize,MEMF_CHIP);
   CstViewBuffer = AllocVec(CstBackdropSize,MEMF_CHIP);
+
+  debug_register_bitmap(CstDrawBuffer, "drawbuffer.bpl", width*8, height, 5, 0);
+  debug_register_bitmap(CstViewBuffer, "viewbuffer.bpl", width*8, height, 5, 0);
+
+
   if( !CstCopperList || ! CstDrawBuffer || !CstViewBuffer)
   {
     KPrintF("CstReserveBackdrop: Memory allocation failed");

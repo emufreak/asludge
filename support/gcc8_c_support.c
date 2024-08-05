@@ -19,13 +19,13 @@ void WaitVbl() {
 	while (1) {
 		volatile ULONG vpos=*(volatile ULONG*)0xDFF004;
 		vpos&=0x1ff00;
-		if (vpos!=(311<<8))
+		if (vpos!=(300<<8))
 			break;
 	}
 	while (1) {
 		volatile ULONG vpos=*(volatile ULONG*)0xDFF004;
 		vpos&=0x1ff00;
-		if (vpos==(311<<8))
+		if (vpos==(300<<8))
 			break;
 	}
 	debug_stop_idle();

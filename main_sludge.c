@@ -118,9 +118,9 @@ int main_sludge(int argc, char *argv[])
 	startNewFunctionNum (0, 0, NULL, noStack, TRUE);
 
 	weAreDoneSoQuit = 0;
-	while ( !weAreDoneSoQuit ) {		
-		handleInput();
+	while ( !weAreDoneSoQuit ) {				
 		sludgeDisplay ();
+		handleInput();
 		WaitVbl();
 	}	
 	//Amiga Cleanup

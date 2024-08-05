@@ -1,160 +1,160 @@
 
 Discarded input sections
 
- .text          0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .data          0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss           0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+ .text          0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .data          0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss           0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.NPOT_textures
-                0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.realWinWidth
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.realWinHeight
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.amiga_quit
-                0x00000000       0x2c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x2c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.tgaHeaderRead
-                0x00000000      0x1bc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.tgaLoad  0x00000000      0x1f2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x1bc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.tgaLoad  0x00000000      0x1f2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.tgaLoad8
-                0x00000000       0x60 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x60 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.tgaLoadPal32
-                0x00000000      0x110 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x110 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.tgaLoadPalette
-                0x00000000       0x34 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x34 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.tgaLoadScanline8
-                0x00000000       0x6a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x6a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.tgaReadWord
-                0x00000000       0x5c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x5c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.convertString
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.WaitLine
-                0x00000000       0x3a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x3a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.p61Music
-                0x00000000       0x26 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.Wait10   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.Wait11   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.Wait12   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.Wait13   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x26 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.Wait10   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.Wait11   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.Wait12   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.Wait13   0x00000000       0x10 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadStatusBars
-                0x00000000      0x1fe C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x1fe C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadSpeech
-                0x00000000      0x154 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x154 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadAnim
-                0x00000000      0x15e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x15e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadCostume
-                0x00000000      0x12a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x12a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadPeople
-                0x00000000      0x542 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x542 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getStackFromLibrary
-                0x00000000       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadFunction
-                0x00000000      0x1c2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x1c2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadStack
-                0x00000000       0xce C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0xce C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadStackRef
-                0x00000000      0x138 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.soundOK   0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x138 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.soundOK   0x00000000        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.soundCache
-                0x00000000       0x70 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x70 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadSounds
-                0x00000000       0x6a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x6a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.redValue
-                0x00000000       0x1a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x1a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.greenValue
-                0x00000000       0x1e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x1e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.blueValue
-                0x00000000       0x1a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x1a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeGrey
-                0x00000000       0x32 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x32 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeColour
-                0x00000000       0x46 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x46 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.lightMapNumber
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.viewportHeight
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.viewportWidth
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.viewportOffsetX
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.viewportOffsetY
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.drawBackDrop
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.loadHSI  0x00000000      0x306 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.loadHSI  0x00000000      0x306 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadVariable
-                0x00000000      0x180 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0x180 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.numFontColours
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.fontTable
-                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.memclr   0x00000000       0xd6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.memmove  0x00000000       0xae C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.memclr   0x00000000       0xd6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.memmove  0x00000000       0xae C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_clear
-                0x00000000       0x16 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x16 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_rect
-                0x00000000       0x6e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x6e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_filled_rect
-                0x00000000       0x6e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x6e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_text
-                0x00000000       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_register_palette
-                0x00000000       0xb2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0xb2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_register_copperlist
-                0x00000000       0x98 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x98 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_unregister
-                0x00000000       0x1c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x1c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_load
-                0x00000000       0x82 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0x82 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_save
-                0x00000000       0x86 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc4Lbj2T.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccUVmzgd.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccUVmzgd.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccOl169z.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccOl169z.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccwDMwdX.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccwDMwdX.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc6Omxuk.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccWqInUH.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccWqInUH.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccapL5d5.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cc4s4LAr.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc4s4LAr.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccan7p6N.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccWqEMLa.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccu9ZQmx.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccuyIv6T.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc8pjY0f.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cccVZ03B.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccMkxucY.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccIn9Gwj.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cckode3E.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cckode3E.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccuizUI0.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccuizUI0.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccKX5s3p.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccOuJTxP.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccOuJTxP.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cckIJUaf.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccMHf5QE.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccMHf5QE.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccca9rv3.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cceCSYis.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc0lHvgR.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cciSqDmg.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc4vKVpE.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccmWYOB2.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccmWYOB2.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccoEiIXq.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccoEiIXq.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cceGxovO.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cceGxovO.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccG5auYb.debug.temp.o
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccwtXbzz.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccwtXbzz.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccOz9KiX.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccMLJubl.debug.temp.o
- .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc2CO5JM.debug.temp.o
+                0x00000000       0x86 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccfzhjEG.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccOho9Yq.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccOho9Yq.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cc1CeQtb.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc1CeQtb.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccwXTLbW.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccwXTLbW.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cchEscPG.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccc0xKEr.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccc0xKEr.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cctnSWpc.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccGEMc9V.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccGEMc9V.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cchCU75F.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccAikUcq.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cctrX2q9.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccIVzQHS.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccjDhwlC.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc2EpnYk.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccRfuiw3.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccovKwdM.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccRAofbv.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccRAofbv.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccWbpgie.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccWbpgie.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc9oDlkX.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccEhmi2J.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccEhmi2J.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccBE9aRw.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cc4joNOj.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc4joNOj.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccVbnd06.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccuuOy8S.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccx2pDpF.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccQWUcCr.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccfMrrce.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccAvyJKZ.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccAvyJKZ.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccbByweL.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccbByweL.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cc6AssUw.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc6AssUw.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccnEq6Ii.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\cc6ZGyL4.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc6ZGyL4.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccbVL4JQ.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\ccm3TdHB.debug.temp.o
+ .comment       0x00000000       0x13 C:\Users\uersu\AppData\Local\Temp\cc1QlcZm.debug.temp.o
  .text          0x00000000        0x0 obj/gcc8_a_support.o
  .data          0x00000000        0x0 obj/gcc8_a_support.o
  .bss           0x00000000        0x0 obj/gcc8_a_support.o
@@ -186,42 +186,42 @@ Name             Origin             Length             Attributes
 Linker script and memory map
 
 Address of section .text set to 0x0
-LOAD C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cc4Lbj2T.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccUVmzgd.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccOl169z.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccwDMwdX.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cc6Omxuk.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccWqInUH.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccapL5d5.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cc4s4LAr.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccan7p6N.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccWqEMLa.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccu9ZQmx.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccuyIv6T.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cc8pjY0f.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cccVZ03B.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccMkxucY.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccIn9Gwj.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cckode3E.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccuizUI0.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccKX5s3p.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccOuJTxP.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cckIJUaf.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccMHf5QE.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccca9rv3.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cceCSYis.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cc0lHvgR.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cciSqDmg.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cc4vKVpE.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccmWYOB2.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccoEiIXq.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cceGxovO.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccG5auYb.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccwtXbzz.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccOz9KiX.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\ccMLJubl.debug.temp.o
-LOAD C:\Users\uersu\AppData\Local\Temp\cc2CO5JM.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccfzhjEG.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccOho9Yq.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc1CeQtb.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccwXTLbW.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cchEscPG.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccc0xKEr.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cctnSWpc.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccGEMc9V.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cchCU75F.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccAikUcq.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cctrX2q9.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccIVzQHS.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccjDhwlC.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc2EpnYk.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccRfuiw3.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccovKwdM.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccRAofbv.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccWbpgie.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc9oDlkX.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccEhmi2J.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccBE9aRw.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc4joNOj.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccVbnd06.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccuuOy8S.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccx2pDpF.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccQWUcCr.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccfMrrce.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccAvyJKZ.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccbByweL.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc6AssUw.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccnEq6Ii.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc6ZGyL4.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccbVL4JQ.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\ccm3TdHB.debug.temp.o
+LOAD C:\Users\uersu\AppData\Local\Temp\cc1QlcZm.debug.temp.o
 LOAD obj/gcc8_a_support.o
 LOAD obj/depacker_doynax.o
 LOAD obj/depacker_doynax_vasm.o
@@ -283,10 +283,10 @@ LOAD obj/depacker_doynax_vasm.o
 .iplt
  *(.iplt)
 
-.text           0x00000000    0x13a18
+.text           0x00000000    0x13b24
  *(.text.unlikely .text.*_unlikely .text.unlikely.*)
  .text.unlikely
-                0x00000000       0xb8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0xb8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
                 0x00000000                _start
  *(.text.exit .text.exit.*)
  *(.text.startup .text.startup.*)
@@ -294,911 +294,911 @@ LOAD obj/depacker_doynax_vasm.o
  *(SORT_BY_NAME(.text.sorted.*))
  *(.text .stub .text.* .gnu.linkonce.t.*)
  .text.copyString
-                0x000000b8       0x60 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000000b8       0x60 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.decodeFilename
-                0x00000118      0x1e6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000118      0x1e6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.encodeFilename
-                0x000002fe      0x392 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000002fe      0x392 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.FLOATSwap
-                0x00000690       0x2c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000690       0x2c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.get2bytes
-                0x000006bc       0x5c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000006bc       0x5c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.get4bytes
-                0x00000718       0xc0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000718       0xc0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getFloat
-                0x000007d8       0x7c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000007d8       0x7c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getSigned
-                0x00000854       0x7c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000854       0x7c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.put2bytes
-                0x000008d0       0x88 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000008d0       0x88 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.put4bytes
-                0x00000958       0xee C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000958       0xee C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.putFloat
-                0x00000a46       0x56 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000a46       0x56 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.putSigned
-                0x00000a9c       0x66 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000a9c       0x66 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.readString
-                0x00000b02       0xa8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000b02       0xa8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.shortSwap
-                0x00000baa       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000baa       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.writeString
-                0x00000bd8       0x80 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.rand     0x00000c58      0x162 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000bd8       0x80 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.rand     0x00000c58      0x162 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.pickAnimCursor
-                0x00000dba       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000dba       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.pasteCursor
-                0x00000de2       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000de2       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.CstBlankScreen
-                0x00000df4      0x126 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000df4      0x126 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.CstCreateCopperlist
-                0x00000f1a      0x1da C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000f1a      0x1da C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.CstDisplayBackDrop
-                0x000010f4       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000010f4       0xc0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.CstLoadBackdrop
-                0x00001156      0x256 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000011b4      0x26c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.CstSetCl
-                0x000013ac       0x18 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00001420       0x18 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.CstSludgeDisplay
-                0x000013c4       0x26 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.CstSwapGraphics
-                0x000013ea      0x118 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00001438       0x26 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.CstSwapBuffer
+                0x0000145e      0x118 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.CstReserveBackdrop
-                0x00001502      0x17e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00001576      0x216 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.CstFreeBuffer
-                0x00001680       0x70 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000178c       0x70 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.drawLine
-                0x000016f0      0x182 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000017fc      0x182 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.deleteTextures
-                0x00001872       0xf4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000197e       0xf4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setGraphicsWindow
-                0x00001966       0x20 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00001a72       0x20 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.resourceNameFromNum
-                0x00001986       0x46 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00001a92       0x46 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.main_sludge
-                0x000019cc      0x2d8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00001ad8      0x2d8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setGameFilePath
-                0x00001ca4      0x23e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00001db0      0x23e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killZBuffer
-                0x00001ee2       0x56 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00001fee       0x56 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setZBuffer
-                0x00001f38      0x41c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00002044      0x41c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.sortZPal
-                0x00002354       0xe6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00002460       0xe6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.abortFunction
-                0x0000243a       0xe2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00002546       0xe2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.cancelAFunction
-                0x0000251c       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00002628       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.completeTimers
-                0x00002568       0x2a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00002674       0x2a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.continueFunction
-                0x00002592      0xec2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000269e      0xec2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.finishFunction
-                0x00003454       0xd4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00003560       0xd4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.handleInput
-                0x00003528        0x8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00003634        0x8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.initSludge
-                0x00003530      0x776 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000363c      0x776 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killSpeechTimers
-                0x00003ca6       0x44 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00003db2       0x44 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadFunctionCode
-                0x00003cea      0x1f2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00003df6      0x1f2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadHandlers
-                0x00003edc       0xa0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00003fe8       0xa0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.openAndVerify
-                0x00003f7c      0x370 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004088      0x370 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.pauseFunction
-                0x000042ec       0x42 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000043f8       0x42 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.restartFunction
-                0x0000432e       0x1a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000443a       0x1a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.runSludge
-                0x00004348      0x118 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004454      0x118 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveHandlers
-                0x00004460       0xaa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000456c       0xaa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.sludgeDisplay
-                0x0000450a        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004616        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.stackSetByIndex
-                0x00004514       0x44 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004620       0x44 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.startNewFunctionNum
-                0x00004558      0x16e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004664      0x16e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.finishAccess
-                0x000046c6        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000047d2        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getNumberedString
-                0x000046d0       0xfe C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000047dc       0xfe C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.openFileFromNum
-                0x000047ce       0xc8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000048da       0xc8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.openObjectSlice
-                0x00004896       0xc0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000049a2       0xc0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.openSubSlice
-                0x00004956       0xc0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004a62       0xc0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setFileIndices
-                0x00004a16      0x2c2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.GetVBR   0x00004cd8       0x70 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004b22      0x2c2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.GetVBR   0x00004de4       0x70 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.SetInterruptHandler
-                0x00004d48       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004e54       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.GetInterruptHandler
-                0x00004d5a        0xc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004e66        0xc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.TakeSystem
-                0x00004d66      0x10e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00004e72      0x10e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.FreeSystem
-                0x00004e74      0x10e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.p61Init  0x00004f82       0x24 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.p61End   0x00004fa6       0x26 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.main     0x00004fcc      0x2e8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00004fcc                main
+                0x00004f80      0x10e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.p61Init  0x0000508e       0x24 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.p61End   0x000050b2       0x26 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.main     0x000050d8      0x2e8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000050d8                main
  .text.addStatusBar
-                0x000052b4       0x6a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000053c0       0x6a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.clearStatusBar
-                0x0000531e       0x74 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000542a       0x74 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.initStatusBar
-                0x00005392       0x34 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000549e       0x34 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killLastStatus
-                0x000053c6       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000054d2       0x62 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.positionStatus
-                0x00005428       0x1c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005534       0x1c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveStatusBars
-                0x00005444      0x1f2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005550      0x1f2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setLitStatus
-                0x00005636       0x10 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005742       0x10 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setStatusBar
-                0x00005646       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005752       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.statusBarText
-                0x00005692       0x1e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000579e       0x1e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.addSpeechLine
-                0x000056b0      0x21e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000057bc      0x21e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.initSpeech
-                0x000058ce       0x7c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000059da       0x7c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.isThereAnySpeechGoingOn
-                0x0000594a       0x1c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005a56       0x1c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killAllSpeech
-                0x00005966       0xce C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005a72       0xce C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeTalker
-                0x00005a34       0x14 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005b40       0x14 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveSpeech
-                0x00005a48      0x14c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005b54      0x14c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setFrames
-                0x00005b94       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005ca0       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.wrapSpeech
-                0x00005bde      0x118 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005cea      0x118 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.wrapSpeechPerson
-                0x00005cf6      0x11e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005e02      0x11e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.wrapSpeechXY
-                0x00005e14      0x32e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00005f20      0x32e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadSpriteBank
-                0x00006142       0x20 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.TF_abs   0x00006162        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000624e       0x20 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.TF_abs   0x0000626e        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.addPerson
-                0x0000616c      0x272 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00006278      0x272 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.animatePerson
-                0x000063de       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000064ea       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.animatePersonUsingPersona
-                0x00006428       0x58 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00006534       0x58 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.copyAnim
-                0x00006480      0x19a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000658c      0x19a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.createPersonaAnim
-                0x0000661a      0x222 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00006726      0x222 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.deleteAnim
-                0x0000683c       0x50 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00006948       0x50 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.doBorderStuff
-                0x0000688c      0x6ba C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00006998      0x6ba C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.findPerson
-                0x00006f46       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007052       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.floatCharacter
-                0x00006f74       0x24 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007080       0x24 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.forceWalkingPerson
-                0x00006f98       0xaa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000070a4       0xaa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.handleClosestPoint
-                0x00007042      0x240 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000714e      0x240 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.initPeople
-                0x00007282       0x1e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000738e       0x1e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.jumpPerson
-                0x000072a0       0x90 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000073ac       0x90 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killAllPeople
-                0x00007330       0x82 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000743c       0x82 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killMostPeople
-                0x000073b2       0xaa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000074be       0xaa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeSilent
-                0x0000745c       0x14 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007568       0x14 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeWalkingPerson
-                0x00007470      0x1b8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000757c      0x1b8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeNullAnim
-                0x00007628       0x66 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007734       0x66 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.moveAndScale
-                0x0000768e       0x7e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000779a       0x7e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.removeOneCharacter
-                0x0000770c       0xcc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007818       0xcc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.rethinkAngle
-                0x000077d8       0x86 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000078e4       0x86 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveAnim
-                0x0000785e       0xca C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000796a       0xca C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveCostume
-                0x00007928       0x5e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007a34       0x5e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.savePeople
-                0x00007986      0x4e2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007a92      0x4e2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setBankFile
-                0x00007e68        0xc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007f74        0xc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setDrawMode
-                0x00007e74       0x2a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007f80       0x2a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setMyDrawMode
-                0x00007e9e      0x51c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00007faa      0x51c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setCharacterWalkSpeed
-                0x000083ba       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000084c6       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setPersonExtra
-                0x000083e8       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000084f4       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setScale
-                0x0000841e       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000852a       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setShown
-                0x00008446       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00008552       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.spinStep
-                0x00008474       0xde C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00008580       0xde C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.stopPerson
-                0x00008552       0x54 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000865e       0x54 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.timeForAnim
-                0x000085a6       0x3e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000086b2       0x3e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.turnMeAngle
-                0x000085e4       0x7a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000086f0       0x7a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.turnPersonToFace
-                0x0000865e       0x76 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.walkMe   0x000086d4      0x2f0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000876a       0x76 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.walkMe   0x000087e0      0x2f0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadBankForAnim
-                0x000089c4       0xe8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00008ad0       0xe8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.clearStackLib
-                0x00008aac       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00008bb8       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadGame
-                0x00008af6      0x300 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00008c02      0x300 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveFunction
-                0x00008df6      0x1b8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00008f02      0x1b8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveGame
-                0x00008fae      0x578 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000090ba      0x578 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveStack
-                0x00009526       0x64 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009632       0x64 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveStackRef
-                0x0000958a      0x128 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009696      0x128 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveVariable
-                0x000096b2      0x130 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000097be      0x130 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.cacheSound
-                0x000097e2        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000098ee        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.huntKillFreeSound
-                0x000097e6        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000098f2        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.huntKillSound
-                0x000097ea        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.playMOD  0x000097ee        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000098f6        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.playMOD  0x000098fa        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.playSoundList
-                0x000097f2        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000098fe        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveSounds
-                0x000097f6       0x5e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009902       0x5e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setDefaultMusicVolume
-                0x00009854        0xc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009960        0xc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setDefaultSoundVolume
-                0x00009860        0xc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000996c        0xc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setSoundLoop
-                0x0000986c        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009978        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setMusicVolume
-                0x00009870        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000997c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setSoundVolume
-                0x00009874        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009980        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.startSound
-                0x00009878       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.stopMOD  0x0000988a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009984       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.stopMOD  0x00009996        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.blankScreen
-                0x0000988e       0x14 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000999a       0x14 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.darkScreen
-                0x000098a2       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000099ae       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.drawHorizontalLine
-                0x000098b4       0x26 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000099c0       0x26 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.drawVerticalLine
-                0x000098da       0x26 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000099e6       0x26 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.hardScroll
-                0x00009900       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009a0c       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killBackDrop
-                0x00009912       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009a1e       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killParallax
-                0x0000993a       0x86 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009a46       0x86 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadBackDrop
-                0x000099c0       0x42 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009acc       0x42 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadParallax
-                0x00009a02       0x34 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009b0e       0x34 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.mixBackDrop
-                0x00009a36       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009b42       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.nosnapshot
-                0x00009a48       0x1c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009b54       0x1c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.reserveBackdrop
-                0x00009a64       0x8e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009b70       0x8e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.resizeBackdrop
-                0x00009af2       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009bfe       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.restoreSnapshot
-                0x00009b20       0x26 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009c2c       0x26 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveParallaxRecursive
-                0x00009b46       0xae C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009c52       0xae C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.snapshot
-                0x00009bf4       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009d00       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.findObjectType
-                0x00009c06       0x34 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009d12       0x34 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getCombinationFunction
-                0x00009c3a       0x66 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009d46       0x66 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.initObjectTypes
-                0x00009ca0        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009dac        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadObjectRef
-                0x00009ca4       0x52 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009db0       0x52 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadObjectType
-                0x00009cf6      0x2b8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00009e02      0x2b8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.removeObjectType
-                0x00009fae       0xa0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000a0ba       0xa0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveObjectRef
-                0x0000a04e       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000a15a       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.fileToStack
-                0x0000a07c      0x36e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000a188      0x36e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.readStringEncoded
-                0x0000a3ea       0xc6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000a4f6       0xc6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.readTextPlain
-                0x0000a4b0      0x192 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000a5bc      0x192 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.stackToFile
-                0x0000a642      0x316 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000a74e      0x316 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.writeStringEncoded
-                0x0000a958       0x9a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000aa64       0x9a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.failSecurityCheck
-                0x0000a9f2       0x8e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.sayCore  0x0000aa80      0x160 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000aafe       0x8e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.sayCore  0x0000ab8c      0x160 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_say
-                0x0000abe0       0x18 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000acec       0x18 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_think
-                0x0000abf8       0x16 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ad04       0x16 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_freeze
-                0x0000ac0e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ad1a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_unfreeze
-                0x0000ac12        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ad1e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_howFrozen
-                0x0000ac16        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ad22        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCursor
-                0x0000ac1a       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ad26       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getMouseX
-                0x0000ac50       0x2a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ad5c       0x2a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getMouseY
-                0x0000ac7a       0x2a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ad86       0x2a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getMouseScreenX
-                0x0000aca4       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000adb0       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getMouseScreenY
-                0x0000acf0       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000adfc       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getStatusText
-                0x0000ad3c       0x1e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ae48       0x1e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getMatchingFiles
-                0x0000ad5a       0xee C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ae66       0xee C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_saveGame
-                0x0000ae48       0xc6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000af54       0xc6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_fileExists
-                0x0000af0e      0x11c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b01a      0x11c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_loadGame
-                0x0000b02a       0xe8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b136       0xe8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_blankScreen
-                0x0000b112       0x24 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b21e       0x24 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_blankArea
-                0x0000b136      0x108 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b242      0x108 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_darkBackground
-                0x0000b23e        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b34a        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_addOverlay
-                0x0000b248       0xca C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b354       0xca C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_mixOverlay
-                0x0000b312       0xca C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b41e       0xca C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_pasteImage
-                0x0000b3dc       0xc2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b4e8       0xc2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setSceneDimensions
-                0x0000b49e       0xb6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b5aa       0xb6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_aimCamera
-                0x0000b554      0x2b4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b660      0x2b4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_zoomCamera
-                0x0000b808      0x22c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000b914      0x22c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_pickOne
-                0x0000ba34       0x7e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000bb40       0x7e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_substring
-                0x0000bab2      0x1b2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000bbbe      0x1b2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_stringLength
-                0x0000bc64       0x6e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000bd70       0x6e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_newStack
-                0x0000bcd2       0xf8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000bdde       0xf8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_stackSize
-                0x0000bdca       0xaa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000bed6       0xaa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_copyStack
-                0x0000be74       0x58 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000bf80       0x58 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_pushToStack
-                0x0000becc       0xb8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000bfd8       0xb8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_enqueue
-                0x0000bf84      0x118 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c090      0x118 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_deleteFromStack
-                0x0000c09c       0xc4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c1a8       0xc4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_deleteAllFromStack
-                0x0000c160       0xc6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c26c       0xc6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_popFromStack
-                0x0000c226       0x8e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c332       0x8e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_peekStart
-                0x0000c2b4       0x78 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c3c0       0x78 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_peekEnd
-                0x0000c32c       0x7a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c438       0x7a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_random
-                0x0000c3a6       0x76 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c4b2       0x76 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setStatusColour
-                0x0000c41c        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c528        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setLitStatusColour
-                0x0000c420        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c52c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setPasteColour
-                0x0000c424        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c530        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setBlankColour
-                0x0000c428        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c534        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setBurnColour
-                0x0000c42c        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c538        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setFont
-                0x0000c430       0xe4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c53c       0xe4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_inFont
-                0x0000c514       0x56 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c620       0x56 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_pasteString
-                0x0000c56a       0xe8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c676       0xe8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_anim
-                0x0000c652       0xb4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c75e       0xb4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_costume
-                0x0000c706      0x12c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c812      0x12c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_launch
-                0x0000c832      0x15a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000c93e      0x15a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_pause
-                0x0000c98c       0x5a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ca98       0x5a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_completeTimers
-                0x0000c9e6        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000caf2        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_callEvent
-                0x0000c9f0       0xc8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cafc       0xc8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_quitGame
-                0x0000cab8        0xc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cbc4        0xc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn__rem_movieStart
-                0x0000cac4       0x22 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cbd0       0x22 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn__rem_movieAbort
-                0x0000cae6       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cbf2       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn__rem_moviePlaying
-                0x0000caf8       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cc04       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_playMovie
-                0x0000cb0a       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cc16       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_stopMovie
-                0x0000cb1c       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cc28       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_pauseMovie
-                0x0000cb2e       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cc3a       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_startMusic
-                0x0000cb40       0xd2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cc4c       0xd2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_stopMusic
-                0x0000cc12       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cd1e       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setMusicVolume
-                0x0000cc5c       0x86 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cd68       0x86 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setDefaultMusicVolume
-                0x0000cce2       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000cdee       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_playSound
-                0x0000cd2c       0x54 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ce38       0x54 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_loopSound
-                0x0000cd80      0x1e4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ce8c      0x1e4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_stopSound
-                0x0000cf64       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d070       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setDefaultSoundVolume
-                0x0000cfae       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d0ba       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setSoundVolume
-                0x0000cff8       0x86 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d104       0x86 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setSoundLoopPoints
-                0x0000d07e       0xca C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d18a       0xca C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setFloor
-                0x0000d148       0x70 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d254       0x70 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_showFloor
-                0x0000d1b8        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d2c4        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setZBuffer
-                0x0000d1c2       0x70 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d2ce       0x70 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setLightMap
-                0x0000d232       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d33e       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setSpeechMode
-                0x0000d244       0x60 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d350       0x60 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_somethingSpeaking
-                0x0000d2a4       0x48 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d3b0       0x48 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_skipSpeech
-                0x0000d2ec        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d3f8        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getOverObject
-                0x0000d2f6       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d402       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_rename
-                0x0000d342       0xa4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d44e       0xa4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getObjectX
-                0x0000d3e6       0xce C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d4f2       0xce C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getObjectY
-                0x0000d4b4       0xd0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d5c0       0xd0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_addScreenRegion
-                0x0000d584      0x214 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d690      0x214 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_removeScreenRegion
-                0x0000d798       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d8a4       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_showBoxes
-                0x0000d7e2        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d8ee        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_removeAllScreenRegions
-                0x0000d7ec        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d8f8        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_addCharacter
-                0x0000d7f6      0x104 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000d902      0x104 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_hideCharacter
-                0x0000d8fa       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000da06       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_showCharacter
-                0x0000d946       0x4e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000da52       0x4e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_removeAllCharacters
-                0x0000d994       0x10 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000daa0       0x10 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCharacterDrawMode
-                0x0000d9a4       0x86 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000dab0       0x86 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCharacterTransparency
-                0x0000da2a       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000db36       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCharacterColourise
-                0x0000da3c       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000db48       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setScale
-                0x0000da4e       0x8e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000db5a       0x8e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_stopCharacter
-                0x0000dadc       0x64 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000dbe8       0x64 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_pasteCharacter
-                0x0000db40       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000dc4c       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_animate
-                0x0000db52       0xa0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000dc5e       0xa0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCostume
-                0x0000dbf2       0x7a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000dcfe       0x7a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_floatCharacter
-                0x0000dc6c       0xa0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000dd78       0xa0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCharacterWalkSpeed
-                0x0000dd0c       0xa0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000de18       0xa0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_turnCharacter
-                0x0000ddac       0xa0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000deb8       0xa0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCharacterExtra
-                0x0000de4c       0xa0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000df58       0xa0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_removeCharacter
-                0x0000deec       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.moveChr  0x0000df36      0x2ae C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000dff8       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.moveChr  0x0000e042      0x2ae C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_moveCharacter
-                0x0000e1e4       0x18 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e2f0       0x18 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_forceCharacter
-                0x0000e1fc       0x1a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e308       0x1a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_jumpCharacter
-                0x0000e216       0x1a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e322       0x1a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_clearStatus
-                0x0000e230        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e33c        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_removeLastStatus
-                0x0000e23a        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e346        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_addStatus
-                0x0000e244        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e350        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_statusText
-                0x0000e24e       0x5a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e35a       0x5a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_lightStatus
-                0x0000e2a8       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e3b4       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_positionStatus
-                0x0000e2f2       0x86 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e3fe       0x86 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_alignStatus
-                0x0000e378       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e484       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getFuncNumForCallback
-                0x0000e3c4       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e4d0       0x62 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_onLeftMouse
-                0x0000e426       0x30 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e532       0x30 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_onLeftMouseUp
-                0x0000e456       0x32 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e562       0x32 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_onRightMouse
-                0x0000e488       0x32 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e594       0x32 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_onRightMouseUp
-                0x0000e4ba       0x32 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e5c6       0x32 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_onFocusChange
-                0x0000e4ec       0x32 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e5f8       0x32 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_onMoveMouse
-                0x0000e51e       0x32 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e62a       0x32 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_onKeyboard
-                0x0000e550       0x32 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e65c       0x32 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_spawnSub
-                0x0000e582       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e68e       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_cancelSub
-                0x0000e5ce       0x58 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e6da       0x58 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_stringWidth
-                0x0000e626       0x74 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e732       0x74 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_hardScroll
-                0x0000e69a       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e7a6       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_isScreenRegion
-                0x0000e6e4       0x6c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e7f0       0x6c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setSpeechSpeed
-                0x0000e750       0x7a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e85c       0x7a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setFontSpacing
-                0x0000e7ca       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e8d6       0x62 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_transitionLevel
-                0x0000e82c       0x80 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e938       0x80 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_captureAllKeys
-                0x0000e8ac       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000e9b8       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_spinCharacter
-                0x0000e8f8       0xe2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ea04       0xe2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getCharacterDirection
-                0x0000e9da       0x8a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000eae6       0x8a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_isCharacter
-                0x0000ea64       0x6e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000eb70       0x6e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_normalCharacter
-                0x0000ead2       0xa8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ebde       0xa8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_isMoving
-                0x0000eb7a       0x8c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ec86       0x8c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_fetchEvent
-                0x0000ec06       0xc6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ed12       0xc6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_deleteFile
-                0x0000eccc       0xbc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000edd8       0xbc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_renameFile
-                0x0000ed88      0x144 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000ee94      0x144 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_cacheSound
-                0x0000eecc       0x54 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000efd8       0x54 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_burnString
-                0x0000ef20       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f02c       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCharacterSpinSpeed
-                0x0000ef32       0xcc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f03e       0xcc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCharacterAngleOffset
-                0x0000effe       0xcc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f10a       0xcc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_transitionMode
-                0x0000f0ca       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f1d6       0x62 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn__rem_updateDisplay
-                0x0000f12c       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f238       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getSoundCache
-                0x0000f15a       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f266       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_saveCustomData
-                0x0000f16c       0xde C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f278       0xde C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_loadCustomData
-                0x0000f24a      0x128 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f356      0x128 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setCustomEncoding
-                0x0000f372       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f47e       0x62 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_freeSound
-                0x0000f3d4       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f4e0       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_parallaxAdd
-                0x0000f41e      0x10a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f52a      0x10a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_parallaxClear
-                0x0000f528       0x24 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f634       0x24 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getPixelColour
-                0x0000f54c       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f658       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_makeFastArray
-                0x0000f55e       0xac C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f66a       0xac C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getCharacterScale
-                0x0000f60a       0xa6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f716       0xa6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getLanguageID
-                0x0000f6b0       0x24 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f7bc       0x24 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn__rem_launchWith
-                0x0000f6d4       0x3c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f7e0       0x3c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_getFramesPerSecond
-                0x0000f710       0x22 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f81c       0x22 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_showThumbnail
-                0x0000f732        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f83e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setThumbnailSize
-                0x0000f736       0xee C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f842       0xee C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_hasFlag
-                0x0000f824       0xc6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f930       0xc6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_snapshotGrab
-                0x0000f8ea       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000f9f6       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_snapshotClear
-                0x0000f8fc        0xa C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fa08        0xa C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_bodgeFilenames
-                0x0000f906       0x54 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fa12       0x54 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn__rem_registryGetString
-                0x0000f95a       0x3c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fa66       0x3c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_quitWithFatalError
-                0x0000f996       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000faa2       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn__rem_setCharacterAA
-                0x0000f9cc       0x44 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fad8       0x44 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn__rem_setMaximumAA
-                0x0000fa10       0x34 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fb1c       0x34 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_setBackgroundEffect
-                0x0000fa44       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fb50       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.builtIn_doBackgroundEffect
-                0x0000fa72       0x40 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fb7e       0x40 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.callBuiltIn
-                0x0000fab2      0x106 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fbbe      0x106 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getLanguageForFileB
-                0x0000fbb8       0x42 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fcc4       0x42 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getPrefsFilename
-                0x0000fbfa       0xb8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fd06       0xb8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeLanguageTable
-                0x0000fcb2      0x134 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fdbe      0x134 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.readIniFile
-                0x0000fde6      0x386 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0000fef2      0x386 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.stringToInt
-                0x0001016c       0x8a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010278       0x8a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.fileExists
-                0x000101f6       0x6a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.strcmp   0x00010260       0x40 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00010260                strcmp
- .text.strlen   0x000102a0       0x18 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000102a0                strlen
- .text.strcpy   0x000102b8       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000102b8                strcpy
+                0x00010302       0x6a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.strcmp   0x0001036c       0x40 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x0001036c                strcmp
+ .text.strlen   0x000103ac       0x18 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000103ac                strlen
+ .text.strcpy   0x000103c4       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000103c4                strcpy
  .text.joinStrings
-                0x000102e0       0xb0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.itoa     0x00010390       0xc8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000103ec       0xb0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.itoa     0x0001049c       0xc8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.vsprintf2
-                0x00010458      0x166 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.sprintf  0x000105be       0x32 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000105be                sprintf
+                0x00010564      0x166 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.sprintf  0x000106ca       0x32 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000106ca                sprintf
  .text.addVarToStack
-                0x000105f0       0x86 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000106fc       0x86 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.addVarToStackQuick
-                0x00010676       0x74 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010782       0x74 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.addVariablesInSecond
-                0x000106ea       0xbe C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000107f6       0xbe C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.compareVariablesInSecond
-                0x000107a8       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000108b4       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.compareVars
-                0x000107de       0xdc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000108ea       0xdc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.copyStack
-                0x000108ba       0xd6 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000109c6       0xd6 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.deleteVarFromStack
-                0x00010990       0xae C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010a9c       0xae C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.fastArrayGetByIndex
-                0x00010a3e       0x22 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010b4a       0x22 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getCostumeFromVar
-                0x00010a60      0x110 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010b6c      0x110 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getSavedGamesStack
-                0x00010b70      0x244 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010c7c      0x244 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getValueType
-                0x00010db4       0x84 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010ec0       0x84 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadStringToVar
-                0x00010e38       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010f44       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeFastArrayFromStack
-                0x00010e66       0x6a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010f72       0x6a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeFastArraySize
-                0x00010ed0      0x106 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00010fdc      0x106 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.makeTextVar
-                0x00010fd6       0x2c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000110e2       0x2c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.unlinkVar
-                0x00011002      0x150 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001110e      0x150 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.copyMain
-                0x00011152      0x11c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001125e      0x11c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.copyVariable
-                0x0001126e       0x1e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001137a       0x1e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getAnimationFromVar
-                0x0001128c       0x68 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011398       0x68 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getBoolean
-                0x000112f4       0x96 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011400       0x96 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getTextFromAnyVar
-                0x0001138a      0x2d8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011496      0x2d8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.newAnimationVariable
-                0x00011662       0x22 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001176e       0x22 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.newCostumeVariable
-                0x00011684       0x22 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011790       0x22 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setVariable
-                0x000116a6       0x22 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000117b2       0x22 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.stackGetByIndex
-                0x000116c8       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000117d4       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.stackFindLast
-                0x000116f0       0x24 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000117fc       0x24 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.stackSize
-                0x00011714       0x24 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011820       0x24 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.trimStack
-                0x00011738       0x48 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011844       0x48 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.isInFont
-                0x00011780       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001188c       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.stringWidth
-                0x00011792       0x1a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001189e       0x1a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadFont
-                0x000117ac       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000118b8       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.addScreenRegion
-                0x000117be       0xc0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000118ca       0xc0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getRegionForObject
-                0x0001187e       0x2e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001198a       0x2e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killAllRegions
-                0x000118ac       0x5c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000119b8       0x5c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.loadRegions
-                0x00011908      0x11e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011a14      0x11e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.removeScreenRegion
-                0x00011a26       0x9c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011b32       0x9c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.saveRegions
-                0x00011ac2       0xe8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011bce       0xe8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.showBoxes
-                0x00011baa       0xb2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011cb6       0xb2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.closestPointOnLine
-                0x00011c5c      0x1e2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011d68      0x1e2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.drawFloor
-                0x00011e3e      0x240 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00011f4a      0x240 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.getMatchingCorners
-                0x0001207e       0xb4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.noFloor  0x00012132       0x2c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.inFloor  0x0001215e       0x54 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001218a       0xb4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.noFloor  0x0001223e       0x2c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.inFloor  0x0001226a       0x54 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.initFloor
-                0x000121b2       0x5c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000122be       0x5c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.killFloor
-                0x0001220e       0xf0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001231a       0xf0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.polysShareSide
-                0x000122fe       0x6a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001240a       0x6a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.pointInFloorPolygon
-                0x00012368      0x23e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00012474      0x23e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setFloor
-                0x000125a6      0x77a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000126b2      0x77a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.setFloorNull
-                0x00012d20       0x10 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.WaitVbl  0x00012d30       0x5c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .text.memset   0x00012d8c       0x30 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00012d8c                memset
- .text.memcpy   0x00012dbc       0x4c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00012dbc                memcpy
- .text.KPrintF  0x00012e08       0x6a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00012e2c       0x10 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.WaitVbl  0x00012e3c       0x5c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .text.memset   0x00012e98       0x30 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00012e98                memset
+ .text.memcpy   0x00012ec8       0x4c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00012ec8                memcpy
+ .text.KPrintF  0x00012f14       0x6a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.warpmode
-                0x00012e72      0x12e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00012f7e      0x12e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_cmd
-                0x00012fa0       0x40 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000130ac       0x40 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_start_idle
-                0x00012fe0       0x1a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000130ec       0x1a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_stop_idle
-                0x00012ffa       0x18 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00013106       0x18 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.my_strncpy
-                0x00013012       0x3e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001311e       0x3e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.debug_register_bitmap
-                0x00013050      0x106 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001315c      0x106 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .text.__addsf3
-                0x00013156       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013156                __addsf3
+                0x00013262       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013262                __addsf3
  .text.__adddf3
-                0x0001318c       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x0001318c                __adddf3
+                0x00013298       0x62 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013298                __adddf3
  .text.__divdf3
-                0x000131ee       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000131ee                __divdf3
+                0x000132fa       0x62 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000132fa                __divdf3
  .text.__divsf3
-                0x00013250       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013250                __divsf3
- .text.__eqsf2  0x00013286       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013286                __eqsf2
+                0x0001335c       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x0001335c                __divsf3
+ .text.__eqsf2  0x00013392       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013392                __eqsf2
  .text.__extendsfdf2
-                0x000132bc       0x40 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000132bc                __extendsfdf2
+                0x000133c8       0x40 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000133c8                __extendsfdf2
  .text.__fixdfsi
-                0x000132fc       0x40 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000132fc                __fixdfsi
+                0x00013408       0x40 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013408                __fixdfsi
  .text.__fixsfsi
-                0x0001333c       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x0001333c                __fixsfsi
+                0x00013448       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013448                __fixsfsi
  .text.__floatsidf
-                0x00013364       0x40 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013364                __floatsidf
+                0x00013470       0x40 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013470                __floatsidf
  .text.__floatsisf
-                0x000133a4       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000133a4                __floatsisf
+                0x000134b0       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000134b0                __floatsisf
  .text.__floatunsisf
-                0x000133cc       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000133cc                __floatunsisf
+                0x000134d8       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000134d8                __floatunsisf
  .text.__muldf3
-                0x000133f4       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000133f4                __muldf3
+                0x00013500       0x62 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013500                __muldf3
  .text.__mulsf3
-                0x00013456       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013456                __mulsf3
- .text.__gesf2  0x0001348c       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x0001348c                __gesf2
- .text.__gtdf2  0x000134c2       0x4e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000134c2                __gtdf2
- .text.__gtsf2  0x00013510       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013510                __gtsf2
- .text.__lesf2  0x00013546       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013546                __lesf2
- .text.__ltdf2  0x0001357c       0x4e C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x0001357c                __ltdf2
- .text.__ltsf2  0x000135ca       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000135ca                __ltsf2
- .text.__nesf2  0x00013600       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013600                __nesf2
+                0x00013562       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013562                __mulsf3
+ .text.__gesf2  0x00013598       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013598                __gesf2
+ .text.__gtdf2  0x000135ce       0x4e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000135ce                __gtdf2
+ .text.__gtsf2  0x0001361c       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x0001361c                __gtsf2
+ .text.__lesf2  0x00013652       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013652                __lesf2
+ .text.__ltdf2  0x00013688       0x4e C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013688                __ltdf2
+ .text.__ltsf2  0x000136d6       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000136d6                __ltsf2
+ .text.__nesf2  0x0001370c       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x0001370c                __nesf2
  .text.__subdf3
-                0x00013636       0x62 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013636                __subdf3
+                0x00013742       0x62 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013742                __subdf3
  .text.__subsf3
-                0x00013698       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013698                __subsf3
+                0x000137a4       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000137a4                __subsf3
  .text.__truncdfsf2
-                0x000136ce       0x36 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000136ce                __truncdfsf2
- .text.atan2f   0x00013704      0x1b0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00013704                atan2f
- .text.sqrt     0x000138b4       0x4a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x000138b4                sqrt
+                0x000137da       0x36 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000137da                __truncdfsf2
+ .text.atan2f   0x00013810      0x1b0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x00013810                atan2f
+ .text.sqrt     0x000139c0       0x4a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x000139c0                sqrt
  .text.__mulsi3
-                0x000138fe       0x22 obj/gcc8_a_support.o
-                0x000138fe                __mulsi3
+                0x00013a0a       0x22 obj/gcc8_a_support.o
+                0x00013a0a                __mulsi3
  .text.__udivsi3
-                0x00013920       0x5c obj/gcc8_a_support.o
-                0x00013920                __udivsi3
+                0x00013a2c       0x5c obj/gcc8_a_support.o
+                0x00013a2c                __udivsi3
  .text.__divsi3
-                0x0001397c       0x2e obj/gcc8_a_support.o
-                0x0001397c                __divsi3
+                0x00013a88       0x2e obj/gcc8_a_support.o
+                0x00013a88                __divsi3
  .text.__modsi3
-                0x000139aa       0x2e obj/gcc8_a_support.o
-                0x000139aa                __modsi3
+                0x00013ab6       0x2e obj/gcc8_a_support.o
+                0x00013ab6                __modsi3
  .text.__umodsi3
-                0x000139d8       0x2e obj/gcc8_a_support.o
-                0x000139d8                __umodsi3
+                0x00013ae4       0x2e obj/gcc8_a_support.o
+                0x00013ae4                __umodsi3
  .text.KPutCharX
-                0x00013a06        0xe obj/gcc8_a_support.o
-                0x00013a06                KPutCharX
- .text.PutChar  0x00013a14        0x4 obj/gcc8_a_support.o
-                0x00013a14                PutChar
+                0x00013b12        0xe obj/gcc8_a_support.o
+                0x00013b12                KPutCharX
+ .text.PutChar  0x00013b20        0x4 obj/gcc8_a_support.o
+                0x00013b20                PutChar
  *(.gnu.warning)
 
 .fini
@@ -1207,11 +1207,11 @@ LOAD obj/depacker_doynax_vasm.o
                 [!provide]                        PROVIDE (_etext = .)
                 [!provide]                        PROVIDE (etext = .)
 
-.rodata         0x00013a18     0x368a
+.rodata         0x00013b24     0x36a8
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x00013a18     0x368a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
-                0x00014630                incbin_player_start
-                0x00015f96                incbin_player_end
+ .rodata        0x00013b24     0x36a8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+                0x0001475a                incbin_player_start
+                0x000160c0                incbin_player_end
 
 .rodata1
  *(.rodata1)
@@ -1314,59 +1314,59 @@ LOAD obj/depacker_doynax_vasm.o
 .data           0x00018000      0x6b2
  *(.data .data.* .gnu.linkonce.d.*)
  .data.allowAnyFilename
-                0x00018000        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018000        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.CstClSprites
-                0x00018002       0x40 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018002       0x40 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.CstClScreen
-                0x00018042       0x30 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018042       0x30 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.CstClBitplanes
-                0x00018072       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018072       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.CstClColorTemplate
-                0x0001809a       0x80 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001809a       0x80 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.brightnessLevel
-                0x0001811a        0x1 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001811a        0x1 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  *fill*         0x0001811b        0x1 
  .data.currentEvents
-                0x0001811c        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001811c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.languageNum
-                0x00018120        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018120        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.lastFramesPerSecond
-                0x00018124        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018124        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.sliceBusy
-                0x00018128        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .data.player   0x0001812a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .data.module   0x0001812e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018128        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .data.player   0x0001812a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .data.module   0x0001812e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.nowStatus
-                0x00018132        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018132        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.speechSpeed
-                0x00018136        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018136        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.desiredfps
-                0x0001813a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001813a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.scaleHorizon
-                0x0001813e        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001813e        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.scaleDivide
-                0x00018140        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .data.defVol   0x00018142        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018140        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .data.defVol   0x00018142        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.defSoundVol
-                0x00018146        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018146        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.cameraZoom
-                0x0001814a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001814a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.paramNum
-                0x0001814e      0x29c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x0001814e      0x29c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.builtInFunctionArray
-                0x000183ea      0x29c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000183ea      0x29c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.fadeMode
-                0x00018686        0x1 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018686        0x1 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  *fill*         0x00018687        0x1 
  .data.typeName
-                0x00018688       0x28 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00018688       0x28 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .data.fontSpace
-                0x000186b0        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000186b0        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
 
 .INCBIN.MEMF_CHIP
                 0x000186b2     0x1479
  .INCBIN.MEMF_CHIP
-                0x000186b2     0x1479 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x000186b2     0x1479 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
                 0x000186b2                incbin_module_start
                 0x00019b2a                incbin_module_end
 
@@ -1377,187 +1377,189 @@ LOAD obj/depacker_doynax_vasm.o
                 0x00019b2b                        . = .
                 0x00019b2b                        __bss_start = .
 
-.bss            0x00019b2c      0x240
+.bss            0x00019b2c      0x244
  *(.dynbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
  .bss.mouseCursorAnim
-                0x00019b2c        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b2c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.mouseCursorFrameNum
-                0x00019b30        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b30        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.mouseCursorCountUp
-                0x00019b34        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b34        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.thumbWidth
-                0x00019b38        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b38        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.thumbHeight
-                0x00019b3c        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b3c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.CstBackdropSize
-                0x00019b40        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b40        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.CstBackdropSizePlane
-                0x00019b42        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b42        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.CstBackDrop
-                0x00019b44        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b44        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.CstCopperList
-                0x00019b48        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b48        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.CstApplyBackDropCounter
-                0x00019b4c        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b4c        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.CstViewBuffer
-                0x00019b4e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b4e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.CstDrawBuffer
-                0x00019b52        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b52        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.CstClColor
-                0x00019b56        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.winWidth  0x00019b5a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b56        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.CstPalette
+                0x00019b5a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.winWidth  0x00019b5e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.winHeight
-                0x00019b5e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b62        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.firstTexture
-                0x00019b62        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b66        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.dialogValue
-                0x00019b66        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.gameName  0x00019b6a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.gamePath  0x00019b6e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b6a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.gameName  0x00019b6e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.gamePath  0x00019b72        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.bundleFolder
-                0x00019b72        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b76        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.weAreDoneSoQuit
-                0x00019b76        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.zBuffer   0x00019b7a       0x58 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019b7a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.zBuffer   0x00019b7e       0x58 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.mainHandlers
-                0x00019bd2       0x1c C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019bd6       0x1c C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.allBIFNames
-                0x00019bee        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019bf2        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.allResourceNames
-                0x00019bf2        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019bf6        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.allRunningFunctions
-                0x00019bf6        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019bfa        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.allUserFunc
-                0x00019bfa        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019bfe        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.captureAllKeys
-                0x00019bfe        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.fileTime  0x00019c00        0x8 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c02        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.fileTime  0x00019c04        0x8 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.gameVersion
-                0x00019c08        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c0c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.globalVars
-                0x00019c0c        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.input     0x00019c10       0x16 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.loadNow   0x00019c26        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.noStack   0x00019c2a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c10        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.input     0x00019c14       0x16 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.loadNow   0x00019c2a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.noStack   0x00019c2e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.numBIFNames
-                0x00019c2e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c32        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.numGlobals
-                0x00019c32        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c36        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.numResourceNames
-                0x00019c36        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c3a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.numUserFunc
-                0x00019c3a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c3e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.specialSettings
-                0x00019c3e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c42        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.bigDataFile
-                0x00019c42        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c46        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.startIndex
-                0x00019c46        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c4a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.startOfDataIndex
-                0x00019c4a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c4e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.startOfTextIndex
-                0x00019c4e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c52        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.startOfSubIndex
-                0x00019c52        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c56        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.startOfObjectIndex
-                0x00019c56        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.SysBase   0x00019c5a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.custom    0x00019c5e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.DOSBase   0x00019c62        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.GfxBase   0x00019c66        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c5a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.SysBase   0x00019c5e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.custom    0x00019c62        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.DOSBase   0x00019c66        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.GfxBase   0x00019c6a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.MathIeeeSingBasBase
-                0x00019c6a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c6e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.MathIeeeSingTransBase
-                0x00019c6e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c72        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.MathIeeeDoubBasBase
-                0x00019c72        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c76        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.MathIeeeDoubTransBase
-                0x00019c76        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c7a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.SystemInts
-                0x00019c7a        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c7e        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.SystemDMA
-                0x00019c7c        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c80        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.SystemADKCON
-                0x00019c7e        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.VBR       0x00019c80        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c82        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.VBR       0x00019c84        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.SystemIrq
-                0x00019c84        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.ActiView  0x00019c88        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c88        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.ActiView  0x00019c8c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.mainStatus
-                0x00019c8c       0x2a C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.speech    0x00019cb6        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019c90       0x2a C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.speech    0x00019cba        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.allPeople
-                0x00019cba        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019cbe        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.personRegion
-                0x00019cbe       0x24 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019cc2       0x24 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.allLoadedBanks
-                0x00019ce2        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019ce6        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.stackLibTotal
-                0x00019ce6        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.stackLib  0x00019cea        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019cea        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.stackLib  0x00019cee        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.ssgVersion
-                0x00019cee        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019cf2        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.backdropTexture
-                0x00019cf2        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019cf6        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.sceneWidth
-                0x00019cf6        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019cfa        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.sceneHeight
-                0x00019cfa        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019cfe        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.backdropTextureName
-                0x00019cfe        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d02        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.backdropExists
-                0x00019d02        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d06        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.parallaxStuff
-                0x00019d04        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d08        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.snapshotTextureName
-                0x00019d08        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d0c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.allObjectTypes
-                0x00019d0c        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.encode1   0x00019d10        0x1 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.encode2   0x00019d11        0x1 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d10        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.encode1   0x00019d14        0x1 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.encode2   0x00019d15        0x1 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.saveEncoding
-                0x00019d12        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.cameraX   0x00019d14        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.cameraY   0x00019d18        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .bss.launchMe  0x00019d1c        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d16        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.cameraX   0x00019d18        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.cameraY   0x00019d1c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .bss.launchMe  0x00019d20        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.launchResult
-                0x00019d20        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d24        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.saverFunc
-                0x00019d24        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d28        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.speechMode
-                0x00019d28        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d2c        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.reallyWantToQuit
-                0x00019d2c        0x2 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d30        0x2 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.languageTable
-                0x00019d2e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d32        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.languageName
-                0x00019d32        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d36        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.gameSettings
-                0x00019d36       0x18 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d3a       0x18 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.fontHeight
-                0x00019d4e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d52        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.loadedFontNum
-                0x00019d52        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d56        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.fontOrderString
-                0x00019d56        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d5a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.fontTableSize
-                0x00019d5a        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d5e        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.allScreenRegions
-                0x00019d5e        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d62        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.overRegion
-                0x00019d62        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d66        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .bss.currentFloor
-                0x00019d66        0x4 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00019d6a        0x4 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  *(COMMON)
-                0x00019d6c                        . = ALIGN ((. != 0x0)?0x4:0x1)
- *fill*         0x00019d6a        0x2 
-                0x00019d6c                        . = ALIGN (0x4)
-                0x00019d6c                        . = SEGMENT_START ("ldata-segment", .)
-                0x00019d6c                        . = ALIGN (0x4)
-                0x00019d6c                        _end = .
+                0x00019d70                        . = ALIGN ((. != 0x0)?0x4:0x1)
+ *fill*         0x00019d6e        0x2 
+                0x00019d70                        . = ALIGN (0x4)
+                0x00019d70                        . = SEGMENT_START ("ldata-segment", .)
+                0x00019d70                        . = ALIGN (0x4)
+                0x00019d70                        _end = .
                 [!provide]                        PROVIDE (end = .)
-                0x00019d6c                        . = DATA_SEGMENT_END (.)
+                0x00019d70                        . = DATA_SEGMENT_END (.)
 
 .stab
  *(.stab)
@@ -1579,7 +1581,7 @@ LOAD obj/depacker_doynax_vasm.o
 
 .comment        0x00000000       0x12
  *(.comment)
- .comment       0x00000000       0x12 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+ .comment       0x00000000       0x12 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
                                  0x13 (size before relaxing)
 
 .gnu.build.attributes
@@ -1600,198 +1602,198 @@ LOAD obj/depacker_doynax_vasm.o
 .debug_aranges  0x00000000      0xfa8
  *(.debug_aranges)
  .debug_aranges
-                0x00000000      0xf58 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000      0xf58 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
  .debug_aranges
                 0x00000f58       0x50 obj/gcc8_a_support.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000    0x434ff
+.debug_info     0x00000000    0x436a5
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000    0x11f72 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .debug_info    0x00011f72     0x1779 C:\Users\uersu\AppData\Local\Temp\cc4Lbj2T.debug.temp.o
-                0x00011f72                moreio.c.aae46afe
- .debug_info    0x000136eb      0xb6a C:\Users\uersu\AppData\Local\Temp\ccUVmzgd.debug.temp.o
-                0x000136eb                utils.c.07810dac
- .debug_info    0x00014255      0x31d C:\Users\uersu\AppData\Local\Temp\ccOl169z.debug.temp.o
-                0x00014255                cursors.c.412ac4f3
- .debug_info    0x00014572      0x134 C:\Users\uersu\AppData\Local\Temp\ccwDMwdX.debug.temp.o
-                0x00014572                thumbnail.c.7eb31449
- .debug_info    0x000146a6     0x1dba C:\Users\uersu\AppData\Local\Temp\cc6Omxuk.debug.temp.o
-                0x000146a6                custom.c.f6a0c1f2
- .debug_info    0x00016460      0x25c C:\Users\uersu\AppData\Local\Temp\ccWqInUH.debug.temp.o
-                0x00016460                line.c.05397aaf
- .debug_info    0x000166bc      0x400 C:\Users\uersu\AppData\Local\Temp\ccapL5d5.debug.temp.o
-                0x000166bc                graphics.c.1c13408a
- .debug_info    0x00016abc      0x1fe C:\Users\uersu\AppData\Local\Temp\cc4s4LAr.debug.temp.o
-                0x00016abc                newfatal.c.307beca7
- .debug_info    0x00016cba     0x1b01 C:\Users\uersu\AppData\Local\Temp\ccan7p6N.debug.temp.o
-                0x00016cba                main_sludge.c.828d7d86
- .debug_info    0x000187bb      0xf4f C:\Users\uersu\AppData\Local\Temp\ccWqEMLa.debug.temp.o
-                0x000187bb                zbuffer.c.4facf542
- .debug_info    0x0001970a     0x14ec C:\Users\uersu\AppData\Local\Temp\ccu9ZQmx.debug.temp.o
-                0x0001970a                tga.c.c5785d2a
- .debug_info    0x0001abf6     0x3abb C:\Users\uersu\AppData\Local\Temp\ccuyIv6T.debug.temp.o
-                0x0001abf6                sludger.c.3e1cc274
- .debug_info    0x0001e6b1     0x16c6 C:\Users\uersu\AppData\Local\Temp\cc8pjY0f.debug.temp.o
-                0x0001e6b1                fileset.c.52e64f34
- .debug_info    0x0001fd77     0x43df C:\Users\uersu\AppData\Local\Temp\cccVZ03B.debug.temp.o
-                0x0001fd77                main.c.ac51ef0b
- .debug_info    0x00024156     0x15ce C:\Users\uersu\AppData\Local\Temp\ccMkxucY.debug.temp.o
-                0x00024156                statusba.c.8e7503e3
- .debug_info    0x00025724     0x190a C:\Users\uersu\AppData\Local\Temp\ccIn9Gwj.debug.temp.o
-                0x00025724                talk.c.96ea3a87
- .debug_info    0x0002702e      0x121 C:\Users\uersu\AppData\Local\Temp\cckode3E.debug.temp.o
-                0x0002702e                timing.c.5f68b502
- .debug_info    0x0002714f      0x2cc C:\Users\uersu\AppData\Local\Temp\ccuizUI0.debug.temp.o
-                0x0002714f                sprites.c.f661e4c4
- .debug_info    0x0002741b     0x3a24 C:\Users\uersu\AppData\Local\Temp\ccKX5s3p.debug.temp.o
-                0x0002741b                people.c.e0c05971
- .debug_info    0x0002ae3f      0x4bf C:\Users\uersu\AppData\Local\Temp\ccOuJTxP.debug.temp.o
-                0x0002ae3f                sprbanks.c.e434a8c0
- .debug_info    0x0002b2fe     0x3ba4 C:\Users\uersu\AppData\Local\Temp\cckIJUaf.debug.temp.o
-                0x0002b2fe                loadsave.c.8cc9fa7a
- .debug_info    0x0002eea2      0xd0d C:\Users\uersu\AppData\Local\Temp\ccMHf5QE.debug.temp.o
-                0x0002eea2                sound_nosound.c.4d9ccb34
- .debug_info    0x0002fbaf     0x1609 C:\Users\uersu\AppData\Local\Temp\ccca9rv3.debug.temp.o
-                0x0002fbaf                backdrop.c.a9939e72
- .debug_info    0x000311b8     0x11d8 C:\Users\uersu\AppData\Local\Temp\cceCSYis.debug.temp.o
-                0x000311b8                objtypes.c.e92601b6
- .debug_info    0x00032390     0x1d34 C:\Users\uersu\AppData\Local\Temp\cc0lHvgR.debug.temp.o
-                0x00032390                savedata.c.42d068a7
- .debug_info    0x000340c4     0x6b8f C:\Users\uersu\AppData\Local\Temp\cciSqDmg.debug.temp.o
-                0x000340c4                builtin.c.09f83657
- .debug_info    0x0003ac53     0x1035 C:\Users\uersu\AppData\Local\Temp\cc4vKVpE.debug.temp.o
-                0x0003ac53                language.c.63641c10
- .debug_info    0x0003bc88      0xa14 C:\Users\uersu\AppData\Local\Temp\ccmWYOB2.debug.temp.o
-                0x0003bc88                helpers.c.65626a47
- .debug_info    0x0003c69c      0x496 C:\Users\uersu\AppData\Local\Temp\ccoEiIXq.debug.temp.o
-                0x0003c69c                stringy.c.daea3e16
- .debug_info    0x0003cb32      0x12d C:\Users\uersu\AppData\Local\Temp\cceGxovO.debug.temp.o
-                0x0003cb32                transition.c.cd6588d2
- .debug_info    0x0003cc5f     0x2768 C:\Users\uersu\AppData\Local\Temp\ccG5auYb.debug.temp.o
-                0x0003cc5f                variable.c.87a42a91
- .debug_info    0x0003f3c7      0x310 C:\Users\uersu\AppData\Local\Temp\ccwtXbzz.debug.temp.o
-                0x0003f3c7                fonttext.c.d4d692c8
- .debug_info    0x0003f6d7      0x822 C:\Users\uersu\AppData\Local\Temp\ccOz9KiX.debug.temp.o
-                0x0003f6d7                region.c.a94c0f48
- .debug_info    0x0003fef9     0x14da C:\Users\uersu\AppData\Local\Temp\ccMLJubl.debug.temp.o
-                0x0003fef9                floor.c.731cb4e9
- .debug_info    0x000413d3     0x20a7 C:\Users\uersu\AppData\Local\Temp\cc2CO5JM.debug.temp.o
-                0x000413d3                gcc8_c_support.c.8bf68f31
- .debug_info    0x0004347a       0x85 obj/gcc8_a_support.o
+ .debug_info    0x00000000    0x1203d C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .debug_info    0x0001203d     0x1779 C:\Users\uersu\AppData\Local\Temp\ccfzhjEG.debug.temp.o
+                0x0001203d                moreio.c.aae46afe
+ .debug_info    0x000137b6      0xb6a C:\Users\uersu\AppData\Local\Temp\ccOho9Yq.debug.temp.o
+                0x000137b6                utils.c.07810dac
+ .debug_info    0x00014320      0x31d C:\Users\uersu\AppData\Local\Temp\cc1CeQtb.debug.temp.o
+                0x00014320                cursors.c.412ac4f3
+ .debug_info    0x0001463d      0x134 C:\Users\uersu\AppData\Local\Temp\ccwXTLbW.debug.temp.o
+                0x0001463d                thumbnail.c.7eb31449
+ .debug_info    0x00014771     0x1e95 C:\Users\uersu\AppData\Local\Temp\cchEscPG.debug.temp.o
+                0x00014771                custom.c.3e5397e9
+ .debug_info    0x00016606      0x25c C:\Users\uersu\AppData\Local\Temp\ccc0xKEr.debug.temp.o
+                0x00016606                line.c.05397aaf
+ .debug_info    0x00016862      0x400 C:\Users\uersu\AppData\Local\Temp\cctnSWpc.debug.temp.o
+                0x00016862                graphics.c.1c13408a
+ .debug_info    0x00016c62      0x1fe C:\Users\uersu\AppData\Local\Temp\ccGEMc9V.debug.temp.o
+                0x00016c62                newfatal.c.307beca7
+ .debug_info    0x00016e60     0x1b01 C:\Users\uersu\AppData\Local\Temp\cchCU75F.debug.temp.o
+                0x00016e60                main_sludge.c.5731ae9f
+ .debug_info    0x00018961      0xf4f C:\Users\uersu\AppData\Local\Temp\ccAikUcq.debug.temp.o
+                0x00018961                zbuffer.c.4facf542
+ .debug_info    0x000198b0     0x14ec C:\Users\uersu\AppData\Local\Temp\cctrX2q9.debug.temp.o
+                0x000198b0                tga.c.c5785d2a
+ .debug_info    0x0001ad9c     0x3abb C:\Users\uersu\AppData\Local\Temp\ccIVzQHS.debug.temp.o
+                0x0001ad9c                sludger.c.3e1cc274
+ .debug_info    0x0001e857     0x16c6 C:\Users\uersu\AppData\Local\Temp\ccjDhwlC.debug.temp.o
+                0x0001e857                fileset.c.52e64f34
+ .debug_info    0x0001ff1d     0x43df C:\Users\uersu\AppData\Local\Temp\cc2EpnYk.debug.temp.o
+                0x0001ff1d                main.c.ac51ef0b
+ .debug_info    0x000242fc     0x15ce C:\Users\uersu\AppData\Local\Temp\ccRfuiw3.debug.temp.o
+                0x000242fc                statusba.c.8e7503e3
+ .debug_info    0x000258ca     0x190a C:\Users\uersu\AppData\Local\Temp\ccovKwdM.debug.temp.o
+                0x000258ca                talk.c.96ea3a87
+ .debug_info    0x000271d4      0x121 C:\Users\uersu\AppData\Local\Temp\ccRAofbv.debug.temp.o
+                0x000271d4                timing.c.5f68b502
+ .debug_info    0x000272f5      0x2cc C:\Users\uersu\AppData\Local\Temp\ccWbpgie.debug.temp.o
+                0x000272f5                sprites.c.f661e4c4
+ .debug_info    0x000275c1     0x3a24 C:\Users\uersu\AppData\Local\Temp\cc9oDlkX.debug.temp.o
+                0x000275c1                people.c.e0c05971
+ .debug_info    0x0002afe5      0x4bf C:\Users\uersu\AppData\Local\Temp\ccEhmi2J.debug.temp.o
+                0x0002afe5                sprbanks.c.e434a8c0
+ .debug_info    0x0002b4a4     0x3ba4 C:\Users\uersu\AppData\Local\Temp\ccBE9aRw.debug.temp.o
+                0x0002b4a4                loadsave.c.8cc9fa7a
+ .debug_info    0x0002f048      0xd0d C:\Users\uersu\AppData\Local\Temp\cc4joNOj.debug.temp.o
+                0x0002f048                sound_nosound.c.4d9ccb34
+ .debug_info    0x0002fd55     0x1609 C:\Users\uersu\AppData\Local\Temp\ccVbnd06.debug.temp.o
+                0x0002fd55                backdrop.c.a9939e72
+ .debug_info    0x0003135e     0x11d8 C:\Users\uersu\AppData\Local\Temp\ccuuOy8S.debug.temp.o
+                0x0003135e                objtypes.c.e92601b6
+ .debug_info    0x00032536     0x1d34 C:\Users\uersu\AppData\Local\Temp\ccx2pDpF.debug.temp.o
+                0x00032536                savedata.c.42d068a7
+ .debug_info    0x0003426a     0x6b8f C:\Users\uersu\AppData\Local\Temp\ccQWUcCr.debug.temp.o
+                0x0003426a                builtin.c.09f83657
+ .debug_info    0x0003adf9     0x1035 C:\Users\uersu\AppData\Local\Temp\ccfMrrce.debug.temp.o
+                0x0003adf9                language.c.63641c10
+ .debug_info    0x0003be2e      0xa14 C:\Users\uersu\AppData\Local\Temp\ccAvyJKZ.debug.temp.o
+                0x0003be2e                helpers.c.65626a47
+ .debug_info    0x0003c842      0x496 C:\Users\uersu\AppData\Local\Temp\ccbByweL.debug.temp.o
+                0x0003c842                stringy.c.daea3e16
+ .debug_info    0x0003ccd8      0x12d C:\Users\uersu\AppData\Local\Temp\cc6AssUw.debug.temp.o
+                0x0003ccd8                transition.c.cd6588d2
+ .debug_info    0x0003ce05     0x2768 C:\Users\uersu\AppData\Local\Temp\ccnEq6Ii.debug.temp.o
+                0x0003ce05                variable.c.87a42a91
+ .debug_info    0x0003f56d      0x310 C:\Users\uersu\AppData\Local\Temp\cc6ZGyL4.debug.temp.o
+                0x0003f56d                fonttext.c.d4d692c8
+ .debug_info    0x0003f87d      0x822 C:\Users\uersu\AppData\Local\Temp\ccbVL4JQ.debug.temp.o
+                0x0003f87d                region.c.a94c0f48
+ .debug_info    0x0004009f     0x14da C:\Users\uersu\AppData\Local\Temp\ccm3TdHB.debug.temp.o
+                0x0004009f                floor.c.731cb4e9
+ .debug_info    0x00041579     0x20a7 C:\Users\uersu\AppData\Local\Temp\cc1QlcZm.debug.temp.o
+                0x00041579                gcc8_c_support.c.8bf68f31
+ .debug_info    0x00043620       0x85 obj/gcc8_a_support.o
 
-.debug_abbrev   0x00000000     0x3741
+.debug_abbrev   0x00000000     0x3767
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0xdb C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .debug_abbrev  0x000000db      0x19e C:\Users\uersu\AppData\Local\Temp\cc4Lbj2T.debug.temp.o
- .debug_abbrev  0x00000279      0x109 C:\Users\uersu\AppData\Local\Temp\ccUVmzgd.debug.temp.o
- .debug_abbrev  0x00000382       0xc3 C:\Users\uersu\AppData\Local\Temp\ccOl169z.debug.temp.o
- .debug_abbrev  0x00000445       0x2e C:\Users\uersu\AppData\Local\Temp\ccwDMwdX.debug.temp.o
- .debug_abbrev  0x00000473      0x252 C:\Users\uersu\AppData\Local\Temp\cc6Omxuk.debug.temp.o
- .debug_abbrev  0x000006c5       0xa2 C:\Users\uersu\AppData\Local\Temp\ccWqInUH.debug.temp.o
- .debug_abbrev  0x00000767      0x11f C:\Users\uersu\AppData\Local\Temp\ccapL5d5.debug.temp.o
- .debug_abbrev  0x00000886       0x64 C:\Users\uersu\AppData\Local\Temp\cc4s4LAr.debug.temp.o
- .debug_abbrev  0x000008ea      0x20a C:\Users\uersu\AppData\Local\Temp\ccan7p6N.debug.temp.o
- .debug_abbrev  0x00000af4      0x1ac C:\Users\uersu\AppData\Local\Temp\ccWqEMLa.debug.temp.o
- .debug_abbrev  0x00000ca0      0x1f6 C:\Users\uersu\AppData\Local\Temp\ccu9ZQmx.debug.temp.o
- .debug_abbrev  0x00000e96      0x2c1 C:\Users\uersu\AppData\Local\Temp\ccuyIv6T.debug.temp.o
- .debug_abbrev  0x00001157      0x1a0 C:\Users\uersu\AppData\Local\Temp\cc8pjY0f.debug.temp.o
- .debug_abbrev  0x000012f7      0x2d1 C:\Users\uersu\AppData\Local\Temp\cccVZ03B.debug.temp.o
- .debug_abbrev  0x000015c8      0x1bd C:\Users\uersu\AppData\Local\Temp\ccMkxucY.debug.temp.o
- .debug_abbrev  0x00001785      0x1d6 C:\Users\uersu\AppData\Local\Temp\ccIn9Gwj.debug.temp.o
- .debug_abbrev  0x0000195b       0x2c C:\Users\uersu\AppData\Local\Temp\cckode3E.debug.temp.o
- .debug_abbrev  0x00001987       0xa7 C:\Users\uersu\AppData\Local\Temp\ccuizUI0.debug.temp.o
- .debug_abbrev  0x00001a2e      0x299 C:\Users\uersu\AppData\Local\Temp\ccKX5s3p.debug.temp.o
- .debug_abbrev  0x00001cc7      0x117 C:\Users\uersu\AppData\Local\Temp\ccOuJTxP.debug.temp.o
- .debug_abbrev  0x00001dde      0x23e C:\Users\uersu\AppData\Local\Temp\cckIJUaf.debug.temp.o
- .debug_abbrev  0x0000201c      0x185 C:\Users\uersu\AppData\Local\Temp\ccMHf5QE.debug.temp.o
- .debug_abbrev  0x000021a1      0x229 C:\Users\uersu\AppData\Local\Temp\ccca9rv3.debug.temp.o
- .debug_abbrev  0x000023ca      0x1c7 C:\Users\uersu\AppData\Local\Temp\cceCSYis.debug.temp.o
- .debug_abbrev  0x00002591      0x1fc C:\Users\uersu\AppData\Local\Temp\cc0lHvgR.debug.temp.o
- .debug_abbrev  0x0000278d      0x2a6 C:\Users\uersu\AppData\Local\Temp\cciSqDmg.debug.temp.o
- .debug_abbrev  0x00002a33      0x1bb C:\Users\uersu\AppData\Local\Temp\cc4vKVpE.debug.temp.o
- .debug_abbrev  0x00002bee      0x10a C:\Users\uersu\AppData\Local\Temp\ccmWYOB2.debug.temp.o
- .debug_abbrev  0x00002cf8       0xcf C:\Users\uersu\AppData\Local\Temp\ccoEiIXq.debug.temp.o
- .debug_abbrev  0x00002dc7       0x2c C:\Users\uersu\AppData\Local\Temp\cceGxovO.debug.temp.o
- .debug_abbrev  0x00002df3      0x295 C:\Users\uersu\AppData\Local\Temp\ccG5auYb.debug.temp.o
- .debug_abbrev  0x00003088       0xb9 C:\Users\uersu\AppData\Local\Temp\ccwtXbzz.debug.temp.o
- .debug_abbrev  0x00003141      0x17a C:\Users\uersu\AppData\Local\Temp\ccOz9KiX.debug.temp.o
- .debug_abbrev  0x000032bb      0x1f0 C:\Users\uersu\AppData\Local\Temp\ccMLJubl.debug.temp.o
- .debug_abbrev  0x000034ab      0x277 C:\Users\uersu\AppData\Local\Temp\cc2CO5JM.debug.temp.o
- .debug_abbrev  0x00003722       0x1f obj/gcc8_a_support.o
+ .debug_abbrev  0x00000000       0xdb C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .debug_abbrev  0x000000db      0x19e C:\Users\uersu\AppData\Local\Temp\ccfzhjEG.debug.temp.o
+ .debug_abbrev  0x00000279      0x109 C:\Users\uersu\AppData\Local\Temp\ccOho9Yq.debug.temp.o
+ .debug_abbrev  0x00000382       0xc3 C:\Users\uersu\AppData\Local\Temp\cc1CeQtb.debug.temp.o
+ .debug_abbrev  0x00000445       0x2e C:\Users\uersu\AppData\Local\Temp\ccwXTLbW.debug.temp.o
+ .debug_abbrev  0x00000473      0x278 C:\Users\uersu\AppData\Local\Temp\cchEscPG.debug.temp.o
+ .debug_abbrev  0x000006eb       0xa2 C:\Users\uersu\AppData\Local\Temp\ccc0xKEr.debug.temp.o
+ .debug_abbrev  0x0000078d      0x11f C:\Users\uersu\AppData\Local\Temp\cctnSWpc.debug.temp.o
+ .debug_abbrev  0x000008ac       0x64 C:\Users\uersu\AppData\Local\Temp\ccGEMc9V.debug.temp.o
+ .debug_abbrev  0x00000910      0x20a C:\Users\uersu\AppData\Local\Temp\cchCU75F.debug.temp.o
+ .debug_abbrev  0x00000b1a      0x1ac C:\Users\uersu\AppData\Local\Temp\ccAikUcq.debug.temp.o
+ .debug_abbrev  0x00000cc6      0x1f6 C:\Users\uersu\AppData\Local\Temp\cctrX2q9.debug.temp.o
+ .debug_abbrev  0x00000ebc      0x2c1 C:\Users\uersu\AppData\Local\Temp\ccIVzQHS.debug.temp.o
+ .debug_abbrev  0x0000117d      0x1a0 C:\Users\uersu\AppData\Local\Temp\ccjDhwlC.debug.temp.o
+ .debug_abbrev  0x0000131d      0x2d1 C:\Users\uersu\AppData\Local\Temp\cc2EpnYk.debug.temp.o
+ .debug_abbrev  0x000015ee      0x1bd C:\Users\uersu\AppData\Local\Temp\ccRfuiw3.debug.temp.o
+ .debug_abbrev  0x000017ab      0x1d6 C:\Users\uersu\AppData\Local\Temp\ccovKwdM.debug.temp.o
+ .debug_abbrev  0x00001981       0x2c C:\Users\uersu\AppData\Local\Temp\ccRAofbv.debug.temp.o
+ .debug_abbrev  0x000019ad       0xa7 C:\Users\uersu\AppData\Local\Temp\ccWbpgie.debug.temp.o
+ .debug_abbrev  0x00001a54      0x299 C:\Users\uersu\AppData\Local\Temp\cc9oDlkX.debug.temp.o
+ .debug_abbrev  0x00001ced      0x117 C:\Users\uersu\AppData\Local\Temp\ccEhmi2J.debug.temp.o
+ .debug_abbrev  0x00001e04      0x23e C:\Users\uersu\AppData\Local\Temp\ccBE9aRw.debug.temp.o
+ .debug_abbrev  0x00002042      0x185 C:\Users\uersu\AppData\Local\Temp\cc4joNOj.debug.temp.o
+ .debug_abbrev  0x000021c7      0x229 C:\Users\uersu\AppData\Local\Temp\ccVbnd06.debug.temp.o
+ .debug_abbrev  0x000023f0      0x1c7 C:\Users\uersu\AppData\Local\Temp\ccuuOy8S.debug.temp.o
+ .debug_abbrev  0x000025b7      0x1fc C:\Users\uersu\AppData\Local\Temp\ccx2pDpF.debug.temp.o
+ .debug_abbrev  0x000027b3      0x2a6 C:\Users\uersu\AppData\Local\Temp\ccQWUcCr.debug.temp.o
+ .debug_abbrev  0x00002a59      0x1bb C:\Users\uersu\AppData\Local\Temp\ccfMrrce.debug.temp.o
+ .debug_abbrev  0x00002c14      0x10a C:\Users\uersu\AppData\Local\Temp\ccAvyJKZ.debug.temp.o
+ .debug_abbrev  0x00002d1e       0xcf C:\Users\uersu\AppData\Local\Temp\ccbByweL.debug.temp.o
+ .debug_abbrev  0x00002ded       0x2c C:\Users\uersu\AppData\Local\Temp\cc6AssUw.debug.temp.o
+ .debug_abbrev  0x00002e19      0x295 C:\Users\uersu\AppData\Local\Temp\ccnEq6Ii.debug.temp.o
+ .debug_abbrev  0x000030ae       0xb9 C:\Users\uersu\AppData\Local\Temp\cc6ZGyL4.debug.temp.o
+ .debug_abbrev  0x00003167      0x17a C:\Users\uersu\AppData\Local\Temp\ccbVL4JQ.debug.temp.o
+ .debug_abbrev  0x000032e1      0x1f0 C:\Users\uersu\AppData\Local\Temp\ccm3TdHB.debug.temp.o
+ .debug_abbrev  0x000034d1      0x277 C:\Users\uersu\AppData\Local\Temp\cc1QlcZm.debug.temp.o
+ .debug_abbrev  0x00003748       0x1f obj/gcc8_a_support.o
 
-.debug_line     0x00000000    0x1efe8
+.debug_line     0x00000000    0x1f0e6
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000    0x18f1b C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .debug_line    0x00018f1b      0x332 C:\Users\uersu\AppData\Local\Temp\cc4Lbj2T.debug.temp.o
- .debug_line    0x0001924d      0x29c C:\Users\uersu\AppData\Local\Temp\ccUVmzgd.debug.temp.o
- .debug_line    0x000194e9      0x106 C:\Users\uersu\AppData\Local\Temp\ccOl169z.debug.temp.o
- .debug_line    0x000195ef       0xbd C:\Users\uersu\AppData\Local\Temp\ccwDMwdX.debug.temp.o
- .debug_line    0x000196ac      0x3ba C:\Users\uersu\AppData\Local\Temp\cc6Omxuk.debug.temp.o
- .debug_line    0x00019a66      0x16e C:\Users\uersu\AppData\Local\Temp\ccWqInUH.debug.temp.o
- .debug_line    0x00019bd4      0x1fa C:\Users\uersu\AppData\Local\Temp\ccapL5d5.debug.temp.o
- .debug_line    0x00019dce       0xbb C:\Users\uersu\AppData\Local\Temp\cc4s4LAr.debug.temp.o
- .debug_line    0x00019e89      0x3b3 C:\Users\uersu\AppData\Local\Temp\ccan7p6N.debug.temp.o
- .debug_line    0x0001a23c      0x36c C:\Users\uersu\AppData\Local\Temp\ccWqEMLa.debug.temp.o
- .debug_line    0x0001a5a8      0x328 C:\Users\uersu\AppData\Local\Temp\ccu9ZQmx.debug.temp.o
- .debug_line    0x0001a8d0      0x3cd C:\Users\uersu\AppData\Local\Temp\ccuyIv6T.debug.temp.o
- .debug_line    0x0001ac9d      0x336 C:\Users\uersu\AppData\Local\Temp\cc8pjY0f.debug.temp.o
- .debug_line    0x0001afd3      0x56c C:\Users\uersu\AppData\Local\Temp\cccVZ03B.debug.temp.o
- .debug_line    0x0001b53f      0x358 C:\Users\uersu\AppData\Local\Temp\ccMkxucY.debug.temp.o
- .debug_line    0x0001b897      0x389 C:\Users\uersu\AppData\Local\Temp\ccIn9Gwj.debug.temp.o
- .debug_line    0x0001bc20       0xb7 C:\Users\uersu\AppData\Local\Temp\cckode3E.debug.temp.o
- .debug_line    0x0001bcd7      0x17f C:\Users\uersu\AppData\Local\Temp\ccuizUI0.debug.temp.o
- .debug_line    0x0001be56      0x3a7 C:\Users\uersu\AppData\Local\Temp\ccKX5s3p.debug.temp.o
- .debug_line    0x0001c1fd      0x205 C:\Users\uersu\AppData\Local\Temp\ccOuJTxP.debug.temp.o
- .debug_line    0x0001c402      0x3bc C:\Users\uersu\AppData\Local\Temp\cckIJUaf.debug.temp.o
- .debug_line    0x0001c7be      0x2fa C:\Users\uersu\AppData\Local\Temp\ccMHf5QE.debug.temp.o
- .debug_line    0x0001cab8      0x380 C:\Users\uersu\AppData\Local\Temp\ccca9rv3.debug.temp.o
- .debug_line    0x0001ce38      0x34c C:\Users\uersu\AppData\Local\Temp\cceCSYis.debug.temp.o
- .debug_line    0x0001d184      0x3c5 C:\Users\uersu\AppData\Local\Temp\cc0lHvgR.debug.temp.o
- .debug_line    0x0001d549      0x42b C:\Users\uersu\AppData\Local\Temp\cciSqDmg.debug.temp.o
- .debug_line    0x0001d974      0x357 C:\Users\uersu\AppData\Local\Temp\cc4vKVpE.debug.temp.o
- .debug_line    0x0001dccb      0x2d3 C:\Users\uersu\AppData\Local\Temp\ccmWYOB2.debug.temp.o
- .debug_line    0x0001df9e      0x1a9 C:\Users\uersu\AppData\Local\Temp\ccoEiIXq.debug.temp.o
- .debug_line    0x0001e147       0xbf C:\Users\uersu\AppData\Local\Temp\cceGxovO.debug.temp.o
- .debug_line    0x0001e206      0x385 C:\Users\uersu\AppData\Local\Temp\ccG5auYb.debug.temp.o
- .debug_line    0x0001e58b      0x176 C:\Users\uersu\AppData\Local\Temp\ccwtXbzz.debug.temp.o
- .debug_line    0x0001e701      0x248 C:\Users\uersu\AppData\Local\Temp\ccOz9KiX.debug.temp.o
- .debug_line    0x0001e949      0x34b C:\Users\uersu\AppData\Local\Temp\ccMLJubl.debug.temp.o
- .debug_line    0x0001ec94      0x229 C:\Users\uersu\AppData\Local\Temp\cc2CO5JM.debug.temp.o
- .debug_line    0x0001eebd      0x12b obj/gcc8_a_support.o
+ .debug_line    0x00000000    0x19019 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .debug_line    0x00019019      0x332 C:\Users\uersu\AppData\Local\Temp\ccfzhjEG.debug.temp.o
+ .debug_line    0x0001934b      0x29c C:\Users\uersu\AppData\Local\Temp\ccOho9Yq.debug.temp.o
+ .debug_line    0x000195e7      0x106 C:\Users\uersu\AppData\Local\Temp\cc1CeQtb.debug.temp.o
+ .debug_line    0x000196ed       0xbd C:\Users\uersu\AppData\Local\Temp\ccwXTLbW.debug.temp.o
+ .debug_line    0x000197aa      0x3ba C:\Users\uersu\AppData\Local\Temp\cchEscPG.debug.temp.o
+ .debug_line    0x00019b64      0x16e C:\Users\uersu\AppData\Local\Temp\ccc0xKEr.debug.temp.o
+ .debug_line    0x00019cd2      0x1fa C:\Users\uersu\AppData\Local\Temp\cctnSWpc.debug.temp.o
+ .debug_line    0x00019ecc       0xbb C:\Users\uersu\AppData\Local\Temp\ccGEMc9V.debug.temp.o
+ .debug_line    0x00019f87      0x3b3 C:\Users\uersu\AppData\Local\Temp\cchCU75F.debug.temp.o
+ .debug_line    0x0001a33a      0x36c C:\Users\uersu\AppData\Local\Temp\ccAikUcq.debug.temp.o
+ .debug_line    0x0001a6a6      0x328 C:\Users\uersu\AppData\Local\Temp\cctrX2q9.debug.temp.o
+ .debug_line    0x0001a9ce      0x3cd C:\Users\uersu\AppData\Local\Temp\ccIVzQHS.debug.temp.o
+ .debug_line    0x0001ad9b      0x336 C:\Users\uersu\AppData\Local\Temp\ccjDhwlC.debug.temp.o
+ .debug_line    0x0001b0d1      0x56c C:\Users\uersu\AppData\Local\Temp\cc2EpnYk.debug.temp.o
+ .debug_line    0x0001b63d      0x358 C:\Users\uersu\AppData\Local\Temp\ccRfuiw3.debug.temp.o
+ .debug_line    0x0001b995      0x389 C:\Users\uersu\AppData\Local\Temp\ccovKwdM.debug.temp.o
+ .debug_line    0x0001bd1e       0xb7 C:\Users\uersu\AppData\Local\Temp\ccRAofbv.debug.temp.o
+ .debug_line    0x0001bdd5      0x17f C:\Users\uersu\AppData\Local\Temp\ccWbpgie.debug.temp.o
+ .debug_line    0x0001bf54      0x3a7 C:\Users\uersu\AppData\Local\Temp\cc9oDlkX.debug.temp.o
+ .debug_line    0x0001c2fb      0x205 C:\Users\uersu\AppData\Local\Temp\ccEhmi2J.debug.temp.o
+ .debug_line    0x0001c500      0x3bc C:\Users\uersu\AppData\Local\Temp\ccBE9aRw.debug.temp.o
+ .debug_line    0x0001c8bc      0x2fa C:\Users\uersu\AppData\Local\Temp\cc4joNOj.debug.temp.o
+ .debug_line    0x0001cbb6      0x380 C:\Users\uersu\AppData\Local\Temp\ccVbnd06.debug.temp.o
+ .debug_line    0x0001cf36      0x34c C:\Users\uersu\AppData\Local\Temp\ccuuOy8S.debug.temp.o
+ .debug_line    0x0001d282      0x3c5 C:\Users\uersu\AppData\Local\Temp\ccx2pDpF.debug.temp.o
+ .debug_line    0x0001d647      0x42b C:\Users\uersu\AppData\Local\Temp\ccQWUcCr.debug.temp.o
+ .debug_line    0x0001da72      0x357 C:\Users\uersu\AppData\Local\Temp\ccfMrrce.debug.temp.o
+ .debug_line    0x0001ddc9      0x2d3 C:\Users\uersu\AppData\Local\Temp\ccAvyJKZ.debug.temp.o
+ .debug_line    0x0001e09c      0x1a9 C:\Users\uersu\AppData\Local\Temp\ccbByweL.debug.temp.o
+ .debug_line    0x0001e245       0xbf C:\Users\uersu\AppData\Local\Temp\cc6AssUw.debug.temp.o
+ .debug_line    0x0001e304      0x385 C:\Users\uersu\AppData\Local\Temp\ccnEq6Ii.debug.temp.o
+ .debug_line    0x0001e689      0x176 C:\Users\uersu\AppData\Local\Temp\cc6ZGyL4.debug.temp.o
+ .debug_line    0x0001e7ff      0x248 C:\Users\uersu\AppData\Local\Temp\ccbVL4JQ.debug.temp.o
+ .debug_line    0x0001ea47      0x34b C:\Users\uersu\AppData\Local\Temp\ccm3TdHB.debug.temp.o
+ .debug_line    0x0001ed92      0x229 C:\Users\uersu\AppData\Local\Temp\cc1QlcZm.debug.temp.o
+ .debug_line    0x0001efbb      0x12b obj/gcc8_a_support.o
 
-.debug_frame    0x00000000     0xc754
+.debug_frame    0x00000000     0xc7bc
  *(.debug_frame)
- .debug_frame   0x00000000     0xc688 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .debug_frame   0x0000c688       0xcc obj/gcc8_a_support.o
+ .debug_frame   0x00000000     0xc6f0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .debug_frame   0x0000c6f0       0xcc obj/gcc8_a_support.o
 
 .debug_str      0x00000000     0x1293
  *(.debug_str)
- .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
- .debug_str     0x00000000       0xdb C:\Users\uersu\AppData\Local\Temp\cc4Lbj2T.debug.temp.o
- .debug_str     0x000000db       0x74 C:\Users\uersu\AppData\Local\Temp\cc6Omxuk.debug.temp.o
- .debug_str     0x0000014f       0x18 C:\Users\uersu\AppData\Local\Temp\ccapL5d5.debug.temp.o
- .debug_str     0x00000167       0x8d C:\Users\uersu\AppData\Local\Temp\ccan7p6N.debug.temp.o
- .debug_str     0x000001f4       0x29 C:\Users\uersu\AppData\Local\Temp\ccWqEMLa.debug.temp.o
- .debug_str     0x0000021d       0xb7 C:\Users\uersu\AppData\Local\Temp\ccu9ZQmx.debug.temp.o
- .debug_str     0x000002d4      0x1af C:\Users\uersu\AppData\Local\Temp\ccuyIv6T.debug.temp.o
- .debug_str     0x00000483       0x37 C:\Users\uersu\AppData\Local\Temp\cc8pjY0f.debug.temp.o
- .debug_str     0x000004ba      0x111 C:\Users\uersu\AppData\Local\Temp\cccVZ03B.debug.temp.o
- .debug_str     0x000005cb       0xbf C:\Users\uersu\AppData\Local\Temp\ccMkxucY.debug.temp.o
- .debug_str     0x0000068a      0x10e C:\Users\uersu\AppData\Local\Temp\ccIn9Gwj.debug.temp.o
- .debug_str     0x00000798      0x11b C:\Users\uersu\AppData\Local\Temp\ccKX5s3p.debug.temp.o
- .debug_str     0x000008b3      0x173 C:\Users\uersu\AppData\Local\Temp\cckIJUaf.debug.temp.o
- .debug_str     0x00000a26       0x6a C:\Users\uersu\AppData\Local\Temp\ccca9rv3.debug.temp.o
- .debug_str     0x00000a90       0x83 C:\Users\uersu\AppData\Local\Temp\cceCSYis.debug.temp.o
- .debug_str     0x00000b13      0x1a6 C:\Users\uersu\AppData\Local\Temp\cc0lHvgR.debug.temp.o
- .debug_str     0x00000cb9      0x14a C:\Users\uersu\AppData\Local\Temp\cciSqDmg.debug.temp.o
- .debug_str     0x00000e03       0x63 C:\Users\uersu\AppData\Local\Temp\cc4vKVpE.debug.temp.o
- .debug_str     0x00000e66       0xb0 C:\Users\uersu\AppData\Local\Temp\ccG5auYb.debug.temp.o
- .debug_str     0x00000f16       0x8f C:\Users\uersu\AppData\Local\Temp\ccOz9KiX.debug.temp.o
- .debug_str     0x00000fa5       0x92 C:\Users\uersu\AppData\Local\Temp\ccMLJubl.debug.temp.o
- .debug_str     0x00001037      0x1a1 C:\Users\uersu\AppData\Local\Temp\cc2CO5JM.debug.temp.o
+ .debug_str     0x00000000        0x0 C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
+ .debug_str     0x00000000       0xdb C:\Users\uersu\AppData\Local\Temp\ccfzhjEG.debug.temp.o
+ .debug_str     0x000000db       0x74 C:\Users\uersu\AppData\Local\Temp\cchEscPG.debug.temp.o
+ .debug_str     0x0000014f       0x18 C:\Users\uersu\AppData\Local\Temp\cctnSWpc.debug.temp.o
+ .debug_str     0x00000167       0x8d C:\Users\uersu\AppData\Local\Temp\cchCU75F.debug.temp.o
+ .debug_str     0x000001f4       0x29 C:\Users\uersu\AppData\Local\Temp\ccAikUcq.debug.temp.o
+ .debug_str     0x0000021d       0xb7 C:\Users\uersu\AppData\Local\Temp\cctrX2q9.debug.temp.o
+ .debug_str     0x000002d4      0x1af C:\Users\uersu\AppData\Local\Temp\ccIVzQHS.debug.temp.o
+ .debug_str     0x00000483       0x37 C:\Users\uersu\AppData\Local\Temp\ccjDhwlC.debug.temp.o
+ .debug_str     0x000004ba      0x111 C:\Users\uersu\AppData\Local\Temp\cc2EpnYk.debug.temp.o
+ .debug_str     0x000005cb       0xbf C:\Users\uersu\AppData\Local\Temp\ccRfuiw3.debug.temp.o
+ .debug_str     0x0000068a      0x10e C:\Users\uersu\AppData\Local\Temp\ccovKwdM.debug.temp.o
+ .debug_str     0x00000798      0x11b C:\Users\uersu\AppData\Local\Temp\cc9oDlkX.debug.temp.o
+ .debug_str     0x000008b3      0x173 C:\Users\uersu\AppData\Local\Temp\ccBE9aRw.debug.temp.o
+ .debug_str     0x00000a26       0x6a C:\Users\uersu\AppData\Local\Temp\ccVbnd06.debug.temp.o
+ .debug_str     0x00000a90       0x83 C:\Users\uersu\AppData\Local\Temp\ccuuOy8S.debug.temp.o
+ .debug_str     0x00000b13      0x1a6 C:\Users\uersu\AppData\Local\Temp\ccx2pDpF.debug.temp.o
+ .debug_str     0x00000cb9      0x14a C:\Users\uersu\AppData\Local\Temp\ccQWUcCr.debug.temp.o
+ .debug_str     0x00000e03       0x63 C:\Users\uersu\AppData\Local\Temp\ccfMrrce.debug.temp.o
+ .debug_str     0x00000e66       0xb0 C:\Users\uersu\AppData\Local\Temp\ccnEq6Ii.debug.temp.o
+ .debug_str     0x00000f16       0x8f C:\Users\uersu\AppData\Local\Temp\ccbVL4JQ.debug.temp.o
+ .debug_str     0x00000fa5       0x92 C:\Users\uersu\AppData\Local\Temp\ccm3TdHB.debug.temp.o
+ .debug_str     0x00001037      0x1a1 C:\Users\uersu\AppData\Local\Temp\cc1QlcZm.debug.temp.o
  .debug_str     0x000011d8       0xbb obj/gcc8_a_support.o
 
 .debug_loc
@@ -1829,7 +1831,7 @@ LOAD obj/depacker_doynax_vasm.o
                 0x00000000       0xfc
  *(.debug_loclists)
  .debug_loclists
-                0x00000000       0xfc C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000       0xfc C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
 
 .debug_macro
  *(.debug_macro)
@@ -1841,7 +1843,7 @@ LOAD obj/depacker_doynax_vasm.o
                 0x00000000     0x11cd
  *(.debug_rnglists)
  .debug_rnglists
-                0x00000000     0x11cd C:\Users\uersu\AppData\Local\Temp\ccuhmBrn.ltrans0.ltrans.o
+                0x00000000     0x11cd C:\Users\uersu\AppData\Local\Temp\ccIKOh44.ltrans0.ltrans.o
 
 .debug_str_offsets
  *(.debug_str_offsets)
