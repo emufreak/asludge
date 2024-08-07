@@ -70,13 +70,16 @@ int main_sludge(int argc, char *argv[])
 		printCmdlineUsage();
 		return 0;
 	}*/
+	KPrintF("Game file not found.\n");
 	if (! fileExists(sludgeFile) ) {	
 		Write(Output(), (APTR)"Game file not found.\n", 21);
+		KPrintF("Game file not found.\n");
 		//AMIGA TODO: Show arguments
 		//printCmdlineUsage();
 		return 0;
 	}
 
+	KPrintF("Setgamefilepath\n");
 	setGameFilePath (sludgeFile);	
 	if (! initSludge (sludgeFile)) return 0;
 	
@@ -86,17 +89,20 @@ int main_sludge(int argc, char *argv[])
 		winHeight = 256;
 	}
 
+	KPrintF("Resizing Backdrop\n");
 	if (! resizeBackdrop (winWidth, winHeight)) {
 		KPrintF("Couldn't allocate memory for backdrop");
 		return FALSE;
 	}
 
+	KPrintF("Init People\n");
 	if (! initPeople ())
 	{
 		KPrintF("Couldn't initialise people stuff");
 		return FALSE;
 	}
 
+	KPrintF("Init Floor\n");
 	if (! initFloor ())
 	{
 		KPrintF("Couldn't initialise floor stuff");
@@ -104,18 +110,25 @@ int main_sludge(int argc, char *argv[])
 		return FALSE;
 	}
 
+	KPrintF("Init Objecttype\n");
 	if (! initObjectTypes ())
 	{
 		KPrintF("Couldn't initialise object type stuff");
 		return FALSE;
 	}
 
+	KPrintF("Init speech\n");
 	initSpeech ();
+	KPrintF("Init status bar\n");
 	initStatusBar ();
 
+	KPrintF("Get numbered string\n");
 	gameName = getNumberedString(1);
 	//initSoundStuff (hMainWindow); Todo Amiga: Maybe move soundstuff here
+	KPrintF("Start new function num\n");
 	startNewFunctionNum (0, 0, NULL, noStack, TRUE);
+
+	KPrintF("Starting main loop");
 
 	weAreDoneSoQuit = 0;
 	while ( !weAreDoneSoQuit ) {				

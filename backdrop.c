@@ -178,10 +178,7 @@ void nosnapshot () {
 	snapshotTextureName = 0;
 }
 
-BOOL reserveBackdrop () {
-	if(backdropTexture) FreeVec(backdropTexture);
-	backdropTexture = AllocVec( sceneWidth*sceneHeight*4, MEMF_ANY );
-
+BOOL reserveBackdrop () {	
 	return CstReserveBackdrop(sceneWidth, sceneHeight);
 }
 
@@ -190,8 +187,10 @@ BOOL resizeBackdrop (int x, int y) {
 	killParallax ();
 	killZBuffer ();
 	sceneWidth = x;
-	sceneHeight = y;	
+	sceneHeight = y;
+	KPrintF("resizeBackdrop: Reserving new Backdrop");
 	return reserveBackdrop();
+	KPrintF("resizeBackdrop: Backdrop reserved");	
 }
 
 BOOL restoreSnapshot (BPTR fp) {

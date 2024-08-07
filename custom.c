@@ -9,6 +9,7 @@
 #define CSTBPL4LOW 35*2+1
 #define CSTBPL5HIGH 36*2+1
 #define CSTBPL5LOW 37*2+1
+//#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -20,6 +21,7 @@
 #include "moreio.h"
 #include "support/gcc8_c_support.h"
 
+extern unsigned int winWidth, winHeight;
 
 UWORD CstBackdropSize;
 UWORD CstBackdropSizePlane;
@@ -44,7 +46,7 @@ ULONG CstClBitplanes[] = { 0x0e00000, 0x0e20000, 0x0e40000, 0x0e60000,
     0x0f00000, 0x0f20000 };
 
 ULONG CstClColorTemplate[] = { 
-    0x1800000, 0x1820000, 0x1840000, 0x1860000, 0x1880000, 0x18a0000, 0x18c0000, 0x18e0000,
+    0x1800000, 0x1820fff, 0x1840000, 0x1860000, 0x1880000, 0x18a0000, 0x18c0000, 0x18e0000,
     0x1900000, 0x1920000, 0x1940000, 0x1960000, 0x1980000, 0x19a0000, 0x19c0000, 0x19e0000,
     0x1a00000, 0x1a20000, 0x1a40000, 0x1a60000, 0x1a80000, 0x1aa0000, 0x1ac0000, 0x1ae0000,
     0x1b00000, 0x1b20000, 0x1b40000, 0x1b60000, 0x1b80000, 0x1ba0000, 0x1bc0000, 0x1be0000 
@@ -150,12 +152,15 @@ void CstDisplayBackDrop()
 }
 
 void CstLoadBackdrop( BPTR fp, int x, int y) {
+	KPrintF("CstLoadBackDrop: Loading of Background started");
+
   UWORD width = get2bytes(fp);
   UWORD height = get2bytes(fp);  
 
   UWORD widthbytes = width/8;
   UWORD widthwords = widthbytes/2;  
-  UWORD size = widthbytes*height*5; //Todo other number of bitplanes
+  UWORD sizeplane =  widthbytes*height;
+  UWORD size = sizeplane * 5; //Todo other number of bitplanes
 
   //Load Palette to Copper
   UWORD reg = 0x180;
@@ -165,36 +170,74 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     *tmp++ = get2bytes(fp);
   }
 
-  UWORD *tmpbuffer = AllocVec(size, MEMF_ANY); //Todo other number of bitplanes
-  debug_register_bitmap(tmpbuffer, "tmpbuffer.bpl", width, height, 5, 0);
-  UWORD *tmpbuffercursor = tmpbuffer;
+  UWORD *tmpbuffer = AllocVec(size, MEMF_CHIP); //Todo other number of bitplanes
+
+  //UWORD *tmpbuffercursor = tmpbuffer;
   UWORD count = FRead( fp, tmpbuffer, 2, size/2);
   
   if(!count) {
     KPrintF("Error while reading stream");
     return;
-  }
-  
+  }  
 
-  tmp = CstBackDrop; 
+  UWORD *tmpmask = AllocVec(sizeplane, MEMF_CHIP);
+
+#ifdef EMULATOR
+  debug_register_bitmap(tmpbuffer, "tmpbuffer.bpl", width, height, 5, 0);
+  debug_register_bitmap(tmpbuffer, "tmpmask.bpl", width, height, 1, 0);
+#endif     
+
+  count = FRead( fp, tmpmask, 2, sizeplane/2);
+
+  if(!count) {
+    KPrintF("Error while reading stream");
+    return;
+  }
+
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+
+  ULONG backdropcursor = (ULONG) CstBackDrop; 
   UWORD offset = widthwords*y + x / 16;
-  tmp += offset;    
+  backdropcursor += offset; 
 
-  for(int i3=0;i3<5;i3++) //ToDo other number of bitplanes
-  {    
-    UWORD *tmp2 = tmp;
-    for(int i2=0;i2<height;i2++)
-    {
-      for(int i=0;i<widthwords;i++)
-        *tmp2++ = *tmpbuffercursor++;
-      tmp2 += 20-widthwords;
-    }
-    tmp += CstBackdropSizePlane / 2;
-  }
+ 	KPrintF("CstLoadBackDrop: Starting Blit");
+
+
+  WaitBlit();
+
+  custom->bltafwm = 0xffff;
+  custom->bltalwm = 0xffff;
+  custom->bltamod = 0;
+  custom->bltbmod = 0;
+  custom->bltcmod = winWidth / 8 - widthbytes;
+  custom->bltdmod = winWidth / 8 - widthbytes;
+  custom->bltcon0 = 0xfca;
+  custom->bltcon1 = 0;
+  
+  ULONG tmpbuffercursor = (ULONG) tmpbuffer;
+  for(int i=0;i<5;i++) //Todo other number of bitplanes
+  {
+    
+    custom->bltapt = tmpmask;
+    custom->bltbpt = tmpbuffercursor;
+    custom->bltcpt = backdropcursor;
+    custom->bltdpt = backdropcursor;
+    custom->bltsize = (height<<6)+widthwords;
+    tmpbuffercursor += sizeplane;
+    backdropcursor += CstBackdropSizePlane;
+  }    
+
+  WaitBlit();
+
+ 	KPrintF("CstLoadBackDrop: Freeing Memory");
+
 
   FreeVec(tmpbuffer);
+  FreeVec(tmpmask);
 
   CstApplyBackDropCounter = 2;
+
+  KPrintF("CstLoadBackDrop: Finished");
 
 }
 
@@ -273,10 +316,14 @@ BOOL CstReserveBackdrop(int width, int height) {
   CstBackdropSize = CstBackdropSizePlane * 5; //Todo: Support other Bitplane Modes;
 
   CstBackDrop = AllocVec(CstBackdropSize,MEMF_CHIP);
- 	debug_register_bitmap(CstBackDrop, "CstBackDrop.bpl", 320, 256, 5, 0);
+  if( !CstBackDrop)
+  {    
+    KPrintF("CstReserveBackdrop: Cannot allocate memory for Backdrop");
+    return FALSE;  
+  }
 
   //Initialize Buffer
-  ULONG *cursor = CstBackDrop;
+  ULONG *cursor = (ULONG *)CstBackDrop;
   for(int i=0;i<CstBackdropSize/4;i++)
   {
     *cursor++ = 0;
@@ -285,9 +332,13 @@ BOOL CstReserveBackdrop(int width, int height) {
   CstDrawBuffer = AllocVec(CstBackdropSize,MEMF_CHIP);
   CstViewBuffer = AllocVec(CstBackdropSize,MEMF_CHIP);
 
+#ifdef EMULATOR
+ 	debug_register_bitmap(CstBackDrop, "CstBackDrop.bpl", 320, 256, 5, 0);
   debug_register_bitmap(CstDrawBuffer, "drawbuffer.bpl", width*8, height, 5, 0);
   debug_register_bitmap(CstViewBuffer, "viewbuffer.bpl", width*8, height, 5, 0);
+#endif
 
+  
 
   if( !CstCopperList || ! CstDrawBuffer || !CstViewBuffer)
   {

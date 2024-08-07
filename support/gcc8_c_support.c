@@ -15,7 +15,9 @@ extern struct ExecBase* SysBase;
 //vblank begins at vpos 312 hpos 1 and ends at vpos 25 hpos 1
 //vsync begins at line 2 hpos 132 and ends at vpos 5 hpos 18 
 void WaitVbl() {
-	debug_start_idle();
+	#ifdef EMULATOR
+	  debug_start_idle();
+	#endif
 	while (1) {
 		volatile ULONG vpos=*(volatile ULONG*)0xDFF004;
 		vpos&=0x1ff00;
@@ -28,7 +30,9 @@ void WaitVbl() {
 		if (vpos==(300<<8))
 			break;
 	}
-	debug_stop_idle();
+	#ifdef EMULATOR
+	  debug_stop_idle();
+	#endif
 }
 
 void memclr(void* dest, unsigned long len) { // dest: 16bit-aligned, len: multiple of 2

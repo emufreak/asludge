@@ -16,9 +16,9 @@
 #include <libraries/mathieeesp.h>
 #include "main_sludge.h"
 
+//#define EMULATOR
 
 //config
-#define MUSIC
 
 struct ExecBase *SysBase;
 volatile struct Custom *custom;
@@ -71,20 +71,26 @@ __attribute__((always_inline)) inline void WaitBlt() {
 }
 
 void TakeSystem() {
+	KPrintF("TakeSystem: Run Forbid\n");
 	Forbid();
 	//Save current interrupts and DMA settings so we can restore them upon exit. 
+	KPrintF("TakeSystem: Saving Registers\n");
 	SystemADKCON=custom->adkconr;
 	SystemInts=custom->intenar;
 	SystemDMA=custom->dmaconr;
 	ActiView=GfxBase->ActiView; //store current view
 
+	KPrintF("TakeSystem: LoadView\n");
 	LoadView(0);
+	KPrintF("TakeSystem: WaitTof\n");
 	WaitTOF();
 	WaitTOF();
 
+	KPrintF("TakeSystem: WaitVBL\n");
 	WaitVbl();
 	WaitVbl();
 
+	KPrintF("TakeSystem: Doing Blitter Stuff\n");
 	OwnBlitter();
 	WaitBlit();	
 	Disable();
@@ -92,8 +98,10 @@ void TakeSystem() {
 	//custom->intena=0x7fff;//disable all interrupts
 	//custom->intreq=0x7fff;//Clear any interrupts that were pending
 	
+	KPrintF("TakeSystem: Clear DMA\n");
 	custom->dmacon=0x7fff;//Clear all DMA channels
 
+	KPrintF("TakeSystem: Set all colors to black\n");
 	//set all colors black
 	for(int a=0;a<32;a++)
 		custom->color[a]=0;
@@ -101,6 +109,7 @@ void TakeSystem() {
 	WaitVbl();
 	WaitVbl();
 
+	KPrintF("TakeSystem: Save System interrupts\n");
 	VBR=GetVBR();
 	SystemIrq=GetInterruptHandler(); //store interrupt register*/
 }
@@ -251,27 +260,23 @@ int main(int argc, char *argv[]) {
 	Write(Output(), (APTR)"Hello console!\n", 15);
 	Delay(50);
 
-	warpmode(1);
+	/*warpmode(1);
 	// TODO: precalc stuff here
 #ifdef MUSIC
 	if(p61Init(module) != 0)
 		KPrintF("p61Init failed!\n");
 #endif
-	warpmode(0);
+	warpmode(0);*/
 
+	KPrintF("Taking System\n");
 	TakeSystem();
+	KPrintF("System Taken\n");
 
 	custom->dmacon = 0x87ff;
 	WaitVbl();
 
-	main_sludge(argc, argv);
-
-	// register graphics resources with WinUAE for nicer gfx debugger experience
-	/*debug_register_bitmap(image, "image.bpl", 320, 256, 5, debug_resource_bitmap_interleaved);
-	debug_register_bitmap(bob, "bob.bpl", 32, 96, 5, debug_resource_bitmap_interleaved | debug_resource_bitmap_masked);
-	debug_register_palette(colors, "image.pal", 32, 0);
-	debug_register_copperlist(copper1, "copper1", 1024, 0);
-	debug_register_copperlist(copper2, "copper2", sizeof(copper2), 0);*/
+	KPrintF("Starting main_sludge\n");
+	main_sludge(argc, argv);	
 
 #ifdef MUSIC
 	p61End();

@@ -1,0 +1,4 @@
+Copy df0:a.exe data:testlab/a.exe
+Copy df0:game/gamedata.slg data:testlab/game/gamedata.slg
+cd data:testlab
+a.exe
