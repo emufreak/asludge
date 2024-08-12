@@ -9,7 +9,7 @@
 #define CSTBPL4LOW 35*2+1
 #define CSTBPL5HIGH 36*2+1
 #define CSTBPL5LOW 37*2+1
-//#define EMULATOR
+#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -241,10 +241,10 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   ULONG tmpbuffercursor = (ULONG) tmpbuffer;
   for(int i=0;i<5;i++) //Todo other number of bitplanes
   {    
-    custom->bltapt = tmpmask;
-    custom->bltbpt = tmpbuffercursor;
-    custom->bltcpt = backdropcursor;
-    custom->bltdpt = backdropcursor;
+    custom->bltapt = (APTR) tmpmask;
+    custom->bltbpt = (APTR) tmpbuffercursor;
+    custom->bltcpt = (APTR)backdropcursor;
+    custom->bltdpt = (APTR) backdropcursor;
     custom->bltsize = (height<<6)+widthwordslayer;
     tmpbuffercursor += sizeplane;
     backdropcursor += CstBackdropSizePlane;
@@ -271,44 +271,38 @@ void CstScaleSprite( struct sprite *single, UWORD x, UWORD y)
   WaitBlit();
 
   UWORD wordx = x >> 3; //Get Bytes
-  UWORD modwordx = x - (x << 3);
-  UWORD bltwidthsprite = (single->width << 4);
-  UWORD widthbytesbackdrop = winWidth << 3;
-  custom->bltapt = ((ULONG) single->data) + bltwidthsprite*2*single->height*5;
-  custom->bltbpt = ((ULONG) single->data);
+  UWORD modwordx = x - (wordx << 3);
+  UWORD bltwidthsprite = (single->width >> 4);
+  UWORD widthbytesbackdrop = winWidth >> 3;
 
-  /*if(modwordx <= x) { //Not exact Match*/
-     bltwidthsprite += 1; //Extra word needs to be written because of shift
-     custom->bltalwm = 0x0; //Mask out Last Word of Achannel
-     custom->bltamod = -2; //Word is used for next line instead     
-     custom->bltbmod = -2; //Word is used for next line instead   
-     custom->bltcmod = widthbytesbackdrop - bltwidthsprite*2 - 2;
-     custom->bltdmod = widthbytesbackdrop - bltwidthsprite*2 - 2;    
-     //custom->bltbpt = ((ULONG) single->data); 
-  /*} else { //Exact Match
-    custom->bltalwm = 0xffff; 
-    custom->bltamod = 0;
-    custom->bltbmod = 0;
-    custom->bltcmod = widthbytesbackdrop - bltwidthsprite*2;
-    custom->bltdmod = widthbytesbackdrop - bltwidthsprite*2 - 2;
-  } */ 
-
+  bltwidthsprite += 1; //Extra word needs to be written because of shift
+  custom->bltafwm = 0xffff;
+  custom->bltalwm = 0x0; //Mask out Last Word of Achannel
+  custom->bltamod = -2; //Word is used for next line instead     
+  custom->bltbmod = -2; //Word is used for next line instead   
+  custom->bltcmod = widthbytesbackdrop - bltwidthsprite*2;
+  custom->bltdmod = widthbytesbackdrop - bltwidthsprite*2;    
+  UWORD bltcon0 = 0xfca + (modwordx << 12);
   custom->bltcon0 = 0xfca + (modwordx << 12); // Cookie Cut and Shift of Mask
   custom->bltcon1 = (modwordx << 12);
-  
-  /*ULONG tmpbuffercursor = (ULONG) tmpbuffer;
-  for(int i=0;i<5;i++) //Todo other number of bitplanes
-  {    
-    custom->bltapt = tmpmask;
-    custom->bltbpt = tmpbuffercursor;
-    custom->bltcpt = backdropcursor;
-    custom->bltdpt = backdropcursor;
-    custom->bltsize = (height<<6)+widthwordslayer;
-    tmpbuffercursor += sizeplane;
-    backdropcursor += CstBackdropSizePlane;*/
-  /*}    
 
-  WaitBlit();*/
+  ULONG bltapt = ((ULONG) single->data) + (single->width >> 3)*single->height*5;
+  ULONG bltbpt =  (ULONG) single->data;
+  ULONG bltcpt = ((ULONG) CstBackDrop) + y*widthbytesbackdrop + wordx;
+  ULONG bltdpt = ((ULONG) CstDrawBuffer) + y*widthbytesbackdrop + wordx;
+ 
+  for(int i=0;i<5;i++) //ToDo other numbers of Bitplanes
+  {
+    custom->bltapt = (APTR) bltapt;
+    custom->bltbpt = (APTR) bltbpt;
+    custom->bltcpt = (APTR) bltcpt;
+    custom->bltdpt = (APTR) bltdpt;
+    custom->bltsize = (single->height << 6) + bltwidthsprite;
+    bltbpt += (single->width >> 3)*single->height;
+    bltcpt += widthbytesbackdrop*winHeight;
+    bltdpt += widthbytesbackdrop*winHeight;
+    WaitBlit();
+  } 
 }
 
 void CstSetCl(UWORD *copperlist)
