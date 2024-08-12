@@ -1,5 +1,4 @@
 ﻿$filename = "FirelitB"
-
 $xhot = 0
 $yhot = 0
 
@@ -23,7 +22,7 @@ for($i=0;$i -lt $spritenum;$i++)
     Add-Content -Encoding Byte -Path source.aduc -Value $headeritem 
 
     #Add Data
-    KingCon $filenamepng "${filename}_${i}" -F=5 -M
+    KingCon $fullpathimage "${filename}_${i}" -F=5 -M
     Get-Content -Encoding Byte -Path source.aduc,"${filename}_${i}.BPL" | Set-Content -Encoding Byte target.aduc
 
     #Prepare and Cleanup

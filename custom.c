@@ -264,6 +264,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
 }
 
+ULONG test = 0;
+
 void CstScaleSprite( struct sprite *single, UWORD x, UWORD y)
 {
   volatile struct Custom *custom = (struct Custom*)0xdff000;
@@ -281,8 +283,9 @@ void CstScaleSprite( struct sprite *single, UWORD x, UWORD y)
   custom->bltamod = -2; //Word is used for next line instead     
   custom->bltbmod = -2; //Word is used for next line instead   
   custom->bltcmod = widthbytesbackdrop - bltwidthsprite*2;
-  custom->bltdmod = widthbytesbackdrop - bltwidthsprite*2;    
-  UWORD bltcon0 = 0xfca + (modwordx << 12);
+  custom->bltdmod = widthbytesbackdrop - bltwidthsprite*2;   
+
+
   custom->bltcon0 = 0xfca + (modwordx << 12); // Cookie Cut and Shift of Mask
   custom->bltcon1 = (modwordx << 12);
 
