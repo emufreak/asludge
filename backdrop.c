@@ -7,6 +7,8 @@
 #include "graphics.h"
 #include "line.h"
 #include "moreio.h"
+#include "people.h"
+#include "region.h"
 #include "sludger.h"
 #include "support/gcc8_c_support.h"
 #include "tga.h"
@@ -49,6 +51,7 @@ void drawBackDrop () {
 void drawHorizontalLine (unsigned int x1, unsigned int y, unsigned int x2) {
 	drawLine (x1, y, x2, y);
 }
+
 
 void drawVerticalLine (unsigned int x, unsigned int y1, unsigned int y2) {
 	drawLine (x, y1, x, y2);

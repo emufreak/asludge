@@ -23,6 +23,7 @@
 
 extern unsigned int winWidth, winHeight;
 
+UWORD CstPaletteLoaded = 0;
 UWORD CstBackdropSize;
 UWORD CstBackdropSizePlane;
 UWORD *CstBackDrop;
@@ -53,6 +54,10 @@ ULONG CstClColorTemplate[] = {
 };
 
 void CstBlankScreen( int width, int height) {
+
+  if(CstPalette) FreeVec(CstPalette);
+  CstPaletteLoaded = 0;
+
   volatile struct Custom *custom = (struct Custom*)0xdff000;
 
   width /= 16;
@@ -151,53 +156,72 @@ void CstDisplayBackDrop()
   }
 }
 
+void CstDrawBackdrop() {  
+  if(CstApplyBackDropCounter > 0) 
+  {
+    CstDisplayBackDrop();
+    CstApplyBackDropCounter--;
+  }    
+}
+
 void CstLoadBackdrop( BPTR fp, int x, int y) {
 	KPrintF("CstLoadBackDrop: Loading of Background started");
 
   UWORD width = get2bytes(fp);
   UWORD height = get2bytes(fp);  
 
-  UWORD widthbytes = width/8;
-  UWORD widthwords = widthbytes/2;  
-  UWORD sizeplane =  widthbytes*height;
+  UWORD widthbyteslayer = width/8;
+  UWORD widthwordslayer = widthbyteslayer/2;  
+  UWORD widthbytesbackdrop = winWidth / 8;
+  UWORD sizeplane =  widthbyteslayer*height;
   UWORD size = sizeplane * 5; //Todo other number of bitplanes
 
   //Load Palette to Copper
-  UWORD reg = 0x180;
-  CstPalette = AllocVec(32*2,MEMF_ANY); //ToDo other number of bitplanes
-  UWORD *tmp = CstPalette;
-  for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes   
-    *tmp++ = get2bytes(fp);
+  if( CstPaletteLoaded == 0)
+  {    
+    UWORD reg = 0x180;
+    CstPalette = AllocVec(32*2,MEMF_ANY); //ToDo other number of bitplanes
+    CstPaletteLoaded = 1;
+    UWORD *tmp = CstPalette;
+    for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes   
+      *tmp++ = get2bytes(fp);
+    }
+  }
+  else
+  //There's already a palette loaded for this background. Do not load palette
+  {
+    for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes   
+      get2bytes(fp);
+    }
   }
 
+  //Load Picture From Disk
   UWORD *tmpbuffer = AllocVec(size, MEMF_CHIP); //Todo other number of bitplanes
-
-  //UWORD *tmpbuffercursor = tmpbuffer;
-  UWORD count = FRead( fp, tmpbuffer, 2, size/2);
-  
-  if(!count) {
-    KPrintF("Error while reading stream");
-    return;
-  }  
-
-  UWORD *tmpmask = AllocVec(sizeplane, MEMF_CHIP);
+   UWORD *tmpmask = AllocVec(sizeplane, MEMF_CHIP);
 
 #ifdef EMULATOR
   debug_register_bitmap(tmpbuffer, "tmpbuffer.bpl", width, height, 5, 0);
   debug_register_bitmap(tmpbuffer, "tmpmask.bpl", width, height, 1, 0);
-#endif     
+#endif  
 
+  UWORD count = FRead( fp, tmpbuffer, 2, size/2);
+  if(!count) {
+    KPrintF("Error while reading stream");
+    return;
+  }  
   count = FRead( fp, tmpmask, 2, sizeplane/2);
+   
 
   if(!count) {
     KPrintF("Error while reading stream");
     return;
   }
 
+  //Writing to Framebuffer
   volatile struct Custom *custom = (struct Custom*)0xdff000;
 
   ULONG backdropcursor = (ULONG) CstBackDrop; 
-  UWORD offset = widthwords*y + x / 16;
+  UWORD offset = widthbytesbackdrop*y + x / 8;
   backdropcursor += offset; 
 
  	KPrintF("CstLoadBackDrop: Starting Blit");
@@ -209,20 +233,19 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   custom->bltalwm = 0xffff;
   custom->bltamod = 0;
   custom->bltbmod = 0;
-  custom->bltcmod = winWidth / 8 - widthbytes;
-  custom->bltdmod = winWidth / 8 - widthbytes;
+  custom->bltcmod = widthbytesbackdrop - widthbyteslayer;
+  custom->bltdmod = widthbytesbackdrop - widthbyteslayer;
   custom->bltcon0 = 0xfca;
   custom->bltcon1 = 0;
   
   ULONG tmpbuffercursor = (ULONG) tmpbuffer;
   for(int i=0;i<5;i++) //Todo other number of bitplanes
-  {
-    
+  {    
     custom->bltapt = tmpmask;
     custom->bltbpt = tmpbuffercursor;
     custom->bltcpt = backdropcursor;
     custom->bltdpt = backdropcursor;
-    custom->bltsize = (height<<6)+widthwords;
+    custom->bltsize = (height<<6)+widthwordslayer;
     tmpbuffercursor += sizeplane;
     backdropcursor += CstBackdropSizePlane;
   }    
@@ -241,20 +264,57 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
 }
 
+void CstScaleSprite( struct sprite *single, UWORD x, UWORD y)
+{
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+
+  WaitBlit();
+
+  UWORD wordx = x >> 3; //Get Bytes
+  UWORD modwordx = x - (x << 3);
+  UWORD bltwidthsprite = (single->width << 4);
+  UWORD widthbytesbackdrop = winWidth << 3;
+  custom->bltapt = ((ULONG) single->data) + bltwidthsprite*2*single->height*5;
+  custom->bltbpt = ((ULONG) single->data);
+
+  /*if(modwordx <= x) { //Not exact Match*/
+     bltwidthsprite += 1; //Extra word needs to be written because of shift
+     custom->bltalwm = 0x0; //Mask out Last Word of Achannel
+     custom->bltamod = -2; //Word is used for next line instead     
+     custom->bltbmod = -2; //Word is used for next line instead   
+     custom->bltcmod = widthbytesbackdrop - bltwidthsprite*2 - 2;
+     custom->bltdmod = widthbytesbackdrop - bltwidthsprite*2 - 2;    
+     //custom->bltbpt = ((ULONG) single->data); 
+  /*} else { //Exact Match
+    custom->bltalwm = 0xffff; 
+    custom->bltamod = 0;
+    custom->bltbmod = 0;
+    custom->bltcmod = widthbytesbackdrop - bltwidthsprite*2;
+    custom->bltdmod = widthbytesbackdrop - bltwidthsprite*2 - 2;
+  } */ 
+
+  custom->bltcon0 = 0xfca + (modwordx << 12); // Cookie Cut and Shift of Mask
+  custom->bltcon1 = (modwordx << 12);
+  
+  /*ULONG tmpbuffercursor = (ULONG) tmpbuffer;
+  for(int i=0;i<5;i++) //Todo other number of bitplanes
+  {    
+    custom->bltapt = tmpmask;
+    custom->bltbpt = tmpbuffercursor;
+    custom->bltcpt = backdropcursor;
+    custom->bltdpt = backdropcursor;
+    custom->bltsize = (height<<6)+widthwordslayer;
+    tmpbuffercursor += sizeplane;
+    backdropcursor += CstBackdropSizePlane;*/
+  /*}    
+
+  WaitBlit();*/
+}
+
 void CstSetCl(UWORD *copperlist)
 {
   volatile struct Custom *custom = (struct Custom*)0xdff000;
   custom->cop1lc = (ULONG) copperlist;
-}
-
-void CstSludgeDisplay() {  
-  if(CstApplyBackDropCounter > 0) 
-  {
-    CstDisplayBackDrop();
-    CstApplyBackDropCounter--;
-  }
-  CstSwapBuffer();
-  
 }
 
 void CstSwapBuffer( ) {

@@ -1,7 +1,7 @@
 ﻿# Define variables
 $adfFileName = "asludge.adf"
 $adfFilePath = "C:\Users\uersu\Documents\GitData\asludge\toolchain\asludge.adf"
-$usbDrivePath = "D:\OwnProds"
+$usbDrivePath = "E:\OwnProds"
 
 # Function to create ADF file from a directory using xdftool
 function Create-AdfFile($adfFile) {

@@ -34,6 +34,7 @@
         "mathieeesingtrans.h": "c",
         "mathieeedoubbas.h": "c",
         "types.h": "c",
-        "custom.h": "c"
+        "custom.h": "c",
+        "region.h": "c"
     }
 }

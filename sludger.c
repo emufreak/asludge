@@ -38,6 +38,7 @@ struct variable * globalVars;
 struct inputType input;
 int languageNum = -1;
 int lastFramesPerSecond = -1;
+struct screenRegion * lastRegion = NULL;
 char * loadNow = NULL;
 struct variableStack ** noStack = NULL;
 int numBIFNames = 0;
@@ -836,8 +837,10 @@ void saveHandlers (BPTR fp) {
 	put2bytes (currentEvents -> spaceFunction,			fp);
 }
 
-void sludgeDisplay () {
-	CstSludgeDisplay();
+void sludgeDisplay () {	
+	CstDrawBackdrop();
+	drawPeople();
+	CstSwapBuffer();
 }
 
 BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va) {

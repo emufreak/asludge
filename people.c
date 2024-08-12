@@ -4,11 +4,15 @@
 #include "loadsave.h"
 #include "moreio.h"
 #include "people.h"
+#include "sound_nosound.h"
+#include "sprites.h"
 #include "sprbanks.h"
 #include "sludger.h"
 #include "support/gcc8_c_support.h"
 #include "region.h"
 #include "talk.h"
+#include "variable.h"
+
 
 #define ANGLEFIX (180.0 / 3.14157)
 #define ANI_STAND 0
@@ -18,8 +22,11 @@
 
 extern struct screenRegion * allScreenRegions;
 extern struct flor * currentFloor;
+extern struct screenRegion * lastRegion;
+extern struct variableStack ** noStack;
 extern struct screenRegion * overRegion;
 extern struct speechStruct * speech;
+
 
 struct onScreenPerson * allPeople = NULL;
 struct screenRegion personRegion;
@@ -276,6 +283,73 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
 
     setFrames (moveMe, ANI_WALK);
     return TRUE;
+}
+
+void drawPeople () {
+	shufflePeople ();
+
+	struct onScreenPerson * thisPerson = allPeople;
+	struct personaAnimation * myAnim = NULL;
+	overRegion = NULL;
+
+	while (thisPerson) {
+		if (thisPerson -> show) {
+			myAnim = thisPerson -> myAnim;
+			if (myAnim != thisPerson -> lastUsedAnim) {
+				thisPerson -> lastUsedAnim = myAnim;
+				thisPerson -> frameNum = 0;
+				thisPerson -> frameTick = myAnim -> frames[0].howMany;
+				if (myAnim -> frames[thisPerson -> frameNum].noise > 0) {
+					startSound(myAnim -> frames[thisPerson -> frameNum].noise, FALSE);
+					thisPerson -> frameNum ++;
+					thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+				} else if (myAnim -> frames[thisPerson -> frameNum].noise) {
+					startNewFunctionNum (- myAnim -> frames[thisPerson -> frameNum].noise, 0, NULL, noStack, TRUE);
+					thisPerson -> frameNum ++;
+					thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+				}
+			}
+			int fNumSign = myAnim -> frames[thisPerson -> frameNum].frameNum;
+			int m = fNumSign < 0;
+			int fNum = TF_abs(fNumSign);
+			if (fNum >= myAnim -> theSprites -> bank.total) {
+				fNum = 0;
+				m = 2 - m;
+			}
+			if (m != 2) {
+				BOOL r = FALSE;
+				r = scaleSprite ( &myAnim->theSprites->bank.sprites[fNum], thisPerson, m);
+				if (r) {
+					if (thisPerson -> thisType -> screenName[0]) {
+						if (personRegion.thisType != thisPerson -> thisType) lastRegion = NULL;
+						personRegion.thisType = thisPerson -> thisType;
+						overRegion = & personRegion;
+					}
+				}
+			}
+		}
+		if (! -- thisPerson -> frameTick) {
+			thisPerson -> frameNum ++;
+			thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+			thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+			if (thisPerson -> show && myAnim && myAnim -> frames) {
+				if (myAnim -> frames[thisPerson -> frameNum].noise > 0) {
+					startSound(myAnim -> frames[thisPerson -> frameNum].noise, FALSE);
+					thisPerson -> frameNum ++;
+					thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+				} else if (myAnim -> frames[thisPerson -> frameNum].noise) {
+					startNewFunctionNum (- myAnim -> frames[thisPerson -> frameNum].noise, 0, NULL, noStack, TRUE);
+					thisPerson -> frameNum ++;
+					thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+				}
+			}
+		}
+		thisPerson = thisPerson -> next;
+	}
 }
 
 
@@ -868,6 +942,30 @@ void setMyDrawMode (struct onScreenPerson *moveMe, int h) {
 	}
 }
 
+void shufflePeople () {
+	struct onScreenPerson ** thisReference = &allPeople;
+	struct onScreenPerson * A, * B;
+
+	if (!allPeople) return;
+
+	while ((*thisReference)->next) {
+		float y1 = (*thisReference)->y;
+		if ((*thisReference)->extra & EXTRA_FRONT) y1 += 1000;
+
+		float y2 = (*thisReference)->next->y;
+		if ((*thisReference)->next->extra & EXTRA_FRONT) y2 += 1000;
+
+		if (y1 > y2) {
+			A = (*thisReference);
+			B = (*thisReference)->next;
+			A->next = B->next;
+			B->next = A;
+			(*thisReference) = B;
+		} else {
+			thisReference = &((*thisReference)->next);
+		}
+	}
+}
 
 
 BOOL setCharacterWalkSpeed (int f, int objNum) {

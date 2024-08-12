@@ -409,6 +409,10 @@ FLOAT __truncdfsf2(DOUBLE a) {
 	return IEEEDPTieee( a);
 }
 
+unsigned int __fixunssfsi (float a) {
+	return IEEESPFix(a);
+}
+
 FLOAT atan2f(FLOAT y, FLOAT x) {
     if (x > 0) {
         return IEEESPAtan(y / x);
