@@ -9,7 +9,7 @@
 #define CSTBPL4LOW 35*2+1
 #define CSTBPL5HIGH 36*2+1
 #define CSTBPL5LOW 37*2+1
-#define EMULATOR
+//#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -266,46 +266,122 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
 ULONG test = 0;
 
-void CstScaleSprite( struct sprite *single, UWORD x, UWORD y)
+void CstScaleSprite( struct sprite *single, WORD x, WORD y)
 {
-  volatile struct Custom *custom = (struct Custom*)0xdff000;
+  UWORD extrawords; //When Input is shifted sometimes an extra word has to be written to cover the whole sprite
+  UWORD cutwordssource; //If some words are completely outside of screen
+  UWORD cutmaskpixel; //Single pixels outside of Screen need to be masked out to prevent corruption of background
+  UWORD bltalwm; //Mask out all or part of last word as out of range of source.
+  ULONG bltapt; //Start Position Source Mask
+  ULONG bltbpt; //Start Position Source
+  ULONG bltcpt; //Start Position Background
+  ULONG bltdpt; //Start Position DrawBuffer
+  ULONG bltcon0; //Channel configuration and shift mask
+  ULONG bltcon1; //Shift Source
+  ULONG ystartdst;
+  ULONG ystartsrc; 
+  ULONG blitheight;
 
+  x = -20;
+  y = -20;
+
+  if( y < 0) {
+    if(y + single->height < 0) {
+      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
+      return;
+    }
+    ystartdst = 0;
+    ystartsrc = y*-1;
+    blitheight = single->height+y;
+  } else if(y+single->height > winHeight) {
+    if(y  > winHeight) {
+      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
+      return;
+    }
+    ystartdst = y;
+    ystartsrc = 0;
+    blitheight = winHeight-y;
+  } else {
+    ystartdst = y;
+    ystartsrc = 0;
+    blitheight = single->height;
+  }
+
+  if( x < 0) { //Leftmost part outside screen
+    if(x + single->width < 0) {
+      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
+      return;
+    }
+    extrawords = 1;
+    cutwordssource = (x*-1)/16; 
+    cutmaskpixel = (x*-1)%16;     
+    bltalwm = 0; //Last Word of this channel almost masked out
+    bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+cutwordssource*2+ystartsrc*single->width/8;
+    bltbpt = ((ULONG) single->data)+cutwordssource*2+ystartsrc*single->width/8;
+    bltcpt = ((ULONG) CstBackDrop) + ystartdst*winWidth/8 - 2;
+    bltdpt = ((ULONG) CstDrawBuffer) + ystartdst*winWidth/8 - 2;
+    bltcon0 = 0xfca + ((16-cutmaskpixel) << 12);
+    bltcon1 = ((16-cutmaskpixel) << 12);
+
+  } else if(x + single->width > winWidth) { //Rightmost part outside screen
+    if(x - single->width > winWidth)
+    {    
+      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
+      return;
+    }
+    extrawords = 0; //Shifted out part of source outside screen. No need to blit this
+    cutwordssource = (x+single->width - winWidth)/16;
+    cutmaskpixel = 0;
+    bltalwm = 0xffff; //Last word contains source data to be blit
+    bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+ystartsrc*single->width/8;
+    bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
+    bltcpt = ((ULONG) CstBackDrop) + ystartdst*winWidth/8 + (x/16)*2;
+    bltdpt = ((ULONG) CstDrawBuffer) + ystartdst*winWidth/8 + (x/16)*2;
+    bltcon0 = 0xfca + ((single->width%16) << 12);
+    bltcon1 = ((single->width%16) << 12);
+  } else { //Whole Sprite on Screen
+    extrawords = 1;
+    cutwordssource = 0;
+    cutmaskpixel = 0;
+    bltalwm = 0; //Last Word of this channel almost masked out
+    bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+ystartsrc*single->width/8;
+    bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
+    bltcpt = ((ULONG) CstBackDrop) + ystartdst*winWidth/8 + (x/16)*2;
+    bltdpt = ((ULONG) CstDrawBuffer) + ystartdst*winWidth/8 + (x/16)*2;
+    bltcon0 = 0xfca + ((x%16) << 12);
+    bltcon1 = ((x%16) << 12);
+  }
+
+  UWORD bltafwm = 0xffff >> cutmaskpixel;
+  WORD bltamod = cutwordssource*2-(extrawords*2); //Jump to next line
+  WORD bltbmod = cutwordssource*2-(extrawords*2); //Jump to next line
+  WORD bltcmod = winWidth/8-single->width/8-extrawords*2+cutwordssource*2;
+  WORD bltdmod = winWidth/8-single->width/8-extrawords*2+cutwordssource*2;
+
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
   WaitBlit();
 
-  UWORD wordx = x >> 3; //Get Bytes
-  UWORD modwordx = x - (wordx << 3);
-  UWORD bltwidthsprite = (single->width >> 4);
-  UWORD widthbytesbackdrop = winWidth >> 3;
+  custom->bltafwm = bltafwm;
+  custom->bltalwm = bltalwm;
+  custom->bltamod = bltamod;
+  custom->bltbmod = bltbmod;
+  custom->bltcmod = bltcmod;
+  custom->bltdmod = bltdmod;
+  custom->bltcon0 = bltcon0;
+  custom->bltcon1 = bltcon1;  
 
-  bltwidthsprite += 1; //Extra word needs to be written because of shift
-  custom->bltafwm = 0xffff;
-  custom->bltalwm = 0x0; //Mask out Last Word of Achannel
-  custom->bltamod = -2; //Word is used for next line instead     
-  custom->bltbmod = -2; //Word is used for next line instead   
-  custom->bltcmod = widthbytesbackdrop - bltwidthsprite*2;
-  custom->bltdmod = widthbytesbackdrop - bltwidthsprite*2;   
-
-
-  custom->bltcon0 = 0xfca + (modwordx << 12); // Cookie Cut and Shift of Mask
-  custom->bltcon1 = (modwordx << 12);
-
-  ULONG bltapt = ((ULONG) single->data) + (single->width >> 3)*single->height*5;
-  ULONG bltbpt =  (ULONG) single->data;
-  ULONG bltcpt = ((ULONG) CstBackDrop) + y*widthbytesbackdrop + wordx;
-  ULONG bltdpt = ((ULONG) CstDrawBuffer) + y*widthbytesbackdrop + wordx;
- 
   for(int i=0;i<5;i++) //ToDo other numbers of Bitplanes
   {
     custom->bltapt = (APTR) bltapt;
     custom->bltbpt = (APTR) bltbpt;
     custom->bltcpt = (APTR) bltcpt;
     custom->bltdpt = (APTR) bltdpt;
-    custom->bltsize = (single->height << 6) + bltwidthsprite;
+    custom->bltsize = (blitheight << 6) + single->width/16-cutwordssource+extrawords;
     bltbpt += (single->width >> 3)*single->height;
-    bltcpt += widthbytesbackdrop*winHeight;
-    bltdpt += widthbytesbackdrop*winHeight;
+    bltcpt += winWidth/8*winHeight;
+    bltdpt += winWidth/8*winHeight;
     WaitBlit();
-  } 
+  }   
 }
 
 void CstSetCl(UWORD *copperlist)
@@ -386,8 +462,11 @@ BOOL CstReserveBackdrop(int width, int height) {
     *cursor++ = 0;
   }  
   
-  CstDrawBuffer = AllocVec(CstBackdropSize,MEMF_CHIP);
-  CstViewBuffer = AllocVec(CstBackdropSize,MEMF_CHIP);
+  CstDrawBuffer = AllocVec(CstBackdropSize+width*2,MEMF_CHIP); //Some extra size for bob routine border area
+  CstViewBuffer = AllocVec(CstBackdropSize+width*2,MEMF_CHIP); //Some extra size for bob routine border area
+  CstDrawBuffer += width/4; //divide with 4 because pointer is ulong 
+  CstViewBuffer += width/4; //divide with 4 because pointer is ulong
+
 
 #ifdef EMULATOR
  	debug_register_bitmap(CstBackDrop, "CstBackDrop.bpl", 320, 256, 5, 0);

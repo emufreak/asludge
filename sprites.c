@@ -67,6 +67,6 @@ BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOO
 	UWORD x =  (UWORD) thisPerson->x - single->xhot;
 	UWORD y =  (UWORD) thisPerson->y - single->yhot;
 
-	CstScaleSprite( single, (UWORD) thisPerson->x, (UWORD) thisPerson->y);
+	CstScaleSprite( single, (WORD) thisPerson->x, (WORD) thisPerson->y);
 	//KPrintF("scaleSprite: This function is not implemented yet");
 }

@@ -7,6 +7,6 @@ void CstDrawBackdrop();
 void CstFreeBuffer();
 void CstLoadBackdrop( BPTR fp, int x, int y);
 BOOL CstReserveBackdrop(int width, int height);
-void CstScaleSprite( struct sprite *single, UWORD x, UWORD y);
+void CstScaleSprite( struct sprite *single, WORD x, WORD y);
 void CstSetCl(UWORD *copperlist);
 void CstSwapBuffer();
