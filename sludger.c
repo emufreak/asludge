@@ -1,5 +1,6 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
+#include <hardware/custom.h>
 
 #include "custom.h"
 #include "sludger.h"
@@ -837,10 +838,14 @@ void saveHandlers (BPTR fp) {
 	put2bytes (currentEvents -> spaceFunction,			fp);
 }
 
-void sludgeDisplay () {	
+void sludgeDisplay () {					
+  	volatile struct Custom *custom = (struct Custom*)0xdff000;
+	custom->color[0] = 0xf00;
 	CstDrawBackdrop();
+	CstRestoreScreen();
 	drawPeople();
 	CstSwapBuffer();
+	custom->color[0] = 0x000;
 }
 
 BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va) {

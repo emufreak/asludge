@@ -31,6 +31,10 @@ UWORD *CstCopperList;
 BOOL CstApplyBackDropCounter = 0; //Backdrop needs to be loaded twice. Once for every buffer in separate frames.
 ULONG *CstViewBuffer;
 ULONG *CstDrawBuffer;
+UWORD *CstDrawBufferCleanupStart;
+UWORD *CstDrawBufferCleanupCursor;
+UWORD *CstViewBufferCleanupStart;
+UWORD *CstViewBufferCleanupCursor;
 UWORD *CstClColor;
 UWORD *CstPalette;
 
@@ -47,7 +51,7 @@ ULONG CstClBitplanes[] = { 0x0e00000, 0x0e20000, 0x0e40000, 0x0e60000,
     0x0f00000, 0x0f20000 };
 
 ULONG CstClColorTemplate[] = { 
-    0x1800000, 0x1820fff, 0x1840000, 0x1860000, 0x1880000, 0x18a0000, 0x18c0000, 0x18e0000,
+    0x1820000, 0x1820fff, 0x1840000, 0x1860000, 0x1880000, 0x18a0000, 0x18c0000, 0x18e0000,
     0x1900000, 0x1920000, 0x1940000, 0x1960000, 0x1980000, 0x19a0000, 0x19c0000, 0x19e0000,
     0x1a00000, 0x1a20000, 0x1a40000, 0x1a60000, 0x1a80000, 0x1aa0000, 0x1ac0000, 0x1ae0000,
     0x1b00000, 0x1b20000, 0x1b40000, 0x1b60000, 0x1b80000, 0x1ba0000, 0x1bc0000, 0x1be0000 
@@ -148,10 +152,11 @@ void CstDisplayBackDrop()
   UWORD *tmp = CstClColor;
   UWORD reg = 0x180;
   UWORD *colorpos = CstPalette;
-
+  
   for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
-    *tmp++ = reg;
-    reg +=2;
+    *tmp++;
+    /**tmp++ = reg;
+    reg +=2;*/
     *tmp++ = *colorpos++;
   }
 }
@@ -197,7 +202,15 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
   //Load Picture From Disk
   UWORD *tmpbuffer = AllocVec(size, MEMF_CHIP); //Todo other number of bitplanes
-   UWORD *tmpmask = AllocVec(sizeplane, MEMF_CHIP);
+  if( !tmpbuffer)
+  {
+    KPrintF("CstLoadBackDrop: Cannot allocate Memory for tmpbuffer");
+  }
+  UWORD *tmpmask = AllocVec(sizeplane, MEMF_CHIP);
+  if( !tmpmask)
+  {
+    KPrintF("CstLoadBackDrop: Cannot allocate Memory for tmpmask");
+  }
 
 #ifdef EMULATOR
   debug_register_bitmap(tmpbuffer, "tmpbuffer.bpl", width, height, 5, 0);
@@ -266,6 +279,44 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
 ULONG test = 0;
 
+void CstRestoreScreen()
+{
+  volatile struct Custom *custom = (struct Custom*)0xdff000;  
+
+  UWORD *cursor = CstDrawBufferCleanupCursor;
+  if(!*cursor || !CstDrawBuffer) {
+    return;
+  } 
+
+  WaitBlit();
+  
+  custom->bltafwm = 0xffff;
+  custom->bltalwm = 0xffff;  
+  custom->bltcon0 = 0x9f0;
+  
+  while(*cursor)
+  {    
+    UWORD width = *cursor++;
+    UWORD height = *cursor++;
+    UWORD xpos = *cursor++;
+    UWORD ypos = *cursor++;
+
+    custom->bltamod = winWidth/8-width*2;
+    custom->bltdmod = winWidth/8-width*2;
+    ULONG bltapt = ((ULONG) CstBackDrop) + ypos*winWidth/8 + xpos;
+    ULONG bltdpt = ((ULONG) CstDrawBuffer) + ypos*winWidth/8 + xpos;
+    for(int i=0;i<5;i++) //ToDo other numbers of Bitplanes
+    {
+      custom->bltapt = (APTR) bltapt;
+      custom->bltdpt = (APTR) bltdpt;
+      custom->bltsize = (height << 6) + width;
+      bltapt += winWidth/8*winHeight;
+      bltdpt += winWidth/8*winHeight;
+      WaitBlit();
+    }  
+  }
+  *CstDrawBufferCleanupCursor = 0;
+}
 void CstScaleSprite( struct sprite *single, WORD x, WORD y)
 {
   UWORD extrawords; //When Input is shifted sometimes an extra word has to be written to cover the whole sprite
@@ -281,9 +332,6 @@ void CstScaleSprite( struct sprite *single, WORD x, WORD y)
   ULONG ystartdst;
   ULONG ystartsrc; 
   ULONG blitheight;
-
-  x = -20;
-  y = -20;
 
   if( y < 0) {
     if(y + single->height < 0) {
@@ -322,7 +370,11 @@ void CstScaleSprite( struct sprite *single, WORD x, WORD y)
     bltdpt = ((ULONG) CstDrawBuffer) + ystartdst*winWidth/8 - 2;
     bltcon0 = 0xfca + ((16-cutmaskpixel) << 12);
     bltcon1 = ((16-cutmaskpixel) << 12);
-
+    *CstDrawBufferCleanupCursor++ = single->width/16+cutwordssource; //Width in X Bytes
+    *CstDrawBufferCleanupCursor++ = blitheight; //Height
+    *CstDrawBufferCleanupCursor++ = 0; //X Start in Bytes
+    *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start    
+    *CstDrawBufferCleanupCursor = 0;
   } else if(x + single->width > winWidth) { //Rightmost part outside screen
     if(x - single->width > winWidth)
     {    
@@ -339,6 +391,11 @@ void CstScaleSprite( struct sprite *single, WORD x, WORD y)
     bltdpt = ((ULONG) CstDrawBuffer) + ystartdst*winWidth/8 + (x/16)*2;
     bltcon0 = 0xfca + ((single->width%16) << 12);
     bltcon1 = ((single->width%16) << 12);
+    *CstDrawBufferCleanupCursor++ = single->width/16+cutwordssource; //Width in X Bytes
+    *CstDrawBufferCleanupCursor++ = blitheight; //Height
+    *CstDrawBufferCleanupCursor++ = (x/16)*2; //X Start in Bytes
+    *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start  
+    *CstDrawBufferCleanupCursor = 0;  
   } else { //Whole Sprite on Screen
     extrawords = 1;
     cutwordssource = 0;
@@ -350,6 +407,11 @@ void CstScaleSprite( struct sprite *single, WORD x, WORD y)
     bltdpt = ((ULONG) CstDrawBuffer) + ystartdst*winWidth/8 + (x/16)*2;
     bltcon0 = 0xfca + ((x%16) << 12);
     bltcon1 = ((x%16) << 12);
+    *CstDrawBufferCleanupCursor++ = single->width/16+cutwordssource; //Width in X Bytes
+    *CstDrawBufferCleanupCursor++ = blitheight; //Height
+    *CstDrawBufferCleanupCursor++ = (x/16)*2; //X Start in Bytes
+    *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start    
+    *CstDrawBufferCleanupCursor = 0;
   }
 
   UWORD bltafwm = 0xffff >> cutmaskpixel;
@@ -395,6 +457,12 @@ void CstSwapBuffer( ) {
   tmp = CstViewBuffer;
   CstViewBuffer = CstDrawBuffer;
   CstDrawBuffer = tmp;
+
+  tmp = CstViewBufferCleanupStart;
+  CstViewBufferCleanupStart = CstDrawBufferCleanupStart;
+  CstDrawBufferCleanupStart = tmp;
+  CstViewBufferCleanupCursor = CstViewBufferCleanupStart;
+  CstDrawBufferCleanupCursor = CstDrawBufferCleanupStart;
 
   UWORD *copword = CstCopperList;
   ULONG ptr = (ULONG) CstViewBuffer;
@@ -446,7 +514,7 @@ BOOL CstReserveBackdrop(int width, int height) {
 
   CstCopperList = CstCreateCopperlist( width);
   CstBackdropSizePlane = width*height;
-  CstBackdropSize = CstBackdropSizePlane * 5; //Todo: Support other Bitplane Modes;
+  CstBackdropSize = CstBackdropSizePlane * 5; //Todo: Support other Bitplane Modes;  
 
   CstBackDrop = AllocVec(CstBackdropSize,MEMF_CHIP);
   if( !CstBackDrop)
@@ -463,10 +531,36 @@ BOOL CstReserveBackdrop(int width, int height) {
   }  
   
   CstDrawBuffer = AllocVec(CstBackdropSize+width*2,MEMF_CHIP); //Some extra size for bob routine border area
+  if( !CstDrawBuffer)
+  {    
+    KPrintF("CstReserveBackdrop: Cannot allocate memory for DrawBuffer");
+    return FALSE;  
+  }
+  CstDrawBufferCleanupStart = AllocVec( 100*3*2,MEMF_ANY);
+  if( !CstDrawBufferCleanupStart)
+  {    
+    KPrintF("CstReserveBackdrop: Cannot allocate memory for CstDrawBufferCleanupStart");
+    return FALSE;  
+  }
+  CstDrawBufferCleanupCursor = CstDrawBufferCleanupStart;
+  *CstDrawBufferCleanupStart = 0;
   CstViewBuffer = AllocVec(CstBackdropSize+width*2,MEMF_CHIP); //Some extra size for bob routine border area
+  if( !CstViewBuffer)
+  {    
+    KPrintF("CstReserveBackdrop: Cannot allocate memory for ViewBuffer");
+    return FALSE;  
+  }
+  CstViewBufferCleanupStart = AllocVec( 100*3*2,MEMF_ANY);
+  if( !CstViewBufferCleanupStart)
+  {    
+    KPrintF("CstReserveBackdrop: Cannot allocate memory for CstViewBufferCleanupStart");
+    return FALSE;  
+  }
+  *CstViewBufferCleanupStart = 0;
+  CstViewBufferCleanupCursor = CstViewBufferCleanupStart;
   CstDrawBuffer += width/4; //divide with 4 because pointer is ulong 
   CstViewBuffer += width/4; //divide with 4 because pointer is ulong
-
+  
 
 #ifdef EMULATOR
  	debug_register_bitmap(CstBackDrop, "CstBackDrop.bpl", 320, 256, 5, 0);
