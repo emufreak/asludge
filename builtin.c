@@ -1678,7 +1678,7 @@ builtIn(setCharacterExtra)
 }
 
 builtIn(removeCharacter)
-{
+{	
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;

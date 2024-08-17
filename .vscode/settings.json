@@ -35,6 +35,7 @@
         "mathieeedoubbas.h": "c",
         "types.h": "c",
         "custom.h": "c",
-        "region.h": "c"
+        "region.h": "c",
+        "sprbanks.h": "c"
     }
 }

@@ -3,6 +3,7 @@ obj/sludger.o: C:/Users/uersu/Documents/GitData/asludge/sludger.c \
  C:/Users/uersu/Documents/GitData/asludge/sprites.h \
  C:/Users/uersu/Documents/GitData/asludge/people.h \
  C:/Users/uersu/Documents/GitData/asludge/variable.h \
+ C:/Users/uersu/Documents/GitData/asludge/sprbanks.h \
  C:/Users/uersu/Documents/GitData/asludge/sludger.h \
  C:/Users/uersu/Documents/GitData/asludge/csludge.h \
  C:/Users/uersu/Documents/GitData/asludge/builtin.h \
@@ -21,6 +22,7 @@ C:/Users/uersu/Documents/GitData/asludge/custom.h:
 C:/Users/uersu/Documents/GitData/asludge/sprites.h:
 C:/Users/uersu/Documents/GitData/asludge/people.h:
 C:/Users/uersu/Documents/GitData/asludge/variable.h:
+C:/Users/uersu/Documents/GitData/asludge/sprbanks.h:
 C:/Users/uersu/Documents/GitData/asludge/sludger.h:
 C:/Users/uersu/Documents/GitData/asludge/csludge.h:
 C:/Users/uersu/Documents/GitData/asludge/builtin.h:

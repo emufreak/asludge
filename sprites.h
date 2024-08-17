@@ -3,7 +3,7 @@
 
 #include <proto/dos.h>
 #include "people.h"
-
+#include "sprbanks.h"
 
 struct sprite {
 	int width, height, xhot, yhot;
@@ -13,13 +13,7 @@ struct sprite {
 	//unsigned char * data;
 };
 
-struct spriteBank {
-	int total;
-	int type;
-	struct sprite * sprites;
-	BOOL isFont;
-};
-
+void forgetSpriteBank (struct loadedSpriteBank * forgetme);
 BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont);
 BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror);
 

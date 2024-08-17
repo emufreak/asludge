@@ -9,6 +9,7 @@
 #include "newfatal.h"
 #include "objtypes.h"
 #include "people.h"
+#include "sprbanks.h"
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 

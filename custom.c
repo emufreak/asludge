@@ -51,7 +51,7 @@ ULONG CstClBitplanes[] = { 0x0e00000, 0x0e20000, 0x0e40000, 0x0e60000,
     0x0f00000, 0x0f20000 };
 
 ULONG CstClColorTemplate[] = { 
-    0x1820000, 0x1820fff, 0x1840000, 0x1860000, 0x1880000, 0x18a0000, 0x18c0000, 0x18e0000,
+    0x1800000, 0x1820000, 0x1840000, 0x1860000, 0x1880000, 0x18a0000, 0x18c0000, 0x18e0000,
     0x1900000, 0x1920000, 0x1940000, 0x1960000, 0x1980000, 0x19a0000, 0x19c0000, 0x19e0000,
     0x1a00000, 0x1a20000, 0x1a40000, 0x1a60000, 0x1a80000, 0x1aa0000, 0x1ac0000, 0x1ae0000,
     0x1b00000, 0x1b20000, 0x1b40000, 0x1b60000, 0x1b80000, 0x1ba0000, 0x1bc0000, 0x1be0000 
@@ -155,8 +155,6 @@ void CstDisplayBackDrop()
   
   for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
     *tmp++;
-    /**tmp++ = reg;
-    reg +=2;*/
     *tmp++ = *colorpos++;
   }
 }
@@ -341,8 +339,8 @@ void CstScaleSprite( struct sprite *single, WORD x, WORD y)
     ystartdst = 0;
     ystartsrc = y*-1;
     blitheight = single->height+y;
-  } else if(y+single->height > winHeight) {
-    if(y  > winHeight) {
+  } else if(y+single->height > (int) winHeight) {
+    if(y  > (int) winHeight) {
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
       return;
     }
@@ -375,8 +373,8 @@ void CstScaleSprite( struct sprite *single, WORD x, WORD y)
     *CstDrawBufferCleanupCursor++ = 0; //X Start in Bytes
     *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start    
     *CstDrawBufferCleanupCursor = 0;
-  } else if(x + single->width > winWidth) { //Rightmost part outside screen
-    if(x - single->width > winWidth)
+  } else if(x + single->width > (int) winWidth) { //Rightmost part outside screen
+    if(x - single->width > (int) winWidth)
     {    
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
       return;
@@ -458,9 +456,9 @@ void CstSwapBuffer( ) {
   CstViewBuffer = CstDrawBuffer;
   CstDrawBuffer = tmp;
 
-  tmp = CstViewBufferCleanupStart;
+  UWORD *tmp2 = CstViewBufferCleanupStart;
   CstViewBufferCleanupStart = CstDrawBufferCleanupStart;
-  CstDrawBufferCleanupStart = tmp;
+  CstDrawBufferCleanupStart = tmp2;
   CstViewBufferCleanupCursor = CstViewBufferCleanupStart;
   CstDrawBufferCleanupCursor = CstDrawBufferCleanupStart;
 

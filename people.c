@@ -133,6 +133,7 @@ void animatePersonUsingPersona (int obj, struct persona * per) { // Set a new co
 struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 	int num = orig -> numFrames;
 
+
 	struct personaAnimation * newAnim	= AllocVec(sizeof( struct personaAnimation), MEMF_ANY);
 	if (!(newAnim)) {
 		KPrintF("copyAnim: Cannot allocate memory");
@@ -141,6 +142,7 @@ struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 
 	// Copy the easy bits...
 	newAnim -> theSprites		= orig -> theSprites;
+	newAnim -> theSprites ->timesUsed++;
 	newAnim -> numFrames		= num;
 
 	if (num) {
@@ -207,7 +209,13 @@ struct personaAnimation * createPersonaAnim (int num, struct variableStack **sta
 }
 
 void deleteAnim (struct personaAnimation * orig) {
-
+	int timesused = --orig->theSprites->timesUsed;
+	
+	if(!timesused)
+	{
+		forgetSpriteBank( orig->theSprites);
+	}
+	
 	if (orig)
 	{
 		if (orig -> numFrames) {
@@ -215,7 +223,8 @@ void deleteAnim (struct personaAnimation * orig) {
 		}
 		FreeVec(orig);
 		orig = NULL;
-	}
+	}	
+	
 }
 
 BOOL doBorderStuff (struct onScreenPerson * moveMe) {
@@ -681,9 +690,10 @@ void moveAndScale (struct onScreenPerson *me, FLOAT x, FLOAT y) {
 }
 
 void removeOneCharacter (int i) {
-    struct onScreenPerson * p = findPerson(i);
+    struct onScreenPerson * p = findPerson(i);	
 
     if (p) {
+		
         if (overRegion == &personRegion && overRegion->thisType == p->thisType) {
             overRegion = NULL;
         }
@@ -691,6 +701,11 @@ void removeOneCharacter (int i) {
         if (p->continueAfterWalking) abortFunction(p->continueAfterWalking);
         p->continueAfterWalking = NULL;
         struct onScreenPerson ** killPeople;
+
+		for(int i=0; i<3;i++)
+		{
+			deleteAnim( p->myPersona->animation[i]);
+		}
 
         for (killPeople = &allPeople;
             *killPeople != p;

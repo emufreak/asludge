@@ -1,13 +1,48 @@
-
 #include <exec/types.h>
 #include <proto/dos.h>
 #include <proto/exec.h>
 
 #include "custom.h"
+#include "sprbanks.h"
 #include "sprites.h"
 #include "fileset.h"
 #include "moreio.h"
 #include "support/gcc8_c_support.h"
+
+
+void forgetSpriteBank (struct loadedSpriteBank * forgetme)
+{			
+
+	struct spriteBank *spritebanktoforget = &forgetme->bank;
+	
+	for (int i = 0; i < spritebanktoforget->total; i++) {
+		struct sprite *cursprite = &spritebanktoforget->sprites[i];		
+		if(cursprite->data) {		
+			FreeVec(cursprite->data);			
+		}
+	}
+	FreeVec(spritebanktoforget->sprites);
+	FreeVec(spritebanktoforget);
+	
+	struct loadedSpriteBank *precedingbank = allLoadedBanks;
+	
+	while(precedingbank->next->ID != forgetme->ID && precedingbank != NULL)
+	{
+		precedingbank = precedingbank->next;
+	}	
+
+	if(precedingbank)
+	{
+		//Forget element in the middle of the chain or the last one
+		precedingbank->next = forgetme->next;
+		FreeVec( forgetme);
+	} else
+	{
+		//Forget first element in the chain
+		allLoadedBanks = allLoadedBanks->next;
+		FreeVec( forgetme);
+	}	
+}
 
 BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 	int i, tex_num, total, picwidth, picheight, spriteBankVersion = 0, howmany = 0, startIndex = 0;

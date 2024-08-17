@@ -840,12 +840,12 @@ void saveHandlers (BPTR fp) {
 
 void sludgeDisplay () {					
   	volatile struct Custom *custom = (struct Custom*)0xdff000;
-	custom->color[0] = 0xf00;
+	//custom->color[0] = 0xf00;
 	CstDrawBackdrop();
 	CstRestoreScreen();
 	drawPeople();
 	CstSwapBuffer();
-	custom->color[0] = 0x000;
+	//custom->color[0] = 0x000;
 }
 
 BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va) {
