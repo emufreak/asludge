@@ -1,4 +1,6 @@
+#include "custom.h"
 #include "people.h"
+#include "sprites.h"
 #include "support/gcc8_c_support.h"
 
 struct personaAnimation * mouseCursorAnim;
@@ -13,5 +15,11 @@ void pickAnimCursor (struct personaAnimation * pp) {
 }
 
 void pasteCursor (int x, int y, struct personaAnimation * c) {
-	KPrintF("pasteCursor: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
+	
+	struct sprite *spritetouse = c->theSprites->bank.sprites;
+
+	UWORD absx =  x - spritetouse->xhot;
+	UWORD absy =  y - spritetouse->yhot;
+
+	CstScaleSprite( spritetouse, absx, absy, BACKDROP);
 }

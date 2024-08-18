@@ -9,7 +9,7 @@
 #define CSTBPL4LOW 35*2+1
 #define CSTBPL5HIGH 36*2+1
 #define CSTBPL5LOW 37*2+1
-//#define EMULATOR
+#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -28,7 +28,11 @@ UWORD CstBackdropSize;
 UWORD CstBackdropSizePlane;
 UWORD *CstBackDrop;
 UWORD *CstCopperList;
-BOOL CstApplyBackDropCounter = 0; //Backdrop needs to be loaded twice. Once for every buffer in separate frames.
+UWORD CstApplyBackDropCounter = 0; //Backdrop needs to be loaded twice. Once for every buffer in separate frames.
+UWORD CstBackDropStartXWrite;
+UWORD CstBackDropStartYWrite;
+UWORD CstBackDropWidthWrite;
+UWORD CstBackDropHeightWrite;
 ULONG *CstViewBuffer;
 ULONG *CstDrawBuffer;
 UWORD *CstDrawBufferCleanupStart;
@@ -142,12 +146,33 @@ UWORD * CstCreateCopperlist( int width) {
 
 void CstDisplayBackDrop() 
 {
-  ULONG *bplcursorsrc = (ULONG *) CstBackDrop;
-  ULONG *bplcursordst = (ULONG *) CstDrawBuffer;
-  for(int i=0;i<CstBackdropSize/4;i++)
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+
+  APTR bltapt = (APTR) CstBackDrop + CstBackDropStartYWrite*winWidth/8+CstBackDropStartXWrite;
+  APTR bltdpt = (APTR) CstDrawBuffer + CstBackDropStartYWrite*winWidth/8+CstBackDropStartXWrite;
+  ULONG planesize = CstBackdropSizePlane;
+
+  WaitBlit();
+
+  //Simple A to D Blit of Backdop or part of the Backdrop to the display Buffer
+  custom->bltafwm = 0xffff;
+  custom->bltalwm = 0xffff;
+
+  custom->bltamod = winWidth/8 - CstBackDropWidthWrite;
+  custom->bltdmod = winWidth/8 - CstBackDropWidthWrite;
+  custom->bltcon0 = 0x9f0;
+  custom->bltcon1 = 0;
+
+  for(int i=0;i<5;i++)
   {
-    *bplcursordst++ = *bplcursorsrc++;
-  }
+    custom->bltapt = bltapt;
+    custom->bltdpt = bltdpt;
+    custom->bltsize = (CstBackDropHeightWrite<<6)+CstBackDropWidthWrite/2;
+    bltapt += planesize;
+    bltdpt += planesize;
+    WaitBlit();
+    
+  }  
 
   UWORD *tmp = CstClColor;
   UWORD reg = 0x180;
@@ -168,6 +193,7 @@ void CstDrawBackdrop() {
 }
 
 void CstLoadBackdrop( BPTR fp, int x, int y) {
+
 	KPrintF("CstLoadBackDrop: Loading of Background started");
 
   UWORD width = get2bytes(fp);
@@ -270,6 +296,10 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   FreeVec(tmpmask);
 
   CstApplyBackDropCounter = 2;
+  CstBackDropHeightWrite = winHeight;
+  CstBackDropWidthWrite = winWidth/8;
+  CstBackDropStartXWrite = 0;
+  CstBackDropStartYWrite = 0;
 
   KPrintF("CstLoadBackDrop: Finished");
 
@@ -315,8 +345,27 @@ void CstRestoreScreen()
   }
   *CstDrawBufferCleanupCursor = 0;
 }
-void CstScaleSprite( struct sprite *single, WORD x, WORD y)
+
+void CstScaleSprite( struct sprite *single, WORD x, WORD y, UWORD destinationtype)
 {
+
+  UWORD *destination;
+  switch(destinationtype)
+  {
+    case SCREEN:
+      destination = (UWORD *) CstDrawBuffer;      
+      break;
+    case BACKDROP:
+      CstApplyBackDropCounter = 2;
+      destination = (UWORD *) CstBackDrop;
+      CstBackDropStartXWrite = (x / 16) * 2;
+      CstBackDropStartYWrite = y;
+      CstBackDropHeightWrite = single->height;
+      CstBackDropWidthWrite = single->width/8+2; //Some extra width in case the write operation is shifted
+      break;
+  }
+
+
   UWORD extrawords; //When Input is shifted sometimes an extra word has to be written to cover the whole sprite
   UWORD cutwordssource; //If some words are completely outside of screen
   UWORD cutmaskpixel; //Single pixels outside of Screen need to be masked out to prevent corruption of background
@@ -365,14 +414,17 @@ void CstScaleSprite( struct sprite *single, WORD x, WORD y)
     bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+cutwordssource*2+ystartsrc*single->width/8;
     bltbpt = ((ULONG) single->data)+cutwordssource*2+ystartsrc*single->width/8;
     bltcpt = ((ULONG) CstBackDrop) + ystartdst*winWidth/8 - 2;
-    bltdpt = ((ULONG) CstDrawBuffer) + ystartdst*winWidth/8 - 2;
+    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
     bltcon0 = 0xfca + ((16-cutmaskpixel) << 12);
     bltcon1 = ((16-cutmaskpixel) << 12);
-    *CstDrawBufferCleanupCursor++ = single->width/16+cutwordssource; //Width in X Bytes
-    *CstDrawBufferCleanupCursor++ = blitheight; //Height
-    *CstDrawBufferCleanupCursor++ = 0; //X Start in Bytes
-    *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start    
-    *CstDrawBufferCleanupCursor = 0;
+    if( destinationtype == SCREEN)
+    {
+      *CstDrawBufferCleanupCursor++ = single->width/16+cutwordssource; //Width in X Bytes
+      *CstDrawBufferCleanupCursor++ = blitheight; //Height
+      *CstDrawBufferCleanupCursor++ = 0; //X Start in Bytes
+      *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start    
+      *CstDrawBufferCleanupCursor = 0;
+    }
   } else if(x + single->width > (int) winWidth) { //Rightmost part outside screen
     if(x - single->width > (int) winWidth)
     {    
@@ -386,14 +438,17 @@ void CstScaleSprite( struct sprite *single, WORD x, WORD y)
     bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+ystartsrc*single->width/8;
     bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
     bltcpt = ((ULONG) CstBackDrop) + ystartdst*winWidth/8 + (x/16)*2;
-    bltdpt = ((ULONG) CstDrawBuffer) + ystartdst*winWidth/8 + (x/16)*2;
+    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltcon0 = 0xfca + ((single->width%16) << 12);
     bltcon1 = ((single->width%16) << 12);
-    *CstDrawBufferCleanupCursor++ = single->width/16+cutwordssource; //Width in X Bytes
-    *CstDrawBufferCleanupCursor++ = blitheight; //Height
-    *CstDrawBufferCleanupCursor++ = (x/16)*2; //X Start in Bytes
-    *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start  
-    *CstDrawBufferCleanupCursor = 0;  
+    if( destinationtype == SCREEN)
+    {
+      *CstDrawBufferCleanupCursor++ = single->width/16+cutwordssource; //Width in X Bytes
+      *CstDrawBufferCleanupCursor++ = blitheight; //Height
+      *CstDrawBufferCleanupCursor++ = (x/16)*2; //X Start in Bytes
+      *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start  
+      *CstDrawBufferCleanupCursor = 0;  
+    }
   } else { //Whole Sprite on Screen
     extrawords = 1;
     cutwordssource = 0;
@@ -402,14 +457,17 @@ void CstScaleSprite( struct sprite *single, WORD x, WORD y)
     bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+ystartsrc*single->width/8;
     bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
     bltcpt = ((ULONG) CstBackDrop) + ystartdst*winWidth/8 + (x/16)*2;
-    bltdpt = ((ULONG) CstDrawBuffer) + ystartdst*winWidth/8 + (x/16)*2;
+    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltcon0 = 0xfca + ((x%16) << 12);
     bltcon1 = ((x%16) << 12);
-    *CstDrawBufferCleanupCursor++ = single->width/16+cutwordssource; //Width in X Bytes
-    *CstDrawBufferCleanupCursor++ = blitheight; //Height
-    *CstDrawBufferCleanupCursor++ = (x/16)*2; //X Start in Bytes
-    *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start    
-    *CstDrawBufferCleanupCursor = 0;
+    if( destinationtype == SCREEN)
+    {
+      *CstDrawBufferCleanupCursor++ = single->width/16+cutwordssource; //Width in X Bytes
+      *CstDrawBufferCleanupCursor++ = blitheight; //Height
+      *CstDrawBufferCleanupCursor++ = (x/16)*2; //X Start in Bytes
+      *CstDrawBufferCleanupCursor++ = ystartdst; //Y Start    
+      *CstDrawBufferCleanupCursor = 0;
+    }
   }
 
   UWORD bltafwm = 0xffff >> cutmaskpixel;
