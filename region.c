@@ -3,10 +3,16 @@
 #include "backdrop.h"
 #include "moreio.h"
 #include "objtypes.h"
+#include "sludger.h"
 #include "region.h"
+
+extern struct inputType input;
+extern int cameraX, cameraY;
 
 struct screenRegion * allScreenRegions = NULL;
 struct screenRegion * overRegion = NULL;
+
+
 
 BOOL addScreenRegion(int x1, int y1, int x2, int y2, int sX, int sY, int di, int objectNum) {
     struct screenRegion *newRegion = AllocVec(sizeof(struct screenRegion), MEMF_ANY);
@@ -22,6 +28,20 @@ BOOL addScreenRegion(int x1, int y1, int x2, int y2, int sX, int sY, int di, int
     newRegion->next = allScreenRegions;
     allScreenRegions = newRegion;
     return (BOOL) (newRegion->thisType != NULL);
+}
+
+void getOverRegion () {
+	struct screenRegion * thisRegion = allScreenRegions;
+	while (thisRegion) {
+		if ((input.mouseX >= thisRegion -> x1 - cameraX) && (input.mouseY >= thisRegion -> y1 - cameraY) &&
+			 (input.mouseX <= thisRegion -> x2 - cameraX) && (input.mouseY <= thisRegion -> y2 - cameraY)) {
+			overRegion = thisRegion;
+			return;
+		}
+		thisRegion = thisRegion -> next;
+	}
+	overRegion = NULL;
+	return;
 }
 
 

@@ -4,6 +4,7 @@
  */
 #include <proto/dos.h>
 #include "helpers.h"
+#include "support/gcc8_c_support.h"
 
 BYTE fileExists(const char * file) {
 	KPrintF("fileexists: Checking File");

@@ -182,6 +182,9 @@ void nosnapshot () {
 }
 
 BOOL reserveBackdrop () {	
+	cameraX = 0;
+	cameraY = 0;
+	
 	return CstReserveBackdrop(sceneWidth, sceneHeight);
 }
 

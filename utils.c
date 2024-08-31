@@ -52,8 +52,3 @@ ULONG rand() {
     DeleteMsgPort(timerport);
     return 0;
 }
-
-ULONG abs() {
-    
-}
-

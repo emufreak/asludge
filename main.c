@@ -255,9 +255,9 @@ int main(int argc, char *argv[]) {
 		Exit(0);
 	
 
-	KPrintF(" debugger from Amiga Test 001!\n");
+	KPrintF(" debugger from Amiga Test 004!\n");
 
-	Write(Output(), (APTR)"Hello console!\n", 15);
+	Write(Output(), (APTR)"Hello console Test 004!\n", 25);
 	Delay(50);
 
 	/*warpmode(1);

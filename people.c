@@ -209,12 +209,16 @@ struct personaAnimation * createPersonaAnim (int num, struct variableStack **sta
 }
 
 void deleteAnim (struct personaAnimation * orig) {
-	int timesused = --orig->theSprites->timesUsed;
-	
-	if(!timesused)
+
+	if(orig->theSprites)
 	{
-		forgetSpriteBank( orig->theSprites);
-	}
+		int timesused = --orig->theSprites->timesUsed;
+		
+		if(!timesused)
+		{
+			forgetSpriteBank( orig->theSprites);
+		}
+	}			
 	
 	if (orig)
 	{

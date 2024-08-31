@@ -7,6 +7,7 @@
 
 void CstBlankScreen( int width, int height);
 UWORD * CstCreateCopperlist( int width);
+void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata);
 void CstDrawBackdrop();
 void CstFreeBuffer();
 void CstLoadBackdrop( BPTR fp, int x, int y);

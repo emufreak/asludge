@@ -12,6 +12,7 @@
 #include "language.h"
 #include "moreio.h"
 #include "people.h"
+#include "region.h"
 #include "statusba.h"
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
@@ -21,6 +22,7 @@
 
 extern int desiredfps;
 extern int dialogValue;
+extern struct screenRegion * overRegion;
 extern struct personaAnimation * mouseCursorAnim;
 
 struct eventHandlers mainHandlers;
@@ -526,7 +528,46 @@ void finishFunction (struct loadedFunction * fun) {
 }
 
 BOOL handleInput () {
-	//Amiga Todo: Actually handle input
+	//Amiga Todo: import more from orig code and adjust 
+
+	if (! overRegion) getOverRegion ();
+
+	if (input.justMoved) {
+		if (currentEvents -> moveMouseFunction) {
+			if (! startNewFunctionNum (currentEvents -> moveMouseFunction, 0, NULL, noStack, TRUE)) return FALSE;
+		}
+	}
+	input.justMoved = FALSE;
+
+	if (lastRegion != overRegion && currentEvents -> focusFunction) {
+		struct variableStack * tempStack = AllocVec( sizeof(struct variableStack), MEMF_ANY);
+		if(!tempStack) {
+			KPrintF("handleInput: Cannot allocate memory for variablestack");
+			return FALSE;
+		}
+		
+		initVarNew (tempStack -> thisVar);
+		if (overRegion) {
+			setVariable (&tempStack -> thisVar, SVT_OBJTYPE, overRegion -> thisType -> objectNum);
+		} else {
+			setVariable (&tempStack -> thisVar, SVT_INT, 0);
+		}
+		tempStack -> next = NULL;
+		if (! startNewFunctionNum (currentEvents -> focusFunction, 1, NULL, &tempStack, TRUE)) return FALSE;
+	}
+	if (input.leftRelease && currentEvents -> leftMouseUpFunction)  {
+		if (! startNewFunctionNum (currentEvents -> leftMouseUpFunction, 0, NULL, noStack, TRUE)) return FALSE;
+	}
+	if (input.rightRelease && currentEvents -> rightMouseUpFunction) {
+		if (! startNewFunctionNum (currentEvents -> rightMouseUpFunction, 0, NULL, noStack, TRUE)) return FALSE;
+	}
+	if (input.leftClick && currentEvents -> leftMouseFunction)
+		if (! startNewFunctionNum (currentEvents -> leftMouseFunction, 0, NULL, noStack, TRUE)) return FALSE;
+	if (input.rightClick && currentEvents -> rightMouseFunction) {
+		if (! startNewFunctionNum (currentEvents -> rightMouseFunction, 0, NULL, noStack, TRUE)) return FALSE;
+	}
+
+	lastRegion = overRegion;
 	return runSludge ();
 }
 
@@ -553,7 +594,7 @@ BOOL initSludge (char * filename) {
 		}
 		if (gameVersion >= VERSION(1,3)) {
 			numResourceNames = get2bytes (fp);
-			allResourceNames = AllocVec(numResourceNames,MEMF_ANY);
+			allResourceNames = AllocVec(sizeof(char *) * numResourceNames,MEMF_ANY);
 			if(allResourceNames == 0) return FALSE;
 
 			for (int fn = 0; fn < numResourceNames; fn ++) {
@@ -561,13 +602,17 @@ BOOL initSludge (char * filename) {
 			}
 		}
 	}
+
+	input.mouseX = 129;
+	input.mouseY = 100;
 	winWidth = get2bytes (fp);
 	winHeight = get2bytes (fp);
 	specialSettings = FGetC (fp);
 
 	desiredfps = 1000/FGetC (fp);
 
-	FreeVec(readString (fp));
+	readString(fp); //Need to keep reading to stay on track. But the comented line below looks wrong.
+	//FreeVec(readString (fp));
 
 	ULONG blocks_read = FRead( fp, &fileTime, sizeof (FILETIME), 1 ); 
 	if (blocks_read != 1) {
@@ -840,12 +885,11 @@ void saveHandlers (BPTR fp) {
 
 void sludgeDisplay () {					
   	volatile struct Custom *custom = (struct Custom*)0xdff000;
-	//custom->color[0] = 0xf00;
+	displayCursor();
 	CstDrawBackdrop();
 	CstRestoreScreen();
 	drawPeople();
 	CstSwapBuffer();
-	//custom->color[0] = 0x000;
 }
 
 BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va) {

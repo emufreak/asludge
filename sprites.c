@@ -3,11 +3,15 @@
 #include <proto/exec.h>
 
 #include "custom.h"
+#include "sludger.h"
 #include "sprbanks.h"
 #include "sprites.h"
 #include "fileset.h"
 #include "moreio.h"
 #include "support/gcc8_c_support.h"
+
+extern int cameraX, cameraY;
+extern struct inputType input;
 
 
 void forgetSpriteBank (struct loadedSpriteBank * forgetme)
@@ -45,7 +49,7 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 }
 
 BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
-	int i, tex_num, total, picwidth, picheight, spriteBankVersion = 0, howmany = 0, startIndex = 0;
+	int i, tex_num, total, picwidth, picheight, howmany = 0, startIndex = 0;
 	int *totalwidth, *maxheight;
 	int numTextures = 0;
 	UBYTE *data;
@@ -58,14 +62,14 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 	loadhere->isFont = isFont;
 
 	get2bytes(bigDataFile); // Ignore first 2 bytes
-	spriteBankVersion = FGetC(bigDataFile);
+	loadhere->type = FGetC(bigDataFile);
 	total = get2bytes(bigDataFile);
 
 	if (total <= 0) {
 		KPrintF("loadSpriteBank: No sprites in bank or invalid sprite bank file\n");
 		return FALSE;
 	}
-	if (spriteBankVersion > 3) {
+	if (loadhere->type > 2) {
 		KPrintF("loadSpriteBank: Unsupported sprite bank file format\n");
 		return FALSE;
 	}
@@ -82,8 +86,15 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 		loadhere->sprites[i].xhot = get2bytes(bigDataFile);
 		loadhere->sprites[i].yhot = get2bytes(bigDataFile);
 
+		UWORD size;
 		// ToDo Load Data
-		UWORD size = loadhere->sprites[i].width / 8 * loadhere->sprites[i].height * 6;
+		if( loadhere->type == 1) 
+		//Mousecursor Data (4 Colors HW-Sprite)
+		{
+			size = 4*loadhere->sprites[i].height+8;
+		} else {
+			size = loadhere->sprites[i].width / 8 * loadhere->sprites[i].height * 6;
+		}
 		loadhere->sprites[i].data = AllocVec(sizeof(UWORD) * size, MEMF_CHIP);
 		UWORD count = FRead(bigDataFile, loadhere->sprites[i].data, 2, size / 2);
 		if (!count) {
@@ -102,6 +113,34 @@ BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOO
 	UWORD x =  (UWORD) thisPerson->x - single->xhot;
 	UWORD y =  (UWORD) thisPerson->y - single->yhot;
 
-	CstScaleSprite( single, (WORD) thisPerson->x, (WORD) thisPerson->y,SCREEN);
-	//KPrintF("scaleSprite: This function is not implemented yet");
+	CstScaleSprite( single, (WORD) x, (WORD) y,SCREEN);
+
+	UWORD x1, y1, x2, y2;
+
+	if (thisPerson -> extra & EXTRA_FIXTOSCREEN) {
+		if (single->xhot < 0)
+			x1 = x - (int)(mirror ? single->width - single->xhot : single->xhot+1);
+		else
+			x1 = x - (int)(mirror ? single->width - (single->xhot+1) : single->xhot);
+		
+		y1 = y - (single->yhot - thisPerson->floaty);
+		x2 = x1 + single->width;
+		y2 = y1 + single->height;
+	} else {
+		x -= cameraX;
+		y -= cameraY;
+		if (single->xhot < 0)
+			x1 = x - (int)(mirror ? single->width - single->xhot : single->xhot+1);
+		else
+			x1 = x - (int)(mirror ? single->width - (single->xhot+1) : single->xhot);
+		
+		y1 = y - (single->yhot - thisPerson->floaty);
+		x2 = x1 + single->width;
+		y2 = y1 + single->height;
+	}
+
+	if (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2) {
+		return TRUE;
+	}
+	return FALSE;
 }

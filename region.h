@@ -7,6 +7,7 @@ struct screenRegion {
 };
 
 BOOL addScreenRegion(int x1, int y1, int x2, int y2, int sX, int sY, int di, int objectNum);
+void getOverRegion ();
 struct screenRegion * getRegionForObject (int obj);
 void killAllRegions ();
 void loadRegions (BPTR fp);

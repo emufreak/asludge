@@ -150,7 +150,6 @@ static enum builtReturn sayCore (int numParams, struct loadedFunction * fun, BOO
 builtIn(say)
 {
 	UNUSEDALL
-	//KPrintF("say something");
 	return sayCore (numParams, fun, TRUE);
 }
 

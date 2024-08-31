@@ -1,7 +1,10 @@
 #include <proto/dos.h>
 #include <proto/exec.h>
+#include <hardware/custom.h>
+
 #include "backdrop.h"
 #include "custom.h"
+#include "custom_input.h"
 #include "fileset.h"
 #include "floor.h"
 #include "support/gcc8_c_support.h"
@@ -130,10 +133,14 @@ int main_sludge(int argc, char *argv[])
 
 	KPrintF("Starting main loop");
 
+	volatile struct Custom *custom = (struct Custom*)0xdff000;
 	weAreDoneSoQuit = 0;
-	while ( !weAreDoneSoQuit ) {				
+	while ( !weAreDoneSoQuit ) {	
+		//custom->color[0] = 0xf00;			
 		sludgeDisplay ();
+		CsiCheckInput();
 		handleInput();
+		//custom->color[0] = 0x000;			
 		WaitVbl();
 	}	
 	//Amiga Cleanup
