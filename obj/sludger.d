@@ -1,8 +1,8 @@
 obj/sludger.o: C:/Users/uersu/Documents/GitData/asludge/sludger.c \
  C:/Users/uersu/Documents/GitData/asludge/custom.h \
- C:/Users/uersu/Documents/GitData/asludge/sprites.h \
  C:/Users/uersu/Documents/GitData/asludge/people.h \
  C:/Users/uersu/Documents/GitData/asludge/variable.h \
+ C:/Users/uersu/Documents/GitData/asludge/sprites.h \
  C:/Users/uersu/Documents/GitData/asludge/sprbanks.h \
  C:/Users/uersu/Documents/GitData/asludge/sludger.h \
  C:/Users/uersu/Documents/GitData/asludge/csludge.h \
@@ -21,9 +21,9 @@ obj/sludger.o: C:/Users/uersu/Documents/GitData/asludge/sludger.c \
  C:/Users/uersu/Documents/GitData/asludge/talk.h \
  C:/Users/uersu/Documents/GitData/asludge/version.h
 C:/Users/uersu/Documents/GitData/asludge/custom.h:
-C:/Users/uersu/Documents/GitData/asludge/sprites.h:
 C:/Users/uersu/Documents/GitData/asludge/people.h:
 C:/Users/uersu/Documents/GitData/asludge/variable.h:
+C:/Users/uersu/Documents/GitData/asludge/sprites.h:
 C:/Users/uersu/Documents/GitData/asludge/sprbanks.h:
 C:/Users/uersu/Documents/GitData/asludge/sludger.h:
 C:/Users/uersu/Documents/GitData/asludge/csludge.h:

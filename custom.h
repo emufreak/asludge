@@ -1,9 +1,19 @@
 #include <exec/types.h>
+#include "people.h"
 #include "sprites.h"
 
 //destinationtypes
 #define SCREEN 1
 #define BACKDROP 2
+
+struct CleanupQueue
+{
+    UWORD widthinwords;
+    UWORD height;
+    UWORD startxinbytes;
+    UWORD starty;
+    struct CleanupQueue *next;
+};
 
 void CstBlankScreen( int width, int height);
 UWORD * CstCreateCopperlist( int width);
@@ -13,6 +23,6 @@ void CstFreeBuffer();
 void CstLoadBackdrop( BPTR fp, int x, int y);
 BOOL CstReserveBackdrop(int width, int height);
 void CstRestoreScreen();
-void CstScaleSprite( struct sprite *single, WORD x, WORD y, UWORD destinationtype);
+void CstScaleSprite( struct sprite *single, WORD x, WORD y, UWORD destinationtype); 
 void CstSetCl(UWORD *copperlist);
 void CstSwapBuffer();

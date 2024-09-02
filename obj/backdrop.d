@@ -2,9 +2,9 @@ obj/backdrop.o: C:/Users/uersu/Documents/GitData/asludge/backdrop.c \
  C:/Users/uersu/Documents/GitData/asludge/backdrop.h \
  C:/Users/uersu/Documents/GitData/asludge/colours.h \
  C:/Users/uersu/Documents/GitData/asludge/custom.h \
- C:/Users/uersu/Documents/GitData/asludge/sprites.h \
  C:/Users/uersu/Documents/GitData/asludge/people.h \
  C:/Users/uersu/Documents/GitData/asludge/variable.h \
+ C:/Users/uersu/Documents/GitData/asludge/sprites.h \
  C:/Users/uersu/Documents/GitData/asludge/sprbanks.h \
  C:/Users/uersu/Documents/GitData/asludge/fileset.h \
  C:/Users/uersu/Documents/GitData/asludge/graphics.h \
@@ -20,9 +20,9 @@ obj/backdrop.o: C:/Users/uersu/Documents/GitData/asludge/backdrop.c \
 C:/Users/uersu/Documents/GitData/asludge/backdrop.h:
 C:/Users/uersu/Documents/GitData/asludge/colours.h:
 C:/Users/uersu/Documents/GitData/asludge/custom.h:
-C:/Users/uersu/Documents/GitData/asludge/sprites.h:
 C:/Users/uersu/Documents/GitData/asludge/people.h:
 C:/Users/uersu/Documents/GitData/asludge/variable.h:
+C:/Users/uersu/Documents/GitData/asludge/sprites.h:
 C:/Users/uersu/Documents/GitData/asludge/sprbanks.h:
 C:/Users/uersu/Documents/GitData/asludge/fileset.h:
 C:/Users/uersu/Documents/GitData/asludge/graphics.h:

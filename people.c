@@ -299,6 +299,7 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
 }
 
 void drawPeople () {
+
 	shufflePeople ();
 
 	struct onScreenPerson * thisPerson = allPeople;
@@ -333,6 +334,7 @@ void drawPeople () {
 			}
 			if (m != 2) {
 				BOOL r = FALSE;
+
 				r = scaleSprite ( &myAnim->theSprites->bank.sprites[fNum], thisPerson, m);
 				if (r) {
 					if (thisPerson -> thisType -> screenName[0]) {
@@ -690,6 +692,8 @@ struct personaAnimation * makeNullAnim () {
 void moveAndScale (struct onScreenPerson *me, FLOAT x, FLOAT y) {
 	me->x = x;
 	me->y = y;
+	me->oldx = 0;
+	me->oldy = 0;
 	if (! (me->extra & EXTRA_NOSCALE) && scaleDivide) me->scale = (me->y - scaleHorizon) / scaleDivide;
 }
 
@@ -697,7 +701,12 @@ void removeOneCharacter (int i) {
     struct onScreenPerson * p = findPerson(i);	
 
     if (p) {
-		
+
+		/*if( p->myAnim->numFrames == 0) {
+			CstRestoreScreen(p->x, p->y, &p->myAnim->theSprites->bank.sprites[0].width, &p->myAnim->theSprites->bank.sprites[0].height );
+		} ToDo: Remove this*/
+
+
         if (overRegion == &personRegion && overRegion->thisType == p->thisType) {
             overRegion = NULL;
         }
