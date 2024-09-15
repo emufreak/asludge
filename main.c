@@ -16,7 +16,7 @@
 #include <libraries/mathieeesp.h>
 #include "main_sludge.h"
 
-#define EMULATOR
+//#define EMULATOR
 
 //config
 
@@ -255,9 +255,9 @@ int main(int argc, char *argv[]) {
 		Exit(0);
 	
 
-	KPrintF(" debugger from Amiga Test 004!\n");
+	KPrintF(" debugger from Amiga Test 025!\n");
 
-	Write(Output(), (APTR)"Hello console Test 004!\n", 25);
+	Write(Output(), (APTR)"Hello console Test 025!\n", 25);
 	Delay(50);
 
 	/*warpmode(1);

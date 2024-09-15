@@ -1,3 +1,6 @@
+#ifndef __SLUDGE_STATUSBA_H__
+#define __SLUDGE_STATUSBA_H__
+
 struct statusBar {
 	char * text;
 	struct statusBar * next;
@@ -22,3 +25,5 @@ void saveStatusBars (BPTR fp);
 void setLitStatus (int i);
 void setStatusBar (char * txt);
 const char * statusBarText ();
+
+#endif 

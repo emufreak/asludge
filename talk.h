@@ -1,3 +1,6 @@
+#ifndef __SLUDGE_TALK_H__
+#define __SLUDGE_TALK_H__
+
 #include <proto/exec.h>
 
 #include "people.h"
@@ -24,3 +27,5 @@ void setFrames (struct onScreenPerson *m, int a);
 int wrapSpeech(char * theText, int objT, int sampleFile, BOOL animPerson);
 int wrapSpeechPerson (char * theText, struct onScreenPerson *thePerson, int sampleFile, BOOL animPerson);
 int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile);
+
+#endif

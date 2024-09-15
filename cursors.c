@@ -30,11 +30,13 @@ void pickAnimCursor (struct personaAnimation * pp) {
 }
 
 void pasteCursor (int x, int y, struct personaAnimation * c) {
+
+				//int fNumSign = myAnim -> frames[thisPerson -> frameNum].frameNum;
 	
-	struct sprite *spritetouse = c->theSprites->bank.sprites;
+	struct sprite *spritetouse = &c->theSprites->bank.sprites[c->frames[0].frameNum];
 
 	UWORD absx =  x - spritetouse->xhot;
 	UWORD absy =  y - spritetouse->yhot;
 
-	CstScaleSprite( spritetouse, absx, absy, BACKDROP);
+	CstScaleSprite( spritetouse, (struct onScreenPerson *) NULL, absx, absy, BACKDROP);
 }

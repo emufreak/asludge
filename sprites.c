@@ -113,7 +113,7 @@ BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOO
 	UWORD x =  (UWORD) thisPerson->x - single->xhot;
 	UWORD y =  (UWORD) thisPerson->y - single->yhot;			
 
-	CstScaleSprite( single, (WORD) x, (WORD) y,SCREEN);
+	CstScaleSprite( single, thisPerson, (WORD) x, (WORD) y,SCREEN);
 
 	UWORD x1, y1, x2, y2;
 

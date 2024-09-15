@@ -6,6 +6,7 @@
 #include "cursors.h"
 #include "floor.h"
 #include "fonttext.h"
+#include "freeze.h"
 #include "graphics.h"
 #include "language.h"
 #include "moreio.h"
@@ -162,9 +163,9 @@ builtIn(think)
 builtIn(freeze)
 {
 	UNUSEDALL
-	/*freeze ();
-	freezeSubs (); Amiga todo: implement */
-	//fun -> freezerLevel = 0;
+	freeze ();
+	freezeSubs (); 
+	fun -> freezerLevel = 0;
 	return BR_CONTINUE;
 }
 
@@ -380,6 +381,7 @@ builtIn(mixOverlay)
 builtIn(pasteImage)
 {
 	UNUSEDALL
+	KPrintF("pasteimage: Started\n");
 	int x, y;
 	if (! getValueType(&y, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
@@ -390,7 +392,8 @@ builtIn(pasteImage)
 	if (pp == NULL) return BR_CONTINUE;
 
 	pasteCursor (x, y, pp);
-	return BR_CONTINUE;
+	KPrintF("pasteimage: Finished\n");
+	return BR_CONTINUE;	
 }
 
 #pragma mark -
@@ -774,7 +777,7 @@ builtIn (setPasteColour)
 {
 	UNUSEDALL
 	int red, green, blue;
-
+	KPrintF("setPasteColour: Function not implemented on Amiga. Attention using this might cause problems!\n");
 	/*if (! getRGBParams(red, green, blue, fun))
 		return BR_ERROR;
 

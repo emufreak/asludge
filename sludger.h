@@ -49,6 +49,7 @@ int cancelAFunction (int funcNum, struct loadedFunction * myself, BOOL * killedM
 void completeTimers ();
 BOOL continueFunction (struct loadedFunction * fun);
 void displayCursor();
+void freezeSubs ();
 void finishFunction (struct loadedFunction * fun);
 BOOL handleInput ();
 void killSpeechTimers ();

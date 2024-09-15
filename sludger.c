@@ -106,7 +106,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 		advanceNow = TRUE;
 		param = fun -> compiledLines[fun -> runThisLine].param;
 		com = fun -> compiledLines[fun -> runThisLine].theCommand;
-		KPrintF("Processing Type %ld",com);
+		//KPrintF("Processing Type %ld",com);
 
 //		fprintf (stderr, "com: %d param: %d (%s)\n", com, param,
 //				(com < numSludgeCommands) ? sludgeText[com] : ERROR_UNKNOWN_MCODE); fflush(stderr);
@@ -516,7 +516,10 @@ void finishFunction (struct loadedFunction * fun) {
 
 	pauseFunction (fun);
 	if (fun -> stack) 
-		KPrintF("finishfunction:", ERROR_NON_EMPTY_STACK);
+	{
+		KPrintF("finishfunction: error non empty stack");
+		return;
+	}
 	FreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	if( fun->numLocals > 0) {
@@ -525,6 +528,19 @@ void finishFunction (struct loadedFunction * fun) {
 	unlinkVar (&fun -> reg);
 	FreeVec(fun);
 	fun = NULL;
+}
+
+void freezeSubs () {
+	struct loadedFunction * thisFunction = allRunningFunctions;
+
+	while (thisFunction) {
+		if (thisFunction -> unfreezable) {
+			//msgBox ("SLUDGE debugging bollocks!", "Trying to freeze an unfreezable function!");
+		} else {
+			thisFunction -> freezerLevel ++;
+		}
+		thisFunction = thisFunction -> next;
+	}
 }
 
 BOOL handleInput () {

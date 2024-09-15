@@ -129,6 +129,16 @@ void animatePersonUsingPersona (int obj, struct persona * per) { // Set a new co
     }
 }
 
+void cleanupPeople() {
+	struct onScreenPerson * thisPerson = allPeople;
+	struct personaAnimation * myAnim = NULL;
+	overRegion = NULL;
+
+	while (thisPerson) {		
+		thisPerson = thisPerson->next;
+	}
+}
+
 
 struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 	int num = orig -> numFrames;
@@ -310,6 +320,7 @@ void drawPeople () {
 		if (thisPerson -> show) {
 			myAnim = thisPerson -> myAnim;
 			if (myAnim != thisPerson -> lastUsedAnim) {
+				thisPerson -> samePosCount = 0;
 				thisPerson -> lastUsedAnim = myAnim;
 				thisPerson -> frameNum = 0;
 				thisPerson -> frameTick = myAnim -> frames[0].howMany;
@@ -324,7 +335,18 @@ void drawPeople () {
 					thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
 					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
 				}
+			} else {
+				if(thisPerson->x == thisPerson->oldx && thisPerson->y == thisPerson->oldy && myAnim->numFrames == 1)
+				{
+					thisPerson->samePosCount++;
+				} else
+				{
+					thisPerson->samePosCount = 0;
+				}
 			}
+
+			thisPerson->oldx = thisPerson->x;
+			thisPerson->oldy = thisPerson->y;
 			int fNumSign = myAnim -> frames[thisPerson -> frameNum].frameNum;
 			int m = fNumSign < 0;
 			int fNum = TF_abs(fNumSign);

@@ -34,6 +34,7 @@ struct persona {
 struct onScreenPerson {
 	FLOAT x, y;
 	FLOAT oldx, oldy;
+	int samePosCount;
 	int height, floaty, walkSpeed;
 	FLOAT scale;
 	struct onScreenPerson * next;

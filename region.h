@@ -1,3 +1,6 @@
+#ifndef __SLUDGE_REGION_H__
+#define __SLUDGE_REGION_H__
+
 #include "objtypes.h"
 
 struct screenRegion {
@@ -14,3 +17,5 @@ void loadRegions (BPTR fp);
 void removeScreenRegion (int objectNum);
 void saveRegions (BPTR fp);
 void showBoxes ();
+
+#endif
