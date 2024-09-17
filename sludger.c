@@ -965,3 +965,12 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
 	restartFunction (newFunc);
 	return 1;
 }
+
+void unfreezeSubs () {
+	struct loadedFunction * thisFunction = allRunningFunctions;
+
+	while (thisFunction) {
+		if (thisFunction -> freezerLevel) thisFunction -> freezerLevel--;
+		thisFunction = thisFunction -> next;
+	}
+}

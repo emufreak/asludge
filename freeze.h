@@ -22,3 +22,4 @@ struct frozenStuffStruct {
 };
 
 BOOL freeze();
+void unfreeze ();

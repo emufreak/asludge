@@ -172,8 +172,8 @@ builtIn(freeze)
 builtIn(unfreeze)
 {
 	UNUSEDALL
-	/*unfreeze ();
-	unfreezeSubs (); Amiga todo: Implement*/
+	unfreeze ();
+	unfreezeSubs (); 
 	return BR_CONTINUE;
 }
 

@@ -297,7 +297,7 @@ void CstFreeze( ) {
 
   KPrintF("CstFreeze: Finished");
 
-}
+}  
 
 void CstLoadBackdrop( BPTR fp, int x, int y) {
 
@@ -624,9 +624,9 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     }
   }
 
-  if(person && person->samePosCount > 3) {
+ /*if(person && person->samePosCount > 3) {
     return;
-  }
+  }*/
 
   UWORD bltafwm = 0xffff >> cutmaskpixel;
   WORD bltamod = cutwordssource*2-(extrawords*2); //Jump to next line
@@ -802,4 +802,37 @@ BOOL CstReserveBackdrop(int width, int height) {
 
 }
 
+void CstUnfreeze() {
+	KPrintF("CstUnfreeze: Unfreezing Background Started");  
 
+  UWORD size = winWidth/8*winHeight*5;
+
+  //Writing to Framebuffer
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+
+#ifdef EMULATOR
+  debug_register_bitmap(CstBackDropBackup, "BackDropBackup", winWidth, winHeight, 5, 0);
+#endif  
+
+  ULONG *src = (ULONG *) CstBackDropBackup;
+  ULONG *dst = (ULONG *) CstBackDrop;
+  for(int i=0;i<size/4;i++) 
+  {
+    *dst++ = *src++;
+  }
+
+  CstApplyBackDropCounter = 2;
+
+  *CstBackDropBufferApplyCursor++ = winWidth/16;
+  *CstBackDropBufferApplyCursor++ = winHeight;
+  *CstBackDropBufferApplyCursor++ = 0;
+  *CstBackDropBufferApplyCursor++ = 0;
+  *CstBackDropBufferApplyCursor++ = 0;
+  
+  if( !CstBackDropBackup) {
+    FreeVec( CstBackDropBackup);
+  }
+
+  KPrintF("CstFreeze: Finished");
+
+}

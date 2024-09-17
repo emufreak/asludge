@@ -79,3 +79,46 @@ BOOL freeze () {
 
 	return TRUE;
 }
+
+void unfreeze () {
+	struct frozenStuffStruct * killMe = frozenStuff;
+
+	if (! frozenStuff) return;
+
+	CstUnfreeze();
+
+	sceneWidth = frozenStuff -> sceneWidth;
+	sceneHeight = frozenStuff -> sceneHeight;
+
+	cameraX = frozenStuff -> cameraX;
+	cameraY = frozenStuff -> cameraY;
+	input.mouseX = (int)(input.mouseX * cameraZoom);
+	input.mouseY = (int)(input.mouseY * cameraZoom);
+	cameraZoom = frozenStuff -> cameraZoom;
+	input.mouseX = (int)(input.mouseX / cameraZoom);
+	input.mouseY = (int)(input.mouseY / cameraZoom);
+
+	killAllPeople ();
+	allPeople = frozenStuff -> allPeople;
+
+	killAllRegions ();
+	allScreenRegions = frozenStuff -> allScreenRegions;
+	
+	deleteAnim (mouseCursorAnim);  
+	mouseCursorAnim = frozenStuff -> mouseCursorAnim;
+	mouseCursorFrameNum = frozenStuff -> mouseCursorFrameNum;	
+
+	if (currentEvents) FreeVec(currentEvents);
+	currentEvents = frozenStuff -> currentEvents;
+
+	killAllSpeech ();
+	if (speech) FreeVec(speech);
+	speech = frozenStuff -> speech;
+
+	frozenStuff = frozenStuff -> next;
+
+	overRegion = NULL;
+	if (killMe) FreeVec(killMe);
+	killMe = NULL;
+}
+

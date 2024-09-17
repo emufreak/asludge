@@ -30,3 +30,4 @@ void CstRestoreScreen();
 void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD x, WORD y, UWORD destinationtype); 
 void CstSetCl(UWORD *copperlist);
 void CstSwapBuffer();
+void CstUnfreeze();
