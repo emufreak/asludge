@@ -465,7 +465,6 @@ void CstRestoreScreen()
 
 void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD x, WORD y, UWORD destinationtype)
 {  
-
   UWORD *destination = 0;
   switch(destinationtype)
   {
@@ -760,7 +759,7 @@ BOOL CstReserveBackdrop(int width, int height) {
   }
   KPrintF("CstReserveBackdrop: DrawBuffer reserved");
     
-  CstBackDropBufferApplyStart = AllocVec( 100*3*2,MEMF_ANY);
+  CstBackDropBufferApplyStart = AllocVec( 1000*5*2,MEMF_ANY);
   if( !CstBackDropBufferApplyStart)
   {    
     KPrintF("CstReserveBackdrop: Cannot allocate memory for CstBackDropBufferApplyStart");
