@@ -2,4 +2,4 @@
 
 BOOL isInFont (char * theText);
 int stringWidth (char * theText);
-BOOL loadFont (int filenum, const char * charOrder, int h);
+BOOL loadFont (int filenum, char * charOrder, int h);

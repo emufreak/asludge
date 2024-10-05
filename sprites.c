@@ -16,7 +16,6 @@ extern struct inputType input;
 
 void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 {			
-
 	struct spriteBank *spritebanktoforget = &forgetme->bank;
 	
 	for (int i = 0; i < spritebanktoforget->total; i++) {
@@ -69,7 +68,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 		KPrintF("loadSpriteBank: No sprites in bank or invalid sprite bank file\n");
 		return FALSE;
 	}
-	if (loadhere->type > 2) {
+	if (loadhere->type > 3) {
 		KPrintF("loadSpriteBank: Unsupported sprite bank file format\n");
 		return FALSE;
 	}
@@ -81,20 +80,28 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 	startIndex = 1;
 
 	for (i = 0; i < total; i++) {
-		loadhere->sprites[i].width = get2bytes(bigDataFile);
+		UWORD width = get2bytes(bigDataFile);
+		loadhere->sprites[i].width = width;
 		loadhere->sprites[i].height = get2bytes(bigDataFile);
 		loadhere->sprites[i].xhot = get2bytes(bigDataFile);
 		loadhere->sprites[i].yhot = get2bytes(bigDataFile);
 
 		UWORD size;
-		// ToDo Load Data
-		if( loadhere->type == 1) 
-		//Mousecursor Data (4 Colors HW-Sprite)
+		
+		switch( loadhere->type) 
 		{
-			size = 4*loadhere->sprites[i].height+8;
-		} else {
-			size = loadhere->sprites[i].width / 8 * loadhere->sprites[i].height * 6;
+			case 1: //Sprite
+				size = 4*loadhere->sprites[i].height+8;
+				break;
+			case 2: //Bob
+				size = loadhere->sprites[i].width / 8 * loadhere->sprites[i].height * 6;
+				break;
+			case 3: //Font
+				UWORD widthextra = loadhere->sprites[i].width % 16 > 0 ? 2 : 0;
+				size = ((loadhere->sprites[i].width  / 16) * 2 + widthextra) * loadhere->sprites[i].height;
+				break;
 		}
+
 		loadhere->sprites[i].data = AllocVec(sizeof(UWORD) * size, MEMF_CHIP);
 		UWORD count = FRead(bigDataFile, loadhere->sprites[i].data, 2, size / 2);
 		if (!count) {
