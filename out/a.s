@@ -345,8 +345,8 @@ char * encodeFilename (char * nameIn) {
 		if(newName == 0) {
      354:	|  |              /-- bne.s 36a <encodeFilename+0x6c>
 			KPrintF( "encodefilename: Could not allocate Memory");
-     356:	|  |              |   pea 17676 <PutChar+0x4>
-     35c:	|  |              |   jsr 16b9e <KPrintF>
+     356:	|  |              |   pea 17684 <PutChar+0x4>
+     35c:	|  |              |   jsr 16bac <KPrintF>
      362:	|  |              |   addq.l #4,sp
 			return NULL;
      364:	|  |              |   moveq #0,d0
@@ -799,8 +799,8 @@ FLOAT getFloat (BPTR fp) {
      828:	    cmp.l 20(sp),d0
      82c:	/-- beq.s 83c <getFloat+0x64>
 		KPrintF("Reading error in getFloat.\n");
-     82e:	|   pea 176a0 <PutChar+0x2e>
-     834:	|   jsr 16b9e <KPrintF>
+     82e:	|   pea 176ae <PutChar+0x2e>
+     834:	|   jsr 16bac <KPrintF>
      83a:	|   addq.l #4,sp
 	}
 	return FLOATSwap(f);
@@ -841,8 +841,8 @@ short getSigned (BPTR fp) {
      89a:	    cmp.l 16(sp),d0
      89e:	/-- beq.s 8ae <getSigned+0x5a>
 		KPrintF("getSigned: Reading error in getSigned.\n");
-     8a0:	|   pea 176bc <PutChar+0x4a>
-     8a6:	|   jsr 16b9e <KPrintF>
+     8a0:	|   pea 176ca <PutChar+0x4a>
+     8a6:	|   jsr 16bac <KPrintF>
      8ac:	|   addq.l #4,sp
 	}
 	f = shortSwap(f);
@@ -1401,16 +1401,16 @@ void CstBlankScreen( int width, int height) {
      e12:	          move.l a6,-(sp)
 
   KPrintF("CstBlankScreen: started\n");
-     e14:	          pea 176e4 <PutChar+0x72>
-     e1a:	          jsr 16b9e <KPrintF>
+     e14:	          pea 176f2 <PutChar+0x72>
+     e1a:	          jsr 16bac <KPrintF>
      e20:	          addq.l #4,sp
 
   if( !CstBackDrop) {
      e22:	          move.l 1a6c4 <CstBackDrop>,d0
      e28:	      /-- bne.s e3c <CstBlankScreen+0x2e>
     KPrintF("CstBlankScreen: Backdrop empty nothing to do\n");
-     e2a:	      |   pea 176fd <PutChar+0x8b>
-     e30:	      |   jsr 16b9e <KPrintF>
+     e2a:	      |   pea 1770b <PutChar+0x8b>
+     e30:	      |   jsr 16bac <KPrintF>
      e36:	      |   addq.l #4,sp
     return;
      e38:	/-----|-- bra.w fc6 <CstBlankScreen+0x1b8>
@@ -1480,8 +1480,8 @@ void CstBlankScreen( int width, int height) {
      ee6:	|         move.w d0,4(sp)
 
   KPrintF("CstBlankScreen: Starting Blits\n");
-     eea:	|         pea 1772b <PutChar+0xb9>
-     ef0:	|         jsr 16b9e <KPrintF>
+     eea:	|         pea 17739 <PutChar+0xb9>
+     ef0:	|         jsr 16bac <KPrintF>
      ef6:	|         addq.l #4,sp
 
   for(int i2=0;i2<5;i2++)
@@ -1511,8 +1511,8 @@ void CstBlankScreen( int width, int height) {
   }
 
   KPrintF("CstBlankScreen: Finished Blits\n");
-     f36:	|         pea 1774b <PutChar+0xd9>
-     f3c:	|         jsr 16b9e <KPrintF>
+     f36:	|         pea 17759 <PutChar+0xd9>
+     f3c:	|         jsr 16bac <KPrintF>
      f42:	|         addq.l #4,sp
 
   CstApplyBackDropCounter = 2;
@@ -1555,8 +1555,8 @@ void CstBlankScreen( int width, int height) {
      fb6:	|         clr.w (a0)
 
   KPrintF("CstBlankScreen: end\n");
-     fb8:	|         pea 1776b <PutChar+0xf9>
-     fbe:	|         jsr 16b9e <KPrintF>
+     fb8:	|         pea 17779 <PutChar+0xf9>
+     fbe:	|         jsr 16bac <KPrintF>
      fc4:	|         addq.l #4,sp
 
 
@@ -1589,8 +1589,8 @@ UWORD * CstCreateCopperlist( int width) {
     1004:	   /-- bne.s 102e <CstCreateCopperlist+0x60>
     KPrintF("CstCreateCopperlist: Allocation of Ram for Copper failed.\n", 40);
     1006:	   |   pea 28 <_start+0x28>
-    100a:	   |   pea 17780 <PutChar+0x10e>
-    1010:	   |   jsr 16b9e <KPrintF>
+    100a:	   |   pea 1778e <PutChar+0x10e>
+    1010:	   |   jsr 16bac <KPrintF>
     1016:	   |   addq.l #8,sp
     Exit(1);
     1018:	   |   moveq #1,d1
@@ -1776,8 +1776,8 @@ void CstDisplayBackDrop()
     11b8:	                move.l #14675968,16(sp)
 
   KPrintF("CstDisplayBackDrop: Started");
-    11c0:	                pea 177bb <PutChar+0x149>
-    11c6:	                jsr 16b9e <KPrintF>
+    11c0:	                pea 177c9 <PutChar+0x149>
+    11c6:	                jsr 16bac <KPrintF>
     11cc:	                addq.l #4,sp
 
   CstBackDropBufferApplyCursor = CstBackDropBufferApplyStart;
@@ -1865,7 +1865,7 @@ void CstDisplayBackDrop()
     12a6:	|  |  |         move.l 1a6f6 <winWidth>,d1
     12ac:	|  |  |         move.l d1,-(sp)
     12ae:	|  |  |         move.l d0,-(sp)
-    12b0:	|  |  |         jsr 1755c <__mulsi3>
+    12b0:	|  |  |         jsr 1756a <__mulsi3>
     12b6:	|  |  |         addq.l #8,sp
     12b8:	|  |  |         move.l d0,d1
     12ba:	|  |  |         lsr.l #3,d1
@@ -1882,7 +1882,7 @@ void CstDisplayBackDrop()
     12d8:	|  |  |         move.l 1a6f6 <winWidth>,d1
     12de:	|  |  |         move.l d1,-(sp)
     12e0:	|  |  |         move.l d0,-(sp)
-    12e2:	|  |  |         jsr 1755c <__mulsi3>
+    12e2:	|  |  |         jsr 1756a <__mulsi3>
     12e8:	|  |  |         addq.l #8,sp
     12ea:	|  |  |         move.l d0,d1
     12ec:	|  |  |         lsr.l #3,d1
@@ -1917,7 +1917,7 @@ void CstDisplayBackDrop()
     133c:	|  |  |  |  |   move.l 1a6fa <winHeight>,d1
     1342:	|  |  |  |  |   move.l d1,-(sp)
     1344:	|  |  |  |  |   move.l d0,-(sp)
-    1346:	|  |  |  |  |   jsr 1755c <__mulsi3>
+    1346:	|  |  |  |  |   jsr 1756a <__mulsi3>
     134c:	|  |  |  |  |   addq.l #8,sp
     134e:	|  |  |  |  |   add.l d0,40(sp)
       bltdpt += winWidth/8*winHeight;
@@ -1926,7 +1926,7 @@ void CstDisplayBackDrop()
     135a:	|  |  |  |  |   move.l 1a6fa <winHeight>,d1
     1360:	|  |  |  |  |   move.l d1,-(sp)
     1362:	|  |  |  |  |   move.l d0,-(sp)
-    1364:	|  |  |  |  |   jsr 1755c <__mulsi3>
+    1364:	|  |  |  |  |   jsr 1756a <__mulsi3>
     136a:	|  |  |  |  |   addq.l #8,sp
     136c:	|  |  |  |  |   add.l d0,36(sp)
       WaitBlit();
@@ -2165,8 +2165,8 @@ void CstFreeze( ) {
     15b6:	       move.l d2,-(sp)
 
 	KPrintF("CstFreeze: Freezing Background Started");  
-    15b8:	       pea 177d7 <PutChar+0x165>
-    15be:	       jsr 16b9e <KPrintF>
+    15b8:	       pea 177e5 <PutChar+0x165>
+    15be:	       jsr 16bac <KPrintF>
     15c4:	       addq.l #4,sp
 
   UWORD size = winWidth/8*winHeight*5;
@@ -2206,8 +2206,8 @@ void CstFreeze( ) {
     1626:	   /-- bne.s 1636 <CstFreeze+0x86>
   {
     KPrintF("CstFreeze: Cannot allocate Memory for CstBackDropBackup");
-    1628:	   |   pea 177fe <PutChar+0x18c>
-    162e:	   |   jsr 16b9e <KPrintF>
+    1628:	   |   pea 1780c <PutChar+0x18c>
+    162e:	   |   jsr 16bac <KPrintF>
     1634:	   |   addq.l #4,sp
   }
 
@@ -2224,9 +2224,9 @@ void CstFreeze( ) {
     1652:	       pea 5 <_start+0x5>
     1656:	       move.l a1,-(sp)
     1658:	       move.l a0,-(sp)
-    165a:	       pea 17836 <PutChar+0x1c4>
+    165a:	       pea 17844 <PutChar+0x1c4>
     1660:	       move.l d0,-(sp)
-    1662:	       jsr 16c86 <debug_register_bitmap>
+    1662:	       jsr 16c94 <debug_register_bitmap>
     1668:	       lea 24(sp),sp
 #endif  
 
@@ -2334,8 +2334,8 @@ void CstFreeze( ) {
     177a:	       clr.w (a0)
 
   KPrintF("CstFreeze: Finished");
-    177c:	       pea 17845 <PutChar+0x1d3>
-    1782:	       jsr 16b9e <KPrintF>
+    177c:	       pea 17853 <PutChar+0x1d3>
+    1782:	       jsr 16bac <KPrintF>
     1788:	       addq.l #4,sp
 
 }  
@@ -2352,8 +2352,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     179a:	             movem.l d2-d4/a6,-(sp)
 
 	KPrintF("CstLoadBackDrop: Loading of Background started");
-    179e:	             pea 17859 <PutChar+0x1e7>
-    17a4:	             jsr 16b9e <KPrintF>
+    179e:	             pea 17867 <PutChar+0x1e7>
+    17a4:	             jsr 16bac <KPrintF>
     17aa:	             addq.l #4,sp
 
   UWORD width = get2bytes(fp);
@@ -2487,8 +2487,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     18f8:	         /-- bne.s 1908 <CstLoadBackdrop+0x172>
   {
     KPrintF("CstLoadBackDrop: Cannot allocate Memory for tmpbuffer");
-    18fa:	         |   pea 17888 <PutChar+0x216>
-    1900:	         |   jsr 16b9e <KPrintF>
+    18fa:	         |   pea 17896 <PutChar+0x216>
+    1900:	         |   jsr 16bac <KPrintF>
     1906:	         |   addq.l #4,sp
   }
   UWORD *tmpmask = AllocVec(sizeplane, MEMF_CHIP);
@@ -2509,8 +2509,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     1938:	         /-- bne.s 1948 <CstLoadBackdrop+0x1b2>
   {
     KPrintF("CstLoadBackDrop: Cannot allocate Memory for tmpmask");
-    193a:	         |   pea 178be <PutChar+0x24c>
-    1940:	         |   jsr 16b9e <KPrintF>
+    193a:	         |   pea 178cc <PutChar+0x24c>
+    1940:	         |   jsr 16bac <KPrintF>
     1946:	         |   addq.l #4,sp
   }
 
@@ -2524,9 +2524,9 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     1956:	             pea 5 <_start+0x5>
     195a:	             move.l a1,-(sp)
     195c:	             move.l a0,-(sp)
-    195e:	             pea 178f2 <PutChar+0x280>
+    195e:	             pea 17900 <PutChar+0x280>
     1964:	             move.l 108(sp),-(sp)
-    1968:	             jsr 16c86 <debug_register_bitmap>
+    1968:	             jsr 16c94 <debug_register_bitmap>
     196e:	             lea 24(sp),sp
   debug_register_bitmap(tmpbuffer, "tmpmask.bpl", width, height, 1, 0);
     1972:	             move.w 132(sp),d0
@@ -2537,9 +2537,9 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     1980:	             pea 1 <_start+0x1>
     1984:	             move.l a1,-(sp)
     1986:	             move.l a0,-(sp)
-    1988:	             pea 17900 <PutChar+0x28e>
+    1988:	             pea 1790e <PutChar+0x28e>
     198e:	             move.l 108(sp),-(sp)
-    1992:	             jsr 16c86 <debug_register_bitmap>
+    1992:	             jsr 16c94 <debug_register_bitmap>
     1998:	             lea 24(sp),sp
 #endif  
 
@@ -2566,8 +2566,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   if(!count) {
     19e8:	         /-- bne.s 19fc <CstLoadBackdrop+0x266>
     KPrintF("Error while reading stream");
-    19ea:	         |   pea 1790c <PutChar+0x29a>
-    19f0:	         |   jsr 16b9e <KPrintF>
+    19ea:	         |   pea 1791a <PutChar+0x29a>
+    19f0:	         |   jsr 16bac <KPrintF>
     19f6:	         |   addq.l #4,sp
     return;
     19f8:	   /-----|-- bra.w 1c48 <CstLoadBackdrop+0x4b2>
@@ -2597,8 +2597,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   if(!count) {
     1a48:	   |     /-- bne.s 1a5c <CstLoadBackdrop+0x2c6>
     KPrintF("Error while reading stream");
-    1a4a:	   |     |   pea 1790c <PutChar+0x29a>
-    1a50:	   |     |   jsr 16b9e <KPrintF>
+    1a4a:	   |     |   pea 1791a <PutChar+0x29a>
+    1a50:	   |     |   jsr 16bac <KPrintF>
     1a56:	   |     |   addq.l #4,sp
     return;
     1a58:	   +-----|-- bra.w 1c48 <CstLoadBackdrop+0x4b2>
@@ -2629,8 +2629,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     1a92:	   |         add.l d0,144(sp)
 
  	KPrintF("CstLoadBackDrop: Starting Blit");
-    1a96:	   |         pea 17927 <PutChar+0x2b5>
-    1a9c:	   |         jsr 16b9e <KPrintF>
+    1a96:	   |         pea 17935 <PutChar+0x2b5>
+    1a9c:	   |         jsr 16bac <KPrintF>
     1aa2:	   |         addq.l #4,sp
 
 
@@ -2717,8 +2717,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     1b88:	   |         jsr -228(a6)
 
  	KPrintF("CstLoadBackDrop: Freeing Memory");
-    1b8c:	   |         pea 17946 <PutChar+0x2d4>
-    1b92:	   |         jsr 16b9e <KPrintF>
+    1b8c:	   |         pea 17954 <PutChar+0x2d4>
+    1b92:	   |         jsr 16bac <KPrintF>
     1b98:	   |         addq.l #4,sp
 
 
@@ -2775,8 +2775,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     1c38:	   |         clr.w (a0)
 
   KPrintF("CstLoadBackDrop: Finished");
-    1c3a:	   |         pea 17966 <PutChar+0x2f4>
-    1c40:	   |         jsr 16b9e <KPrintF>
+    1c3a:	   |         pea 17974 <PutChar+0x2f4>
+    1c40:	   |         jsr 16bac <KPrintF>
     1c46:	   |         addq.l #4,sp
 
 }
@@ -2838,8 +2838,8 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1cba:	      |      add.l a1,d0
     1cbc:	      |  /-- bpl.s 1cd0 <CstPasteChar+0x7e>
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-    1cbe:	      |  |   pea 17980 <PutChar+0x30e>
-    1cc4:	      |  |   jsr 16b9e <KPrintF>
+    1cbe:	      |  |   pea 1798e <PutChar+0x30e>
+    1cc4:	      |  |   jsr 16bac <KPrintF>
     1cca:	      |  |   addq.l #4,sp
       return;
     1ccc:	/-----|--|-- bra.w 2342 <CstPasteChar+0x6f0>
@@ -2873,8 +2873,8 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1d18:	|  |  |      cmp.l a0,d0
     1d1a:	|  |  |  /-- bge.s 1d2e <CstPasteChar+0xdc>
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-    1d1c:	|  |  |  |   pea 17980 <PutChar+0x30e>
-    1d22:	|  |  |  |   jsr 16b9e <KPrintF>
+    1d1c:	|  |  |  |   pea 1798e <PutChar+0x30e>
+    1d22:	|  |  |  |   jsr 16bac <KPrintF>
     1d28:	|  |  |  |   addq.l #4,sp
       return;
     1d2a:	+--|--|--|-- bra.w 2342 <CstPasteChar+0x6f0>
@@ -2914,8 +2914,8 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1d78:	|     |      add.l a1,d0
     1d7a:	|     |  /-- bpl.s 1d8e <CstPasteChar+0x13c>
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-    1d7c:	|     |  |   pea 17980 <PutChar+0x30e>
-    1d82:	|     |  |   jsr 16b9e <KPrintF>
+    1d7c:	|     |  |   pea 1798e <PutChar+0x30e>
+    1d82:	|     |  |   jsr 16bac <KPrintF>
     1d88:	|     |  |   addq.l #4,sp
       return;
     1d8a:	+-----|--|-- bra.w 2342 <CstPasteChar+0x6f0>
@@ -2958,7 +2958,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1de0:	|     |      move.l (a0),d0
     1de2:	|     |      move.l 44(sp),-(sp)
     1de6:	|     |      move.l d0,-(sp)
-    1de8:	|     |      jsr 1755c <__mulsi3>
+    1de8:	|     |      jsr 1756a <__mulsi3>
     1dee:	|     |      addq.l #8,sp
     1df0:	|     |      lsr.l #3,d0
     1df2:	|     |      move.l d2,d1
@@ -2968,7 +2968,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1dfa:	|     |      move.l 1a6f6 <winWidth>,d0
     1e00:	|     |      move.l 48(sp),-(sp)
     1e04:	|     |      move.l d0,-(sp)
-    1e06:	|     |      jsr 1755c <__mulsi3>
+    1e06:	|     |      jsr 1756a <__mulsi3>
     1e0c:	|     |      addq.l #8,sp
     1e0e:	|     |      lsr.l #3,d0
     1e10:	|     |      move.l 28(sp),d1
@@ -2980,7 +2980,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1e1e:	|     |      move.l 1a6f6 <winWidth>,d0
     1e24:	|     |      move.l 48(sp),-(sp)
     1e28:	|     |      move.l d0,-(sp)
-    1e2a:	|     |      jsr 1755c <__mulsi3>
+    1e2a:	|     |      jsr 1756a <__mulsi3>
     1e30:	|     |      addq.l #8,sp
     1e32:	|     |      lsr.l #3,d0
     1e34:	|     |      move.l 28(sp),d1
@@ -3064,8 +3064,8 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1f0c:	|  |  |  /-- bge.s 1f20 <CstPasteChar+0x2ce>
     {    
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-    1f0e:	|  |  |  |   pea 17980 <PutChar+0x30e>
-    1f14:	|  |  |  |   jsr 16b9e <KPrintF>
+    1f0e:	|  |  |  |   pea 1798e <PutChar+0x30e>
+    1f14:	|  |  |  |   jsr 16bac <KPrintF>
     1f1a:	|  |  |  |   addq.l #4,sp
       return;
     1f1c:	+--|--|--|-- bra.w 2342 <CstPasteChar+0x6f0>
@@ -3095,7 +3095,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1f5a:	|  |  |      move.l (a0),d0
     1f5c:	|  |  |      move.l 44(sp),-(sp)
     1f60:	|  |  |      move.l d0,-(sp)
-    1f62:	|  |  |      jsr 1755c <__mulsi3>
+    1f62:	|  |  |      jsr 1756a <__mulsi3>
     1f68:	|  |  |      addq.l #8,sp
     1f6a:	|  |  |      lsr.l #3,d0
     1f6c:	|  |  |      move.l d2,d1
@@ -3105,7 +3105,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1f74:	|  |  |      move.l 1a6f6 <winWidth>,d0
     1f7a:	|  |  |      move.l 48(sp),-(sp)
     1f7e:	|  |  |      move.l d0,-(sp)
-    1f80:	|  |  |      jsr 1755c <__mulsi3>
+    1f80:	|  |  |      jsr 1756a <__mulsi3>
     1f86:	|  |  |      addq.l #8,sp
     1f88:	|  |  |      lsr.l #3,d0
     1f8a:	|  |  |      move.l 28(sp),d1
@@ -3124,7 +3124,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     1faa:	|  |  |      move.l 1a6f6 <winWidth>,d0
     1fb0:	|  |  |      move.l 48(sp),-(sp)
     1fb4:	|  |  |      move.l d0,-(sp)
-    1fb6:	|  |  |      jsr 1755c <__mulsi3>
+    1fb6:	|  |  |      jsr 1756a <__mulsi3>
     1fbc:	|  |  |      addq.l #8,sp
     1fbe:	|  |  |      lsr.l #3,d0
     1fc0:	|  |  |      move.l 28(sp),d1
@@ -3225,7 +3225,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     20be:	|  |         asr.l #4,d0
     20c0:	|  |         move.l 44(sp),-(sp)
     20c4:	|  |         move.l d0,-(sp)
-    20c6:	|  |         jsr 1755c <__mulsi3>
+    20c6:	|  |         jsr 1756a <__mulsi3>
     20cc:	|  |         addq.l #8,sp
     20ce:	|  |         add.l d0,d0
     20d0:	|  |         move.l d2,d1
@@ -3235,7 +3235,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     20d8:	|  |         move.l 1a6f6 <winWidth>,d0
     20de:	|  |         move.l 48(sp),-(sp)
     20e2:	|  |         move.l d0,-(sp)
-    20e4:	|  |         jsr 1755c <__mulsi3>
+    20e4:	|  |         jsr 1756a <__mulsi3>
     20ea:	|  |         addq.l #8,sp
     20ec:	|  |         lsr.l #3,d0
     20ee:	|  |         move.l 28(sp),d1
@@ -3254,7 +3254,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     210e:	|  |         move.l 1a6f6 <winWidth>,d0
     2114:	|  |         move.l 48(sp),-(sp)
     2118:	|  |         move.l d0,-(sp)
-    211a:	|  |         jsr 1755c <__mulsi3>
+    211a:	|  |         jsr 1756a <__mulsi3>
     2120:	|  |         addq.l #8,sp
     2122:	|  |         lsr.l #3,d0
     2124:	|  |         move.l 28(sp),d1
@@ -3541,7 +3541,7 @@ void CstRestoreScreen()
     2414:	|  |  |  |         move.l 1a6f6 <winWidth>,d1
     241a:	|  |  |  |         move.l d1,-(sp)
     241c:	|  |  |  |         move.l d0,-(sp)
-    241e:	|  |  |  |         jsr 1755c <__mulsi3>
+    241e:	|  |  |  |         jsr 1756a <__mulsi3>
     2424:	|  |  |  |         addq.l #8,sp
     2426:	|  |  |  |         move.l d0,d1
     2428:	|  |  |  |         lsr.l #3,d1
@@ -3562,7 +3562,7 @@ void CstRestoreScreen()
     245e:	|  |  |  |         move.l 1a6f6 <winWidth>,d1
     2464:	|  |  |  |         move.l d1,-(sp)
     2466:	|  |  |  |         move.l d0,-(sp)
-    2468:	|  |  |  |         jsr 1755c <__mulsi3>
+    2468:	|  |  |  |         jsr 1756a <__mulsi3>
     246e:	|  |  |  |         addq.l #8,sp
     2470:	|  |  |  |         move.l d0,d1
     2472:	|  |  |  |         lsr.l #3,d1
@@ -3602,7 +3602,7 @@ void CstRestoreScreen()
     24de:	|  |  |  |  |  |   move.l 1a6fa <winHeight>,d1
     24e4:	|  |  |  |  |  |   move.l d1,-(sp)
     24e6:	|  |  |  |  |  |   move.l d0,-(sp)
-    24e8:	|  |  |  |  |  |   jsr 1755c <__mulsi3>
+    24e8:	|  |  |  |  |  |   jsr 1756a <__mulsi3>
     24ee:	|  |  |  |  |  |   addq.l #8,sp
     24f0:	|  |  |  |  |  |   add.l d0,28(sp)
         bltdpt += winWidth/8*winHeight;
@@ -3611,7 +3611,7 @@ void CstRestoreScreen()
     24fc:	|  |  |  |  |  |   move.l 1a6fa <winHeight>,d1
     2502:	|  |  |  |  |  |   move.l d1,-(sp)
     2504:	|  |  |  |  |  |   move.l d0,-(sp)
-    2506:	|  |  |  |  |  |   jsr 1755c <__mulsi3>
+    2506:	|  |  |  |  |  |   jsr 1756a <__mulsi3>
     250c:	|  |  |  |  |  |   addq.l #8,sp
     250e:	|  |  |  |  |  |   add.l d0,24(sp)
         WaitBlit();
@@ -3708,8 +3708,8 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     25e2:	         |      add.l a1,d0
     25e4:	         |  /-- bpl.s 25f8 <CstScaleSprite+0x82>
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-    25e6:	         |  |   pea 17980 <PutChar+0x30e>
-    25ec:	         |  |   jsr 16b9e <KPrintF>
+    25e6:	         |  |   pea 1798e <PutChar+0x30e>
+    25ec:	         |  |   jsr 16bac <KPrintF>
     25f2:	         |  |   addq.l #4,sp
       return;
     25f4:	/--------|--|-- bra.w 30ac <CstScaleSprite+0xb36>
@@ -3743,8 +3743,8 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2640:	|     |  |      cmp.l a0,d0
     2642:	|     |  |  /-- bge.s 2656 <CstScaleSprite+0xe0>
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-    2644:	|     |  |  |   pea 17980 <PutChar+0x30e>
-    264a:	|     |  |  |   jsr 16b9e <KPrintF>
+    2644:	|     |  |  |   pea 1798e <PutChar+0x30e>
+    264a:	|     |  |  |   jsr 16bac <KPrintF>
     2650:	|     |  |  |   addq.l #4,sp
       return;
     2652:	+-----|--|--|-- bra.w 30ac <CstScaleSprite+0xb36>
@@ -3784,8 +3784,8 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     26a0:	|     |         add.l a1,d0
     26a2:	|     |     /-- bpl.s 26b6 <CstScaleSprite+0x140>
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-    26a4:	|     |     |   pea 17980 <PutChar+0x30e>
-    26aa:	|     |     |   jsr 16b9e <KPrintF>
+    26a4:	|     |     |   pea 1798e <PutChar+0x30e>
+    26aa:	|     |     |   jsr 16bac <KPrintF>
     26b0:	|     |     |   addq.l #4,sp
       return;
     26b2:	+-----|-----|-- bra.w 30ac <CstScaleSprite+0xb36>
@@ -3831,7 +3831,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2712:	|     |         move.l 4(a0),d1
     2716:	|     |         move.l d1,-(sp)
     2718:	|     |         move.l d0,-(sp)
-    271a:	|     |         jsr 1755c <__mulsi3>
+    271a:	|     |         jsr 1756a <__mulsi3>
     2720:	|     |         addq.l #8,sp
     2722:	|     |         move.l d0,d1
     2724:	|     |         move.l d1,d0
@@ -3844,7 +3844,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2734:	|     |         move.l (a0),d0
     2736:	|     |         move.l 92(sp),-(sp)
     273a:	|     |         move.l d0,-(sp)
-    273c:	|     |         jsr 1755c <__mulsi3>
+    273c:	|     |         jsr 1756a <__mulsi3>
     2742:	|     |         addq.l #8,sp
     2744:	|     |         lsr.l #3,d0
     2746:	|     |         move.l d2,d1
@@ -3863,7 +3863,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2768:	|     |         move.l (a0),d0
     276a:	|     |         move.l 92(sp),-(sp)
     276e:	|     |         move.l d0,-(sp)
-    2770:	|     |         jsr 1755c <__mulsi3>
+    2770:	|     |         jsr 1756a <__mulsi3>
     2776:	|     |         addq.l #8,sp
     2778:	|     |         lsr.l #3,d0
     277a:	|     |         move.l d2,d1
@@ -3873,7 +3873,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2782:	|     |         move.l 1a6f6 <winWidth>,d0
     2788:	|     |         move.l 96(sp),-(sp)
     278c:	|     |         move.l d0,-(sp)
-    278e:	|     |         jsr 1755c <__mulsi3>
+    278e:	|     |         jsr 1756a <__mulsi3>
     2794:	|     |         addq.l #8,sp
     2796:	|     |         lsr.l #3,d0
     2798:	|     |         move.l 132(sp),d1
@@ -3885,7 +3885,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     27a6:	|     |         move.l 1a6f6 <winWidth>,d0
     27ac:	|     |         move.l 96(sp),-(sp)
     27b0:	|     |         move.l d0,-(sp)
-    27b2:	|     |         jsr 1755c <__mulsi3>
+    27b2:	|     |         jsr 1756a <__mulsi3>
     27b8:	|     |         addq.l #8,sp
     27ba:	|     |         lsr.l #3,d0
     27bc:	|     |         move.l 132(sp),d1
@@ -4039,8 +4039,8 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2972:	|  |  |     /-- bge.s 2986 <CstScaleSprite+0x410>
     {    
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-    2974:	|  |  |     |   pea 17980 <PutChar+0x30e>
-    297a:	|  |  |     |   jsr 16b9e <KPrintF>
+    2974:	|  |  |     |   pea 1798e <PutChar+0x30e>
+    297a:	|  |  |     |   jsr 16bac <KPrintF>
     2980:	|  |  |     |   addq.l #4,sp
       return;
     2982:	+--|--|-----|-- bra.w 30ac <CstScaleSprite+0xb36>
@@ -4075,7 +4075,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     29cc:	|  |  |         move.l 4(a0),d1
     29d0:	|  |  |         move.l d1,-(sp)
     29d2:	|  |  |         move.l d0,-(sp)
-    29d4:	|  |  |         jsr 1755c <__mulsi3>
+    29d4:	|  |  |         jsr 1756a <__mulsi3>
     29da:	|  |  |         addq.l #8,sp
     29dc:	|  |  |         move.l d0,d1
     29de:	|  |  |         move.l d1,d0
@@ -4087,7 +4087,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     29ec:	|  |  |         move.l (a0),d0
     29ee:	|  |  |         move.l 92(sp),-(sp)
     29f2:	|  |  |         move.l d0,-(sp)
-    29f4:	|  |  |         jsr 1755c <__mulsi3>
+    29f4:	|  |  |         jsr 1756a <__mulsi3>
     29fa:	|  |  |         addq.l #8,sp
     29fc:	|  |  |         lsr.l #3,d0
     29fe:	|  |  |         move.l d2,d1
@@ -4101,7 +4101,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2a14:	|  |  |         move.l (a0),d0
     2a16:	|  |  |         move.l 92(sp),-(sp)
     2a1a:	|  |  |         move.l d0,-(sp)
-    2a1c:	|  |  |         jsr 1755c <__mulsi3>
+    2a1c:	|  |  |         jsr 1756a <__mulsi3>
     2a22:	|  |  |         addq.l #8,sp
     2a24:	|  |  |         lsr.l #3,d0
     2a26:	|  |  |         move.l d2,d1
@@ -4111,7 +4111,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2a2e:	|  |  |         move.l 1a6f6 <winWidth>,d0
     2a34:	|  |  |         move.l 96(sp),-(sp)
     2a38:	|  |  |         move.l d0,-(sp)
-    2a3a:	|  |  |         jsr 1755c <__mulsi3>
+    2a3a:	|  |  |         jsr 1756a <__mulsi3>
     2a40:	|  |  |         addq.l #8,sp
     2a42:	|  |  |         lsr.l #3,d0
     2a44:	|  |  |         move.l 132(sp),d1
@@ -4130,7 +4130,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2a64:	|  |  |         move.l 1a6f6 <winWidth>,d0
     2a6a:	|  |  |         move.l 96(sp),-(sp)
     2a6e:	|  |  |         move.l d0,-(sp)
-    2a70:	|  |  |         jsr 1755c <__mulsi3>
+    2a70:	|  |  |         jsr 1756a <__mulsi3>
     2a76:	|  |  |         addq.l #8,sp
     2a78:	|  |  |         lsr.l #3,d0
     2a7a:	|  |  |         move.l 132(sp),d1
@@ -4306,7 +4306,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2c66:	|  |            move.l 4(a0),d1
     2c6a:	|  |            move.l d1,-(sp)
     2c6c:	|  |            move.l d0,-(sp)
-    2c6e:	|  |            jsr 1755c <__mulsi3>
+    2c6e:	|  |            jsr 1756a <__mulsi3>
     2c74:	|  |            addq.l #8,sp
     2c76:	|  |            move.l d0,d1
     2c78:	|  |            move.l d1,d0
@@ -4318,7 +4318,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2c86:	|  |            move.l (a0),d0
     2c88:	|  |            move.l 92(sp),-(sp)
     2c8c:	|  |            move.l d0,-(sp)
-    2c8e:	|  |            jsr 1755c <__mulsi3>
+    2c8e:	|  |            jsr 1756a <__mulsi3>
     2c94:	|  |            addq.l #8,sp
     2c96:	|  |            lsr.l #3,d0
     2c98:	|  |            move.l d2,d1
@@ -4332,7 +4332,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2cae:	|  |            move.l (a0),d0
     2cb0:	|  |            move.l 92(sp),-(sp)
     2cb4:	|  |            move.l d0,-(sp)
-    2cb6:	|  |            jsr 1755c <__mulsi3>
+    2cb6:	|  |            jsr 1756a <__mulsi3>
     2cbc:	|  |            addq.l #8,sp
     2cbe:	|  |            lsr.l #3,d0
     2cc0:	|  |            move.l d2,d1
@@ -4342,7 +4342,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2cc8:	|  |            move.l 1a6f6 <winWidth>,d0
     2cce:	|  |            move.l 96(sp),-(sp)
     2cd2:	|  |            move.l d0,-(sp)
-    2cd4:	|  |            jsr 1755c <__mulsi3>
+    2cd4:	|  |            jsr 1756a <__mulsi3>
     2cda:	|  |            addq.l #8,sp
     2cdc:	|  |            lsr.l #3,d0
     2cde:	|  |            move.l 132(sp),d1
@@ -4361,7 +4361,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     2cfe:	|  |            move.l 1a6f6 <winWidth>,d0
     2d04:	|  |            move.l 96(sp),-(sp)
     2d08:	|  |            move.l d0,-(sp)
-    2d0a:	|  |            jsr 1755c <__mulsi3>
+    2d0a:	|  |            jsr 1756a <__mulsi3>
     2d10:	|  |            addq.l #8,sp
     2d12:	|  |            lsr.l #3,d0
     2d14:	|  |            move.l 132(sp),d1
@@ -4847,8 +4847,8 @@ BOOL CstReserveBackdrop(int width, int height) {
     3206:	          move.l a6,-(sp)
 
  	KPrintF("CstReserveBackdrop: Begin");
-    3208:	          pea 179b3 <PutChar+0x341>
-    320e:	          jsr 16b9e <KPrintF>
+    3208:	          pea 179c1 <PutChar+0x341>
+    320e:	          jsr 16bac <KPrintF>
     3214:	          addq.l #4,sp
 
   width = width / 8;
@@ -4864,16 +4864,16 @@ BOOL CstReserveBackdrop(int width, int height) {
     322a:	      /-- blt.s 3240 <CstReserveBackdrop+0x3e>
   {
     KPrintF("CstReserveBackdrop: Screens smaller than 320px not supported.");
-    322c:	      |   pea 179cd <PutChar+0x35b>
-    3232:	      |   jsr 16b9e <KPrintF>
+    322c:	      |   pea 179db <PutChar+0x35b>
+    3232:	      |   jsr 16bac <KPrintF>
     3238:	      |   addq.l #4,sp
     return FALSE;
     323a:	      |   clr.w d0
     323c:	/-----|-- bra.w 3582 <CstReserveBackdrop+0x380>
   }  
   KPrintF("CstReserveBackdrop: Screen Okay");
-    3240:	|     \-> pea 17a0b <PutChar+0x399>
-    3246:	|         jsr 16b9e <KPrintF>
+    3240:	|     \-> pea 17a19 <PutChar+0x399>
+    3246:	|         jsr 16bac <KPrintF>
     324c:	|         addq.l #4,sp
 
   CstCopperList = CstCreateCopperlist( width);
@@ -4882,8 +4882,8 @@ BOOL CstReserveBackdrop(int width, int height) {
     3258:	|         addq.l #4,sp
     325a:	|         move.l d0,1a6cc <CstCopperList>
   KPrintF("CstReserveBackdrop: Copperlist created");
-    3260:	|         pea 17a2b <PutChar+0x3b9>
-    3266:	|         jsr 16b9e <KPrintF>
+    3260:	|         pea 17a39 <PutChar+0x3b9>
+    3266:	|         jsr 16bac <KPrintF>
     326c:	|         addq.l #4,sp
   CstBackdropSizePlane = width*height;
     326e:	|         move.l 64(sp),d1
@@ -4919,16 +4919,16 @@ BOOL CstReserveBackdrop(int width, int height) {
     32d2:	|     /-- bne.s 32e8 <CstReserveBackdrop+0xe6>
   {    
     KPrintF("CstReserveBackdrop: Cannot allocate memory for Backdrop");
-    32d4:	|     |   pea 17a52 <PutChar+0x3e0>
-    32da:	|     |   jsr 16b9e <KPrintF>
+    32d4:	|     |   pea 17a60 <PutChar+0x3e0>
+    32da:	|     |   jsr 16bac <KPrintF>
     32e0:	|     |   addq.l #4,sp
     return FALSE;  
     32e2:	|     |   clr.w d0
     32e4:	+-----|-- bra.w 3582 <CstReserveBackdrop+0x380>
   }
   KPrintF("CstReserveBackdrop: Backdrop reserved");
-    32e8:	|     \-> pea 17a8a <PutChar+0x418>
-    32ee:	|         jsr 16b9e <KPrintF>
+    32e8:	|     \-> pea 17a98 <PutChar+0x418>
+    32ee:	|         jsr 16bac <KPrintF>
     32f4:	|         addq.l #4,sp
 
   //Initialize Buffer
@@ -4978,16 +4978,16 @@ BOOL CstReserveBackdrop(int width, int height) {
     3376:	|     /-- bne.s 338c <CstReserveBackdrop+0x18a>
   {    
     KPrintF("CstReserveBackdrop: Cannot allocate memory for DrawBuffer");
-    3378:	|     |   pea 17ab0 <PutChar+0x43e>
-    337e:	|     |   jsr 16b9e <KPrintF>
+    3378:	|     |   pea 17abe <PutChar+0x43e>
+    337e:	|     |   jsr 16bac <KPrintF>
     3384:	|     |   addq.l #4,sp
     return FALSE;  
     3386:	|     |   clr.w d0
     3388:	+-----|-- bra.w 3582 <CstReserveBackdrop+0x380>
   }
   KPrintF("CstReserveBackdrop: DrawBuffer reserved");
-    338c:	|     \-> pea 17aea <PutChar+0x478>
-    3392:	|         jsr 16b9e <KPrintF>
+    338c:	|     \-> pea 17af8 <PutChar+0x478>
+    3392:	|         jsr 16bac <KPrintF>
     3398:	|         addq.l #4,sp
     
   CstBackDropBufferApplyStart = AllocVec( 1000*5*2,MEMF_ANY);
@@ -5006,8 +5006,8 @@ BOOL CstReserveBackdrop(int width, int height) {
     33ce:	|     /-- bne.s 33e4 <CstReserveBackdrop+0x1e2>
   {    
     KPrintF("CstReserveBackdrop: Cannot allocate memory for CstBackDropBufferApplyStart");
-    33d0:	|     |   pea 17b12 <PutChar+0x4a0>
-    33d6:	|     |   jsr 16b9e <KPrintF>
+    33d0:	|     |   pea 17b20 <PutChar+0x4a0>
+    33d6:	|     |   jsr 16bac <KPrintF>
     33dc:	|     |   addq.l #4,sp
     return FALSE;  
     33de:	|     |   clr.w d0
@@ -5046,16 +5046,16 @@ BOOL CstReserveBackdrop(int width, int height) {
     3448:	|     /-- bne.s 345e <CstReserveBackdrop+0x25c>
   {    
     KPrintF("CstReserveBackdrop: Cannot allocate memory for ViewBuffer");
-    344a:	|     |   pea 17b5d <PutChar+0x4eb>
-    3450:	|     |   jsr 16b9e <KPrintF>
+    344a:	|     |   pea 17b6b <PutChar+0x4eb>
+    3450:	|     |   jsr 16bac <KPrintF>
     3456:	|     |   addq.l #4,sp
     return FALSE;  
     3458:	|     |   clr.w d0
     345a:	+-----|-- bra.w 3582 <CstReserveBackdrop+0x380>
   }
   KPrintF("CstReserveBackdrop: ViewBuffer reserved");
-    345e:	|     \-> pea 17b97 <PutChar+0x525>
-    3464:	|         jsr 16b9e <KPrintF>
+    345e:	|     \-> pea 17ba5 <PutChar+0x525>
+    3464:	|         jsr 16bac <KPrintF>
     346a:	|         addq.l #4,sp
   
   CstDrawBuffer += width/4; //divide with 4 because pointer is ulong 
@@ -5087,9 +5087,9 @@ BOOL CstReserveBackdrop(int width, int height) {
     34ac:	|         pea 5 <_start+0x5>
     34b0:	|         pea 100 <copyString+0x48>
     34b4:	|         pea 140 <decodeFilename+0x28>
-    34b8:	|         pea 17bbf <PutChar+0x54d>
+    34b8:	|         pea 17bcd <PutChar+0x54d>
     34be:	|         move.l d0,-(sp)
-    34c0:	|         jsr 16c86 <debug_register_bitmap>
+    34c0:	|         jsr 16c94 <debug_register_bitmap>
     34c6:	|         lea 24(sp),sp
   debug_register_bitmap(CstDrawBuffer, "drawbuffer.bpl", width*8, height, 5, 0);
     34ca:	|         move.l 68(sp),d0
@@ -5102,9 +5102,9 @@ BOOL CstReserveBackdrop(int width, int height) {
     34e0:	|         pea 5 <_start+0x5>
     34e4:	|         move.l a1,-(sp)
     34e6:	|         move.l a0,-(sp)
-    34e8:	|         pea 17bcf <PutChar+0x55d>
+    34e8:	|         pea 17bdd <PutChar+0x55d>
     34ee:	|         move.l d0,-(sp)
-    34f0:	|         jsr 16c86 <debug_register_bitmap>
+    34f0:	|         jsr 16c94 <debug_register_bitmap>
     34f6:	|         lea 24(sp),sp
   debug_register_bitmap(CstViewBuffer, "viewbuffer.bpl", width*8, height, 5, 0);
     34fa:	|         move.l 68(sp),d0
@@ -5117,9 +5117,9 @@ BOOL CstReserveBackdrop(int width, int height) {
     3510:	|         pea 5 <_start+0x5>
     3514:	|         move.l a1,-(sp)
     3516:	|         move.l a0,-(sp)
-    3518:	|         pea 17bde <PutChar+0x56c>
+    3518:	|         pea 17bec <PutChar+0x56c>
     351e:	|         move.l d0,-(sp)
-    3520:	|         jsr 16c86 <debug_register_bitmap>
+    3520:	|         jsr 16c94 <debug_register_bitmap>
     3526:	|         lea 24(sp),sp
 #endif
 
@@ -5134,8 +5134,8 @@ BOOL CstReserveBackdrop(int width, int height) {
     3540:	|  /--|-- bne.s 3554 <CstReserveBackdrop+0x352>
   {
     KPrintF("CstReserveBackdrop: Memory allocation failed");
-    3542:	|  |  \-> pea 17bed <PutChar+0x57b>
-    3548:	|  |      jsr 16b9e <KPrintF>
+    3542:	|  |  \-> pea 17bfb <PutChar+0x57b>
+    3548:	|  |      jsr 16bac <KPrintF>
     354e:	|  |      addq.l #4,sp
     return FALSE;
     3550:	|  |      clr.w d0
@@ -5143,8 +5143,8 @@ BOOL CstReserveBackdrop(int width, int height) {
   }
 
   KPrintF("CstReserveBackdrop: Setting Copperlist");
-    3554:	|  \----> pea 17c1a <PutChar+0x5a8>
-    355a:	|         jsr 16b9e <KPrintF>
+    3554:	|  \----> pea 17c28 <PutChar+0x5a8>
+    355a:	|         jsr 16bac <KPrintF>
     3560:	|         addq.l #4,sp
   CstSetCl( CstCopperList);
     3562:	|         move.l 1a6cc <CstCopperList>,d0
@@ -5152,8 +5152,8 @@ BOOL CstReserveBackdrop(int width, int height) {
     356a:	|         jsr 30b6 <CstSetCl>
     3570:	|         addq.l #4,sp
   KPrintF("CstReserveBackdrop: Copperlist Set");
-    3572:	|         pea 17c41 <PutChar+0x5cf>
-    3578:	|         jsr 16b9e <KPrintF>
+    3572:	|         pea 17c4f <PutChar+0x5cf>
+    3578:	|         jsr 16bac <KPrintF>
     357e:	|         addq.l #4,sp
   return TRUE;
     3580:	|         moveq #1,d0
@@ -5170,8 +5170,8 @@ void CstUnfreeze() {
     358e:	       move.l a6,-(sp)
     3590:	       move.l d2,-(sp)
 	KPrintF("CstUnfreeze: Unfreezing Background Started");  
-    3592:	       pea 17c64 <PutChar+0x5f2>
-    3598:	       jsr 16b9e <KPrintF>
+    3592:	       pea 17c72 <PutChar+0x5f2>
+    3598:	       jsr 16bac <KPrintF>
     359e:	       addq.l #4,sp
 
   UWORD size = winWidth/8*winHeight*5;
@@ -5205,9 +5205,9 @@ void CstUnfreeze() {
     35e6:	       pea 5 <_start+0x5>
     35ea:	       move.l a1,-(sp)
     35ec:	       move.l a0,-(sp)
-    35ee:	       pea 17836 <PutChar+0x1c4>
+    35ee:	       pea 17844 <PutChar+0x1c4>
     35f4:	       move.l d0,-(sp)
-    35f6:	       jsr 16c86 <debug_register_bitmap>
+    35f6:	       jsr 16c94 <debug_register_bitmap>
     35fc:	       lea 24(sp),sp
 #endif  
 
@@ -5293,8 +5293,8 @@ void CstUnfreeze() {
   }
 
   KPrintF("CstFreeze: Finished");
-    36e2:	   \-> pea 17845 <PutChar+0x1d3>
-    36e8:	       jsr 16b9e <KPrintF>
+    36e2:	   \-> pea 17853 <PutChar+0x1d3>
+    36e8:	       jsr 16bac <KPrintF>
     36ee:	       addq.l #4,sp
 
 }
@@ -5452,8 +5452,8 @@ void drawLine(int x1, int y1, int x2, int y2) {
 	}
 
     KPrintF("drawLine: Not implemented on Amiga"); //Amiga Todo: Implement 	
-    3868:	   \-> pea 17c8f <PutChar+0x61d>
-    386e:	       jsr 16b9e <KPrintF>
+    3868:	   \-> pea 17c9d <PutChar+0x61d>
+    386e:	       jsr 16bac <KPrintF>
     3874:	       addq.l #4,sp
 	
 }
@@ -5571,8 +5571,8 @@ void setGraphicsWindow(BOOL fullscreen) {
     3978:	move.w d0,d0
     397a:	move.w d0,2(sp)
 	KPrintF("setGraphicsWindow: Not implemented on Amiga yet"); //TODO
-    397e:	pea 17cb2 <PutChar+0x640>
-    3984:	jsr 16b9e <KPrintF>
+    397e:	pea 17cc0 <PutChar+0x640>
+    3984:	jsr 16bac <KPrintF>
     398a:	addq.l #4,sp
 }
     398c:	nop
@@ -5594,7 +5594,7 @@ const char * resourceNameFromNum (int i) {
 	if (numResourceNames == 0) return "RESOURCE";
     399e:	|  \-> move.l 1a77e <numResourceNames>,d0
     39a4:	|  /-- bne.s 39ae <resourceNameFromNum+0x1c>
-    39a6:	|  |   move.l #97506,d0
+    39a6:	|  |   move.l #97520,d0
     39ac:	+--|-- bra.s 39d6 <resourceNameFromNum+0x44>
 	if (i < numResourceNames) return allResourceNames[i];
     39ae:	|  \-> move.l 1a77e <numResourceNames>,d0
@@ -5609,7 +5609,7 @@ const char * resourceNameFromNum (int i) {
     39cc:	|  |   move.l (a0),d0
     39ce:	+--|-- bra.s 39d6 <resourceNameFromNum+0x44>
 	return "Unknown resource";
-    39d0:	|  \-> move.l #97515,d0
+    39d0:	|  \-> move.l #97529,d0
     39d6:	\----> rts
 
 000039d8 <main_sludge>:
@@ -5634,7 +5634,7 @@ int main_sludge(int argc, char *argv[])
     39f4:	          tst.l 60(sp)
     39f8:	      /-- bne.s 3a10 <main_sludge+0x38>
 		bundleFolder = copyString("game/");
-    39fa:	      |   pea 17cfc <PutChar+0x68a>
+    39fa:	      |   pea 17d0a <PutChar+0x68a>
     3a00:	      |   jsr b8 <copyString>
     3a06:	      |   addq.l #4,sp
     3a08:	      |   move.l d0,1a70e <bundleFolder>
@@ -5697,7 +5697,7 @@ int main_sludge(int argc, char *argv[])
 	} else {
 		sludgeFile = joinStrings (bundleFolder, "gamedata.slg");
     3a98:	   |  \-> move.l 1a70e <bundleFolder>,d0
-    3a9e:	   |      pea 17d02 <PutChar+0x690>
+    3a9e:	   |      pea 17d10 <PutChar+0x690>
     3aa4:	   |      move.l d0,-(sp)
     3aa6:	   |      jsr 136da <joinStrings>
     3aac:	   |      addq.l #8,sp
@@ -5716,7 +5716,7 @@ int main_sludge(int argc, char *argv[])
     3ad4:	   |      jsr -690(a6)
 			sludgeFile = joinStrings (bundleFolder, "gamedata");			
     3ad8:	   |      move.l 1a70e <bundleFolder>,d0
-    3ade:	   |      pea 17d0f <PutChar+0x69d>
+    3ade:	   |      pea 17d1d <PutChar+0x69d>
     3ae4:	   |      move.l d0,-(sp)
     3ae6:	   |      jsr 136da <joinStrings>
     3aec:	   |      addq.l #8,sp
@@ -5727,8 +5727,8 @@ int main_sludge(int argc, char *argv[])
 		return 0;
 	}*/
 	KPrintF("Game file not found.\n");
-    3af2:	   \----> pea 17d18 <PutChar+0x6a6>
-    3af8:	          jsr 16b9e <KPrintF>
+    3af2:	   \----> pea 17d26 <PutChar+0x6a6>
+    3af8:	          jsr 16bac <KPrintF>
     3afe:	          addq.l #4,sp
 	if (! fileExists(sludgeFile) ) {	
     3b00:	          move.l 52(sp),-(sp)
@@ -5743,7 +5743,7 @@ int main_sludge(int argc, char *argv[])
     3b1c:	      |   move.l d0,28(sp)
     3b20:	      |   move.l 28(sp),d0
     3b24:	      |   move.l d0,24(sp)
-    3b28:	      |   move.l #97560,20(sp)
+    3b28:	      |   move.l #97574,20(sp)
     3b30:	      |   moveq #21,d0
     3b32:	      |   move.l d0,16(sp)
     3b36:	      |   move.l 1a7aa <DOSBase>,d0
@@ -5754,8 +5754,8 @@ int main_sludge(int argc, char *argv[])
     3b4a:	      |   jsr -48(a6)
     3b4e:	      |   move.l d0,12(sp)
 		KPrintF("Game file not found.\n");
-    3b52:	      |   pea 17d18 <PutChar+0x6a6>
-    3b58:	      |   jsr 16b9e <KPrintF>
+    3b52:	      |   pea 17d26 <PutChar+0x6a6>
+    3b58:	      |   jsr 16bac <KPrintF>
     3b5e:	      |   addq.l #4,sp
 		//AMIGA TODO: Show arguments
 		//printCmdlineUsage();
@@ -5765,8 +5765,8 @@ int main_sludge(int argc, char *argv[])
 	}
 
 	KPrintF("Setgamefilepath\n");
-    3b66:	|     \-> pea 17d2e <PutChar+0x6bc>
-    3b6c:	|         jsr 16b9e <KPrintF>
+    3b66:	|     \-> pea 17d3c <PutChar+0x6bc>
+    3b6c:	|         jsr 16bac <KPrintF>
     3b72:	|         addq.l #4,sp
 	setGameFilePath (sludgeFile);	
     3b74:	|         move.l 52(sp),-(sp)
@@ -5789,8 +5789,8 @@ int main_sludge(int argc, char *argv[])
     3baa:	|     |   cmpi.l #256,d0
     3bb0:	|  /--|-- beq.s 3bd4 <main_sludge+0x1fc>
 		KPrintF("This Screen Format is currently unsupported on Amiga. Only PAL Lowres supported atm. winWidth and winHeight will be reseted.");	
-    3bb2:	|  |  \-> pea 17d3f <PutChar+0x6cd>
-    3bb8:	|  |      jsr 16b9e <KPrintF>
+    3bb2:	|  |  \-> pea 17d4d <PutChar+0x6cd>
+    3bb8:	|  |      jsr 16bac <KPrintF>
     3bbe:	|  |      addq.l #4,sp
 		winWidth = 320;
     3bc0:	|  |      move.l #320,1a6f6 <winWidth>
@@ -5799,8 +5799,8 @@ int main_sludge(int argc, char *argv[])
 	}
 
 	KPrintF("Resizing Backdrop\n");
-    3bd4:	|  \----> pea 17dbc <PutChar+0x74a>
-    3bda:	|         jsr 16b9e <KPrintF>
+    3bd4:	|  \----> pea 17dca <PutChar+0x74a>
+    3bda:	|         jsr 16bac <KPrintF>
     3be0:	|         addq.l #4,sp
 	if (! resizeBackdrop (winWidth, winHeight)) {
     3be2:	|         move.l 1a6fa <winHeight>,d0
@@ -5813,8 +5813,8 @@ int main_sludge(int argc, char *argv[])
     3bfc:	|         tst.w d0
     3bfe:	|     /-- bne.s 3c14 <main_sludge+0x23c>
 		KPrintF("Couldn't allocate memory for backdrop");
-    3c00:	|     |   pea 17dcf <PutChar+0x75d>
-    3c06:	|     |   jsr 16b9e <KPrintF>
+    3c00:	|     |   pea 17ddd <PutChar+0x75d>
+    3c06:	|     |   jsr 16bac <KPrintF>
     3c0c:	|     |   addq.l #4,sp
 		return FALSE;
     3c0e:	|     |   moveq #0,d0
@@ -5822,8 +5822,8 @@ int main_sludge(int argc, char *argv[])
 	}
 
 	KPrintF("Init People\n");
-    3c14:	|     \-> pea 17df5 <PutChar+0x783>
-    3c1a:	|         jsr 16b9e <KPrintF>
+    3c14:	|     \-> pea 17e03 <PutChar+0x783>
+    3c1a:	|         jsr 16bac <KPrintF>
     3c20:	|         addq.l #4,sp
 	if (! initPeople ())
     3c22:	|         jsr a3e2 <initPeople>
@@ -5831,8 +5831,8 @@ int main_sludge(int argc, char *argv[])
     3c2a:	|     /-- bne.s 3c40 <main_sludge+0x268>
 	{
 		KPrintF("Couldn't initialise people stuff");
-    3c2c:	|     |   pea 17e02 <PutChar+0x790>
-    3c32:	|     |   jsr 16b9e <KPrintF>
+    3c2c:	|     |   pea 17e10 <PutChar+0x790>
+    3c32:	|     |   jsr 16bac <KPrintF>
     3c38:	|     |   addq.l #4,sp
 		return FALSE;
     3c3a:	|     |   moveq #0,d0
@@ -5840,17 +5840,17 @@ int main_sludge(int argc, char *argv[])
 	}
 
 	KPrintF("Init Floor\n");
-    3c40:	|     \-> pea 17e23 <PutChar+0x7b1>
-    3c46:	|         jsr 16b9e <KPrintF>
+    3c40:	|     \-> pea 17e31 <PutChar+0x7b1>
+    3c46:	|         jsr 16bac <KPrintF>
     3c4c:	|         addq.l #4,sp
 	if (! initFloor ())
-    3c4e:	|         jsr 15f54 <initFloor>
+    3c4e:	|         jsr 15f62 <initFloor>
     3c54:	|         tst.w d0
     3c56:	|     /-- bne.s 3c6c <main_sludge+0x294>
 	{
 		KPrintF("Couldn't initialise floor stuff");
-    3c58:	|     |   pea 17e2f <PutChar+0x7bd>
-    3c5e:	|     |   jsr 16b9e <KPrintF>
+    3c58:	|     |   pea 17e3d <PutChar+0x7bd>
+    3c5e:	|     |   jsr 16bac <KPrintF>
     3c64:	|     |   addq.l #4,sp
 		
 		return FALSE;
@@ -5859,8 +5859,8 @@ int main_sludge(int argc, char *argv[])
 	}
 
 	KPrintF("Init Objecttype\n");
-    3c6c:	|     \-> pea 17e4f <PutChar+0x7dd>
-    3c72:	|         jsr 16b9e <KPrintF>
+    3c6c:	|     \-> pea 17e5d <PutChar+0x7dd>
+    3c72:	|         jsr 16bac <KPrintF>
     3c78:	|         addq.l #4,sp
 	if (! initObjectTypes ())
     3c7a:	|         jsr d01a <initObjectTypes>
@@ -5868,8 +5868,8 @@ int main_sludge(int argc, char *argv[])
     3c82:	|     /-- bne.s 3c98 <main_sludge+0x2c0>
 	{
 		KPrintF("Couldn't initialise object type stuff");
-    3c84:	|     |   pea 17e60 <PutChar+0x7ee>
-    3c8a:	|     |   jsr 16b9e <KPrintF>
+    3c84:	|     |   pea 17e6e <PutChar+0x7ee>
+    3c8a:	|     |   jsr 16bac <KPrintF>
     3c90:	|     |   addq.l #4,sp
 		return FALSE;
     3c92:	|     |   moveq #0,d0
@@ -5877,21 +5877,21 @@ int main_sludge(int argc, char *argv[])
 	}
 
 	KPrintF("Init speech\n");
-    3c98:	|     \-> pea 17e86 <PutChar+0x814>
-    3c9e:	|         jsr 16b9e <KPrintF>
+    3c98:	|     \-> pea 17e94 <PutChar+0x814>
+    3c9e:	|         jsr 16bac <KPrintF>
     3ca4:	|         addq.l #4,sp
 	initSpeech ();
     3ca6:	|         jsr 772a <initSpeech>
 	KPrintF("Init status bar\n");
-    3cac:	|         pea 17e93 <PutChar+0x821>
-    3cb2:	|         jsr 16b9e <KPrintF>
+    3cac:	|         pea 17ea1 <PutChar+0x821>
+    3cb2:	|         jsr 16bac <KPrintF>
     3cb8:	|         addq.l #4,sp
 	initStatusBar ();
     3cba:	|         jsr 71ee <initStatusBar>
 
 	KPrintF("Get numbered string\n");
-    3cc0:	|         pea 17ea4 <PutChar+0x832>
-    3cc6:	|         jsr 16b9e <KPrintF>
+    3cc0:	|         pea 17eb2 <PutChar+0x832>
+    3cc6:	|         jsr 16bac <KPrintF>
     3ccc:	|         addq.l #4,sp
 	gameName = getNumberedString(1);
     3cce:	|         pea 1 <_start+0x1>
@@ -5900,8 +5900,8 @@ int main_sludge(int argc, char *argv[])
     3cda:	|         move.l d0,1a706 <gameName>
 	//initSoundStuff (hMainWindow); Todo Amiga: Maybe move soundstuff here
 	KPrintF("Start new function num\n");
-    3ce0:	|         pea 17eb9 <PutChar+0x847>
-    3ce6:	|         jsr 16b9e <KPrintF>
+    3ce0:	|         pea 17ec7 <PutChar+0x847>
+    3ce6:	|         jsr 16bac <KPrintF>
     3cec:	|         addq.l #4,sp
 	startNewFunctionNum (0, 0, NULL, noStack, TRUE);
     3cee:	|         move.l 1a772 <noStack>,d0
@@ -5914,8 +5914,8 @@ int main_sludge(int argc, char *argv[])
     3d06:	|         lea 20(sp),sp
 
 	KPrintF("Starting main loop");
-    3d0a:	|         pea 17ed1 <PutChar+0x85f>
-    3d10:	|         jsr 16b9e <KPrintF>
+    3d0a:	|         pea 17edf <PutChar+0x85f>
+    3d10:	|         jsr 16bac <KPrintF>
     3d16:	|         addq.l #4,sp
 
 	volatile struct Custom *custom = (struct Custom*)0xdff000;
@@ -5933,7 +5933,7 @@ int main_sludge(int argc, char *argv[])
     3d34:	|  |  |   jsr 50b0 <handleInput>
 		//custom->color[0] = 0x000;			
 		WaitVbl();
-    3d3a:	|  |  |   jsr 16ad2 <WaitVbl>
+    3d3a:	|  |  |   jsr 16ae0 <WaitVbl>
 	while ( !weAreDoneSoQuit ) {	
     3d40:	|  |  \-> move.l 1a712 <weAreDoneSoQuit>,d0
     3d46:	|  \----- beq.s 3d28 <main_sludge+0x350>
@@ -5973,8 +5973,8 @@ void setGameFilePath (char * f) {
     3da2:	          move.w 1094(sp),d0
     3da6:	      /-- bne.s 3db6 <setGameFilePath+0x4e>
 		KPrintF("setGameFilePath:  current directory.\n");
-    3da8:	      |   pea 17ee4 <PutChar+0x872>
-    3dae:	      |   jsr 16b9e <KPrintF>
+    3da8:	      |   pea 17ef2 <PutChar+0x872>
+    3dae:	      |   jsr 16bac <KPrintF>
     3db4:	      |   addq.l #4,sp
 	}	
 
@@ -6034,8 +6034,8 @@ void setGameFilePath (char * f) {
     3e4a:	   |  /-- bne.s 3e5e <setGameFilePath+0xf6>
 			KPrintF("setGameFilePath:: Failed changing to directory %s\n", f);
     3e4c:	   |  |   move.l 1116(sp),-(sp)
-    3e50:	   |  |   pea 17f0a <PutChar+0x898>
-    3e56:	   |  |   jsr 16b9e <KPrintF>
+    3e50:	   |  |   pea 17f18 <PutChar+0x898>
+    3e56:	   |  |   jsr 16bac <KPrintF>
     3e5c:	   |  |   addq.l #8,sp
 		}
 		f[got] = PATHSLASH;
@@ -6060,8 +6060,8 @@ void setGameFilePath (char * f) {
     3e9a:	          move.l 1a70a <gamePath>,d0
     3ea0:	      /-- bne.s 3eb4 <setGameFilePath+0x14c>
 		KPrintF("setGameFilePath: Can't reserve memory for game directory.\n");
-    3ea2:	      |   pea 17f3d <PutChar+0x8cb>
-    3ea8:	      |   jsr 16b9e <KPrintF>
+    3ea2:	      |   pea 17f4b <PutChar+0x8cb>
+    3ea8:	      |   jsr 16bac <KPrintF>
     3eae:	      |   addq.l #4,sp
     3eb0:	   /--|-- bra.w 3f9c <setGameFilePath+0x234>
 		return;
@@ -6089,8 +6089,8 @@ void setGameFilePath (char * f) {
     3efc:	   |      move.l 1034(sp),d0
     3f00:	   |  /-- bne.s 3f10 <setGameFilePath+0x1a8>
 		KPrintF("setGameFilePath: Can't get game directory.\n");
-    3f02:	   |  |   pea 17f78 <PutChar+0x906>
-    3f08:	   |  |   jsr 16b9e <KPrintF>
+    3f02:	   |  |   pea 17f86 <PutChar+0x906>
+    3f08:	   |  |   jsr 16bac <KPrintF>
     3f0e:	   |  |   addq.l #4,sp
 	}
 	
@@ -6122,8 +6122,8 @@ void setGameFilePath (char * f) {
     3f68:	   |  |   moveq #10,d0
     3f6a:	   |  |   add.l sp,d0
     3f6c:	   |  |   move.l d0,-(sp)
-    3f6e:	   |  |   pea 17fa4 <PutChar+0x932>
-    3f74:	   |  |   jsr 16b9e <KPrintF>
+    3f6e:	   |  |   pea 17fb2 <PutChar+0x932>
+    3f74:	   |  |   jsr 16bac <KPrintF>
     3f7a:	   |  |   addq.l #8,sp
 	}
 
@@ -6495,8 +6495,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 					switch (br) {
 						case BR_ERROR:
 							KPrintF("Unknown error. This shouldn't happen. Please notify the SLUDGE developers.");
-    42fa:	|  |  |  |  |                                |  |  |         or.l 20153(a4),d0
-    42fe:	|  |  |  |  |                                |  |  |         ori.b #-98,d1
+    42fa:	|  |  |  |  |                                |  |  |         or.l 91b5 <createPersonaAnim+0x53>(pc),d0
+    42fe:	|  |  |  |  |                                |  |  |         ori.b #-84,d1
     4302:	|  |  |  |  |                                |  |  |         addq.l #4,sp
 							return FALSE;
     4304:	|  |  |  |  |                                |  |  |         clr.w d0
@@ -6573,8 +6573,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 				default:
 				KPrintF(ERROR_CALL_NONFUNCTION);
-    4392:	|  |  |  |  |                                \--|----------> pea 180f7 <PutChar+0xa85>
-    4398:	|  |  |  |  |                                   |            jsr 16b9e <KPrintF>
+    4392:	|  |  |  |  |                                \--|----------> pea 18105 <PutChar+0xa85>
+    4398:	|  |  |  |  |                                   |            jsr 16bac <KPrintF>
     439e:	|  |  |  |  |                                   |            addq.l #4,sp
 				return FALSE;
     43a0:	|  |  |  |  |                                   |            clr.w d0
@@ -6758,8 +6758,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
     4552:	|  |  |  |  |  |                                             cmp.l d0,d1
     4554:	|  |  |  |  |  |  /----------------------------------------- beq.w 4f68 <continueFunction+0xe6a>
 				KPrintF(ERROR_HACKER);
-    4558:	|  |  |  |  |  |  |                                          pea 1810c <PutChar+0xa9a>
-    455e:	|  |  |  |  |  |  |                                          jsr 16b9e <KPrintF>
+    4558:	|  |  |  |  |  |  |                                          pea 1811a <PutChar+0xa9a>
+    455e:	|  |  |  |  |  |  |                                          jsr 16bac <KPrintF>
     4564:	|  |  |  |  |  |  |                                          addq.l #4,sp
 				return FALSE;
     4566:	|  |  |  |  |  |  |                                          clr.w d0
@@ -6828,8 +6828,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				break;
     45e2:	|  |  |  |  |  |  |  |              |  /--------------|--|-- bra.w 47a4 <continueFunction+0x6a6>
 					KPrintF((ERROR_INCDEC_UNKNOWN));
-    45e6:	|  |  |  |  |  |  |  |              |  |              |  \-> pea 1814d <PutChar+0xadb>
-    45ec:	|  |  |  |  |  |  |  |              |  |              |      jsr 16b9e <KPrintF>
+    45e6:	|  |  |  |  |  |  |  |              |  |              |  \-> pea 1815b <PutChar+0xadb>
+    45ec:	|  |  |  |  |  |  |  |              |  |              |      jsr 16bac <KPrintF>
     45f2:	|  |  |  |  |  |  |  |              |  |              |      addq.l #4,sp
 					return FALSE;
     45f4:	|  |  |  |  |  |  |  |              |  |              |      clr.w d0
@@ -6844,8 +6844,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
     4606:	|  |  |  |  |  |  |  |              |  |                     move.l (a0),d0
     4608:	|  |  |  |  |  |  |  |              |  |                 /-- bne.s 461e <continueFunction+0x520>
 					KPrintF((ERROR_INDEX_EMPTY));
-    460a:	|  |  |  |  |  |  |  |              |  |                 |   pea 18189 <PutChar+0xb17>
-    4610:	|  |  |  |  |  |  |  |              |  |                 |   jsr 16b9e <KPrintF>
+    460a:	|  |  |  |  |  |  |  |              |  |                 |   pea 18197 <PutChar+0xb17>
+    4610:	|  |  |  |  |  |  |  |              |  |                 |   jsr 16bac <KPrintF>
     4616:	|  |  |  |  |  |  |  |              |  |                 |   addq.l #4,sp
 					return FALSE;
     4618:	|  |  |  |  |  |  |  |              |  |                 |   clr.w d0
@@ -7002,8 +7002,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 				default:
 				KPrintF((ERROR_INDEX_NONSTACK));
-    478e:	|  |  |  |  |  |  |  |              \--|--|----------------> pea 181a7 <PutChar+0xb35>
-    4794:	|  |  |  |  |  |  |  |                 |  |                  jsr 16b9e <KPrintF>
+    478e:	|  |  |  |  |  |  |  |              \--|--|----------------> pea 181b5 <PutChar+0xb35>
+    4794:	|  |  |  |  |  |  |  |                 |  |                  jsr 16bac <KPrintF>
     479a:	|  |  |  |  |  |  |  |                 |  |                  addq.l #4,sp
 				return FALSE;
     479c:	|  |  |  |  |  |  |  |                 |  |                  clr.w d0
@@ -7034,8 +7034,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
     47d0:	|  |  |  |  |  |  |  |                             |  |      move.l (a0),d0
     47d2:	|  |  |  |  |  |  |  |                             |  |  /-- bne.s 47e8 <continueFunction+0x6ea>
 					KPrintF((ERROR_INDEX_EMPTY));
-    47d4:	|  |  |  |  |  |  |  |                             |  |  |   pea 18189 <PutChar+0xb17>
-    47da:	|  |  |  |  |  |  |  |                             |  |  |   jsr 16b9e <KPrintF>
+    47d4:	|  |  |  |  |  |  |  |                             |  |  |   pea 18197 <PutChar+0xb17>
+    47da:	|  |  |  |  |  |  |  |                             |  |  |   jsr 16bac <KPrintF>
     47e0:	|  |  |  |  |  |  |  |                             |  |  |   addq.l #4,sp
 					return FALSE;
     47e2:	|  |  |  |  |  |  |  |                             |  |  |   clr.w d0
@@ -7125,15 +7125,15 @@ BOOL continueFunction (struct loadedFunction * fun) {
     48b4:	|  |  |  |  |  |  |  |                             |         move.l d0,56(sp)
 					if (v == NULL) KPrintF(("Not within bounds of fast array."));
     48b8:	|  |  |  |  |  |  |  |                             |     /-- bne.s 48c8 <continueFunction+0x7ca>
-    48ba:	|  |  |  |  |  |  |  |                             |     |   pea 181cb <PutChar+0xb59>
-    48c0:	|  |  |  |  |  |  |  |                             |     |   jsr 16b9e <KPrintF>
+    48ba:	|  |  |  |  |  |  |  |                             |     |   pea 181d9 <PutChar+0xb59>
+    48c0:	|  |  |  |  |  |  |  |                             |     |   jsr 16bac <KPrintF>
     48c6:	|  |  |  |  |  |  |  |                             |     |   addq.l #4,sp
 					return FALSE;
     48c8:	|  |  |  |  |  |  |  |                             |     \-> clr.w d0
     48ca:	|  +--|--|--|--|--|--|-----------------------------|-------- bra.w 4fa8 <continueFunction+0xeaa>
 				KPrintF((ERROR_INDEX_NONSTACK));
-    48ce:	|  |  |  |  |  |  |  |                             \-------> pea 181a7 <PutChar+0xb35>
-    48d4:	|  |  |  |  |  |  |  |                                       jsr 16b9e <KPrintF>
+    48ce:	|  |  |  |  |  |  |  |                             \-------> pea 181b5 <PutChar+0xb35>
+    48d4:	|  |  |  |  |  |  |  |                                       jsr 16bac <KPrintF>
     48da:	|  |  |  |  |  |  |  |                                       addq.l #4,sp
 				return FALSE;
     48dc:	|  |  |  |  |  |  |  |                                       clr.w d0
@@ -7640,7 +7640,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
     4dd2:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l 36(sp),d1
     4dd6:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l d1,-(sp)
     4dd8:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l d0,-(sp)
-    4dda:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   jsr 1755c <__mulsi3>
+    4dda:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   jsr 1756a <__mulsi3>
     4de0:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   addq.l #8,sp
     4de2:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l d0,d1
     4de4:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   moveq #28,d0
@@ -7674,7 +7674,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
     4e2a:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l 36(sp),d1
     4e2e:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l d1,-(sp)
     4e30:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l d0,-(sp)
-    4e32:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   jsr 17608 <__modsi3>
+    4e32:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   jsr 17616 <__modsi3>
     4e38:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   addq.l #8,sp
     4e3a:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l d0,d1
     4e3c:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   moveq #28,d0
@@ -7693,7 +7693,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
     4e5c:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l 36(sp),d1
     4e60:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l d1,-(sp)
     4e62:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l d0,-(sp)
-    4e64:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   jsr 175da <__divsi3>
+    4e64:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   jsr 175e8 <__divsi3>
     4e6a:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   addq.l #8,sp
     4e6c:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   move.l d0,d1
     4e6e:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |           |   moveq #28,d0
@@ -7787,8 +7787,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				}
 			} else {
 				KPrintF((ERROR_NOSTACK));
-    4f3c:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  \--|-----------|-> pea 181ec <PutChar+0xb7a>
-    4f42:	|  |  |  |  |  |  |  |  |  |  |  |  |  |     |           |   jsr 16b9e <KPrintF>
+    4f3c:	|  |  |  |  |  |  |  |  |  |  |  |  |  |  \--|-----------|-> pea 181fa <PutChar+0xb7a>
+    4f42:	|  |  |  |  |  |  |  |  |  |  |  |  |  |     |           |   jsr 16bac <KPrintF>
     4f48:	|  |  |  |  |  |  |  |  |  |  |  |  |  |     |           |   addq.l #4,sp
 				return FALSE;
     4f4a:	|  |  |  |  |  |  |  |  |  |  |  |  |  |     |           |   clr.w d0
@@ -7801,8 +7801,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 			default:
 			KPrintF((ERROR_UNKNOWN_CODE));
-    4f52:	|  |  |  \--|--|--|--|--|--|--|--|--|--|-------------------> pea 18204 <PutChar+0xb92>
-    4f58:	|  |  |     |  |  |  |  |  |  |  |  |  |                     jsr 16b9e <KPrintF>
+    4f52:	|  |  |  \--|--|--|--|--|--|--|--|--|--|-------------------> pea 18212 <PutChar+0xb92>
+    4f58:	|  |  |     |  |  |  |  |  |  |  |  |  |                     jsr 16bac <KPrintF>
     4f5e:	|  |  |     |  |  |  |  |  |  |  |  |  |                     addq.l #4,sp
 			return FALSE;
     4f60:	|  |  |     |  |  |  |  |  |  |  |  |  |                     clr.w d0
@@ -7871,8 +7871,8 @@ void finishFunction (struct loadedFunction * fun) {
     4fc8:	      /-- beq.s 4fdc <finishFunction+0x2e>
 	{
 		KPrintF("finishfunction: error non empty stack");
-    4fca:	      |   pea 18230 <PutChar+0xbbe>
-    4fd0:	      |   jsr 16b9e <KPrintF>
+    4fca:	      |   pea 1823e <PutChar+0xbbe>
+    4fd0:	      |   jsr 16bac <KPrintF>
     4fd6:	      |   addq.l #4,sp
 		return;
     4fd8:	/-----|-- bra.w 5076 <finishFunction+0xc8>
@@ -7976,7 +7976,7 @@ BOOL handleInput () {
 	if (! overRegion) getOverRegion ();
     50b6:	             move.l 1a90e <overRegion>,d0
     50bc:	         /-- bne.s 50c4 <handleInput+0x14>
-    50be:	         |   jsr 1533a <getOverRegion>
+    50be:	         |   jsr 15348 <getOverRegion>
 
 	if (input.justMoved) {
     50c4:	         \-> move.w 1a758 <input+0x4>,d0
@@ -8029,8 +8029,8 @@ BOOL handleInput () {
     5158:	|  |         move.l 4(sp),d0
     515c:	|  |     /-- bne.s 5172 <handleInput+0xc2>
 			KPrintF("handleInput: Cannot allocate memory for variablestack");
-    515e:	|  |     |   pea 18256 <PutChar+0xbe4>
-    5164:	|  |     |   jsr 16b9e <KPrintF>
+    515e:	|  |     |   pea 18264 <PutChar+0xbe4>
+    5164:	|  |     |   jsr 16bac <KPrintF>
     516a:	|  |     |   addq.l #4,sp
 			return FALSE;
     516c:	|  |     |   clr.w d0
@@ -8194,7 +8194,7 @@ BOOL initSludge (char * filename) {
 	//Amiga: Attention. This was changed to a Nonpointer Type
 	BPTR fp = openAndVerify (filename, 'G', 'E', ERROR_BAD_HEADER, &gameVersion);
     532e:	             pea 1a74c <gameVersion>
-    5334:	             pea 1828c <PutChar+0xc1a>
+    5334:	             pea 1829a <PutChar+0xc1a>
     533a:	             pea 45 <_start+0x45>
     533e:	             pea 47 <_start+0x47>
     5342:	             move.l 332(sp),-(sp)
@@ -8386,7 +8386,7 @@ BOOL initSludge (char * filename) {
     5598:	|            move.l 228(sp),d0
     559c:	|            move.l d0,-(sp)
     559e:	|            pea 3e8 <encodeFilename+0xea>
-    55a2:	|            jsr 175da <__divsi3>
+    55a2:	|            jsr 175e8 <__divsi3>
     55a8:	|            addq.l #8,sp
     55aa:	|            move.l d0,1a132 <desiredfps>
 
@@ -8418,8 +8418,8 @@ BOOL initSludge (char * filename) {
     5600:	|            cmp.l 204(sp),d1
     5604:	|        /-- beq.s 5614 <initSludge+0x2fe>
 		KPrintF("Reading error in initSludge.\n");
-    5606:	|        |   pea 182c5 <PutChar+0xc53>
-    560c:	|        |   jsr 16b9e <KPrintF>
+    5606:	|        |   pea 182d3 <PutChar+0xc53>
+    560c:	|        |   jsr 16bac <KPrintF>
     5612:	|        |   addq.l #4,sp
 	}
 
@@ -8431,8 +8431,8 @@ BOOL initSludge (char * filename) {
     5626:	|        |   jsr b02 <readString>
     562c:	|        |   addq.l #4,sp
     562e:	|     /--|-- bra.s 5644 <initSludge+0x32e>
-    5630:	|     |  \-> pea 182e3 <PutChar+0xc71>
-    5636:	|     |      pea 182e3 <PutChar+0xc71>
+    5630:	|     |  \-> pea 182f1 <PutChar+0xc71>
+    5636:	|     |      pea 182f1 <PutChar+0xc71>
     563c:	|     |      jsr 136da <joinStrings>
     5642:	|     |      addq.l #8,sp
     5644:	|     \----> move.l d0,200(sp)
@@ -8493,7 +8493,7 @@ BOOL initSludge (char * filename) {
     56f0:	|            move.l d0,172(sp)
 
 	if (strcmp (checker, "okSoFar")) {
-    56f4:	|            pea 182e4 <PutChar+0xc72>
+    56f4:	|            pea 182f2 <PutChar+0xc72>
     56fa:	|            move.l 176(sp),-(sp)
     56fe:	|            jsr 1365a <strcmp>
     5704:	|            addq.l #8,sp
@@ -8536,7 +8536,7 @@ BOOL initSludge (char * filename) {
     5764:	|        |   move.l d0,38(sp)
     5768:	|        |   move.l 38(sp),d0
     576c:	|        |   move.l d0,34(sp)
-    5770:	|        |   move.l #99052,30(sp)
+    5770:	|        |   move.l #99066,30(sp)
     5778:	|        |   moveq #54,d0
     577a:	|        |   move.l d0,26(sp)
     577e:	|        |   move.l 1a7aa <DOSBase>,d0
@@ -8547,8 +8547,8 @@ BOOL initSludge (char * filename) {
     5792:	|        |   jsr -48(a6)
     5796:	|        |   move.l d0,22(sp)
 		KPrintF("initsludge: Game Icon not supported on this plattform.\n");
-    579a:	|        |   pea 18323 <PutChar+0xcb1>
-    57a0:	|        |   jsr 16b9e <KPrintF>
+    579a:	|        |   pea 18331 <PutChar+0xcb1>
+    57a0:	|        |   jsr 16bac <KPrintF>
     57a6:	|        |   addq.l #4,sp
 		return FALSE;
     57a8:	|        |   clr.w d0
@@ -8580,8 +8580,8 @@ BOOL initSludge (char * filename) {
     57fa:	|        |   move.l 1a77a <numGlobals>,d0
     5800:	|        +-- ble.s 5816 <initSludge+0x500>
 		KPrintF("initsludge: Cannot allocate memory for globalvars\n");
-    5802:	|        |   pea 1835b <PutChar+0xce9>
-    5808:	|        |   jsr 16b9e <KPrintF>
+    5802:	|        |   pea 18369 <PutChar+0xce9>
+    5808:	|        |   jsr 16bac <KPrintF>
     580e:	|        |   addq.l #4,sp
 		return FALSE;
     5810:	|        |   clr.w d0
@@ -8664,8 +8664,8 @@ BOOL initSludge (char * filename) {
     58fa:	|        /-- bne.s 5956 <initSludge+0x640>
 		KPrintF("initsludge: Failed changing to directory %s\n", gameName);
     58fc:	|        |   move.l 138(sp),-(sp)
-    5900:	|        |   pea 1838e <PutChar+0xd1c>
-    5906:	|        |   jsr 16b9e <KPrintF>
+    5900:	|        |   pea 1839c <PutChar+0xd1c>
+    5906:	|        |   jsr 16bac <KPrintF>
     590c:	|        |   addq.l #8,sp
 		Write(Output(), (APTR)"initsludge:Failed changing to directory\n", 40);
     590e:	|        |   move.l 1a7aa <DOSBase>,d0
@@ -8674,7 +8674,7 @@ BOOL initSludge (char * filename) {
     591a:	|        |   move.l d0,58(sp)
     591e:	|        |   move.l 58(sp),d0
     5922:	|        |   move.l d0,54(sp)
-    5926:	|        |   move.l #99259,50(sp)
+    5926:	|        |   move.l #99273,50(sp)
     592e:	|        |   moveq #40,d0
     5930:	|        |   move.l d0,46(sp)
     5934:	|        |   move.l 1a7aa <DOSBase>,d0
@@ -8708,8 +8708,8 @@ BOOL initSludge (char * filename) {
 	if (languageNum < 0) KPrintF("Can't find the translation data specified!");
     5984:	|            move.l 1a120 <languageNum>,d0
     598a:	|        /-- bpl.s 599a <initSludge+0x684>
-    598c:	|        |   pea 183e4 <PutChar+0xd72>
-    5992:	|        |   jsr 16b9e <KPrintF>
+    598c:	|        |   pea 183f2 <PutChar+0xd72>
+    5992:	|        |   jsr 16bac <KPrintF>
     5998:	|        |   addq.l #4,sp
 	setFileIndices (NULL, gameSettings.numLanguages, languageNum);
     599a:	|        \-> move.l 1a120 <languageNum>,d0
@@ -8907,8 +8907,8 @@ BOOL loadFunctionCode (struct loadedFunction * newFunc) {
     5b96:	|            move.l 4(a0),d0
     5b9a:	|        /-- bne.s 5bb0 <loadFunctionCode+0xde>
 		KPrintF("loadFunctionCode: cannot allocate memory");
-    5b9c:	|        |   pea 1840f <PutChar+0xd9d>
-    5ba2:	|        |   jsr 16b9e <KPrintF>
+    5b9c:	|        |   pea 1841d <PutChar+0xd9d>
+    5ba2:	|        |   jsr 16bac <KPrintF>
     5ba8:	|        |   addq.l #4,sp
 		return FALSE;
     5baa:	|        |   clr.w d0
@@ -8981,8 +8981,8 @@ BOOL loadFunctionCode (struct loadedFunction * newFunc) {
     5c6c:	|  |         move.l 20(a0),d0
     5c70:	|  |     /-- bne.s 5c84 <loadFunctionCode+0x1b2>
 			KPrintF("loadFunctionCode: cannot allocate memory");
-    5c72:	|  |     |   pea 1840f <PutChar+0xd9d>
-    5c78:	|  |     |   jsr 16b9e <KPrintF>
+    5c72:	|  |     |   pea 1841d <PutChar+0xd9d>
+    5c78:	|  |     |   jsr 16bac <KPrintF>
     5c7e:	|  |     |   addq.l #4,sp
 			return FALSE;
     5c80:	|  |     |   clr.w d0
@@ -9104,7 +9104,7 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
     5dbc:	   |   move.l d0,154(sp)
     5dc0:	   |   move.l 154(sp),d0
     5dc4:	   |   move.l d0,150(sp)
-    5dc8:	   |   move.l #99384,146(sp)
+    5dc8:	   |   move.l #99398,146(sp)
     5dd0:	   |   moveq #31,d0
     5dd2:	   |   move.l d0,142(sp)
     5dd6:	   |   move.l 1a7aa <DOSBase>,d0
@@ -9116,8 +9116,8 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
     5dee:	   |   move.l d0,138(sp)
 		KPrintF("openAndVerify: Can't open file", filename);
     5df2:	   |   move.l 328(sp),-(sp)
-    5df6:	   |   pea 18458 <PutChar+0xde6>
-    5dfc:	   |   jsr 16b9e <KPrintF>
+    5df6:	   |   pea 18466 <PutChar+0xde6>
+    5dfc:	   |   jsr 16bac <KPrintF>
     5e02:	   |   addq.l #8,sp
 		return NULL;
     5e04:	   |   moveq #0,d0
@@ -9211,7 +9211,7 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
     5f28:	|  |   move.l d0,174(sp)
     5f2c:	|  |   move.l 174(sp),d0
     5f30:	|  |   move.l d0,170(sp)
-    5f34:	|  |   move.l #99447,166(sp)
+    5f34:	|  |   move.l #99461,166(sp)
     5f3c:	|  |   moveq #31,d0
     5f3e:	|  |   move.l d0,162(sp)
     5f42:	|  |   move.l 1a7aa <DOSBase>,d0
@@ -9222,8 +9222,8 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
     5f56:	|  |   jsr -48(a6)
     5f5a:	|  |   move.l d0,158(sp)
 		KPrintF("openAndVerify: Bad Header\n");
-    5f5e:	|  |   pea 18477 <PutChar+0xe05>
-    5f64:	|  |   jsr 16b9e <KPrintF>
+    5f5e:	|  |   pea 18485 <PutChar+0xe05>
+    5f64:	|  |   jsr 16bac <KPrintF>
     5f6a:	|  |   addq.l #4,sp
 		return NULL;
     5f6c:	|  |   moveq #0,d0
@@ -9287,7 +9287,7 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
     601c:	|  |   move.l d0,194(sp)
     6020:	|  |   move.l 194(sp),d0
     6024:	|  |   move.l d0,190(sp)
-    6028:	|  |   move.l #99474,186(sp)
+    6028:	|  |   move.l #99488,186(sp)
     6030:	|  |   moveq #100,d1
     6032:	|  |   move.l d1,182(sp)
     6036:	|  |   move.l 1a7aa <DOSBase>,d0
@@ -9298,8 +9298,8 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
     604a:	|  |   jsr -48(a6)
     604e:	|  |   move.l d0,178(sp)
 		KPrintF(ERROR_VERSION_TOO_LOW_1);
-    6052:	|  |   pea 18492 <PutChar+0xe20>
-    6058:	|  |   jsr 16b9e <KPrintF>
+    6052:	|  |   pea 184a0 <PutChar+0xe20>
+    6058:	|  |   jsr 16bac <KPrintF>
     605e:	|  |   addq.l #4,sp
 		return NULL;
     6060:	|  |   moveq #0,d0
@@ -9316,7 +9316,7 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
     607e:	|  |   move.l d0,214(sp)
     6082:	|  |   move.l 214(sp),d0
     6086:	|  |   move.l d0,210(sp)
-    608a:	|  |   move.l #99543,206(sp)
+    608a:	|  |   move.l #99557,206(sp)
     6092:	|  |   moveq #100,d0
     6094:	|  |   move.l d0,202(sp)
     6098:	|  |   move.l 1a7aa <DOSBase>,d0
@@ -9327,8 +9327,8 @@ BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, 
     60ac:	|  |   jsr -48(a6)
     60b0:	|  |   move.l d0,198(sp)
 		KPrintF(ERROR_VERSION_TOO_HIGH_1);
-    60b4:	|  |   pea 184d7 <PutChar+0xe65>
-    60ba:	|  |   jsr 16b9e <KPrintF>
+    60b4:	|  |   pea 184e5 <PutChar+0xe65>
+    60ba:	|  |   jsr 16bac <KPrintF>
     60c0:	|  |   addq.l #4,sp
 		return NULL;
     60c2:	|  |   moveq #0,d0
@@ -9605,8 +9605,8 @@ BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const st
 		if (!vS) {
     632a:	|     +-- bne.s 633e <stackSetByIndex+0x20>
 			KPrintF("Index past end of stack.");
-    632c:	|     |   pea 1851e <PutChar+0xeac>
-    6332:	|     |   jsr 16b9e <KPrintF>
+    632c:	|     |   pea 1852c <PutChar+0xeac>
+    6332:	|     |   jsr 16bac <KPrintF>
     6338:	|     |   addq.l #4,sp
 			return FALSE;
     633a:	|     |   clr.w d0
@@ -9653,8 +9653,8 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
 	if(!newFunc) {
     639c:	         /-- bne.s 63b2 <startNewFunctionNum+0x50>
 		KPrintF("startNewFunction: Cannot allocate memory");
-    639e:	         |   pea 18537 <PutChar+0xec5>
-    63a4:	         |   jsr 16b9e <KPrintF>
+    639e:	         |   pea 18545 <PutChar+0xec5>
+    63a4:	         |   jsr 16bac <KPrintF>
     63aa:	         |   addq.l #4,sp
 		return 0;
     63ac:	         |   moveq #0,d0
@@ -9677,8 +9677,8 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
     63d4:	|            cmp.l d1,d0
     63d6:	|        /-- beq.s 63ec <startNewFunctionNum+0x8a>
 		KPrintF("Wrong number of parameters!");
-    63d8:	|        |   pea 18560 <PutChar+0xeee>
-    63de:	|        |   jsr 16b9e <KPrintF>
+    63d8:	|        |   pea 1856e <PutChar+0xeee>
+    63de:	|        |   jsr 16bac <KPrintF>
     63e4:	|        |   addq.l #4,sp
 		return NULL; 
     63e6:	|        |   moveq #0,d0
@@ -9692,8 +9692,8 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
     63fc:	|            cmp.l d1,d0
     63fe:	|  /-------- bge.s 6468 <startNewFunctionNum+0x106>
 		KPrintF ("More arguments than local variable space!");
-    6400:	|  |         pea 1857c <PutChar+0xf0a>
-    6406:	|  |         jsr 16b9e <KPrintF>
+    6400:	|  |         pea 1858a <PutChar+0xf0a>
+    6406:	|  |         jsr 16bac <KPrintF>
     640c:	|  |         addq.l #4,sp
 		return NULL; 
     640e:	|  |         moveq #0,d0
@@ -9713,8 +9713,8 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
     6424:	|  |  |      move.l (a0),d0
     6426:	|  |  |  /-- bne.s 643c <startNewFunctionNum+0xda>
 			KPrintF("Corrupted file! The stack's empty and there were still parameters expected");
-    6428:	|  |  |  |   pea 185a6 <PutChar+0xf34>
-    642e:	|  |  |  |   jsr 16b9e <KPrintF>
+    6428:	|  |  |  |   pea 185b4 <PutChar+0xf34>
+    642e:	|  |  |  |   jsr 16bac <KPrintF>
     6434:	|  |  |  |   addq.l #4,sp
 			return NULL;
     6436:	|  |  |  |   moveq #0,d0
@@ -9838,7 +9838,7 @@ char * getNumberedString (int value) {
     6528:	   |   move.l d0,28(sp)
     652c:	   |   move.l 28(sp),d0
     6530:	   |   move.l d0,24(sp)
-    6534:	   |   move.l #99825,20(sp)
+    6534:	   |   move.l #99839,20(sp)
     653c:	   |   moveq #76,d0
     653e:	   |   move.l d0,16(sp)
     6542:	   |   move.l 1a7aa <DOSBase>,d0
@@ -9915,9 +9915,9 @@ unsigned int openFileFromNum (int num) {
     6612:	       move.w 1a128 <sliceBusy>,d0
     6618:	   /-- beq.s 6634 <openFileFromNum+0x2a>
 		KPrintF("Can't read from data file", "I'm already reading something");
-    661a:	   |   pea 1863e <PutChar+0xfcc>
-    6620:	   |   pea 1865c <PutChar+0xfea>
-    6626:	   |   jsr 16b9e <KPrintF>
+    661a:	   |   pea 1864c <PutChar+0xfcc>
+    6620:	   |   pea 1866a <PutChar+0xfea>
+    6626:	   |   jsr 16bac <KPrintF>
     662c:	   |   addq.l #8,sp
 		return 0;
     662e:	   |   moveq #0,d0
@@ -9985,9 +9985,9 @@ BOOL openObjectSlice (int num) {
     66da:	       move.w 1a128 <sliceBusy>,d0
     66e0:	   /-- beq.s 66fc <openObjectSlice+0x2a>
         KPrintF("Can't read from data file", "I'm already reading something");
-    66e2:	   |   pea 1863e <PutChar+0xfcc>
-    66e8:	   |   pea 1865c <PutChar+0xfea>
-    66ee:	   |   jsr 16b9e <KPrintF>
+    66e2:	   |   pea 1864c <PutChar+0xfcc>
+    66e8:	   |   pea 1866a <PutChar+0xfea>
+    66ee:	   |   jsr 16bac <KPrintF>
     66f4:	   |   addq.l #8,sp
         return FALSE;
     66f6:	   |   clr.w d0
@@ -10052,9 +10052,9 @@ BOOL openSubSlice (int num) {
     679a:	       move.w 1a128 <sliceBusy>,d0
     67a0:	   /-- beq.s 67bc <openSubSlice+0x2a>
 		KPrintF("Can't read from data file", "I'm already reading something");
-    67a2:	   |   pea 1863e <PutChar+0xfcc>
-    67a8:	   |   pea 1865c <PutChar+0xfea>
-    67ae:	   |   jsr 16b9e <KPrintF>
+    67a2:	   |   pea 1864c <PutChar+0xfcc>
+    67a8:	   |   pea 1866a <PutChar+0xfea>
+    67ae:	   |   jsr 16bac <KPrintF>
     67b4:	   |   addq.l #8,sp
 		return FALSE;
     67b6:	   |   clr.w d0
@@ -10157,8 +10157,8 @@ void setFileIndices (BPTR fp, unsigned int numLanguages, unsigned int skipBefore
     68e2:	       cmp.l 200(sp),d0
     68e6:	   /-- bls.s 68fa <setFileIndices+0xa8>
 		KPrintF("setFileIndices: Warning: Not a valid language ID! Using default instead.");
-    68e8:	   |   pea 18676 <PutChar+0x1004>
-    68ee:	   |   jsr 16b9e <KPrintF>
+    68e8:	   |   pea 18684 <PutChar+0x1004>
+    68ee:	   |   jsr 16bac <KPrintF>
     68f4:	   |   addq.l #4,sp
 		skipBefore = 0;
     68f6:	   |   clr.l 204(sp)
@@ -10401,8 +10401,8 @@ void TakeSystem() {
     6ba2:	       subq.l #8,sp
     6ba4:	       move.l a6,-(sp)
 	KPrintF("TakeSystem: Run Forbid\n");
-    6ba6:	       pea 186bf <PutChar+0x104d>
-    6bac:	       jsr 16b9e <KPrintF>
+    6ba6:	       pea 186cd <PutChar+0x104d>
+    6bac:	       jsr 16bac <KPrintF>
     6bb2:	       addq.l #4,sp
 	Forbid();
     6bb4:	       move.l 1a7a2 <SysBase>,d0
@@ -10410,8 +10410,8 @@ void TakeSystem() {
     6bbc:	       jsr -132(a6)
 	//Save current interrupts and DMA settings so we can restore them upon exit. 
 	KPrintF("TakeSystem: Saving Registers\n");
-    6bc0:	       pea 186d7 <PutChar+0x1065>
-    6bc6:	       jsr 16b9e <KPrintF>
+    6bc0:	       pea 186e5 <PutChar+0x1065>
+    6bc6:	       jsr 16bac <KPrintF>
     6bcc:	       addq.l #4,sp
 	SystemADKCON=custom->adkconr;
     6bce:	       movea.l 1a7a6 <custom>,a0
@@ -10431,8 +10431,8 @@ void TakeSystem() {
     6c08:	       move.l d0,1a7d0 <ActiView>
 
 	KPrintF("TakeSystem: LoadView\n");
-    6c0e:	       pea 186f5 <PutChar+0x1083>
-    6c14:	       jsr 16b9e <KPrintF>
+    6c0e:	       pea 18703 <PutChar+0x1083>
+    6c14:	       jsr 16bac <KPrintF>
     6c1a:	       addq.l #4,sp
 	LoadView(0);
     6c1c:	       clr.l 4(sp)
@@ -10441,8 +10441,8 @@ void TakeSystem() {
     6c28:	       movea.l 4(sp),a1
     6c2c:	       jsr -222(a6)
 	KPrintF("TakeSystem: WaitTof\n");
-    6c30:	       pea 1870b <PutChar+0x1099>
-    6c36:	       jsr 16b9e <KPrintF>
+    6c30:	       pea 18719 <PutChar+0x1099>
+    6c36:	       jsr 16bac <KPrintF>
     6c3c:	       addq.l #4,sp
 	WaitTOF();
     6c3e:	       move.l 1a7ae <GfxBase>,d0
@@ -10454,17 +10454,17 @@ void TakeSystem() {
     6c52:	       jsr -270(a6)
 
 	KPrintF("TakeSystem: WaitVBL\n");
-    6c56:	       pea 18720 <PutChar+0x10ae>
-    6c5c:	       jsr 16b9e <KPrintF>
+    6c56:	       pea 1872e <PutChar+0x10ae>
+    6c5c:	       jsr 16bac <KPrintF>
     6c62:	       addq.l #4,sp
 	WaitVbl();
-    6c64:	       jsr 16ad2 <WaitVbl>
+    6c64:	       jsr 16ae0 <WaitVbl>
 	WaitVbl();
-    6c6a:	       jsr 16ad2 <WaitVbl>
+    6c6a:	       jsr 16ae0 <WaitVbl>
 
 	KPrintF("TakeSystem: Doing Blitter Stuff\n");
-    6c70:	       pea 18735 <PutChar+0x10c3>
-    6c76:	       jsr 16b9e <KPrintF>
+    6c70:	       pea 18743 <PutChar+0x10c3>
+    6c76:	       jsr 16bac <KPrintF>
     6c7c:	       addq.l #4,sp
 	OwnBlitter();
     6c7e:	       move.l 1a7ae <GfxBase>,d0
@@ -10483,16 +10483,16 @@ void TakeSystem() {
 	//custom->intreq=0x7fff;//Clear any interrupts that were pending
 	
 	KPrintF("TakeSystem: Clear DMA\n");
-    6ca2:	       pea 18756 <PutChar+0x10e4>
-    6ca8:	       jsr 16b9e <KPrintF>
+    6ca2:	       pea 18764 <PutChar+0x10e4>
+    6ca8:	       jsr 16bac <KPrintF>
     6cae:	       addq.l #4,sp
 	custom->dmacon=0x7fff;//Clear all DMA channels
     6cb0:	       movea.l 1a7a6 <custom>,a0
     6cb6:	       move.w #32767,150(a0)
 
 	KPrintF("TakeSystem: Set all colors to black\n");
-    6cbc:	       pea 1876d <PutChar+0x10fb>
-    6cc2:	       jsr 16b9e <KPrintF>
+    6cbc:	       pea 1877b <PutChar+0x10fb>
+    6cc2:	       jsr 16bac <KPrintF>
     6cc8:	       addq.l #4,sp
 	//set all colors black
 	for(int a=0;a<32;a++)
@@ -10511,13 +10511,13 @@ void TakeSystem() {
     6cf2:	\----- bge.s 6cd0 <TakeSystem+0x12e>
 
 	WaitVbl();
-    6cf4:	       jsr 16ad2 <WaitVbl>
+    6cf4:	       jsr 16ae0 <WaitVbl>
 	WaitVbl();
-    6cfa:	       jsr 16ad2 <WaitVbl>
+    6cfa:	       jsr 16ae0 <WaitVbl>
 
 	KPrintF("TakeSystem: Save System interrupts\n");
-    6d00:	       pea 18792 <PutChar+0x1120>
-    6d06:	       jsr 16b9e <KPrintF>
+    6d00:	       pea 187a0 <PutChar+0x1120>
+    6d06:	       jsr 16bac <KPrintF>
     6d0c:	       addq.l #4,sp
 	VBR=GetVBR();
     6d0e:	       jsr 6b14 <GetVBR>
@@ -10537,7 +10537,7 @@ void FreeSystem() {
     6d2e:	subq.l #4,sp
     6d30:	move.l a6,-(sp)
 	WaitVbl();
-    6d32:	jsr 16ad2 <WaitVbl>
+    6d32:	jsr 16ae0 <WaitVbl>
 	WaitBlit();
     6d38:	move.l 1a7ae <GfxBase>,d0
     6d3e:	movea.l d0,a6
@@ -10644,7 +10644,7 @@ int main(int argc, char *argv[]) {
 
 	// We will use the graphics library only to locate and restore the system copper list once we are through.
 	GfxBase = (struct GfxBase *)OpenLibrary((CONST_STRPTR)"graphics.library",0);
-    6e5a:	    move.l #100278,136(sp)
+    6e5a:	    move.l #100292,136(sp)
     6e62:	    clr.l 132(sp)
     6e66:	    move.l 1a7a2 <SysBase>,d0
     6e6c:	    movea.l d0,a6
@@ -10666,7 +10666,7 @@ int main(int argc, char *argv[]) {
 
 	// used for printing
 	DOSBase = (struct DosLibrary*)OpenLibrary((CONST_STRPTR)"dos.library", 0);
-    6ea4:	\-> move.l #100295,120(sp)
+    6ea4:	\-> move.l #100309,120(sp)
     6eac:	    clr.l 116(sp)
     6eb0:	    move.l 1a7a2 <SysBase>,d0
     6eb6:	    movea.l d0,a6
@@ -10687,7 +10687,7 @@ int main(int argc, char *argv[]) {
     6eea:	|   jsr -144(a6)
 
 	MathIeeeSingBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingbas.library", 0);	
-    6eee:	\-> move.l #100307,104(sp)
+    6eee:	\-> move.l #100321,104(sp)
     6ef6:	    clr.l 100(sp)
     6efa:	    move.l 1a7a2 <SysBase>,d0
     6f00:	    movea.l d0,a6
@@ -10708,7 +10708,7 @@ int main(int argc, char *argv[]) {
     6f34:	|   jsr -144(a6)
 
 	MathIeeeSingTransBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingtrans.library",0);													
-    6f38:	\-> move.l #100331,88(sp)
+    6f38:	\-> move.l #100345,88(sp)
     6f40:	    clr.l 84(sp)
     6f44:	    move.l 1a7a2 <SysBase>,d0
     6f4a:	    movea.l d0,a6
@@ -10729,7 +10729,7 @@ int main(int argc, char *argv[]) {
     6f7e:	|   jsr -144(a6)
 
 	MathIeeeDoubTransBase =  (struct MathIEEEBase *) OpenLibrary("mathieeedoubtrans.library",0);
-    6f82:	\-> move.l #100357,72(sp)
+    6f82:	\-> move.l #100371,72(sp)
     6f8a:	    clr.l 68(sp)
     6f8e:	    move.l 1a7a2 <SysBase>,d0
     6f94:	    movea.l d0,a6
@@ -10750,7 +10750,7 @@ int main(int argc, char *argv[]) {
     6fc8:	|   jsr -144(a6)
 
 	MathIeeeDoubBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeedoubbas.library",0);
-    6fcc:	\-> move.l #100383,56(sp)
+    6fcc:	\-> move.l #100397,56(sp)
     6fd4:	    clr.l 52(sp)
     6fd8:	    move.l 1a7a2 <SysBase>,d0
     6fde:	    movea.l d0,a6
@@ -10772,8 +10772,8 @@ int main(int argc, char *argv[]) {
 	
 
 	KPrintF(" debugger from Amiga Test 026!\n");
-    7016:	\-> pea 18837 <PutChar+0x11c5>
-    701c:	    jsr 16b9e <KPrintF>
+    7016:	\-> pea 18845 <PutChar+0x11c5>
+    701c:	    jsr 16bac <KPrintF>
     7022:	    addq.l #4,sp
 
 	Write(Output(), (APTR)"Hello console Test 026!\n", 25);
@@ -10783,7 +10783,7 @@ int main(int argc, char *argv[]) {
     7030:	    move.l d0,40(sp)
     7034:	    move.l 40(sp),d0
     7038:	    move.l d0,36(sp)
-    703c:	    move.l #100439,32(sp)
+    703c:	    move.l #100453,32(sp)
     7044:	    moveq #25,d0
     7046:	    move.l d0,28(sp)
     704a:	    move.l 1a7aa <DOSBase>,d0
@@ -10806,25 +10806,25 @@ int main(int argc, char *argv[]) {
 	warpmode(0);*/
 
 	KPrintF("Taking System\n");
-    707c:	    pea 18870 <PutChar+0x11fe>
-    7082:	    jsr 16b9e <KPrintF>
+    707c:	    pea 1887e <PutChar+0x11fe>
+    7082:	    jsr 16bac <KPrintF>
     7088:	    addq.l #4,sp
 	TakeSystem();
     708a:	    jsr 6ba2 <TakeSystem>
 	KPrintF("System Taken\n");
-    7090:	    pea 1887f <PutChar+0x120d>
-    7096:	    jsr 16b9e <KPrintF>
+    7090:	    pea 1888d <PutChar+0x120d>
+    7096:	    jsr 16bac <KPrintF>
     709c:	    addq.l #4,sp
 
 	custom->dmacon = 0x87ff;
     709e:	    movea.l 1a7a6 <custom>,a0
     70a4:	    move.w #-30721,150(a0)
 	WaitVbl();
-    70aa:	    jsr 16ad2 <WaitVbl>
+    70aa:	    jsr 16ae0 <WaitVbl>
 
 	KPrintF("Starting main_sludge\n");
-    70b0:	    pea 1888d <PutChar+0x121b>
-    70b6:	    jsr 16b9e <KPrintF>
+    70b0:	    pea 1889b <PutChar+0x121b>
+    70b6:	    jsr 16bac <KPrintF>
     70bc:	    addq.l #4,sp
 	main_sludge(argc, argv);	
     70be:	    move.l 148(sp),-(sp)
@@ -10886,7 +10886,7 @@ void addStatusBar () {
     714a:	|   movea.l 4(sp),a0
     714e:	|   move.l d0,4(a0)
 		newStat -> text = copyString ("");
-    7152:	|   pea 182e3 <PutChar+0xc71>
+    7152:	|   pea 182f1 <PutChar+0xc71>
     7158:	|   jsr b8 <copyString>
     715e:	|   addq.l #4,sp
     7160:	|   movea.l 4(sp),a0
@@ -11229,7 +11229,7 @@ const char * statusBarText () {
     7502:	|  /-- bra.s 750a <statusBarText+0x1c>
 	} else {
 		return "";
-    7504:	\--|-> move.l #99043,d0
+    7504:	\--|-> move.l #99057,d0
 	}
     750a:	   \-> rts
 
@@ -11244,20 +11244,20 @@ void addSpeechLine (char * theLine, int x, int *offset) {
     7510:	       movem.l d2-d5/a6,-(sp)
 	int halfWidth = (stringWidth (theLine) >> 1)/cameraZoom;
     7514:	       move.l 52(sp),-(sp)
-    7518:	       jsr 15260 <stringWidth>
+    7518:	       jsr 1526e <stringWidth>
     751e:	       addq.l #4,sp
     7520:	       asr.l #1,d0
     7522:	       move.l d0,-(sp)
-    7524:	       jsr 16fda <__floatsisf>
+    7524:	       jsr 16fe8 <__floatsisf>
     752a:	       addq.l #4,sp
     752c:	       move.l d0,d1
     752e:	       move.l 1a142 <cameraZoom>,d0
     7534:	       move.l d0,-(sp)
     7536:	       move.l d1,-(sp)
-    7538:	       jsr 16e86 <__divsf3>
+    7538:	       jsr 16e94 <__divsf3>
     753e:	       addq.l #8,sp
     7540:	       move.l d0,-(sp)
-    7542:	       jsr 16f72 <__fixsfsi>
+    7542:	       jsr 16f80 <__fixsfsi>
     7548:	       addq.l #4,sp
     754a:	       move.l d0,44(sp)
 	int xx1 = x - (halfWidth);
@@ -11320,26 +11320,26 @@ void addSpeechLine (char * theLine, int x, int *offset) {
     75ee:	/--|-- bra.w 771e <addSpeechLine+0x212>
 	} else if (((FLOAT) xx2 >= ((FLOAT)winWidth/cameraZoom) - 5) && ((FLOAT) *offset > (((FLOAT)winWidth/cameraZoom) - 5.0 - xx2))) {
     75f2:	|  \-> move.l 36(sp),-(sp)
-    75f6:	|      jsr 16fda <__floatsisf>
+    75f6:	|      jsr 16fe8 <__floatsisf>
     75fc:	|      addq.l #4,sp
     75fe:	|      move.l d0,d2
     7600:	|      move.l 1a6f6 <winWidth>,d0
     7606:	|      move.l d0,-(sp)
-    7608:	|      jsr 17002 <__floatunsisf>
+    7608:	|      jsr 17010 <__floatunsisf>
     760e:	|      addq.l #4,sp
     7610:	|      move.l d0,d1
     7612:	|      move.l 1a142 <cameraZoom>,d0
     7618:	|      move.l d0,-(sp)
     761a:	|      move.l d1,-(sp)
-    761c:	|      jsr 16e86 <__divsf3>
+    761c:	|      jsr 16e94 <__divsf3>
     7622:	|      addq.l #8,sp
     7624:	|      move.l #1084227584,-(sp)
     762a:	|      move.l d0,-(sp)
-    762c:	|      jsr 172ce <__subsf3>
+    762c:	|      jsr 172dc <__subsf3>
     7632:	|      addq.l #8,sp
     7634:	|      move.l d0,-(sp)
     7636:	|      move.l d2,-(sp)
-    7638:	|      jsr 170c2 <__gesf2>
+    7638:	|      jsr 170d0 <__gesf2>
     763e:	|      addq.l #8,sp
     7640:	|      tst.l d0
     7642:	|  /-- bge.s 7648 <addSpeechLine+0x13c>
@@ -11349,48 +11349,48 @@ void addSpeechLine (char * theLine, int x, int *offset) {
     7648:	|  \-> movea.l 60(sp),a0
     764c:	|      move.l (a0),d0
     764e:	|      move.l d0,-(sp)
-    7650:	|      jsr 16fda <__floatsisf>
+    7650:	|      jsr 16fe8 <__floatsisf>
     7656:	|      addq.l #4,sp
     7658:	|      move.l d0,-(sp)
-    765a:	|      jsr 16ef2 <__extendsfdf2>
+    765a:	|      jsr 16f00 <__extendsfdf2>
     7660:	|      addq.l #4,sp
     7662:	|      move.l d0,d4
     7664:	|      move.l d1,d5
     7666:	|      move.l 1a6f6 <winWidth>,d0
     766c:	|      move.l d0,-(sp)
-    766e:	|      jsr 17002 <__floatunsisf>
+    766e:	|      jsr 17010 <__floatunsisf>
     7674:	|      addq.l #4,sp
     7676:	|      move.l d0,d1
     7678:	|      move.l 1a142 <cameraZoom>,d0
     767e:	|      move.l d0,-(sp)
     7680:	|      move.l d1,-(sp)
-    7682:	|      jsr 16e86 <__divsf3>
+    7682:	|      jsr 16e94 <__divsf3>
     7688:	|      addq.l #8,sp
     768a:	|      move.l d0,-(sp)
-    768c:	|      jsr 16ef2 <__extendsfdf2>
+    768c:	|      jsr 16f00 <__extendsfdf2>
     7692:	|      addq.l #4,sp
     7694:	|      clr.l -(sp)
     7696:	|      move.l #1075052544,-(sp)
     769c:	|      move.l d1,-(sp)
     769e:	|      move.l d0,-(sp)
-    76a0:	|      jsr 1726c <__subdf3>
+    76a0:	|      jsr 1727a <__subdf3>
     76a6:	|      lea 16(sp),sp
     76aa:	|      move.l d0,d2
     76ac:	|      move.l d1,d3
     76ae:	|      move.l 36(sp),-(sp)
-    76b2:	|      jsr 16f9a <__floatsidf>
+    76b2:	|      jsr 16fa8 <__floatsidf>
     76b8:	|      addq.l #4,sp
     76ba:	|      move.l d1,-(sp)
     76bc:	|      move.l d0,-(sp)
     76be:	|      move.l d3,-(sp)
     76c0:	|      move.l d2,-(sp)
-    76c2:	|      jsr 1726c <__subdf3>
+    76c2:	|      jsr 1727a <__subdf3>
     76c8:	|      lea 16(sp),sp
     76cc:	|      move.l d1,-(sp)
     76ce:	|      move.l d0,-(sp)
     76d0:	|      move.l d5,-(sp)
     76d2:	|      move.l d4,-(sp)
-    76d4:	|      jsr 170f8 <__gtdf2>
+    76d4:	|      jsr 17106 <__gtdf2>
     76da:	|      lea 16(sp),sp
     76de:	|      tst.l d0
     76e0:	|  /-- bgt.s 76e4 <addSpeechLine+0x1d8>
@@ -11399,16 +11399,16 @@ void addSpeechLine (char * theLine, int x, int *offset) {
 		*offset = (int) ((FLOAT)winWidth/cameraZoom) - 5 - xx2;
     76e4:	|  \-> move.l 1a6f6 <winWidth>,d0
     76ea:	|      move.l d0,-(sp)
-    76ec:	|      jsr 17002 <__floatunsisf>
+    76ec:	|      jsr 17010 <__floatunsisf>
     76f2:	|      addq.l #4,sp
     76f4:	|      move.l d0,d1
     76f6:	|      move.l 1a142 <cameraZoom>,d0
     76fc:	|      move.l d0,-(sp)
     76fe:	|      move.l d1,-(sp)
-    7700:	|      jsr 16e86 <__divsf3>
+    7700:	|      jsr 16e94 <__divsf3>
     7706:	|      addq.l #8,sp
     7708:	|      move.l d0,-(sp)
-    770a:	|      jsr 16f72 <__fixsfsi>
+    770a:	|      jsr 16f80 <__fixsfsi>
     7710:	|      addq.l #4,sp
     7712:	|      subq.l #5,d0
     7714:	|      sub.l 36(sp),d0
@@ -11461,8 +11461,8 @@ void initSpeech () {
 }
     778c:	|  /-- bra.s 779c <initSpeech+0x72>
         KPrintF("Could not allocate memory");
-    778e:	\--|-> pea 188ca <PutChar+0x1258>
-    7794:	   |   jsr 16b9e <KPrintF>
+    778e:	\--|-> pea 188d8 <PutChar+0x1258>
+    7794:	   |   jsr 16bac <KPrintF>
     779a:	   |   addq.l #4,sp
 }
     779c:	   \-> nop
@@ -11515,7 +11515,7 @@ void killAllSpeech () {
     7802:	|      move.l a0,-(sp)
     7804:	|      move.l d1,-(sp)
     7806:	|      move.l d0,-(sp)
-    7808:	|      jsr 16b52 <memcpy>
+    7808:	|      jsr 16b60 <memcpy>
     780e:	|      lea 12(sp),sp
     7812:	|      jsr a5bc <makeSilent>
     7818:	|      lea 132(sp),sp
@@ -11710,7 +11710,7 @@ void setFrames (struct onScreenPerson *m, int a) {
     7a04:	move.l 4(a0),d0
     7a08:	move.l 12(sp),-(sp)
     7a0c:	move.l d0,-(sp)
-    7a0e:	jsr 1755c <__mulsi3>
+    7a0e:	jsr 1756a <__mulsi3>
     7a14:	addq.l #8,sp
     7a16:	move.l d0,d1
     7a18:	movea.l 8(sp),a0
@@ -11762,7 +11762,7 @@ int wrapSpeech(char * theText, int objT, int sampleFile, BOOL animPerson) {
     } else {
         struct screenRegion * thisRegion = getRegionForObject(objT);
     7a8c:	|  \-> move.l 32(sp),-(sp)
-    7a90:	|      jsr 153c0 <getRegionForObject>
+    7a90:	|      jsr 153ce <getRegionForObject>
     7a96:	|      addq.l #4,sp
     7a98:	|      move.l d0,12(sp)
         if (thisRegion) {
@@ -11846,11 +11846,11 @@ int wrapSpeechPerson (char * theText, struct onScreenPerson *thePerson, int samp
     7b72:	    move.l 4(a0),d3
     7b76:	    move.l 1a8b8 <cameraY>,d0
     7b7c:	    move.l d0,-(sp)
-    7b7e:	    jsr 16fda <__floatsisf>
+    7b7e:	    jsr 16fe8 <__floatsisf>
     7b84:	    addq.l #4,sp
     7b86:	    move.l d0,-(sp)
     7b88:	    move.l d3,-(sp)
-    7b8a:	    jsr 172ce <__subsf3>
+    7b8a:	    jsr 172dc <__subsf3>
     7b90:	    addq.l #8,sp
     7b92:	    move.l d0,d3
     7b94:	    movea.l 28(sp),a0
@@ -11861,43 +11861,43 @@ int wrapSpeechPerson (char * theText, struct onScreenPerson *thePerson, int samp
     7ba8:	    move.l 24(a0),d0
     7bac:	    sub.l d0,d1
     7bae:	    move.l d1,-(sp)
-    7bb0:	    jsr 16fda <__floatsisf>
+    7bb0:	    jsr 16fe8 <__floatsisf>
     7bb6:	    addq.l #4,sp
     7bb8:	    move.l d0,-(sp)
     7bba:	    move.l d4,-(sp)
-    7bbc:	    jsr 1708c <__mulsf3>
+    7bbc:	    jsr 1709a <__mulsf3>
     7bc2:	    addq.l #8,sp
     7bc4:	    move.l d0,-(sp)
     7bc6:	    move.l d3,-(sp)
-    7bc8:	    jsr 172ce <__subsf3>
+    7bc8:	    jsr 172dc <__subsf3>
     7bce:	    addq.l #8,sp
     7bd0:	    move.l d0,d3
     7bd2:	    movea.l 28(sp),a0
     7bd6:	    movea.l 114(a0),a0
     7bda:	    move.l 20(a0),d0
     7bde:	    move.l d0,-(sp)
-    7be0:	    jsr 16fda <__floatsisf>
+    7be0:	    jsr 16fe8 <__floatsisf>
     7be6:	    addq.l #4,sp
     7be8:	    move.l d0,-(sp)
     7bea:	    move.l d3,-(sp)
-    7bec:	    jsr 172ce <__subsf3>
+    7bec:	    jsr 172dc <__subsf3>
     7bf2:	    addq.l #8,sp
     7bf4:	    move.l d0,-(sp)
-    7bf6:	    jsr 16f72 <__fixsfsi>
+    7bf6:	    jsr 16f80 <__fixsfsi>
     7bfc:	    addq.l #4,sp
     7bfe:	    move.l d0,d4
     7c00:	    movea.l 28(sp),a0
     7c04:	    move.l (a0),d3
     7c06:	    move.l 1a8b4 <cameraX>,d0
     7c0c:	    move.l d0,-(sp)
-    7c0e:	    jsr 16fda <__floatsisf>
+    7c0e:	    jsr 16fe8 <__floatsisf>
     7c14:	    addq.l #4,sp
     7c16:	    move.l d0,-(sp)
     7c18:	    move.l d3,-(sp)
-    7c1a:	    jsr 172ce <__subsf3>
+    7c1a:	    jsr 172dc <__subsf3>
     7c20:	    addq.l #8,sp
     7c22:	    move.l d0,-(sp)
-    7c24:	    jsr 16f72 <__fixsfsi>
+    7c24:	    jsr 16f80 <__fixsfsi>
     7c2a:	    addq.l #4,sp
     7c2c:	    move.l 32(sp),-(sp)
     7c30:	    move.l d2,-(sp)
@@ -11942,16 +11942,16 @@ int wrapSpeechXY(char * theText, int x, int y, int wrap, int sampleFile) {
     7c8e:	                   movea.l d0,a0
     7c90:	                   lea 20(a0),a0
     7c94:	                   move.l a0,-(sp)
-    7c96:	                   jsr 17002 <__floatunsisf>
+    7c96:	                   jsr 17010 <__floatunsisf>
     7c9c:	                   addq.l #4,sp
     7c9e:	                   move.l d0,d1
     7ca0:	                   move.l 1a12e <speechSpeed>,d0
     7ca6:	                   move.l d0,-(sp)
     7ca8:	                   move.l d1,-(sp)
-    7caa:	                   jsr 1708c <__mulsf3>
+    7caa:	                   jsr 1709a <__mulsf3>
     7cb0:	                   addq.l #8,sp
     7cb2:	                   move.l d0,-(sp)
-    7cb4:	                   jsr 16f72 <__fixsfsi>
+    7cb4:	                   jsr 16f80 <__fixsfsi>
     7cba:	                   addq.l #4,sp
     7cbc:	                   move.l d0,24(sp)
     if (speechTime < 1) speechTime = 1;
@@ -12039,25 +12039,25 @@ int wrapSpeechXY(char * theText, int x, int y, int wrap, int sampleFile) {
     7d7e:	|  |  |            add.l d0,36(sp)
         y -= fontHeight / cameraZoom;
     7d82:	|  |  |            move.l 44(sp),-(sp)
-    7d86:	|  |  |            jsr 16fda <__floatsisf>
+    7d86:	|  |  |            jsr 16fe8 <__floatsisf>
     7d8c:	|  |  |            addq.l #4,sp
     7d8e:	|  |  |            move.l d0,d2
     7d90:	|  |  |            move.l 1a8f2 <fontHeight>,d0
     7d96:	|  |  |            move.l d0,-(sp)
-    7d98:	|  |  |            jsr 16fda <__floatsisf>
+    7d98:	|  |  |            jsr 16fe8 <__floatsisf>
     7d9e:	|  |  |            addq.l #4,sp
     7da0:	|  |  |            move.l d0,d1
     7da2:	|  |  |            move.l 1a142 <cameraZoom>,d0
     7da8:	|  |  |            move.l d0,-(sp)
     7daa:	|  |  |            move.l d1,-(sp)
-    7dac:	|  |  |            jsr 16e86 <__divsf3>
+    7dac:	|  |  |            jsr 16e94 <__divsf3>
     7db2:	|  |  |            addq.l #8,sp
     7db4:	|  |  |            move.l d0,-(sp)
     7db6:	|  |  |            move.l d2,-(sp)
-    7db8:	|  |  |            jsr 172ce <__subsf3>
+    7db8:	|  |  |            jsr 172dc <__subsf3>
     7dbe:	|  |  |            addq.l #8,sp
     7dc0:	|  |  |            move.l d0,-(sp)
-    7dc2:	|  |  |            jsr 16f72 <__fixsfsi>
+    7dc2:	|  |  |            jsr 16f80 <__fixsfsi>
     7dc8:	|  |  |            addq.l #4,sp
     7dca:	|  |  |            move.l d0,44(sp)
     while (strlen(theText) > (unsigned long) wrap) {
@@ -12078,25 +12078,25 @@ int wrapSpeechXY(char * theText, int x, int y, int wrap, int sampleFile) {
     7dfa:	|                  lea 12(sp),sp
     y -= fontHeight / cameraZoom;
     7dfe:	|                  move.l 44(sp),-(sp)
-    7e02:	|                  jsr 16fda <__floatsisf>
+    7e02:	|                  jsr 16fe8 <__floatsisf>
     7e08:	|                  addq.l #4,sp
     7e0a:	|                  move.l d0,d2
     7e0c:	|                  move.l 1a8f2 <fontHeight>,d0
     7e12:	|                  move.l d0,-(sp)
-    7e14:	|                  jsr 16fda <__floatsisf>
+    7e14:	|                  jsr 16fe8 <__floatsisf>
     7e1a:	|                  addq.l #4,sp
     7e1c:	|                  move.l d0,d1
     7e1e:	|                  move.l 1a142 <cameraZoom>,d0
     7e24:	|                  move.l d0,-(sp)
     7e26:	|                  move.l d1,-(sp)
-    7e28:	|                  jsr 16e86 <__divsf3>
+    7e28:	|                  jsr 16e94 <__divsf3>
     7e2e:	|                  addq.l #8,sp
     7e30:	|                  move.l d0,-(sp)
     7e32:	|                  move.l d2,-(sp)
-    7e34:	|                  jsr 172ce <__subsf3>
+    7e34:	|                  jsr 172dc <__subsf3>
     7e3a:	|                  addq.l #8,sp
     7e3c:	|                  move.l d0,-(sp)
-    7e3e:	|                  jsr 16f72 <__fixsfsi>
+    7e3e:	|                  jsr 16f80 <__fixsfsi>
     7e44:	|                  addq.l #4,sp
     7e46:	|                  move.l d0,44(sp)
 
@@ -12112,70 +12112,70 @@ int wrapSpeechXY(char * theText, int x, int y, int wrap, int sampleFile) {
     7e68:	|           |  \-> movea.l 1a7fe <speech>,a0
     7e6e:	|           |      move.l 8(a0),d0
     7e72:	|           |      move.l d0,-(sp)
-    7e74:	|           |      jsr 16fda <__floatsisf>
+    7e74:	|           |      jsr 16fe8 <__floatsisf>
     7e7a:	|           |      addq.l #4,sp
     7e7c:	|           |      move.l d0,d2
     7e7e:	|           |      move.l 1a8b8 <cameraY>,d0
     7e84:	|           |      move.l d0,-(sp)
-    7e86:	|           |      jsr 16fda <__floatsisf>
+    7e86:	|           |      jsr 16fe8 <__floatsisf>
     7e8c:	|           |      addq.l #4,sp
     7e8e:	|           |      move.l d0,d3
     7e90:	|           |      move.l 1a6fa <winHeight>,d4
     7e96:	|           |      move.l 1a8f2 <fontHeight>,d0
     7e9c:	|           |      pea 3 <_start+0x3>
     7ea0:	|           |      move.l d0,-(sp)
-    7ea2:	|           |      jsr 175da <__divsi3>
+    7ea2:	|           |      jsr 175e8 <__divsi3>
     7ea8:	|           |      addq.l #8,sp
     7eaa:	|           |      move.l d4,d1
     7eac:	|           |      sub.l d0,d1
     7eae:	|           |      move.l d1,-(sp)
-    7eb0:	|           |      jsr 17002 <__floatunsisf>
+    7eb0:	|           |      jsr 17010 <__floatunsisf>
     7eb6:	|           |      addq.l #4,sp
     7eb8:	|           |      move.l d0,d1
     7eba:	|           |      move.l 1a142 <cameraZoom>,d0
     7ec0:	|           |      move.l d0,-(sp)
     7ec2:	|           |      move.l d1,-(sp)
-    7ec4:	|           |      jsr 16e86 <__divsf3>
+    7ec4:	|           |      jsr 16e94 <__divsf3>
     7eca:	|           |      addq.l #8,sp
     7ecc:	|           |      move.l d0,-(sp)
     7ece:	|           |      move.l d3,-(sp)
-    7ed0:	|           |      jsr 16d8c <__addsf3>
+    7ed0:	|           |      jsr 16d9a <__addsf3>
     7ed6:	|           |      addq.l #8,sp
     7ed8:	|           |      move.l d0,-(sp)
     7eda:	|           |      move.l d2,-(sp)
-    7edc:	|           |      jsr 17146 <__gtsf2>
+    7edc:	|           |      jsr 17154 <__gtsf2>
     7ee2:	|           |      addq.l #8,sp
     7ee4:	|           |      tst.l d0
     7ee6:	|           +----- ble.s 7f56 <wrapSpeechXY+0x2e6>
     7ee8:	|           |      move.l 1a8b8 <cameraY>,d0
     7eee:	|           |      move.l d0,-(sp)
-    7ef0:	|           |      jsr 16fda <__floatsisf>
+    7ef0:	|           |      jsr 16fe8 <__floatsisf>
     7ef6:	|           |      addq.l #4,sp
     7ef8:	|           |      move.l d0,d2
     7efa:	|           |      move.l 1a6fa <winHeight>,d3
     7f00:	|           |      move.l 1a8f2 <fontHeight>,d0
     7f06:	|           |      pea 3 <_start+0x3>
     7f0a:	|           |      move.l d0,-(sp)
-    7f0c:	|           |      jsr 175da <__divsi3>
+    7f0c:	|           |      jsr 175e8 <__divsi3>
     7f12:	|           |      addq.l #8,sp
     7f14:	|           |      move.l d3,d1
     7f16:	|           |      sub.l d0,d1
     7f18:	|           |      move.l d1,-(sp)
-    7f1a:	|           |      jsr 17002 <__floatunsisf>
+    7f1a:	|           |      jsr 17010 <__floatunsisf>
     7f20:	|           |      addq.l #4,sp
     7f22:	|           |      move.l d0,d1
     7f24:	|           |      move.l 1a142 <cameraZoom>,d0
     7f2a:	|           |      move.l d0,-(sp)
     7f2c:	|           |      move.l d1,-(sp)
-    7f2e:	|           |      jsr 16e86 <__divsf3>
+    7f2e:	|           |      jsr 16e94 <__divsf3>
     7f34:	|           |      addq.l #8,sp
     7f36:	|           |      move.l d0,-(sp)
     7f38:	|           |      move.l d2,-(sp)
-    7f3a:	|           |      jsr 16d8c <__addsf3>
+    7f3a:	|           |      jsr 16d9a <__addsf3>
     7f40:	|           |      addq.l #8,sp
     7f42:	|           |      movea.l 1a7fe <speech>,a2
     7f48:	|           |      move.l d0,-(sp)
-    7f4a:	|           |      jsr 16f72 <__fixsfsi>
+    7f4a:	|           |      jsr 16f80 <__fixsfsi>
     7f50:	|           |      addq.l #4,sp
     7f52:	|           |      move.l d0,8(a2)
 
@@ -12306,8 +12306,8 @@ BOOL setZBuffer (unsigned int y) {
     8098:	|                    +-- beq.s 80ae <setZBuffer+0xba>
 	{
 		 KPrintF("Not a Z-buffer file");
-    809a:	|                    |   pea 18907 <PutChar+0x1295>
-    80a0:	|                    |   jsr 16b9e <KPrintF>
+    809a:	|                    |   pea 18915 <PutChar+0x1295>
+    80a0:	|                    |   jsr 16bac <KPrintF>
     80a6:	|                    |   addq.l #4,sp
 		 return FALSE;
     80a8:	|                    |   clr.w d0
@@ -12353,8 +12353,8 @@ BOOL setZBuffer (unsigned int y) {
 		
 		default:
 		KPrintF("Extended Z-buffer format not supported in this version of the SLUDGE engine");
-    811c:	|              \-----|-> pea 1891b <PutChar+0x12a9>
-    8122:	|                    |   jsr 16b9e <KPrintF>
+    811c:	|              \-----|-> pea 18929 <PutChar+0x12a9>
+    8122:	|                    |   jsr 16bac <KPrintF>
     8128:	|                    |   addq.l #4,sp
 		return FALSE;
     812a:	|                    |   clr.w d0
@@ -12381,7 +12381,7 @@ BOOL setZBuffer (unsigned int y) {
     816e:	|                 |      move.l a0,-(sp)
     8170:	|                 |      move.l d1,-(sp)
     8172:	|                 |      move.l d0,-(sp)
-    8174:	|                 |      pea 18967 <PutChar+0x12f5>
+    8174:	|                 |      pea 18975 <PutChar+0x12f5>
     817a:	|                 |      moveq #32,d0
     817c:	|                 |      add.l sp,d0
     817e:	|                 |      move.l d0,-(sp)
@@ -12391,8 +12391,8 @@ BOOL setZBuffer (unsigned int y) {
     818a:	|                 |      moveq #12,d0
     818c:	|                 |      add.l sp,d0
     818e:	|                 |      move.l d0,-(sp)
-    8190:	|                 |      pea 18982 <PutChar+0x1310>
-    8196:	|                 |      jsr 16b9e <KPrintF>
+    8190:	|                 |      pea 18990 <PutChar+0x1310>
+    8196:	|                 |      jsr 16bac <KPrintF>
     819c:	|                 |      addq.l #8,sp
 		return FALSE;
     819e:	|                 |      clr.w d0
@@ -12503,7 +12503,7 @@ BOOL setZBuffer (unsigned int y) {
 	zBuffer.tex = AllocVec(picHeight*picWidth,MEMF_ANY);
     82ca:	|                        move.l 484(sp),-(sp)
     82ce:	|                        move.l 484(sp),-(sp)
-    82d2:	|                        jsr 1755c <__mulsi3>
+    82d2:	|                        jsr 1756a <__mulsi3>
     82d8:	|                        addq.l #8,sp
     82da:	|                        move.l d0,476(sp)
     82de:	|                        clr.l 472(sp)
@@ -12519,8 +12519,8 @@ BOOL setZBuffer (unsigned int y) {
     8304:	|                        move.l 1a852 <zBuffer+0x50>,d0
     830a:	|                    /-- bne.s 8320 <setZBuffer+0x32c>
 		KPrintF("setZBuffer: Cannot allocate memory");
-    830c:	|                    |   pea 189bf <PutChar+0x134d>
-    8312:	|                    |   jsr 16b9e <KPrintF>
+    830c:	|                    |   pea 189cd <PutChar+0x134d>
+    8312:	|                    |   jsr 16bac <KPrintF>
     8318:	|                    |   addq.l #4,sp
 		return FALSE;
     831a:	|                    |   clr.w d0
@@ -12581,7 +12581,7 @@ BOOL setZBuffer (unsigned int y) {
     83b0:	|  |  |  |  |            move.l 484(sp),d0
     83b4:	|  |  |  |  |            move.l 544(sp),-(sp)
     83b8:	|  |  |  |  |            move.l d0,-(sp)
-    83ba:	|  |  |  |  |            jsr 1755c <__mulsi3>
+    83ba:	|  |  |  |  |            jsr 1756a <__mulsi3>
     83c0:	|  |  |  |  |            addq.l #8,sp
     83c2:	|  |  |  |  |            move.l d0,d1
     83c4:	|  |  |  |  |            move.l 536(sp),d0
@@ -12863,8 +12863,8 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
     8642:	                      tst.l d0
     8644:	                  /-- bne.s 865a <loadSpriteBank+0x42>
 		KPrintF("loadSpriteBank: Can't open sprite bank / font");
-    8646:	                  |   pea 189e2 <PutChar+0x1370>
-    864c:	                  |   jsr 16b9e <KPrintF>
+    8646:	                  |   pea 189f0 <PutChar+0x1370>
+    864c:	                  |   jsr 16bac <KPrintF>
     8652:	                  |   addq.l #4,sp
 		return FALSE;
     8654:	                  |   clr.w d0
@@ -12900,8 +12900,8 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 	if (total <= 0) {
     86b0:	|                 /-- bgt.s 86c6 <loadSpriteBank+0xae>
 		KPrintF("loadSpriteBank: No sprites in bank or invalid sprite bank file\n");
-    86b2:	|                 |   pea 18a10 <PutChar+0x139e>
-    86b8:	|                 |   jsr 16b9e <KPrintF>
+    86b2:	|                 |   pea 18a1e <PutChar+0x139e>
+    86b8:	|                 |   jsr 16bac <KPrintF>
     86be:	|                 |   addq.l #4,sp
 		return FALSE;
     86c0:	|                 |   clr.w d0
@@ -12914,8 +12914,8 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
     86d0:	|                     cmp.l d0,d1
     86d2:	|                 /-- bge.s 86e8 <loadSpriteBank+0xd0>
 		KPrintF("loadSpriteBank: Unsupported sprite bank file format\n");
-    86d4:	|                 |   pea 18a50 <PutChar+0x13de>
-    86da:	|                 |   jsr 16b9e <KPrintF>
+    86d4:	|                 |   pea 18a5e <PutChar+0x13de>
+    86da:	|                 |   jsr 16bac <KPrintF>
     86e0:	|                 |   addq.l #4,sp
 		return FALSE;
     86e2:	|                 |   clr.w d0
@@ -13217,8 +13217,8 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 		if (!count) {
     89f6:	|  |  |           /-- bne.s 8a0a <loadSpriteBank+0x3f2>
 			KPrintF("loadSpriteBank: Cannot read sprite Data from File\n");
-    89f8:	|  |  |           |   pea 18a85 <PutChar+0x1413>
-    89fe:	|  |  |           |   jsr 16b9e <KPrintF>
+    89f8:	|  |  |           |   pea 18a93 <PutChar+0x1413>
+    89fe:	|  |  |           |   jsr 16bac <KPrintF>
     8a04:	|  |  |           |   addq.l #4,sp
 			return FALSE;
     8a06:	|  |  |           |   clr.w d0
@@ -13253,7 +13253,7 @@ BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOO
     8a3a:	                   movea.l 24(sp),a0
     8a3e:	                   move.l (a0),d0
     8a40:	                   move.l d0,-(sp)
-    8a42:	                   jsr 1733a <__fixunssfsi>
+    8a42:	                   jsr 17348 <__fixunssfsi>
     8a48:	                   addq.l #4,sp
     8a4a:	                   move.l d0,d0
     8a4c:	                   movea.l 20(sp),a0
@@ -13266,7 +13266,7 @@ BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOO
     8a5e:	                   movea.l 24(sp),a0
     8a62:	                   move.l 4(a0),d0
     8a66:	                   move.l d0,-(sp)
-    8a68:	                   jsr 1733a <__fixunssfsi>
+    8a68:	                   jsr 17348 <__fixunssfsi>
     8a6e:	                   addq.l #4,sp
     8a70:	                   move.l d0,d0
     8a72:	                   movea.l 20(sp),a0
@@ -13533,11 +13533,11 @@ BOOL addPerson(int x, int y, int objNum, struct persona *p) {
     8d08:	|            clr.l 68(a0)
     moveAndScale(newPerson, x, y);
     8d0c:	|            move.l 44(sp),-(sp)
-    8d10:	|            jsr 16fda <__floatsisf>
+    8d10:	|            jsr 16fe8 <__floatsisf>
     8d16:	|            addq.l #4,sp
     8d18:	|            move.l d0,d2
     8d1a:	|            move.l 40(sp),-(sp)
-    8d1e:	|            jsr 16fda <__floatsisf>
+    8d1e:	|            jsr 16fe8 <__floatsisf>
     8d24:	|            addq.l #4,sp
     8d26:	|            move.l d2,-(sp)
     8d28:	|            move.l d0,-(sp)
@@ -13700,11 +13700,11 @@ BOOL addPerson(int x, int y, int objNum, struct persona *p) {
     8ec2:	|     |  |   movea.l (a0),a0
     8ec4:	|     |  |   move.l 4(a0),d2
     8ec8:	|     |  |   move.l 44(sp),-(sp)
-    8ecc:	|     |  |   jsr 16fda <__floatsisf>
+    8ecc:	|     |  |   jsr 16fe8 <__floatsisf>
     8ed2:	|     |  |   addq.l #4,sp
     8ed4:	|     |  |   move.l d0,-(sp)
     8ed6:	|     |  |   move.l d2,-(sp)
-    8ed8:	|     |  |   jsr 17200 <__ltsf2>
+    8ed8:	|     |  |   jsr 1720e <__ltsf2>
     8ede:	|     |  |   addq.l #8,sp
     8ee0:	|     |  |   tst.l d0
     8ee2:	|     \--|-- blt.s 8ea8 <addPerson+0x208>
@@ -13848,8 +13848,8 @@ struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 	if (!(newAnim)) {
     8ff2:	         /-- bne.s 9008 <copyAnim+0x50>
 		KPrintF("copyAnim: Cannot allocate memory");
-    8ff4:	         |   pea 18ab8 <PutChar+0x1446>
-    8ffa:	         |   jsr 16b9e <KPrintF>
+    8ff4:	         |   pea 18ac6 <PutChar+0x1446>
+    8ffa:	         |   jsr 16bac <KPrintF>
     9000:	         |   addq.l #4,sp
 		return NULL;
     9002:	         |   moveq #0,d0
@@ -13900,8 +13900,8 @@ struct personaAnimation * copyAnim (struct personaAnimation * orig) {
     9070:	|  |         move.l 4(a0),d0
     9074:	|  |     /-- bne.s 908a <copyAnim+0xd2>
 			KPrintF("copyAnim: Cannot allocate memory");
-    9076:	|  |     |   pea 18ab8 <PutChar+0x1446>
-    907c:	|  |     |   jsr 16b9e <KPrintF>
+    9076:	|  |     |   pea 18ac6 <PutChar+0x1446>
+    907c:	|  |     |   jsr 16bac <KPrintF>
     9082:	|  |     |   addq.l #4,sp
 			return NULL;
     9084:	|  |     |   moveq #0,d0
@@ -14016,8 +14016,8 @@ struct personaAnimation * createPersonaAnim (int num, struct variableStack **sta
 	if( !newP) {
     9194:	            /-- bne.s 91aa <createPersonaAnim+0x48>
 		KPrintF("createPersonaAnim: Cannot allocate memory");
-    9196:	            |   pea 18ad9 <PutChar+0x1467>
-    919c:	            |   jsr 16b9e <KPrintF>
+    9196:	            |   pea 18ae7 <PutChar+0x1467>
+    919c:	            |   jsr 16bac <KPrintF>
     91a2:	            |   addq.l #4,sp
 		return NULL;
     91a4:	            |   moveq #0,d0
@@ -14050,8 +14050,8 @@ struct personaAnimation * createPersonaAnim (int num, struct variableStack **sta
     91f2:	|               move.l 4(a0),d0
     91f6:	|           /-- bne.s 920c <createPersonaAnim+0xaa>
 		KPrintF("createPersonaAnim: Cannot allocate memory");
-    91f8:	|           |   pea 18ad9 <PutChar+0x1467>
-    91fe:	|           |   jsr 16b9e <KPrintF>
+    91f8:	|           |   pea 18ae7 <PutChar+0x1467>
+    91fe:	|           |   jsr 16bac <KPrintF>
     9204:	|           |   addq.l #4,sp
 		return NULL;
     9206:	|           |   moveq #0,d0
@@ -14342,14 +14342,14 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
     94c2:	|  |      move.l a0,-(sp)
     94c4:	|  |      move.l d1,-(sp)
     94c6:	|  |      move.l d0,-(sp)
-    94c8:	|  |      jsr 15e20 <getMatchingCorners>
+    94c8:	|  |      jsr 15e2e <getMatchingCorners>
     94ce:	|  |      lea 16(sp),sp
     94d2:	|  |      tst.w d0
     94d4:	|  |  /-- bne.s 94ea <doBorderStuff+0xe2>
 		{
 			KPrintF ("Not a valid floor plan!");
-    94d6:	|  |  |   pea 18b03 <PutChar+0x1491>
-    94dc:	|  |  |   jsr 16b9e <KPrintF>
+    94d6:	|  |  |   pea 18b11 <PutChar+0x1491>
+    94dc:	|  |  |   jsr 16bac <KPrintF>
     94e2:	|  |  |   addq.l #4,sp
             return FALSE;
     94e4:	|  |  |   clr.w d0
@@ -14366,13 +14366,13 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
     94f4:	|  |      movea.l 152(sp),a0
     94f8:	|  |      move.l (a0),d0
     94fa:	|  |      move.l d0,-(sp)
-    94fc:	|  |      jsr 16f72 <__fixsfsi>
+    94fc:	|  |      jsr 16f80 <__fixsfsi>
     9502:	|  |      addq.l #4,sp
     9504:	|  |      move.l d0,140(sp)
     9508:	|  |      movea.l 152(sp),a0
     950c:	|  |      move.l 4(a0),d0
     9510:	|  |      move.l d0,-(sp)
-    9512:	|  |      jsr 16f72 <__fixsfsi>
+    9512:	|  |      jsr 16f80 <__fixsfsi>
     9518:	|  |      addq.l #4,sp
     951a:	|  |      move.l d0,136(sp)
         int x2 = moveMe -> walkToX, y2 = moveMe -> walkToY;
@@ -14433,19 +14433,19 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
     95ca:	|  |      sub.l 140(sp),d0
     95ce:	|  |      move.l 104(sp),-(sp)
     95d2:	|  |      move.l d0,-(sp)
-    95d4:	|  |      jsr 1755c <__mulsi3>
+    95d4:	|  |      jsr 1756a <__mulsi3>
     95da:	|  |      addq.l #8,sp
     95dc:	|  |      move.l d0,d2
     95de:	|  |      move.l 120(sp),d0
     95e2:	|  |      sub.l 136(sp),d0
     95e6:	|  |      move.l 108(sp),-(sp)
     95ea:	|  |      move.l d0,-(sp)
-    95ec:	|  |      jsr 1755c <__mulsi3>
+    95ec:	|  |      jsr 1756a <__mulsi3>
     95f2:	|  |      addq.l #8,sp
     95f4:	|  |      move.l d2,d1
     95f6:	|  |      sub.l d0,d1
     95f8:	|  |      move.l d1,-(sp)
-    95fa:	|  |      jsr 16f9a <__floatsidf>
+    95fa:	|  |      jsr 16fa8 <__floatsidf>
     9600:	|  |      addq.l #4,sp
     9602:	|  |      move.l d0,32(sp)
     9606:	|  |      move.l d1,36(sp)
@@ -14454,23 +14454,23 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
         m /= ((xAB * yCD) - (yAB * xCD));
     9616:	|  |      move.l 96(sp),-(sp)
     961a:	|  |      move.l 112(sp),-(sp)
-    961e:	|  |      jsr 1755c <__mulsi3>
+    961e:	|  |      jsr 1756a <__mulsi3>
     9624:	|  |      addq.l #8,sp
     9626:	|  |      move.l d0,d2
     9628:	|  |      move.l 100(sp),-(sp)
     962c:	|  |      move.l 108(sp),-(sp)
-    9630:	|  |      jsr 1755c <__mulsi3>
+    9630:	|  |      jsr 1756a <__mulsi3>
     9636:	|  |      addq.l #8,sp
     9638:	|  |      move.l d2,d1
     963a:	|  |      sub.l d0,d1
     963c:	|  |      move.l d1,-(sp)
-    963e:	|  |      jsr 16f9a <__floatsidf>
+    963e:	|  |      jsr 16fa8 <__floatsidf>
     9644:	|  |      addq.l #4,sp
     9646:	|  |      move.l d1,-(sp)
     9648:	|  |      move.l d0,-(sp)
     964a:	|  |      move.l 100(sp),-(sp)
     964e:	|  |      move.l 100(sp),-(sp)
-    9652:	|  |      jsr 16e24 <__divdf3>
+    9652:	|  |      jsr 16e32 <__divdf3>
     9658:	|  |      lea 16(sp),sp
     965c:	|  |      move.l d0,24(sp)
     9660:	|  |      move.l d1,28(sp)
@@ -14482,7 +14482,7 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
     9672:	|  |      clr.l -(sp)
     9674:	|  |      move.l 100(sp),-(sp)
     9678:	|  |      move.l 100(sp),-(sp)
-    967c:	|  |      jsr 170f8 <__gtdf2>
+    967c:	|  |      jsr 17106 <__gtdf2>
     9682:	|  |      lea 16(sp),sp
     9686:	|  |      tst.l d0
     9688:	|  |  /-- ble.w 9760 <doBorderStuff+0x358>
@@ -14490,61 +14490,61 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
     968e:	|  |  |   move.l #1072693248,-(sp)
     9694:	|  |  |   move.l 100(sp),-(sp)
     9698:	|  |  |   move.l 100(sp),-(sp)
-    969c:	|  |  |   jsr 171b2 <__ltdf2>
+    969c:	|  |  |   jsr 171c0 <__ltdf2>
     96a2:	|  |  |   lea 16(sp),sp
     96a6:	|  |  |   tst.l d0
     96a8:	|  |  +-- bge.w 9760 <doBorderStuff+0x358>
             moveMe -> thisStepX = x3 + m * xCD;
     96ac:	|  |  |   move.l 124(sp),-(sp)
-    96b0:	|  |  |   jsr 16f9a <__floatsidf>
+    96b0:	|  |  |   jsr 16fa8 <__floatsidf>
     96b6:	|  |  |   addq.l #4,sp
     96b8:	|  |  |   move.l d0,d2
     96ba:	|  |  |   move.l d1,d3
     96bc:	|  |  |   move.l 100(sp),-(sp)
-    96c0:	|  |  |   jsr 16f9a <__floatsidf>
+    96c0:	|  |  |   jsr 16fa8 <__floatsidf>
     96c6:	|  |  |   addq.l #4,sp
     96c8:	|  |  |   move.l 92(sp),-(sp)
     96cc:	|  |  |   move.l 92(sp),-(sp)
     96d0:	|  |  |   move.l d1,-(sp)
     96d2:	|  |  |   move.l d0,-(sp)
-    96d4:	|  |  |   jsr 1702a <__muldf3>
+    96d4:	|  |  |   jsr 17038 <__muldf3>
     96da:	|  |  |   lea 16(sp),sp
     96de:	|  |  |   move.l d1,-(sp)
     96e0:	|  |  |   move.l d0,-(sp)
     96e2:	|  |  |   move.l d3,-(sp)
     96e4:	|  |  |   move.l d2,-(sp)
-    96e6:	|  |  |   jsr 16dc2 <__adddf3>
+    96e6:	|  |  |   jsr 16dd0 <__adddf3>
     96ec:	|  |  |   lea 16(sp),sp
     96f0:	|  |  |   move.l d1,-(sp)
     96f2:	|  |  |   move.l d0,-(sp)
-    96f4:	|  |  |   jsr 16f32 <__fixdfsi>
+    96f4:	|  |  |   jsr 16f40 <__fixdfsi>
     96fa:	|  |  |   addq.l #8,sp
     96fc:	|  |  |   movea.l 152(sp),a0
     9700:	|  |  |   move.l d0,48(a0)
             moveMe -> thisStepY = y3 + m * yCD;
     9704:	|  |  |   move.l 120(sp),-(sp)
-    9708:	|  |  |   jsr 16f9a <__floatsidf>
+    9708:	|  |  |   jsr 16fa8 <__floatsidf>
     970e:	|  |  |   addq.l #4,sp
     9710:	|  |  |   move.l d0,d2
     9712:	|  |  |   move.l d1,d3
     9714:	|  |  |   move.l 96(sp),-(sp)
-    9718:	|  |  |   jsr 16f9a <__floatsidf>
+    9718:	|  |  |   jsr 16fa8 <__floatsidf>
     971e:	|  |  |   addq.l #4,sp
     9720:	|  |  |   move.l 92(sp),-(sp)
     9724:	|  |  |   move.l 92(sp),-(sp)
     9728:	|  |  |   move.l d1,-(sp)
     972a:	|  |  |   move.l d0,-(sp)
-    972c:	|  |  |   jsr 1702a <__muldf3>
+    972c:	|  |  |   jsr 17038 <__muldf3>
     9732:	|  |  |   lea 16(sp),sp
     9736:	|  |  |   move.l d1,-(sp)
     9738:	|  |  |   move.l d0,-(sp)
     973a:	|  |  |   move.l d3,-(sp)
     973c:	|  |  |   move.l d2,-(sp)
-    973e:	|  |  |   jsr 16dc2 <__adddf3>
+    973e:	|  |  |   jsr 16dd0 <__adddf3>
     9744:	|  |  |   lea 16(sp),sp
     9748:	|  |  |   move.l d1,-(sp)
     974a:	|  |  |   move.l d0,-(sp)
-    974c:	|  |  |   jsr 16f32 <__fixdfsi>
+    974c:	|  |  |   jsr 16f40 <__fixdfsi>
     9752:	|  |  |   addq.l #8,sp
     9754:	|  |  |   movea.l 152(sp),a0
     9758:	|  |  |   move.l d0,52(a0)
@@ -14580,144 +14580,144 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
             dx13 *= dx13; dx14 *= dx14; dx23 *= dx23; dx24 *= dx24;
     97c0:	|  |      move.l 84(sp),-(sp)
     97c4:	|  |      move.l 88(sp),-(sp)
-    97c8:	|  |      jsr 1755c <__mulsi3>
+    97c8:	|  |      jsr 1756a <__mulsi3>
     97ce:	|  |      addq.l #8,sp
     97d0:	|  |      move.l d0,84(sp)
     97d4:	|  |      move.l 80(sp),-(sp)
     97d8:	|  |      move.l 84(sp),-(sp)
-    97dc:	|  |      jsr 1755c <__mulsi3>
+    97dc:	|  |      jsr 1756a <__mulsi3>
     97e2:	|  |      addq.l #8,sp
     97e4:	|  |      move.l d0,80(sp)
     97e8:	|  |      move.l 76(sp),-(sp)
     97ec:	|  |      move.l 80(sp),-(sp)
-    97f0:	|  |      jsr 1755c <__mulsi3>
+    97f0:	|  |      jsr 1756a <__mulsi3>
     97f6:	|  |      addq.l #8,sp
     97f8:	|  |      move.l d0,76(sp)
     97fc:	|  |      move.l 72(sp),-(sp)
     9800:	|  |      move.l 76(sp),-(sp)
-    9804:	|  |      jsr 1755c <__mulsi3>
+    9804:	|  |      jsr 1756a <__mulsi3>
     980a:	|  |      addq.l #8,sp
     980c:	|  |      move.l d0,72(sp)
             dy13 *= dy13; dy14 *= dy14; dy23 *= dy23; dy24 *= dy24;
     9810:	|  |      move.l 68(sp),-(sp)
     9814:	|  |      move.l 72(sp),-(sp)
-    9818:	|  |      jsr 1755c <__mulsi3>
+    9818:	|  |      jsr 1756a <__mulsi3>
     981e:	|  |      addq.l #8,sp
     9820:	|  |      move.l d0,68(sp)
     9824:	|  |      move.l 64(sp),-(sp)
     9828:	|  |      move.l 68(sp),-(sp)
-    982c:	|  |      jsr 1755c <__mulsi3>
+    982c:	|  |      jsr 1756a <__mulsi3>
     9832:	|  |      addq.l #8,sp
     9834:	|  |      move.l d0,64(sp)
     9838:	|  |      move.l 60(sp),-(sp)
     983c:	|  |      move.l 64(sp),-(sp)
-    9840:	|  |      jsr 1755c <__mulsi3>
+    9840:	|  |      jsr 1756a <__mulsi3>
     9846:	|  |      addq.l #8,sp
     9848:	|  |      move.l d0,60(sp)
     984c:	|  |      move.l 56(sp),-(sp)
     9850:	|  |      move.l 60(sp),-(sp)
-    9854:	|  |      jsr 1755c <__mulsi3>
+    9854:	|  |      jsr 1756a <__mulsi3>
     985a:	|  |      addq.l #8,sp
     985c:	|  |      move.l d0,56(sp)
 
             if (sqrt((double) dx13 + dy13) + sqrt((double) dx23 + dy23) <
     9860:	|  |      move.l 84(sp),-(sp)
-    9864:	|  |      jsr 16f9a <__floatsidf>
+    9864:	|  |      jsr 16fa8 <__floatsidf>
     986a:	|  |      addq.l #4,sp
     986c:	|  |      move.l d0,d2
     986e:	|  |      move.l d1,d3
     9870:	|  |      move.l 68(sp),-(sp)
-    9874:	|  |      jsr 16f9a <__floatsidf>
+    9874:	|  |      jsr 16fa8 <__floatsidf>
     987a:	|  |      addq.l #4,sp
     987c:	|  |      move.l d1,-(sp)
     987e:	|  |      move.l d0,-(sp)
     9880:	|  |      move.l d3,-(sp)
     9882:	|  |      move.l d2,-(sp)
-    9884:	|  |      jsr 16dc2 <__adddf3>
+    9884:	|  |      jsr 16dd0 <__adddf3>
     988a:	|  |      lea 16(sp),sp
     988e:	|  |      move.l d1,-(sp)
     9890:	|  |      move.l d0,-(sp)
-    9892:	|  |      jsr 17512 <sqrt>
+    9892:	|  |      jsr 17520 <sqrt>
     9898:	|  |      addq.l #8,sp
     989a:	|  |      move.l d0,d2
     989c:	|  |      move.l d1,d3
     989e:	|  |      move.l 76(sp),-(sp)
-    98a2:	|  |      jsr 16f9a <__floatsidf>
+    98a2:	|  |      jsr 16fa8 <__floatsidf>
     98a8:	|  |      addq.l #4,sp
     98aa:	|  |      move.l d0,d4
     98ac:	|  |      move.l d1,d5
     98ae:	|  |      move.l 60(sp),-(sp)
-    98b2:	|  |      jsr 16f9a <__floatsidf>
+    98b2:	|  |      jsr 16fa8 <__floatsidf>
     98b8:	|  |      addq.l #4,sp
     98ba:	|  |      move.l d1,-(sp)
     98bc:	|  |      move.l d0,-(sp)
     98be:	|  |      move.l d5,-(sp)
     98c0:	|  |      move.l d4,-(sp)
-    98c2:	|  |      jsr 16dc2 <__adddf3>
+    98c2:	|  |      jsr 16dd0 <__adddf3>
     98c8:	|  |      lea 16(sp),sp
     98cc:	|  |      move.l d1,-(sp)
     98ce:	|  |      move.l d0,-(sp)
-    98d0:	|  |      jsr 17512 <sqrt>
+    98d0:	|  |      jsr 17520 <sqrt>
     98d6:	|  |      addq.l #8,sp
     98d8:	|  |      move.l d1,-(sp)
     98da:	|  |      move.l d0,-(sp)
     98dc:	|  |      move.l d3,-(sp)
     98de:	|  |      move.l d2,-(sp)
-    98e0:	|  |      jsr 16dc2 <__adddf3>
+    98e0:	|  |      jsr 16dd0 <__adddf3>
     98e6:	|  |      lea 16(sp),sp
     98ea:	|  |      move.l d0,d2
     98ec:	|  |      move.l d1,d3
                 sqrt((double) dx14 + dy14) + sqrt((double) dx24 + dy24)) {
     98ee:	|  |      move.l 80(sp),-(sp)
-    98f2:	|  |      jsr 16f9a <__floatsidf>
+    98f2:	|  |      jsr 16fa8 <__floatsidf>
     98f8:	|  |      addq.l #4,sp
     98fa:	|  |      move.l d0,d4
     98fc:	|  |      move.l d1,d5
     98fe:	|  |      move.l 64(sp),-(sp)
-    9902:	|  |      jsr 16f9a <__floatsidf>
+    9902:	|  |      jsr 16fa8 <__floatsidf>
     9908:	|  |      addq.l #4,sp
     990a:	|  |      move.l d1,-(sp)
     990c:	|  |      move.l d0,-(sp)
     990e:	|  |      move.l d5,-(sp)
     9910:	|  |      move.l d4,-(sp)
-    9912:	|  |      jsr 16dc2 <__adddf3>
+    9912:	|  |      jsr 16dd0 <__adddf3>
     9918:	|  |      lea 16(sp),sp
     991c:	|  |      move.l d1,-(sp)
     991e:	|  |      move.l d0,-(sp)
-    9920:	|  |      jsr 17512 <sqrt>
+    9920:	|  |      jsr 17520 <sqrt>
     9926:	|  |      addq.l #8,sp
     9928:	|  |      move.l d0,d4
     992a:	|  |      move.l d1,d5
     992c:	|  |      move.l 72(sp),-(sp)
-    9930:	|  |      jsr 16f9a <__floatsidf>
+    9930:	|  |      jsr 16fa8 <__floatsidf>
     9936:	|  |      addq.l #4,sp
     9938:	|  |      move.l d0,d6
     993a:	|  |      move.l d1,d7
     993c:	|  |      move.l 56(sp),-(sp)
-    9940:	|  |      jsr 16f9a <__floatsidf>
+    9940:	|  |      jsr 16fa8 <__floatsidf>
     9946:	|  |      addq.l #4,sp
     9948:	|  |      move.l d1,-(sp)
     994a:	|  |      move.l d0,-(sp)
     994c:	|  |      move.l d7,-(sp)
     994e:	|  |      move.l d6,-(sp)
-    9950:	|  |      jsr 16dc2 <__adddf3>
+    9950:	|  |      jsr 16dd0 <__adddf3>
     9956:	|  |      lea 16(sp),sp
     995a:	|  |      move.l d1,-(sp)
     995c:	|  |      move.l d0,-(sp)
-    995e:	|  |      jsr 17512 <sqrt>
+    995e:	|  |      jsr 17520 <sqrt>
     9964:	|  |      addq.l #8,sp
     9966:	|  |      move.l d1,-(sp)
     9968:	|  |      move.l d0,-(sp)
     996a:	|  |      move.l d5,-(sp)
     996c:	|  |      move.l d4,-(sp)
-    996e:	|  |      jsr 16dc2 <__adddf3>
+    996e:	|  |      jsr 16dd0 <__adddf3>
     9974:	|  |      lea 16(sp),sp
             if (sqrt((double) dx13 + dy13) + sqrt((double) dx23 + dy23) <
     9978:	|  |      move.l d1,-(sp)
     997a:	|  |      move.l d0,-(sp)
     997c:	|  |      move.l d3,-(sp)
     997e:	|  |      move.l d2,-(sp)
-    9980:	|  |      jsr 171b2 <__ltdf2>
+    9980:	|  |      jsr 171c0 <__ltdf2>
     9986:	|  |      lea 16(sp),sp
     998a:	|  |      tst.l d0
     998c:	|  |  /-- bge.s 99a4 <doBorderStuff+0x59c>
@@ -14743,14 +14743,14 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
     99b8:	|  \----> movea.l 152(sp),a0
     99bc:	|         move.l 52(a0),d0
     99c0:	|         move.l d0,-(sp)
-    99c2:	|         jsr 16fda <__floatsisf>
+    99c2:	|         jsr 16fe8 <__floatsisf>
     99c8:	|         addq.l #4,sp
     99ca:	|         move.l d0,d1
     99cc:	|         movea.l 152(sp),a0
     99d0:	|         move.l 4(a0),d0
     99d4:	|         move.l d0,-(sp)
     99d6:	|         move.l d1,-(sp)
-    99d8:	|         jsr 172ce <__subsf3>
+    99d8:	|         jsr 172dc <__subsf3>
     99de:	|         addq.l #8,sp
     99e0:	|         move.l d0,52(sp)
     float xDiff = moveMe -> x - moveMe -> thisStepX;
@@ -14759,23 +14759,23 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
     99ea:	|         movea.l 152(sp),a0
     99ee:	|         move.l 48(a0),d0
     99f2:	|         move.l d0,-(sp)
-    99f4:	|         jsr 16fda <__floatsisf>
+    99f4:	|         jsr 16fe8 <__floatsisf>
     99fa:	|         addq.l #4,sp
     99fc:	|         move.l d0,-(sp)
     99fe:	|         move.l d2,-(sp)
-    9a00:	|         jsr 172ce <__subsf3>
+    9a00:	|         jsr 172dc <__subsf3>
     9a06:	|         addq.l #8,sp
     9a08:	|         move.l d0,48(sp)
     if (xDiff || yDiff) {
     9a0c:	|         clr.l -(sp)
     9a0e:	|         move.l 52(sp),-(sp)
-    9a12:	|         jsr 17236 <__nesf2>
+    9a12:	|         jsr 17244 <__nesf2>
     9a18:	|         addq.l #8,sp
     9a1a:	|         tst.l d0
     9a1c:	|     /-- bne.s 9a30 <doBorderStuff+0x628>
     9a1e:	|     |   clr.l -(sp)
     9a20:	|     |   move.l 56(sp),-(sp)
-    9a24:	|     |   jsr 17236 <__nesf2>
+    9a24:	|     |   jsr 17244 <__nesf2>
     9a2a:	|     |   addq.l #8,sp
     9a2c:	|     |   tst.l d0
     9a2e:	|  /--|-- beq.s 9aa6 <doBorderStuff+0x69e>
@@ -14783,30 +14783,30 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
     9a30:	|  |  \-> move.l 52(sp),d0
     9a34:	|  |      move.l d0,-(sp)
     9a36:	|  |      move.l d0,-(sp)
-    9a38:	|  |      jsr 16d8c <__addsf3>
+    9a38:	|  |      jsr 16d9a <__addsf3>
     9a3e:	|  |      addq.l #8,sp
     9a40:	|  |      move.l d0,-(sp)
     9a42:	|  |      move.l 52(sp),-(sp)
-    9a46:	|  |      jsr 17362 <atan2f>
+    9a46:	|  |      jsr 17370 <atan2f>
     9a4c:	|  |      addq.l #8,sp
     9a4e:	|  |      move.l d0,-(sp)
-    9a50:	|  |      jsr 16ef2 <__extendsfdf2>
+    9a50:	|  |      jsr 16f00 <__extendsfdf2>
     9a56:	|  |      addq.l #4,sp
     9a58:	|  |      move.l #-1540411785,-(sp)
     9a5e:	|  |      move.l #1078765033,-(sp)
     9a64:	|  |      move.l d1,-(sp)
     9a66:	|  |      move.l d0,-(sp)
-    9a68:	|  |      jsr 1702a <__muldf3>
+    9a68:	|  |      jsr 17038 <__muldf3>
     9a6e:	|  |      lea 16(sp),sp
     9a72:	|  |      clr.l -(sp)
     9a74:	|  |      move.l #1080459264,-(sp)
     9a7a:	|  |      move.l d1,-(sp)
     9a7c:	|  |      move.l d0,-(sp)
-    9a7e:	|  |      jsr 16dc2 <__adddf3>
+    9a7e:	|  |      jsr 16dd0 <__adddf3>
     9a84:	|  |      lea 16(sp),sp
     9a88:	|  |      move.l d1,-(sp)
     9a8a:	|  |      move.l d0,-(sp)
-    9a8c:	|  |      jsr 16f32 <__fixdfsi>
+    9a8c:	|  |      jsr 16f40 <__fixdfsi>
     9a92:	|  |      addq.l #8,sp
     9a94:	|  |      movea.l 152(sp),a0
     9a98:	|  |      move.l d0,96(a0)
@@ -14917,7 +14917,7 @@ void drawPeople () {
     9bb2:	|  |  |  |     |   move.l 8(a0),d1
     9bb6:	|  |  |  |     |   move.l d1,-(sp)
     9bb8:	|  |  |  |     |   move.l d0,-(sp)
-    9bba:	|  |  |  |     |   jsr 17608 <__modsi3>
+    9bba:	|  |  |  |     |   jsr 17616 <__modsi3>
     9bc0:	|  |  |  |     |   addq.l #8,sp
     9bc2:	|  |  |  |     |   movea.l 24(sp),a0
     9bc6:	|  |  |  |     |   move.l d0,84(a0)
@@ -14989,7 +14989,7 @@ void drawPeople () {
     9c8a:	|  |  |  |  |      move.l 8(a0),d1
     9c8e:	|  |  |  |  |      move.l d1,-(sp)
     9c90:	|  |  |  |  |      move.l d0,-(sp)
-    9c92:	|  |  |  |  |      jsr 17608 <__modsi3>
+    9c92:	|  |  |  |  |      jsr 17616 <__modsi3>
     9c98:	|  |  |  |  |      addq.l #8,sp
     9c9a:	|  |  |  |  |      movea.l 24(sp),a0
     9c9e:	|  |  |  |  |      move.l d0,84(a0)
@@ -15019,7 +15019,7 @@ void drawPeople () {
     9cde:	|  |  |     |      move.l 8(a0),d1
     9ce2:	|  |  |     |      move.l d1,-(sp)
     9ce4:	|  |  |     |      move.l d0,-(sp)
-    9ce6:	|  |  |     |      jsr 16ebc <__eqsf2>
+    9ce6:	|  |  |     |      jsr 16eca <__eqsf2>
     9cec:	|  |  |     |      addq.l #8,sp
     9cee:	|  |  |     |      tst.l d0
     9cf0:	|  |  |     |  /-- bne.s 9d34 <drawPeople+0x272>
@@ -15029,7 +15029,7 @@ void drawPeople () {
     9cfe:	|  |  |     |  |   move.l 12(a0),d1
     9d02:	|  |  |     |  |   move.l d1,-(sp)
     9d04:	|  |  |     |  |   move.l d0,-(sp)
-    9d06:	|  |  |     |  |   jsr 16ebc <__eqsf2>
+    9d06:	|  |  |     |  |   jsr 16eca <__eqsf2>
     9d0c:	|  |  |     |  |   addq.l #8,sp
     9d0e:	|  |  |     |  |   tst.l d0
     9d10:	|  |  |     |  +-- bne.s 9d34 <drawPeople+0x272>
@@ -15178,7 +15178,7 @@ void drawPeople () {
     9e86:	|  |        |      move.l 8(a0),d1
     9e8a:	|  |        |      move.l d1,-(sp)
     9e8c:	|  |        |      move.l d0,-(sp)
-    9e8e:	|  |        |      jsr 17608 <__modsi3>
+    9e8e:	|  |        |      jsr 17616 <__modsi3>
     9e94:	|  |        |      addq.l #8,sp
     9e96:	|  |        |      movea.l 24(sp),a0
     9e9a:	|  |        |      move.l d0,84(a0)
@@ -15252,7 +15252,7 @@ void drawPeople () {
     9f68:	|  |        |  |   move.l 8(a0),d1
     9f6c:	|  |        |  |   move.l d1,-(sp)
     9f6e:	|  |        |  |   move.l d0,-(sp)
-    9f70:	|  |        |  |   jsr 17608 <__modsi3>
+    9f70:	|  |        |  |   jsr 17616 <__modsi3>
     9f76:	|  |        |  |   addq.l #8,sp
     9f78:	|  |        |  |   movea.l 24(sp),a0
     9f7c:	|  |        |  |   move.l d0,84(a0)
@@ -15324,7 +15324,7 @@ void drawPeople () {
     a040:	|  |        |      move.l 8(a0),d1
     a044:	|  |        |      move.l d1,-(sp)
     a046:	|  |        |      move.l d0,-(sp)
-    a048:	|  |        |      jsr 17608 <__modsi3>
+    a048:	|  |        |      jsr 17616 <__modsi3>
     a04e:	|  |        |      addq.l #8,sp
     a050:	|  |        |      movea.l 24(sp),a0
     a054:	|  |        |      move.l d0,84(a0)
@@ -15616,7 +15616,7 @@ BOOL handleClosestPoint (int * setX, int * setY, int * setPoly) {
     a2f4:	|  |  |  |      move.l a0,-(sp)
     a2f6:	|  |  |  |      lea 36(sp),a0
     a2fa:	|  |  |  |      move.l a0,-(sp)
-    a2fc:	|  |  |  |      jsr 159fe <closestPointOnLine>
+    a2fc:	|  |  |  |      jsr 15a0c <closestPointOnLine>
     a302:	|  |  |  |      lea 32(sp),sp
 
 			xTest1 = *setX - closestX;
@@ -15636,12 +15636,12 @@ BOOL handleClosestPoint (int * setX, int * setY, int * setPoly) {
 			thisDistance = xTest1 * xTest1 + yTest1 * yTest1;
     a32a:	|  |  |  |      move.l 28(sp),-(sp)
     a32e:	|  |  |  |      move.l 32(sp),-(sp)
-    a332:	|  |  |  |      jsr 1755c <__mulsi3>
+    a332:	|  |  |  |      jsr 1756a <__mulsi3>
     a338:	|  |  |  |      addq.l #8,sp
     a33a:	|  |  |  |      move.l d0,d2
     a33c:	|  |  |  |      move.l 24(sp),-(sp)
     a340:	|  |  |  |      move.l 28(sp),-(sp)
-    a344:	|  |  |  |      jsr 1755c <__mulsi3>
+    a344:	|  |  |  |      jsr 1756a <__mulsi3>
     a34a:	|  |  |  |      addq.l #8,sp
     a34c:	|  |  |  |      move.l d2,d1
     a34e:	|  |  |  |      add.l d0,d1
@@ -15763,11 +15763,11 @@ void jumpPerson (int x, int y, int objNum) {
     a452:	|  |      clr.w 66(a0)
     moveAndScale(moveMe, x, y);
     a456:	|  |      move.l 16(sp),-(sp)
-    a45a:	|  |      jsr 16fda <__floatsisf>
+    a45a:	|  |      jsr 16fe8 <__floatsisf>
     a460:	|  |      addq.l #4,sp
     a462:	|  |      move.l d0,d2
     a464:	|  |      move.l 12(sp),-(sp)
-    a468:	|  |      jsr 16fda <__floatsisf>
+    a468:	|  |      jsr 16fe8 <__floatsisf>
     a46e:	|  |      addq.l #4,sp
     a470:	|  |      move.l d2,-(sp)
     a472:	|  |      move.l d0,-(sp)
@@ -15983,7 +15983,7 @@ BOOL makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, 
 	moveMe -> walkToPoly = inFloor (x, y);
     a65e:	|         move.l 24(sp),-(sp)
     a662:	|         move.l 24(sp),-(sp)
-    a666:	|         jsr 15f00 <inFloor>
+    a666:	|         jsr 15f0e <inFloor>
     a66c:	|         addq.l #8,sp
     a66e:	|         movea.l 12(sp),a0
     a672:	|         move.l d0,60(a0)
@@ -16015,17 +16015,17 @@ BOOL makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, 
     a6b2:	|     \-> movea.l 12(sp),a0
     a6b6:	|         move.l 4(a0),d0
     a6ba:	|         move.l d0,-(sp)
-    a6bc:	|         jsr 16f72 <__fixsfsi>
+    a6bc:	|         jsr 16f80 <__fixsfsi>
     a6c2:	|         addq.l #4,sp
     a6c4:	|         move.l d0,d2
     a6c6:	|         movea.l 12(sp),a0
     a6ca:	|         move.l (a0),d0
     a6cc:	|         move.l d0,-(sp)
-    a6ce:	|         jsr 16f72 <__fixsfsi>
+    a6ce:	|         jsr 16f80 <__fixsfsi>
     a6d4:	|         addq.l #4,sp
     a6d6:	|         move.l d2,-(sp)
     a6d8:	|         move.l d0,-(sp)
-    a6da:	|         jsr 15f00 <inFloor>
+    a6da:	|         jsr 15f0e <inFloor>
     a6e0:	|         addq.l #8,sp
     a6e2:	|         movea.l 12(sp),a0
     a6e6:	|         move.l d0,56(a0)
@@ -16039,13 +16039,13 @@ BOOL makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, 
     a6f8:	|     |   movea.l 12(sp),a0
     a6fc:	|     |   move.l (a0),d0
     a6fe:	|     |   move.l d0,-(sp)
-    a700:	|     |   jsr 16f72 <__fixsfsi>
+    a700:	|     |   jsr 16f80 <__fixsfsi>
     a706:	|     |   addq.l #4,sp
     a708:	|     |   move.l d0,8(sp)
     a70c:	|     |   movea.l 12(sp),a0
     a710:	|     |   move.l 4(a0),d0
     a714:	|     |   move.l d0,-(sp)
-    a716:	|     |   jsr 16f72 <__fixsfsi>
+    a716:	|     |   jsr 16f80 <__fixsfsi>
     a71c:	|     |   addq.l #4,sp
     a71e:	|     |   move.l d0,4(sp)
 		if (! handleClosestPoint (&xxx, &yyy, &moveMe -> inPoly)) return FALSE;
@@ -16116,8 +16116,8 @@ struct personaAnimation * makeNullAnim () {
     if(newAnim == 0) {
     a7b8:	   /-- bne.s a7cc <makeNullAnim+0x44>
      	KPrintF("makeNullAnim: Can't reserve Memory\n");
-    a7ba:	   |   pea 18b83 <PutChar+0x1511>
-    a7c0:	   |   jsr 16b9e <KPrintF>
+    a7ba:	   |   pea 18b91 <PutChar+0x1511>
+    a7c0:	   |   jsr 16bac <KPrintF>
     a7c6:	   |   addq.l #4,sp
         return NULL;    
     a7c8:	   |   moveq #0,d0
@@ -16169,21 +16169,21 @@ void moveAndScale (struct onScreenPerson *me, FLOAT x, FLOAT y) {
     a830:	|   move.w 1a136 <scaleHorizon>,d0
     a836:	|   movea.w d0,a0
     a838:	|   move.l a0,-(sp)
-    a83a:	|   jsr 16fda <__floatsisf>
+    a83a:	|   jsr 16fe8 <__floatsisf>
     a840:	|   addq.l #4,sp
     a842:	|   move.l d0,-(sp)
     a844:	|   move.l d2,-(sp)
-    a846:	|   jsr 172ce <__subsf3>
+    a846:	|   jsr 172dc <__subsf3>
     a84c:	|   addq.l #8,sp
     a84e:	|   move.l d0,d2
     a850:	|   move.w 1a138 <scaleDivide>,d0
     a856:	|   movea.w d0,a0
     a858:	|   move.l a0,-(sp)
-    a85a:	|   jsr 16fda <__floatsisf>
+    a85a:	|   jsr 16fe8 <__floatsisf>
     a860:	|   addq.l #4,sp
     a862:	|   move.l d0,-(sp)
     a864:	|   move.l d2,-(sp)
-    a866:	|   jsr 16e86 <__divsf3>
+    a866:	|   jsr 16e94 <__divsf3>
     a86c:	|   addq.l #8,sp
     a86e:	|   movea.l 8(sp),a0
     a872:	|   move.l d0,32(a0)
@@ -16316,7 +16316,7 @@ void rethinkAngle (struct onScreenPerson * thisPerson) {
     a992:	       move.l 92(a0),d2
     a996:	       move.l 4(sp),-(sp)
     a99a:	       pea b4 <_start+0xb4>
-    a99e:	       jsr 175da <__divsi3>
+    a99e:	       jsr 175e8 <__divsi3>
     a9a4:	       addq.l #8,sp
     a9a6:	       add.l d2,d0
     a9a8:	       move.l d0,d1
@@ -16334,11 +16334,11 @@ void rethinkAngle (struct onScreenPerson * thisPerson) {
 	thisPerson -> direction = (direc * d) / 360;
     a9d4:	       move.l 4(sp),-(sp)
     a9d8:	       move.l 12(sp),-(sp)
-    a9dc:	       jsr 1755c <__mulsi3>
+    a9dc:	       jsr 1756a <__mulsi3>
     a9e2:	       addq.l #8,sp
     a9e4:	       pea 168 <decodeFilename+0x50>
     a9e8:	       move.l d0,-(sp)
-    a9ea:	       jsr 175da <__divsi3>
+    a9ea:	       jsr 175e8 <__divsi3>
     a9f0:	       addq.l #8,sp
     a9f2:	       movea.l 16(sp),a0
     a9f6:	       move.l d0,106(a0)
@@ -17383,7 +17383,7 @@ void shufflePeople () {
     b592:	|  |  |  /-- beq.s b5aa <shufflePeople+0x4c>
     b594:	|  |  |  |   move.l #1148846080,-(sp)
     b59a:	|  |  |  |   move.l 16(sp),-(sp)
-    b59e:	|  |  |  |   jsr 16d8c <__addsf3>
+    b59e:	|  |  |  |   jsr 16d9a <__addsf3>
     b5a4:	|  |  |  |   addq.l #8,sp
     b5a6:	|  |  |  |   move.l d0,12(sp)
 
@@ -17402,14 +17402,14 @@ void shufflePeople () {
     b5cc:	|  |  |  /-- beq.s b5e4 <shufflePeople+0x86>
     b5ce:	|  |  |  |   move.l #1148846080,-(sp)
     b5d4:	|  |  |  |   move.l 12(sp),-(sp)
-    b5d8:	|  |  |  |   jsr 16d8c <__addsf3>
+    b5d8:	|  |  |  |   jsr 16d9a <__addsf3>
     b5de:	|  |  |  |   addq.l #8,sp
     b5e0:	|  |  |  |   move.l d0,8(sp)
 
 		if (y1 > y2) {
     b5e4:	|  |  |  \-> move.l 8(sp),-(sp)
     b5e8:	|  |  |      move.l 16(sp),-(sp)
-    b5ec:	|  |  |      jsr 17146 <__gtsf2>
+    b5ec:	|  |  |      jsr 17154 <__gtsf2>
     b5f2:	|  |  |      addq.l #8,sp
     b5f4:	|  |  |      tst.l d0
     b5f6:	|  |  |  /-- ble.s b628 <shufflePeople+0xca>
@@ -17579,7 +17579,7 @@ void spinStep (struct onScreenPerson * thisPerson) {
     b748:	|      move.l 4(a0),d0
     b74c:	|      move.l d0,-(sp)
     b74e:	|      pea 168 <decodeFilename+0x50>
-    b752:	|      jsr 175da <__divsi3>
+    b752:	|      jsr 175e8 <__divsi3>
     b758:	|      addq.l #8,sp
     b75a:	\----> move.l d0,4(sp)
 	while (diff > 180) {
@@ -17736,7 +17736,7 @@ void turnMeAngle (struct onScreenPerson * thisPerson, int direc) {
 	direc += (180 / d) + 180 + thisPerson -> angleOffset;
     b890:	       move.l (sp),-(sp)
     b892:	       pea b4 <_start+0xb4>
-    b896:	       jsr 175da <__divsi3>
+    b896:	       jsr 175e8 <__divsi3>
     b89c:	       addq.l #8,sp
     b89e:	       move.l d0,d1
     b8a0:	       addi.l #180,d1
@@ -17752,11 +17752,11 @@ void turnMeAngle (struct onScreenPerson * thisPerson, int direc) {
 	thisPerson -> direction = (direc * d) / 360;
     b8c8:	       move.l (sp),-(sp)
     b8ca:	       move.l 16(sp),-(sp)
-    b8ce:	       jsr 1755c <__mulsi3>
+    b8ce:	       jsr 1756a <__mulsi3>
     b8d4:	       addq.l #8,sp
     b8d6:	       pea 168 <decodeFilename+0x50>
     b8da:	       move.l d0,-(sp)
-    b8dc:	       jsr 175da <__divsi3>
+    b8dc:	       jsr 175e8 <__divsi3>
     b8e2:	       addq.l #8,sp
     b8e4:	       movea.l 8(sp),a0
     b8e8:	       move.l d0,106(a0)
@@ -17842,32 +17842,32 @@ BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
     b988:	>-------------> movea.l 32(sp),a0
     b98c:	|               move.l 48(a0),d0
     b990:	|               move.l d0,-(sp)
-    b992:	|               jsr 16fda <__floatsisf>
+    b992:	|               jsr 16fe8 <__floatsisf>
     b998:	|               addq.l #4,sp
     b99a:	|               move.l d0,d1
     b99c:	|               movea.l 32(sp),a0
     b9a0:	|               move.l (a0),d0
     b9a2:	|               move.l d0,-(sp)
     b9a4:	|               move.l d1,-(sp)
-    b9a6:	|               jsr 172ce <__subsf3>
+    b9a6:	|               jsr 172dc <__subsf3>
     b9ac:	|               addq.l #8,sp
     b9ae:	|               move.l d0,20(sp)
 		yDiff = (thisPerson->thisStepY - thisPerson->y) * 2;
     b9b2:	|               movea.l 32(sp),a0
     b9b6:	|               move.l 52(a0),d0
     b9ba:	|               move.l d0,-(sp)
-    b9bc:	|               jsr 16fda <__floatsisf>
+    b9bc:	|               jsr 16fe8 <__floatsisf>
     b9c2:	|               addq.l #4,sp
     b9c4:	|               move.l d0,d1
     b9c6:	|               movea.l 32(sp),a0
     b9ca:	|               move.l 4(a0),d0
     b9ce:	|               move.l d0,-(sp)
     b9d0:	|               move.l d1,-(sp)
-    b9d2:	|               jsr 172ce <__subsf3>
+    b9d2:	|               jsr 172dc <__subsf3>
     b9d8:	|               addq.l #8,sp
     b9da:	|               move.l d0,-(sp)
     b9dc:	|               move.l d0,-(sp)
-    b9de:	|               jsr 16d8c <__addsf3>
+    b9de:	|               jsr 16d9a <__addsf3>
     b9e4:	|               addq.l #8,sp
     b9e6:	|               move.l d0,16(sp)
 		s = thisPerson->scale * thisPerson->walkSpeed;
@@ -17876,22 +17876,22 @@ BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
     b9f2:	|               movea.l 32(sp),a0
     b9f6:	|               move.l 28(a0),d0
     b9fa:	|               move.l d0,-(sp)
-    b9fc:	|               jsr 16fda <__floatsisf>
+    b9fc:	|               jsr 16fe8 <__floatsisf>
     ba02:	|               addq.l #4,sp
     ba04:	|               move.l d0,-(sp)
     ba06:	|               move.l d2,-(sp)
-    ba08:	|               jsr 1708c <__mulsf3>
+    ba08:	|               jsr 1709a <__mulsf3>
     ba0e:	|               addq.l #8,sp
     ba10:	|               move.l d0,24(sp)
 		if (s < 0.2) s = 0.2;
     ba14:	|               move.l 24(sp),-(sp)
-    ba18:	|               jsr 16ef2 <__extendsfdf2>
+    ba18:	|               jsr 16f00 <__extendsfdf2>
     ba1e:	|               addq.l #4,sp
     ba20:	|               move.l #-1717986918,-(sp)
     ba26:	|               move.l #1070176665,-(sp)
     ba2c:	|               move.l d1,-(sp)
     ba2e:	|               move.l d0,-(sp)
-    ba30:	|               jsr 171b2 <__ltdf2>
+    ba30:	|               jsr 171c0 <__ltdf2>
     ba36:	|               lea 16(sp),sp
     ba3a:	|               tst.l d0
     ba3c:	|           /-- bge.s ba46 <walkMe+0xde>
@@ -17899,14 +17899,14 @@ BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
 
 		maxDiff = (TF_abs(xDiff) >= TF_abs(yDiff)) ? TF_abs(xDiff) : TF_abs(yDiff);
     ba46:	|           \-> move.l 20(sp),-(sp)
-    ba4a:	|               jsr 16f72 <__fixsfsi>
+    ba4a:	|               jsr 16f80 <__fixsfsi>
     ba50:	|               addq.l #4,sp
     ba52:	|               move.l d0,-(sp)
     ba54:	|               jsr 8c96 <TF_abs>
     ba5a:	|               addq.l #4,sp
     ba5c:	|               move.l d0,d2
     ba5e:	|               move.l 16(sp),-(sp)
-    ba62:	|               jsr 16f72 <__fixsfsi>
+    ba62:	|               jsr 16f80 <__fixsfsi>
     ba68:	|               addq.l #4,sp
     ba6a:	|               move.l d0,-(sp)
     ba6c:	|               jsr 8c96 <TF_abs>
@@ -17914,39 +17914,39 @@ BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
     ba74:	|               cmp.l d2,d0
     ba76:	|        /----- bgt.s ba9a <walkMe+0x132>
     ba78:	|        |      move.l 20(sp),-(sp)
-    ba7c:	|        |      jsr 16f72 <__fixsfsi>
+    ba7c:	|        |      jsr 16f80 <__fixsfsi>
     ba82:	|        |      addq.l #4,sp
     ba84:	|        |      move.l d0,-(sp)
     ba86:	|        |      jsr 8c96 <TF_abs>
     ba8c:	|        |      addq.l #4,sp
     ba8e:	|        |      move.l d0,-(sp)
-    ba90:	|        |      jsr 16fda <__floatsisf>
+    ba90:	|        |      jsr 16fe8 <__floatsisf>
     ba96:	|        |      addq.l #4,sp
     ba98:	|        |  /-- bra.s baba <walkMe+0x152>
     ba9a:	|        \--|-> move.l 16(sp),-(sp)
-    ba9e:	|           |   jsr 16f72 <__fixsfsi>
+    ba9e:	|           |   jsr 16f80 <__fixsfsi>
     baa4:	|           |   addq.l #4,sp
     baa6:	|           |   move.l d0,-(sp)
     baa8:	|           |   jsr 8c96 <TF_abs>
     baae:	|           |   addq.l #4,sp
     bab0:	|           |   move.l d0,-(sp)
-    bab2:	|           |   jsr 16fda <__floatsisf>
+    bab2:	|           |   jsr 16fe8 <__floatsisf>
     bab8:	|           |   addq.l #4,sp
     baba:	|           \-> move.l d0,12(sp)
 
 		if (TF_abs(maxDiff) > s) {
     babe:	|               move.l 12(sp),-(sp)
-    bac2:	|               jsr 16f72 <__fixsfsi>
+    bac2:	|               jsr 16f80 <__fixsfsi>
     bac8:	|               addq.l #4,sp
     baca:	|               move.l d0,-(sp)
     bacc:	|               jsr 8c96 <TF_abs>
     bad2:	|               addq.l #4,sp
     bad4:	|               move.l d0,-(sp)
-    bad6:	|               jsr 16fda <__floatsisf>
+    bad6:	|               jsr 16fe8 <__floatsisf>
     badc:	|               addq.l #4,sp
     bade:	|               move.l d0,-(sp)
     bae0:	|               move.l 28(sp),-(sp)
-    bae4:	|               jsr 17200 <__ltsf2>
+    bae4:	|               jsr 1720e <__ltsf2>
     baea:	|               addq.l #8,sp
     baec:	|               tst.l d0
     baee:	|        /----- bge.w bba0 <walkMe+0x238>
@@ -17967,7 +17967,7 @@ BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
 			s = maxDiff / s;
     bb18:	|        |  \-> move.l 24(sp),-(sp)
     bb1c:	|        |      move.l 16(sp),-(sp)
-    bb20:	|        |      jsr 16e86 <__divsf3>
+    bb20:	|        |      jsr 16e94 <__divsf3>
     bb26:	|        |      addq.l #8,sp
     bb28:	|        |      move.l d0,24(sp)
 			if (move)
@@ -17981,16 +17981,16 @@ BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
     bb3a:	|        |  |   move.l 24(sp),d0
     bb3e:	|        |  |   move.l d0,-(sp)
     bb40:	|        |  |   move.l d0,-(sp)
-    bb42:	|        |  |   jsr 16d8c <__addsf3>
+    bb42:	|        |  |   jsr 16d9a <__addsf3>
     bb48:	|        |  |   addq.l #8,sp
     bb4a:	|        |  |   move.l d0,-(sp)
     bb4c:	|        |  |   move.l 20(sp),-(sp)
-    bb50:	|        |  |   jsr 16e86 <__divsf3>
+    bb50:	|        |  |   jsr 16e94 <__divsf3>
     bb56:	|        |  |   addq.l #8,sp
 				moveAndScale(thisPerson,
     bb58:	|        |  |   move.l d0,-(sp)
     bb5a:	|        |  |   move.l d2,-(sp)
-    bb5c:	|        |  |   jsr 16d8c <__addsf3>
+    bb5c:	|        |  |   jsr 16d9a <__addsf3>
     bb62:	|        |  |   addq.l #8,sp
     bb64:	|        |  |   move.l d0,d2
 							 thisPerson->x + xDiff / s,
@@ -17998,12 +17998,12 @@ BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
     bb6a:	|        |  |   move.l (a0),d3
     bb6c:	|        |  |   move.l 24(sp),-(sp)
     bb70:	|        |  |   move.l 24(sp),-(sp)
-    bb74:	|        |  |   jsr 16e86 <__divsf3>
+    bb74:	|        |  |   jsr 16e94 <__divsf3>
     bb7a:	|        |  |   addq.l #8,sp
 				moveAndScale(thisPerson,
     bb7c:	|        |  |   move.l d0,-(sp)
     bb7e:	|        |  |   move.l d3,-(sp)
-    bb80:	|        |  |   jsr 16d8c <__addsf3>
+    bb80:	|        |  |   jsr 16d9a <__addsf3>
     bb86:	|        |  |   addq.l #8,sp
     bb88:	|        |  |   move.l d2,-(sp)
     bb8a:	|        |  |   move.l d0,-(sp)
@@ -18073,7 +18073,7 @@ BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
     bc18:	   |            move.l 44(a0),d0
 	moveAndScale(thisPerson,
     bc1c:	   |            move.l d0,-(sp)
-    bc1e:	   |            jsr 16fda <__floatsisf>
+    bc1e:	   |            jsr 16fe8 <__floatsisf>
     bc24:	   |            addq.l #4,sp
     bc26:	   |            move.l d0,d2
 				 thisPerson->walkToX,
@@ -18081,7 +18081,7 @@ BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
     bc2c:	   |            move.l 40(a0),d0
 	moveAndScale(thisPerson,
     bc30:	   |            move.l d0,-(sp)
-    bc32:	   |            jsr 16fda <__floatsisf>
+    bc32:	   |            jsr 16fe8 <__floatsisf>
     bc38:	   |            addq.l #4,sp
     bc3a:	   |            move.l d2,-(sp)
     bc3c:	   |            move.l d0,-(sp)
@@ -18156,7 +18156,7 @@ BOOL loadGame (char * fname) {
 
 	fp = openAndVerify (fname, 'S', 'A', ERROR_GAME_LOAD_NO, &ssgVersion);
     bcc4:	          pea 1a88a <ssgVersion>
-    bcca:	          pea 18bcc <PutChar+0x155a>
+    bcca:	          pea 18bda <PutChar+0x155a>
     bcd0:	          pea 41 <_start+0x41>
     bcd4:	          pea 53 <_start+0x53>
     bcd8:	          move.l 160(sp),-(sp)
@@ -18190,8 +18190,8 @@ BOOL loadGame (char * fname) {
     bd30:	|         cmp.l 128(sp),d0
     bd34:	|     /-- beq.s bd44 <loadGame+0xa2>
 		KPrintF("Reading error in loadGame.\n");
-    bd36:	|     |   pea 18bed <PutChar+0x157b>
-    bd3c:	|     |   jsr 16b9e <KPrintF>
+    bd36:	|     |   pea 18bfb <PutChar+0x157b>
+    bd3c:	|     |   jsr 16bac <KPrintF>
     bd42:	|     |   addq.l #4,sp
 	}
 
@@ -18208,9 +18208,9 @@ BOOL loadGame (char * fname) {
     bd5e:	|  /--|-- beq.s bd80 <loadGame+0xde>
 		KPrintF("loadgame:", ERROR_GAME_LOAD_WRONG, fname);
     bd60:	|  |  \-> move.l 144(sp),-(sp)
-    bd64:	|  |      pea 18c09 <PutChar+0x1597>
-    bd6a:	|  |      pea 18cd0 <PutChar+0x165e>
-    bd70:	|  |      jsr 16b9e <KPrintF>
+    bd64:	|  |      pea 18c17 <PutChar+0x1597>
+    bd6a:	|  |      pea 18cde <PutChar+0x165e>
+    bd70:	|  |      jsr 16bac <KPrintF>
     bd76:	|  |      lea 12(sp),sp
 		return FALSE; 
     bd7a:	|  |      clr.w d0
@@ -18293,7 +18293,7 @@ BOOL loadGame (char * fname) {
 	killAllPeople ();
     be64:	|         jsr a490 <killAllPeople>
 	killAllRegions ();
-    be6a:	|         jsr 153ee <killAllRegions>
+    be6a:	|         jsr 153fc <killAllRegions>
 
 	int camerX = get2bytes (fp);
     be70:	|         move.l 112(sp),-(sp)
@@ -18329,7 +18329,7 @@ BOOL loadGame (char * fname) {
     bed0:	|         addq.l #4,sp
 	loadRegions (fp);
     bed2:	|         move.l 112(sp),-(sp)
-    bed6:	|         jsr 1544a <loadRegions>
+    bed6:	|         jsr 15458 <loadRegions>
     bedc:	|         addq.l #4,sp
 
 	mouseCursorAnim = AllocVec( sizeof( struct personaAnimation), MEMF_ANY);
@@ -18348,8 +18348,8 @@ BOOL loadGame (char * fname) {
     bf0a:	|         move.l 1a6aa <mouseCursorAnim>,d0
     bf10:	|     /-- bne.s bf24 <loadGame+0x282>
 		KPrintF("loadGame: Cannot allocate memory");
-    bf12:	|     |   pea 18cda <PutChar+0x1668>
-    bf18:	|     |   jsr 16b9e <KPrintF>
+    bf12:	|     |   pea 18ce8 <PutChar+0x1668>
+    bf18:	|     |   jsr 16bac <KPrintF>
     bf1e:	|     |   addq.l #4,sp
 		return FALSE;
     bf20:	|     |   clr.w d0
@@ -18514,8 +18514,8 @@ void saveFunction (struct loadedFunction * fun, BPTR fp) {
     c0ec:	       move.b 56(a0),d0
     c0f0:	   /-- beq.s c100 <saveFunction+0x15e>
 		KPrintF(ERROR_GAME_SAVE_FROZEN);		
-    c0f2:	   |   pea 18cfb <PutChar+0x1689>
-    c0f8:	   |   jsr 16b9e <KPrintF>
+    c0f2:	   |   pea 18d09 <PutChar+0x1689>
+    c0f8:	   |   jsr 16bac <KPrintF>
     c0fe:	   |   addq.l #4,sp
 	}
 	saveStack (fun -> stack, fp);
@@ -18574,8 +18574,8 @@ BOOL saveGame (char * fname) {
 	if (fp == NULL) {
     c190:	      /-- bne.s c1a6 <saveGame+0x4c>
 		KPrintF("saveGame: Cannot create file");
-    c192:	      |   pea 18d1d <PutChar+0x16ab>
-    c198:	      |   jsr 16b9e <KPrintF>
+    c192:	      |   pea 18d2b <PutChar+0x16ab>
+    c198:	      |   jsr 16bac <KPrintF>
     c19e:	      |   addq.l #4,sp
 		return FALSE;
     c1a0:	      |   clr.w d0
@@ -18584,7 +18584,7 @@ BOOL saveGame (char * fname) {
 
 	Write( fp, &"SLUDSA", 6);
     c1a6:	|     \-> move.l 256(sp),252(sp)
-    c1ac:	|         move.l #101690,248(sp)
+    c1ac:	|         move.l #101704,248(sp)
     c1b4:	|         moveq #6,d0
     c1b6:	|         move.l d0,244(sp)
     c1ba:	|         move.l 1a7aa <DOSBase>,d0
@@ -18767,7 +18767,7 @@ BOOL saveGame (char * fname) {
 	// Save regions
 	saveRegions (fp);
     c410:	|         move.l 256(sp),-(sp)
-    c414:	|         jsr 15604 <saveRegions>
+    c414:	|         jsr 15612 <saveRegions>
     c41a:	|         addq.l #4,sp
 
 	saveAnim (mouseCursorAnim, fp);
@@ -19136,8 +19136,8 @@ BOOL saveStackRef (struct stackHandler * vs, BPTR fp) {
     c81c:	|            tst.l 48(sp)
     c820:	|        /-- bne.s c834 <saveStackRef+0xfe>
 		KPrintF("saveStackRef: Cannot allocate memory");
-    c822:	|        |   pea 18d69 <PutChar+0x16f7>
-    c828:	|        |   jsr 16b9e <KPrintF>
+    c822:	|        |   pea 18d77 <PutChar+0x16f7>
+    c828:	|        |   jsr 16bac <KPrintF>
     c82e:	|        |   addq.l #4,sp
 		return FALSE;
     c830:	|        |   clr.w d0
@@ -19279,10 +19279,10 @@ BOOL saveVariable (struct variable * from, BPTR fp)
     c960:	|  |      lea 1a680 <typeName>,a0
     c966:	|  |      move.l (0,a1,a0.l),d0
     c96a:	|  |  /-- bra.s c972 <saveVariable+0x114>
-    c96c:	|  \--|-> move.l #101774,d0
+    c96c:	|  \--|-> move.l #101788,d0
     c972:	|     \-> move.l d0,-(sp)
-    c974:	|         pea 18d95 <PutChar+0x1723>
-    c97a:	|         jsr 16b9e <KPrintF>
+    c974:	|         pea 18da3 <PutChar+0x1723>
+    c97a:	|         jsr 16bac <KPrintF>
     c980:	|         addq.l #8,sp
 						"bad ID");						
 	}
@@ -19674,8 +19674,8 @@ void blankScreen(int x1, int y1, int x2, int y2) {
 
 void darkScreen () {
 	KPrintF("darkScreen: Amiga: Graphics Display not implemented yet."); //Todo: Amigize this
-    cc74:	pea 18db8 <PutChar+0x1746>
-    cc7a:	jsr 16b9e <KPrintF>
+    cc74:	pea 18dc6 <PutChar+0x1746>
+    cc7a:	jsr 16bac <KPrintF>
     cc80:	addq.l #4,sp
 }
     cc82:	nop
@@ -19725,8 +19725,8 @@ void drawVerticalLine (unsigned int x, unsigned int y1, unsigned int y2) {
 
 void hardScroll (int distance) {
    	KPrintF("Amiga: Function not implemented."); //Todo: Amigize this
-    ccd2:	pea 18df1 <PutChar+0x177f>
-    ccd8:	jsr 16b9e <KPrintF>
+    ccd2:	pea 18dff <PutChar+0x177f>
+    ccd8:	jsr 16bac <KPrintF>
     ccde:	addq.l #4,sp
 }
     cce0:	nop
@@ -19815,8 +19815,8 @@ void loadBackDrop (int fileNum, int x, int y) {
     cd9e:	       tst.l d0
     cda0:	   /-- bne.s cdb2 <loadBackDrop+0x20>
 		KPrintF("Can't load overlay image");
-    cda2:	   |   pea 18e12 <PutChar+0x17a0>
-    cda8:	   |   jsr 16b9e <KPrintF>
+    cda2:	   |   pea 18e20 <PutChar+0x17a0>
+    cda8:	   |   jsr 16bac <KPrintF>
     cdae:	   |   addq.l #4,sp
 		return;
     cdb0:	/--|-- bra.s cdd2 <loadBackDrop+0x40>
@@ -19852,8 +19852,8 @@ BOOL loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
     cdee:	move.w d0,d0
     cdf0:	move.w d0,2(sp)
 	KPrintF("loadParallax: Not implemented yet."); //Amiga Todo: Amigize this	
-    cdf4:	pea 18e61 <PutChar+0x17ef>
-    cdfa:	jsr 16b9e <KPrintF>
+    cdf4:	pea 18e6f <PutChar+0x17ef>
+    cdfa:	jsr 16bac <KPrintF>
     ce00:	addq.l #4,sp
 
 }
@@ -19865,8 +19865,8 @@ BOOL loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 
 void mixBackDrop (int fileNum, int x, int y) {
 	KPrintF("mixBackdrop: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
-    ce08:	pea 18e84 <PutChar+0x1812>
-    ce0e:	jsr 16b9e <KPrintF>
+    ce08:	pea 18e92 <PutChar+0x1812>
+    ce0e:	jsr 16bac <KPrintF>
     ce14:	addq.l #4,sp
 }
     ce16:	nop
@@ -19921,8 +19921,8 @@ BOOL resizeBackdrop (int x, int y) {
     ce7a:	move.l 8(sp),d0
     ce7e:	move.l d0,1a89a <sceneHeight>
 	KPrintF("resizeBackdrop: Reserving new Backdrop");
-    ce84:	pea 18ebd <PutChar+0x184b>
-    ce8a:	jsr 16b9e <KPrintF>
+    ce84:	pea 18ecb <PutChar+0x184b>
+    ce8a:	jsr 16bac <KPrintF>
     ce90:	addq.l #4,sp
 	return reserveBackdrop();
     ce92:	jsr ce36 <reserveBackdrop>
@@ -20019,8 +20019,8 @@ void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp) {
 BOOL snapshot () {
 
 	KPrintF("snapshot: Not yet implemented on Amiga"); //Todo
-    cf6e:	pea 18ee4 <PutChar+0x1872>
-    cf74:	jsr 16b9e <KPrintF>
+    cf6e:	pea 18ef2 <PutChar+0x1872>
+    cf74:	jsr 16bac <KPrintF>
     cf7a:	addq.l #4,sp
 	return TRUE;
     cf7c:	moveq #1,d0
@@ -20434,8 +20434,8 @@ void removeObjectType (struct objectType * oT) {
 		}
 	}
 	KPrintF("Can't delete object type: bad pointer");
-    d3b2:	         |   pea 18f0b <PutChar+0x1899>
-    d3b8:	         |   jsr 16b9e <KPrintF>
+    d3b2:	         |   pea 18f19 <PutChar+0x1899>
+    d3b8:	         |   jsr 16bac <KPrintF>
     d3be:	         |   addq.l #4,sp
 }
     d3c0:	         \-> movea.l (sp)+,a6
@@ -20478,9 +20478,9 @@ BOOL fileToStack(char *filename, struct stackHandler *sH) {
     const char *checker = saveEncoding ? "[Custom data (encoded)]\r\n" : "[Custom data (ASCII)]\n";
     d402:	                         move.w 1a8b2 <saveEncoding>,d0
     d408:	                  /----- beq.s d412 <fileToStack+0x1c>
-    d40a:	                  |      move.l #102193,d0
+    d40a:	                  |      move.l #102207,d0
     d410:	                  |  /-- bra.s d418 <fileToStack+0x22>
-    d412:	                  \--|-> move.l #102219,d0
+    d412:	                  \--|-> move.l #102233,d0
     d418:	                     \-> move.l d0,116(sp)
 
     BPTR fp = Open(filename, MODE_OLDFILE);
@@ -20498,8 +20498,8 @@ BOOL fileToStack(char *filename, struct stackHandler *sH) {
     d44a:	                     /-- bne.s d464 <fileToStack+0x6e>
         KPrintF("No such file", filename);
     d44c:	                     |   move.l 124(sp),-(sp)
-    d450:	                     |   pea 18f62 <PutChar+0x18f0>
-    d456:	                     |   jsr 16b9e <KPrintF>
+    d450:	                     |   pea 18f70 <PutChar+0x18f0>
+    d456:	                     |   jsr 16bac <KPrintF>
     d45c:	                     |   addq.l #8,sp
         return FALSE;
     d45e:	                     |   clr.w d0
@@ -20541,8 +20541,8 @@ BOOL fileToStack(char *filename, struct stackHandler *sH) {
     d4c6:	|              |  |  |   move.l d0,18(sp)
             KPrintF(LOAD_ERROR "This isn't a SLUDGE custom data file:", filename);
     d4ca:	|              |  |  |   move.l 124(sp),-(sp)
-    d4ce:	|              |  |  |   pea 18f6f <PutChar+0x18fd>
-    d4d4:	|              |  |  |   jsr 16b9e <KPrintF>
+    d4ce:	|              |  |  |   pea 18f7d <PutChar+0x18fd>
+    d4d4:	|              |  |  |   jsr 16bac <KPrintF>
     d4da:	|              |  |  |   addq.l #8,sp
             return FALSE;
     d4dc:	|              |  |  |   clr.w d0
@@ -20565,7 +20565,7 @@ BOOL fileToStack(char *filename, struct stackHandler *sH) {
     d500:	|  |                     addq.l #4,sp
     d502:	|  |                     move.l d0,96(sp)
         if (strcmp(checker, "UN�LO�CKED")) {
-    d506:	|  |                     pea 18fb0 <line.c.05397aaf+0x2d>
+    d506:	|  |                     pea 18fbe <line.c.05397aaf+0x3b>
     d50c:	|  |                     move.l 100(sp),-(sp)
     d510:	|  |                     jsr 1365a <strcmp>
     d516:	|  |                     addq.l #8,sp
@@ -20580,8 +20580,8 @@ BOOL fileToStack(char *filename, struct stackHandler *sH) {
     d532:	|  |                 |   move.l d0,84(sp)
             KPrintF(LOAD_ERROR "The current file encoding setting does not match the encoding setting used when this file was created:", filename);
     d536:	|  |                 |   move.l 124(sp),-(sp)
-    d53a:	|  |                 |   pea 18fbf <line.c.05397aaf+0x3c>
-    d540:	|  |                 |   jsr 16b9e <KPrintF>
+    d53a:	|  |                 |   pea 18fcd <line.c.05397aaf+0x4a>
+    d540:	|  |                 |   jsr 16bac <KPrintF>
     d546:	|  |                 |   addq.l #8,sp
             return FALSE;
     d548:	|  |                 |   clr.w d0
@@ -20697,8 +20697,8 @@ BOOL fileToStack(char *filename, struct stackHandler *sH) {
                 default:
                     KPrintF(LOAD_ERROR "Corrupt custom data file:", filename);
     d670:	|  |  |  |  \--------|-> move.l 124(sp),-(sp)
-    d674:	|  |  |  |           |   pea 19041 <line.c.05397aaf+0xbe>
-    d67a:	|  |  |  |           |   jsr 16b9e <KPrintF>
+    d674:	|  |  |  |           |   pea 1904f <line.c.05397aaf+0xcc>
+    d67a:	|  |  |  |           |   jsr 16bac <KPrintF>
     d680:	|  |  |  |           |   addq.l #8,sp
                     Close(fp);
     d682:	|  |  |  |           |   move.l 100(sp),46(sp)
@@ -20985,8 +20985,8 @@ char *readTextPlain(BPTR fp) {
     d974:	      |      cmp.l 116(sp),d0
     d978:	      |  /-- beq.s d988 <readTextPlain+0x15e>
             KPrintF("Reading error in readTextPlain.\n");
-    d97a:	      |  |   pea 19076 <line.c.05397aaf+0xf3>
-    d980:	      |  |   jsr 16b9e <KPrintF>
+    d97a:	      |  |   pea 19084 <line.c.05397aaf+0x101>
+    d980:	      |  |   jsr 16bac <KPrintF>
     d986:	      |  |   addq.l #4,sp
         }
         FGetC(fp); // Skip the newline character
@@ -21032,8 +21032,8 @@ BOOL stackToFile (char * filename, const struct variable * from) {
     d9f2:	                  /-- bne.s da0c <stackToFile+0x50>
         KPrintF("Can't create file", filename);
     d9f4:	                  |   move.l 160(sp),-(sp)
-    d9f8:	                  |   pea 19097 <line.c.05397aaf+0x114>
-    d9fe:	                  |   jsr 16b9e <KPrintF>
+    d9f8:	                  |   pea 190a5 <line.c.05397aaf+0x122>
+    d9fe:	                  |   jsr 16bac <KPrintF>
     da04:	                  |   addq.l #8,sp
         return FALSE;
     da06:	                  |   clr.w d0
@@ -21060,7 +21060,7 @@ BOOL stackToFile (char * filename, const struct variable * from) {
     da3c:	|                 /-- beq.s da8e <stackToFile+0xd2>
         FPrintf(fp, "[Custom data (encoded)]\r\n");
     da3e:	|                 |   move.l 136(sp),116(sp)
-    da44:	|                 |   move.l #102193,112(sp)
+    da44:	|                 |   move.l #102207,112(sp)
     da4c:	|                 |   moveq #99,d0
     da4e:	|                 |   not.b d0
     da50:	|                 |   add.l sp,d0
@@ -21075,14 +21075,14 @@ BOOL stackToFile (char * filename, const struct variable * from) {
     da74:	|                 |   move.l d0,104(sp)
         writeStringEncoded("UN�LO�CKED", fp);
     da78:	|                 |   move.l 136(sp),-(sp)
-    da7c:	|                 |   pea 18fb0 <line.c.05397aaf+0x2d>
+    da7c:	|                 |   pea 18fbe <line.c.05397aaf+0x3b>
     da82:	|                 |   jsr dcd2 <writeStringEncoded>
     da88:	|                 |   addq.l #8,sp
     da8a:	|  /--------------|-- bra.w dca0 <stackToFile+0x2e4>
     } else {
         FPrintf(fp, "[Custom data (ASCII)]\n");
     da8e:	|  |              \-> move.l 136(sp),132(sp)
-    da94:	|  |                  move.l #102219,128(sp)
+    da94:	|  |                  move.l #102233,128(sp)
     da9c:	|  |                  moveq #99,d1
     da9e:	|  |                  not.b d1
     daa0:	|  |                  add.l sp,d1
@@ -21200,8 +21200,8 @@ BOOL stackToFile (char * filename, const struct variable * from) {
                 default:
                     KPrintF("Can't create an encoded custom data file containing anything other than numbers and strings", filename);
     dbf2:	|  |  |  |  |  \----> move.l 160(sp),-(sp)
-    dbf6:	|  |  |  |  |         pea 190a9 <line.c.05397aaf+0x126>
-    dbfc:	|  |  |  |  |         jsr 16b9e <KPrintF>
+    dbf6:	|  |  |  |  |         pea 190b7 <line.c.05397aaf+0x134>
+    dbfc:	|  |  |  |  |         jsr 16bac <KPrintF>
     dc02:	|  |  |  |  |         addq.l #8,sp
                     Close(fp);
     dc04:	|  |  |  |  |         move.l 136(sp),28(sp)
@@ -21230,7 +21230,7 @@ BOOL stackToFile (char * filename, const struct variable * from) {
     dc40:	|  |  |  |     |      movea.w d0,a0
     dc42:	|  |  |  |     |      move.l a0,12(sp)
     dc46:	|  |  |  |     |      move.l 136(sp),96(sp)
-    dc4c:	|  |  |  |     |      move.l #102661,92(sp)
+    dc4c:	|  |  |  |     |      move.l #102675,92(sp)
     dc54:	|  |  |  |     |      moveq #99,d0
     dc56:	|  |  |  |     |      not.b d0
     dc58:	|  |  |  |     |      add.l sp,d0
@@ -21397,8 +21397,8 @@ BOOL failSecurityCheck(char * fn) {
 			case '|':
 				KPrintF("Filenames may not contain the following characters: \n\n\\  /  :  \"  <  >  |  ?  *\n\nConsequently, the following filename is not allowed:", fn);
     ddd0:	|  |  |  |  \----> move.l 8(sp),-(sp)
-    ddd4:	|  |  |  |         pea 19109 <line.c.05397aaf+0x186>
-    ddda:	|  |  |  |         jsr 16b9e <KPrintF>
+    ddd4:	|  |  |  |         pea 19117 <line.c.05397aaf+0x194>
+    ddda:	|  |  |  |         jsr 16bac <KPrintF>
     dde0:	|  |  |  |         addq.l #8,sp
 				return TRUE;
     dde2:	|  |  |  |         moveq #1,d0
@@ -21547,8 +21547,8 @@ static enum builtReturn sayCore (int numParams, struct loadedFunction * fun, BOO
 	}
 
 	KPrintF("Function should have either 2 or 3 parameters");
-    df42:	\--|-------> pea 1918f <line.c.05397aaf+0x20c>
-    df48:	   |         jsr 16b9e <KPrintF>
+    df42:	\--|-------> pea 1919d <line.c.05397aaf+0x21a>
+    df48:	   |         jsr 16bac <KPrintF>
     df4e:	   |         addq.l #4,sp
 	return BR_ERROR;
     df50:	   |         moveq #1,d0
@@ -21706,16 +21706,16 @@ builtIn(getMouseScreenX)
 	setVariable (&fun -> reg, SVT_INT, input.mouseX*cameraZoom);
     e03e:	move.l 1a75e <input+0xa>,d0
     e044:	move.l d0,-(sp)
-    e046:	jsr 16fda <__floatsisf>
+    e046:	jsr 16fe8 <__floatsisf>
     e04c:	addq.l #4,sp
     e04e:	move.l d0,d1
     e050:	move.l 1a142 <cameraZoom>,d0
     e056:	move.l d0,-(sp)
     e058:	move.l d1,-(sp)
-    e05a:	jsr 1708c <__mulsf3>
+    e05a:	jsr 1709a <__mulsf3>
     e060:	addq.l #8,sp
     e062:	move.l d0,-(sp)
-    e064:	jsr 16f72 <__fixsfsi>
+    e064:	jsr 16f80 <__fixsfsi>
     e06a:	addq.l #4,sp
     e06c:	move.l d0,d1
     e06e:	moveq #28,d0
@@ -21738,16 +21738,16 @@ builtIn(getMouseScreenY)
 	setVariable (&fun -> reg, SVT_INT, input.mouseY*cameraZoom);
     e08a:	move.l 1a762 <input+0xe>,d0
     e090:	move.l d0,-(sp)
-    e092:	jsr 16fda <__floatsisf>
+    e092:	jsr 16fe8 <__floatsisf>
     e098:	addq.l #4,sp
     e09a:	move.l d0,d1
     e09c:	move.l 1a142 <cameraZoom>,d0
     e0a2:	move.l d0,-(sp)
     e0a4:	move.l d1,-(sp)
-    e0a6:	jsr 1708c <__mulsf3>
+    e0a6:	jsr 1709a <__mulsf3>
     e0ac:	addq.l #8,sp
     e0ae:	move.l d0,-(sp)
-    e0b0:	jsr 16f72 <__fixsfsi>
+    e0b0:	jsr 16f80 <__fixsfsi>
     e0b6:	addq.l #4,sp
     e0b8:	move.l d0,d1
     e0ba:	moveq #28,d0
@@ -21923,7 +21923,7 @@ builtIn(saveGame)
 
     loadNow = joinStrings(":", aaaaa);
     e250:	|  \-> move.l 12(sp),-(sp)
-    e254:	|      pea 191bd <line.c.05397aaf+0x23a>
+    e254:	|      pea 191cb <line.c.05397aaf+0x248>
     e25a:	|      jsr 136da <joinStrings>
     e260:	|      addq.l #8,sp
     e262:	|      move.l d0,1a76e <loadNow>
@@ -22006,8 +22006,8 @@ builtIn(fileExists)
     if (!fp) {        
     e348:	|  /-- bne.s e358 <builtIn_fileExists+0xb0>
         KPrintF("Can't get current directory.\n");      
-    e34a:	|  |   pea 191bf <line.c.05397aaf+0x23c>
-    e350:	|  |   jsr 16b9e <KPrintF>
+    e34a:	|  |   pea 191cd <line.c.05397aaf+0x24a>
+    e350:	|  |   jsr 16bac <KPrintF>
     e356:	|  |   addq.l #4,sp
     }
     // Return value
@@ -22439,8 +22439,8 @@ builtIn(pasteImage)
     e776:	       lea -12(sp),sp
 	UNUSEDALL
 	KPrintF("pasteimage: Started\n");
-    e77a:	       pea 191dd <line.c.05397aaf+0x25a>
-    e780:	       jsr 16b9e <KPrintF>
+    e77a:	       pea 191eb <graphics.c.1c13408a+0xc>
+    e780:	       jsr 16bac <KPrintF>
     e786:	       addq.l #4,sp
 	int x, y;
 	if (! getValueType(&y, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -22510,8 +22510,8 @@ builtIn(pasteImage)
     e834:	|      jsr d94 <pasteCursor>
     e83a:	|      lea 12(sp),sp
 	KPrintF("pasteimage: Finished\n");
-    e83e:	|      pea 191f2 <graphics.c.1c13408a+0x13>
-    e844:	|      jsr 16b9e <KPrintF>
+    e83e:	|      pea 19200 <graphics.c.1c13408a+0x21>
+    e844:	|      jsr 16bac <KPrintF>
     e84a:	|      addq.l #4,sp
 	return BR_CONTINUE;	
     e84c:	|      moveq #2,d0
@@ -22592,8 +22592,8 @@ builtIn(setSceneDimensions)
     e8f4:	+--|-- bra.s e906 <builtIn_setSceneDimensions+0xb2>
 	}
 	KPrintF("Out of memory creating new backdrop.");
-    e8f6:	|  \-> pea 19208 <graphics.c.1c13408a+0x29>
-    e8fc:	|      jsr 16b9e <KPrintF>
+    e8f6:	|  \-> pea 19216 <graphics.c.1c13408a+0x37>
+    e8fc:	|      jsr 16bac <KPrintF>
     e902:	|      addq.l #4,sp
 	return BR_ERROR;
     e904:	|      moveq #1,d0
@@ -22648,51 +22648,51 @@ builtIn(aimCamera)
 	cameraX -= (FLOAT)(winWidth >> 1)/ cameraZoom;
     e97e:	|         move.l 1a8b4 <cameraX>,d0
     e984:	|         move.l d0,-(sp)
-    e986:	|         jsr 16fda <__floatsisf>
+    e986:	|         jsr 16fe8 <__floatsisf>
     e98c:	|         addq.l #4,sp
     e98e:	|         move.l d0,d2
     e990:	|         move.l 1a6f6 <winWidth>,d0
     e996:	|         lsr.l #1,d0
     e998:	|         move.l d0,-(sp)
-    e99a:	|         jsr 17002 <__floatunsisf>
+    e99a:	|         jsr 17010 <__floatunsisf>
     e9a0:	|         addq.l #4,sp
     e9a2:	|         move.l d0,d1
     e9a4:	|         move.l 1a142 <cameraZoom>,d0
     e9aa:	|         move.l d0,-(sp)
     e9ac:	|         move.l d1,-(sp)
-    e9ae:	|         jsr 16e86 <__divsf3>
+    e9ae:	|         jsr 16e94 <__divsf3>
     e9b4:	|         addq.l #8,sp
     e9b6:	|         move.l d0,-(sp)
     e9b8:	|         move.l d2,-(sp)
-    e9ba:	|         jsr 172ce <__subsf3>
+    e9ba:	|         jsr 172dc <__subsf3>
     e9c0:	|         addq.l #8,sp
     e9c2:	|         move.l d0,-(sp)
-    e9c4:	|         jsr 16f72 <__fixsfsi>
+    e9c4:	|         jsr 16f80 <__fixsfsi>
     e9ca:	|         addq.l #4,sp
     e9cc:	|         move.l d0,1a8b4 <cameraX>
 	cameraY -= (FLOAT)(winHeight >> 1)/ cameraZoom;
     e9d2:	|         move.l 1a8b8 <cameraY>,d0
     e9d8:	|         move.l d0,-(sp)
-    e9da:	|         jsr 16fda <__floatsisf>
+    e9da:	|         jsr 16fe8 <__floatsisf>
     e9e0:	|         addq.l #4,sp
     e9e2:	|         move.l d0,d2
     e9e4:	|         move.l 1a6fa <winHeight>,d0
     e9ea:	|         lsr.l #1,d0
     e9ec:	|         move.l d0,-(sp)
-    e9ee:	|         jsr 17002 <__floatunsisf>
+    e9ee:	|         jsr 17010 <__floatunsisf>
     e9f4:	|         addq.l #4,sp
     e9f6:	|         move.l d0,d1
     e9f8:	|         move.l 1a142 <cameraZoom>,d0
     e9fe:	|         move.l d0,-(sp)
     ea00:	|         move.l d1,-(sp)
-    ea02:	|         jsr 16e86 <__divsf3>
+    ea02:	|         jsr 16e94 <__divsf3>
     ea08:	|         addq.l #8,sp
     ea0a:	|         move.l d0,-(sp)
     ea0c:	|         move.l d2,-(sp)
-    ea0e:	|         jsr 172ce <__subsf3>
+    ea0e:	|         jsr 172dc <__subsf3>
     ea14:	|         addq.l #8,sp
     ea16:	|         move.l d0,-(sp)
-    ea18:	|         jsr 16f72 <__fixsfsi>
+    ea18:	|         jsr 16f80 <__fixsfsi>
     ea1e:	|         addq.l #4,sp
     ea20:	|         move.l d0,1a8b8 <cameraY>
 
@@ -22704,55 +22704,55 @@ builtIn(aimCamera)
 	else if (cameraX > sceneWidth - (FLOAT)winWidth/ cameraZoom) cameraX = sceneWidth - (FLOAT)winWidth/ cameraZoom;
     ea38:	|  |  \-> move.l 1a8b4 <cameraX>,d0
     ea3e:	|  |      move.l d0,-(sp)
-    ea40:	|  |      jsr 16fda <__floatsisf>
+    ea40:	|  |      jsr 16fe8 <__floatsisf>
     ea46:	|  |      addq.l #4,sp
     ea48:	|  |      move.l d0,d2
     ea4a:	|  |      move.l 1a896 <sceneWidth>,d0
     ea50:	|  |      move.l d0,-(sp)
-    ea52:	|  |      jsr 17002 <__floatunsisf>
+    ea52:	|  |      jsr 17010 <__floatunsisf>
     ea58:	|  |      addq.l #4,sp
     ea5a:	|  |      move.l d0,d3
     ea5c:	|  |      move.l 1a6f6 <winWidth>,d0
     ea62:	|  |      move.l d0,-(sp)
-    ea64:	|  |      jsr 17002 <__floatunsisf>
+    ea64:	|  |      jsr 17010 <__floatunsisf>
     ea6a:	|  |      addq.l #4,sp
     ea6c:	|  |      move.l d0,d1
     ea6e:	|  |      move.l 1a142 <cameraZoom>,d0
     ea74:	|  |      move.l d0,-(sp)
     ea76:	|  |      move.l d1,-(sp)
-    ea78:	|  |      jsr 16e86 <__divsf3>
+    ea78:	|  |      jsr 16e94 <__divsf3>
     ea7e:	|  |      addq.l #8,sp
     ea80:	|  |      move.l d0,-(sp)
     ea82:	|  |      move.l d3,-(sp)
-    ea84:	|  |      jsr 172ce <__subsf3>
+    ea84:	|  |      jsr 172dc <__subsf3>
     ea8a:	|  |      addq.l #8,sp
     ea8c:	|  |      move.l d0,-(sp)
     ea8e:	|  |      move.l d2,-(sp)
-    ea90:	|  |      jsr 17146 <__gtsf2>
+    ea90:	|  |      jsr 17154 <__gtsf2>
     ea96:	|  |      addq.l #8,sp
     ea98:	|  |      tst.l d0
     ea9a:	|  +----- ble.s eaee <builtIn_aimCamera+0x1e4>
     ea9c:	|  |      move.l 1a896 <sceneWidth>,d0
     eaa2:	|  |      move.l d0,-(sp)
-    eaa4:	|  |      jsr 17002 <__floatunsisf>
+    eaa4:	|  |      jsr 17010 <__floatunsisf>
     eaaa:	|  |      addq.l #4,sp
     eaac:	|  |      move.l d0,d2
     eaae:	|  |      move.l 1a6f6 <winWidth>,d0
     eab4:	|  |      move.l d0,-(sp)
-    eab6:	|  |      jsr 17002 <__floatunsisf>
+    eab6:	|  |      jsr 17010 <__floatunsisf>
     eabc:	|  |      addq.l #4,sp
     eabe:	|  |      move.l d0,d1
     eac0:	|  |      move.l 1a142 <cameraZoom>,d0
     eac6:	|  |      move.l d0,-(sp)
     eac8:	|  |      move.l d1,-(sp)
-    eaca:	|  |      jsr 16e86 <__divsf3>
+    eaca:	|  |      jsr 16e94 <__divsf3>
     ead0:	|  |      addq.l #8,sp
     ead2:	|  |      move.l d0,-(sp)
     ead4:	|  |      move.l d2,-(sp)
-    ead6:	|  |      jsr 172ce <__subsf3>
+    ead6:	|  |      jsr 172dc <__subsf3>
     eadc:	|  |      addq.l #8,sp
     eade:	|  |      move.l d0,-(sp)
-    eae0:	|  |      jsr 16f72 <__fixsfsi>
+    eae0:	|  |      jsr 16f80 <__fixsfsi>
     eae6:	|  |      addq.l #4,sp
     eae8:	|  |      move.l d0,1a8b4 <cameraX>
 	if (cameraY < 0) cameraY = 0;
@@ -22763,55 +22763,55 @@ builtIn(aimCamera)
 	else if (cameraY > sceneHeight - (FLOAT)winHeight/ cameraZoom) cameraY = sceneHeight - (FLOAT)winHeight/ cameraZoom;
     eb00:	|  |  \-> move.l 1a8b8 <cameraY>,d0
     eb06:	|  |      move.l d0,-(sp)
-    eb08:	|  |      jsr 16fda <__floatsisf>
+    eb08:	|  |      jsr 16fe8 <__floatsisf>
     eb0e:	|  |      addq.l #4,sp
     eb10:	|  |      move.l d0,d2
     eb12:	|  |      move.l 1a89a <sceneHeight>,d0
     eb18:	|  |      move.l d0,-(sp)
-    eb1a:	|  |      jsr 17002 <__floatunsisf>
+    eb1a:	|  |      jsr 17010 <__floatunsisf>
     eb20:	|  |      addq.l #4,sp
     eb22:	|  |      move.l d0,d3
     eb24:	|  |      move.l 1a6fa <winHeight>,d0
     eb2a:	|  |      move.l d0,-(sp)
-    eb2c:	|  |      jsr 17002 <__floatunsisf>
+    eb2c:	|  |      jsr 17010 <__floatunsisf>
     eb32:	|  |      addq.l #4,sp
     eb34:	|  |      move.l d0,d1
     eb36:	|  |      move.l 1a142 <cameraZoom>,d0
     eb3c:	|  |      move.l d0,-(sp)
     eb3e:	|  |      move.l d1,-(sp)
-    eb40:	|  |      jsr 16e86 <__divsf3>
+    eb40:	|  |      jsr 16e94 <__divsf3>
     eb46:	|  |      addq.l #8,sp
     eb48:	|  |      move.l d0,-(sp)
     eb4a:	|  |      move.l d3,-(sp)
-    eb4c:	|  |      jsr 172ce <__subsf3>
+    eb4c:	|  |      jsr 172dc <__subsf3>
     eb52:	|  |      addq.l #8,sp
     eb54:	|  |      move.l d0,-(sp)
     eb56:	|  |      move.l d2,-(sp)
-    eb58:	|  |      jsr 17146 <__gtsf2>
+    eb58:	|  |      jsr 17154 <__gtsf2>
     eb5e:	|  |      addq.l #8,sp
     eb60:	|  |      tst.l d0
     eb62:	|  +----- ble.s ebb6 <builtIn_aimCamera+0x2ac>
     eb64:	|  |      move.l 1a89a <sceneHeight>,d0
     eb6a:	|  |      move.l d0,-(sp)
-    eb6c:	|  |      jsr 17002 <__floatunsisf>
+    eb6c:	|  |      jsr 17010 <__floatunsisf>
     eb72:	|  |      addq.l #4,sp
     eb74:	|  |      move.l d0,d2
     eb76:	|  |      move.l 1a6fa <winHeight>,d0
     eb7c:	|  |      move.l d0,-(sp)
-    eb7e:	|  |      jsr 17002 <__floatunsisf>
+    eb7e:	|  |      jsr 17010 <__floatunsisf>
     eb84:	|  |      addq.l #4,sp
     eb86:	|  |      move.l d0,d1
     eb88:	|  |      move.l 1a142 <cameraZoom>,d0
     eb8e:	|  |      move.l d0,-(sp)
     eb90:	|  |      move.l d1,-(sp)
-    eb92:	|  |      jsr 16e86 <__divsf3>
+    eb92:	|  |      jsr 16e94 <__divsf3>
     eb98:	|  |      addq.l #8,sp
     eb9a:	|  |      move.l d0,-(sp)
     eb9c:	|  |      move.l d2,-(sp)
-    eb9e:	|  |      jsr 172ce <__subsf3>
+    eb9e:	|  |      jsr 172dc <__subsf3>
     eba4:	|  |      addq.l #8,sp
     eba6:	|  |      move.l d0,-(sp)
-    eba8:	|  |      jsr 16f72 <__fixsfsi>
+    eba8:	|  |      jsr 16f80 <__fixsfsi>
     ebae:	|  |      addq.l #4,sp
     ebb0:	|  |      move.l d0,1a8b8 <cameraY>
 	return BR_CONTINUE;
@@ -22854,31 +22854,31 @@ builtIn(zoomCamera)
 	input.mouseX = input.mouseX * cameraZoom;
     ebfa:	|      move.l 1a75e <input+0xa>,d0
     ec00:	|      move.l d0,-(sp)
-    ec02:	|      jsr 16fda <__floatsisf>
+    ec02:	|      jsr 16fe8 <__floatsisf>
     ec08:	|      addq.l #4,sp
     ec0a:	|      move.l d0,d1
     ec0c:	|      move.l 1a142 <cameraZoom>,d0
     ec12:	|      move.l d0,-(sp)
     ec14:	|      move.l d1,-(sp)
-    ec16:	|      jsr 1708c <__mulsf3>
+    ec16:	|      jsr 1709a <__mulsf3>
     ec1c:	|      addq.l #8,sp
     ec1e:	|      move.l d0,-(sp)
-    ec20:	|      jsr 16f72 <__fixsfsi>
+    ec20:	|      jsr 16f80 <__fixsfsi>
     ec26:	|      addq.l #4,sp
     ec28:	|      move.l d0,1a75e <input+0xa>
 	input.mouseY = input.mouseY * cameraZoom;
     ec2e:	|      move.l 1a762 <input+0xe>,d0
     ec34:	|      move.l d0,-(sp)
-    ec36:	|      jsr 16fda <__floatsisf>
+    ec36:	|      jsr 16fe8 <__floatsisf>
     ec3c:	|      addq.l #4,sp
     ec3e:	|      move.l d0,d1
     ec40:	|      move.l 1a142 <cameraZoom>,d0
     ec46:	|      move.l d0,-(sp)
     ec48:	|      move.l d1,-(sp)
-    ec4a:	|      jsr 1708c <__mulsf3>
+    ec4a:	|      jsr 1709a <__mulsf3>
     ec50:	|      addq.l #8,sp
     ec52:	|      move.l d0,-(sp)
-    ec54:	|      jsr 16f72 <__fixsfsi>
+    ec54:	|      jsr 16f80 <__fixsfsi>
     ec5a:	|      addq.l #4,sp
     ec5c:	|      move.l d0,1a762 <input+0xe>
 
@@ -22886,83 +22886,83 @@ builtIn(zoomCamera)
 	cameraZoom = (FLOAT) z * (FLOAT) 0.01;
     ec62:	|      move.l 4(sp),d0
     ec66:	|      move.l d0,-(sp)
-    ec68:	|      jsr 16fda <__floatsisf>
+    ec68:	|      jsr 16fe8 <__floatsisf>
     ec6e:	|      addq.l #4,sp
     ec70:	|      move.l #1008981770,-(sp)
     ec76:	|      move.l d0,-(sp)
-    ec78:	|      jsr 1708c <__mulsf3>
+    ec78:	|      jsr 1709a <__mulsf3>
     ec7e:	|      addq.l #8,sp
     ec80:	|      move.l d0,1a142 <cameraZoom>
 	if ((FLOAT) winWidth / cameraZoom > sceneWidth) cameraZoom = (FLOAT)winWidth / sceneWidth;
     ec86:	|      move.l 1a6f6 <winWidth>,d0
     ec8c:	|      move.l d0,-(sp)
-    ec8e:	|      jsr 17002 <__floatunsisf>
+    ec8e:	|      jsr 17010 <__floatunsisf>
     ec94:	|      addq.l #4,sp
     ec96:	|      move.l d0,d1
     ec98:	|      move.l 1a142 <cameraZoom>,d0
     ec9e:	|      move.l d0,-(sp)
     eca0:	|      move.l d1,-(sp)
-    eca2:	|      jsr 16e86 <__divsf3>
+    eca2:	|      jsr 16e94 <__divsf3>
     eca8:	|      addq.l #8,sp
     ecaa:	|      move.l d0,d2
     ecac:	|      move.l 1a896 <sceneWidth>,d0
     ecb2:	|      move.l d0,-(sp)
-    ecb4:	|      jsr 17002 <__floatunsisf>
+    ecb4:	|      jsr 17010 <__floatunsisf>
     ecba:	|      addq.l #4,sp
     ecbc:	|      move.l d0,-(sp)
     ecbe:	|      move.l d2,-(sp)
-    ecc0:	|      jsr 17146 <__gtsf2>
+    ecc0:	|      jsr 17154 <__gtsf2>
     ecc6:	|      addq.l #8,sp
     ecc8:	|      tst.l d0
     ecca:	|  /-- ble.s ed00 <builtIn_zoomCamera+0x142>
     eccc:	|  |   move.l 1a6f6 <winWidth>,d0
     ecd2:	|  |   move.l d0,-(sp)
-    ecd4:	|  |   jsr 17002 <__floatunsisf>
+    ecd4:	|  |   jsr 17010 <__floatunsisf>
     ecda:	|  |   addq.l #4,sp
     ecdc:	|  |   move.l d0,d2
     ecde:	|  |   move.l 1a896 <sceneWidth>,d0
     ece4:	|  |   move.l d0,-(sp)
-    ece6:	|  |   jsr 17002 <__floatunsisf>
+    ece6:	|  |   jsr 17010 <__floatunsisf>
     ecec:	|  |   addq.l #4,sp
     ecee:	|  |   move.l d0,-(sp)
     ecf0:	|  |   move.l d2,-(sp)
-    ecf2:	|  |   jsr 16e86 <__divsf3>
+    ecf2:	|  |   jsr 16e94 <__divsf3>
     ecf8:	|  |   addq.l #8,sp
     ecfa:	|  |   move.l d0,1a142 <cameraZoom>
 	if ((FLOAT) winHeight / cameraZoom > sceneHeight) cameraZoom = (FLOAT)winHeight / sceneHeight;
     ed00:	|  \-> move.l 1a6fa <winHeight>,d0
     ed06:	|      move.l d0,-(sp)
-    ed08:	|      jsr 17002 <__floatunsisf>
+    ed08:	|      jsr 17010 <__floatunsisf>
     ed0e:	|      addq.l #4,sp
     ed10:	|      move.l d0,d1
     ed12:	|      move.l 1a142 <cameraZoom>,d0
     ed18:	|      move.l d0,-(sp)
     ed1a:	|      move.l d1,-(sp)
-    ed1c:	|      jsr 16e86 <__divsf3>
+    ed1c:	|      jsr 16e94 <__divsf3>
     ed22:	|      addq.l #8,sp
     ed24:	|      move.l d0,d2
     ed26:	|      move.l 1a89a <sceneHeight>,d0
     ed2c:	|      move.l d0,-(sp)
-    ed2e:	|      jsr 17002 <__floatunsisf>
+    ed2e:	|      jsr 17010 <__floatunsisf>
     ed34:	|      addq.l #4,sp
     ed36:	|      move.l d0,-(sp)
     ed38:	|      move.l d2,-(sp)
-    ed3a:	|      jsr 17146 <__gtsf2>
+    ed3a:	|      jsr 17154 <__gtsf2>
     ed40:	|      addq.l #8,sp
     ed42:	|      tst.l d0
     ed44:	|  /-- ble.s ed7a <builtIn_zoomCamera+0x1bc>
     ed46:	|  |   move.l 1a6fa <winHeight>,d0
     ed4c:	|  |   move.l d0,-(sp)
-    ed4e:	|  |   jsr 17002 <__floatunsisf>
+    ed4e:	|  |   jsr 17010 <__floatunsisf>
     ed54:	|  |   addq.l #4,sp
     ed56:	|  |   move.l d0,d2
     ed58:	|  |   move.l 1a89a <sceneHeight>,d0
     ed5e:	|  |   move.l d0,-(sp)
-    ed60:	|  |   jsr 17002 <__floatunsisf>
+    ed60:	|  |   jsr 17010 <__floatunsisf>
     ed66:	|  |   addq.l #4,sp
     ed68:	|  |   move.l d0,-(sp)
     ed6a:	|  |   move.l d2,-(sp)
-    ed6c:	|  |   jsr 16e86 <__divsf3>
+    ed6c:	|  |   jsr 16e94 <__divsf3>
     ed72:	|  |   addq.l #8,sp
     ed74:	|  |   move.l d0,1a142 <cameraZoom>
 	//setPixelCoords (FALSE); Todo: Amigize this
@@ -22970,31 +22970,31 @@ builtIn(zoomCamera)
 	input.mouseX = input.mouseX / cameraZoom;
     ed7a:	|  \-> move.l 1a75e <input+0xa>,d0
     ed80:	|      move.l d0,-(sp)
-    ed82:	|      jsr 16fda <__floatsisf>
+    ed82:	|      jsr 16fe8 <__floatsisf>
     ed88:	|      addq.l #4,sp
     ed8a:	|      move.l d0,d1
     ed8c:	|      move.l 1a142 <cameraZoom>,d0
     ed92:	|      move.l d0,-(sp)
     ed94:	|      move.l d1,-(sp)
-    ed96:	|      jsr 16e86 <__divsf3>
+    ed96:	|      jsr 16e94 <__divsf3>
     ed9c:	|      addq.l #8,sp
     ed9e:	|      move.l d0,-(sp)
-    eda0:	|      jsr 16f72 <__fixsfsi>
+    eda0:	|      jsr 16f80 <__fixsfsi>
     eda6:	|      addq.l #4,sp
     eda8:	|      move.l d0,1a75e <input+0xa>
 	input.mouseY = input.mouseY / cameraZoom;
     edae:	|      move.l 1a762 <input+0xe>,d0
     edb4:	|      move.l d0,-(sp)
-    edb6:	|      jsr 16fda <__floatsisf>
+    edb6:	|      jsr 16fe8 <__floatsisf>
     edbc:	|      addq.l #4,sp
     edbe:	|      move.l d0,d1
     edc0:	|      move.l 1a142 <cameraZoom>,d0
     edc6:	|      move.l d0,-(sp)
     edc8:	|      move.l d1,-(sp)
-    edca:	|      jsr 16e86 <__divsf3>
+    edca:	|      jsr 16e94 <__divsf3>
     edd0:	|      addq.l #8,sp
     edd2:	|      move.l d0,-(sp)
-    edd4:	|      jsr 16f72 <__fixsfsi>
+    edd4:	|      jsr 16f80 <__fixsfsi>
     edda:	|      addq.l #4,sp
     eddc:	|      move.l d0,1a762 <input+0xe>
 
@@ -23018,20 +23018,20 @@ builtIn(pickOne)
     edec:	             tst.l 8(sp)
     edf0:	         /-- bne.s ee04 <builtIn_pickOne+0x1a>
 		KPrintF ("Built-in function should have at least 1 parameter");
-    edf2:	         |   pea 1922d <graphics.c.1c13408a+0x4e>
-    edf8:	         |   jsr 16b9e <KPrintF>
+    edf2:	         |   pea 1923b <graphics.c.1c13408a+0x5c>
+    edf8:	         |   jsr 16bac <KPrintF>
     edfe:	         |   addq.l #4,sp
 		return BR_ERROR;
     ee00:	         |   moveq #1,d0
     ee02:	/--------|-- bra.s ee64 <builtIn_pickOne+0x7a>
 	}
 	int i = rand() % numParams;
-    ee04:	|        \-> jsr 1579e <rand>
+    ee04:	|        \-> jsr 157ac <rand>
     ee0a:	|            move.l d0,d1
     ee0c:	|            move.l 8(sp),d0
     ee10:	|            move.l d0,-(sp)
     ee12:	|            move.l d1,-(sp)
-    ee14:	|            jsr 17636 <__umodsi3>
+    ee14:	|            jsr 17644 <__umodsi3>
     ee1a:	|            addq.l #8,sp
     ee1c:	|            move.l d0,(sp)
 
@@ -23212,7 +23212,7 @@ builtIn(substring)
     efc2:	|      move.l d1,-(sp)
     efc4:	|      move.l d0,-(sp)
     efc6:	|      move.l 28(sp),-(sp)
-    efca:	|      jsr 16b52 <memcpy>
+    efca:	|      jsr 16b60 <memcpy>
     efd0:	|      lea 12(sp),sp
     newString[endoffset - startoffset] = 0;
     efd4:	|      move.l 36(sp),d0
@@ -23414,8 +23414,8 @@ builtIn(stackSize)
     f196:	   |  |   nop
 	}
 	KPrintF ("Parameter isn't a stack or a fast array.");
-    f198:	   |  |   pea 19260 <graphics.c.1c13408a+0x81>
-    f19e:	   |  |   jsr 16b9e <KPrintF>
+    f198:	   |  |   pea 1926e <graphics.c.1c13408a+0x8f>
+    f19e:	   |  |   jsr 16bac <KPrintF>
     f1a4:	   |  |   addq.l #4,sp
 	return BR_ERROR;
     f1a6:	   |  |   moveq #1,d0
@@ -23480,8 +23480,8 @@ builtIn(copyStack)
     f236:	       cmp.l d0,d1
     f238:	   /-- beq.s f24c <builtIn_copyStack+0x22>
 		KPrintF ("Parameter isn't a stack.");
-    f23a:	   |   pea 19289 <graphics.c.1c13408a+0xaa>
-    f240:	   |   jsr 16b9e <KPrintF>
+    f23a:	   |   pea 19297 <graphics.c.1c13408a+0xb8>
+    f240:	   |   jsr 16bac <KPrintF>
     f246:	   |   addq.l #4,sp
 		return BR_ERROR;
     f248:	   |   moveq #1,d0
@@ -23526,8 +23526,8 @@ builtIn(pushToStack)
     f292:	       cmp.l d0,d1
     f294:	   /-- beq.s f2aa <builtIn_pushToStack+0x28>
 		KPrintF("Parameter isn't a stack");
-    f296:	   |   pea 192a2 <graphics.c.1c13408a+0xc3>
-    f29c:	   |   jsr 16b9e <KPrintF>
+    f296:	   |   pea 192b0 <graphics.c.1c13408a+0xd1>
+    f29c:	   |   jsr 16bac <KPrintF>
     f2a2:	   |   addq.l #4,sp
 		return BR_ERROR;
     f2a4:	   |   moveq #1,d0
@@ -23603,8 +23603,8 @@ builtIn(enqueue)
     f34a:	             cmp.l d0,d1
     f34c:	         /-- beq.s f362 <builtIn_enqueue+0x28>
 		KPrintF ("Parameter isn't a stack");
-    f34e:	         |   pea 192a2 <graphics.c.1c13408a+0xc3>
-    f354:	         |   jsr 16b9e <KPrintF>
+    f34e:	         |   pea 192b0 <graphics.c.1c13408a+0xd1>
+    f354:	         |   jsr 16bac <KPrintF>
     f35a:	         |   addq.l #4,sp
 		return BR_ERROR;
     f35c:	         |   moveq #1,d0
@@ -23719,8 +23719,8 @@ builtIn(deleteFromStack)
     f464:	       cmp.l d0,d1
     f466:	   /-- beq.s f47c <builtIn_deleteFromStack+0x2a>
 		KPrintF ("Parameter isn't a stack.");
-    f468:	   |   pea 19289 <graphics.c.1c13408a+0xaa>
-    f46e:	   |   jsr 16b9e <KPrintF>
+    f468:	   |   pea 19297 <graphics.c.1c13408a+0xb8>
+    f46e:	   |   jsr 16bac <KPrintF>
     f474:	   |   addq.l #4,sp
 		return BR_ERROR;
     f476:	   |   moveq #1,d0
@@ -23804,8 +23804,8 @@ builtIn(deleteAllFromStack)
     f528:	       cmp.l d0,d1
     f52a:	   /-- beq.s f540 <builtIn_deleteAllFromStack+0x2a>
 		KPrintF ("Parameter isn't a stack.");
-    f52c:	   |   pea 19289 <graphics.c.1c13408a+0xaa>
-    f532:	   |   jsr 16b9e <KPrintF>
+    f52c:	   |   pea 19297 <graphics.c.1c13408a+0xb8>
+    f532:	   |   jsr 16bac <KPrintF>
     f538:	   |   addq.l #4,sp
 		return BR_ERROR;
     f53a:	   |   moveq #1,d0
@@ -23887,8 +23887,8 @@ builtIn(popFromStack)
     f5e8:	       cmp.l d0,d1
     f5ea:	   /-- beq.s f5fe <builtIn_popFromStack+0x22>
 		KPrintF ("Parameter isn't a stack.");
-    f5ec:	   |   pea 19289 <graphics.c.1c13408a+0xaa>
-    f5f2:	   |   jsr 16b9e <KPrintF>
+    f5ec:	   |   pea 19297 <graphics.c.1c13408a+0xb8>
+    f5f2:	   |   jsr 16bac <KPrintF>
     f5f8:	   |   addq.l #4,sp
 		return BR_ERROR;
     f5fa:	   |   moveq #1,d0
@@ -23901,8 +23901,8 @@ builtIn(popFromStack)
     f60a:	|      move.l (a0),d0
     f60c:	|  /-- bne.s f620 <builtIn_popFromStack+0x44>
 		KPrintF ("The stack's empty.");
-    f60e:	|  |   pea 192ba <graphics.c.1c13408a+0xdb>
-    f614:	|  |   jsr 16b9e <KPrintF>
+    f60e:	|  |   pea 192c8 <graphics.c.1c13408a+0xe9>
+    f614:	|  |   jsr 16bac <KPrintF>
     f61a:	|  |   addq.l #4,sp
 		return BR_ERROR;
     f61c:	|  |   moveq #1,d0
@@ -23952,8 +23952,8 @@ builtIn(peekStart)
     f676:	       cmp.l d0,d1
     f678:	   /-- beq.s f68c <builtIn_peekStart+0x22>
 		KPrintF ("Parameter isn't a stack.");
-    f67a:	   |   pea 19289 <graphics.c.1c13408a+0xaa>
-    f680:	   |   jsr 16b9e <KPrintF>
+    f67a:	   |   pea 19297 <graphics.c.1c13408a+0xb8>
+    f680:	   |   jsr 16bac <KPrintF>
     f686:	   |   addq.l #4,sp
 		return BR_ERROR;
     f688:	   |   moveq #1,d0
@@ -23966,8 +23966,8 @@ builtIn(peekStart)
     f698:	|      move.l (a0),d0
     f69a:	|  /-- bne.s f6ae <builtIn_peekStart+0x44>
 		KPrintF ("The stack's empty.");
-    f69c:	|  |   pea 192ba <graphics.c.1c13408a+0xdb>
-    f6a2:	|  |   jsr 16b9e <KPrintF>
+    f69c:	|  |   pea 192c8 <graphics.c.1c13408a+0xe9>
+    f6a2:	|  |   jsr 16bac <KPrintF>
     f6a8:	|  |   addq.l #4,sp
 		return BR_ERROR;
     f6aa:	|  |   moveq #1,d0
@@ -24010,8 +24010,8 @@ builtIn(peekEnd)
     f6ee:	       cmp.l d0,d1
     f6f0:	   /-- beq.s f704 <builtIn_peekEnd+0x22>
 		KPrintF ("Parameter isn't a stack.");
-    f6f2:	   |   pea 19289 <graphics.c.1c13408a+0xaa>
-    f6f8:	   |   jsr 16b9e <KPrintF>
+    f6f2:	   |   pea 19297 <graphics.c.1c13408a+0xb8>
+    f6f8:	   |   jsr 16bac <KPrintF>
     f6fe:	   |   addq.l #4,sp
 		return BR_ERROR;
     f700:	   |   moveq #1,d0
@@ -24024,8 +24024,8 @@ builtIn(peekEnd)
     f710:	|      move.l (a0),d0
     f712:	|  /-- bne.s f726 <builtIn_peekEnd+0x44>
 		KPrintF ("The stack's empty.");
-    f714:	|  |   pea 192ba <graphics.c.1c13408a+0xdb>
-    f71a:	|  |   jsr 16b9e <KPrintF>
+    f714:	|  |   pea 192c8 <graphics.c.1c13408a+0xe9>
+    f71a:	|  |   jsr 16bac <KPrintF>
     f720:	|  |   addq.l #4,sp
 		return BR_ERROR;
     f722:	|  |   moveq #1,d0
@@ -24091,12 +24091,12 @@ builtIn(random)
     f798:	|  |   moveq #1,d0
     f79a:	|  |   move.l d0,(sp)
 	setVariable (&fun -> reg, SVT_INT, rand() % num);
-    f79c:	|  \-> jsr 1579e <rand>
+    f79c:	|  \-> jsr 157ac <rand>
     f7a2:	|      move.l d0,d1
     f7a4:	|      move.l (sp),d0
     f7a6:	|      move.l d0,-(sp)
     f7a8:	|      move.l d1,-(sp)
-    f7aa:	|      jsr 17636 <__umodsi3>
+    f7aa:	|      jsr 17644 <__umodsi3>
     f7b0:	|      addq.l #8,sp
     f7b2:	|      move.l d0,d1
     f7b4:	|      moveq #28,d0
@@ -24140,8 +24140,8 @@ builtIn (setPasteColour)
 	UNUSEDALL
 	int red, green, blue;
 	KPrintF("setPasteColour: Function not implemented on Amiga. Attention using this might cause problems!\n");
-    f7da:	pea 192cd <graphics.c.1c13408a+0xee>
-    f7e0:	jsr 16b9e <KPrintF>
+    f7da:	pea 192db <graphics.c.1c13408a+0xfc>
+    f7e0:	jsr 16bac <KPrintF>
     f7e6:	addq.l #4,sp
 	/*if (! getRGBParams(red, green, blue, fun))
 		return BR_ERROR;
@@ -24378,7 +24378,7 @@ builtIn(pasteString)
     f9d4:	|  /-- bne.s f9f4 <builtIn_pasteString+0xc6>
     f9d6:	|  |   move.l 1a6f6 <winWidth>,d2
     f9dc:	|  |   move.l 20(sp),-(sp)
-    f9e0:	|  |   jsr 15260 <stringWidth>
+    f9e0:	|  |   jsr 1526e <stringWidth>
     f9e6:	|  |   addq.l #4,sp
     f9e8:	|  |   move.l d2,d1
     f9ea:	|  |   sub.l d0,d1
@@ -24419,8 +24419,8 @@ builtIn(anim)
     fa36:	       cmp.l 16(sp),d0
     fa3a:	   /-- blt.s fa50 <builtIn_anim+0x20>
 		KPrintF("Built-in function anim() must have at least 2 parameters.");
-    fa3c:	   |   pea 1932c <graphics.c.1c13408a+0x14d>
-    fa42:	   |   jsr 16b9e <KPrintF>
+    fa3c:	   |   pea 1933a <graphics.c.1c13408a+0x15b>
+    fa42:	   |   jsr 16bac <KPrintF>
     fa48:	   |   addq.l #4,sp
 		return BR_ERROR;
     fa4a:	   |   moveq #1,d0
@@ -24466,7 +24466,7 @@ builtIn(anim)
 	struct loadedSpriteBank * sprBanky = loadBankForAnim (fileNumber);
     faa2:	|      move.l (sp),d0
     faa4:	|      move.l d0,-(sp)
-    faa6:	|      jsr 15900 <loadBankForAnim>
+    faa6:	|      jsr 1590e <loadBankForAnim>
     faac:	|      addq.l #4,sp
     faae:	|      move.l d0,4(sp)
 	if (! sprBanky) return BR_ERROR;	// File not found, fatal done already
@@ -24521,7 +24521,7 @@ builtIn(costume)
     fb1e:	|     \-> move.l 44(sp),d0
     fb22:	|         pea 3 <_start+0x3>
     fb26:	|         move.l d0,-(sp)
-    fb28:	|         jsr 175da <__divsi3>
+    fb28:	|         jsr 175e8 <__divsi3>
     fb2e:	|         addq.l #8,sp
     fb30:	|         movea.l 20(sp),a0
     fb34:	|         move.l d0,4(a0)
@@ -24536,8 +24536,8 @@ builtIn(costume)
     fb4c:	|     |   cmp.l 44(sp),d0
     fb50:	|  /--|-- beq.s fb66 <builtIn_costume+0x82>
         KPrintF("Illegal number of parameters (should be greater than 0 and divisible by 3)");
-    fb52:	|  |  \-> pea 19366 <graphics.c.1c13408a+0x187>
-    fb58:	|  |      jsr 16b9e <KPrintF>
+    fb52:	|  |  \-> pea 19374 <graphics.c.1c13408a+0x195>
+    fb58:	|  |      jsr 16bac <KPrintF>
     fb5e:	|  |      addq.l #4,sp
         return BR_ERROR;
     fb60:	|  |      moveq #1,d0
@@ -24698,7 +24698,7 @@ builtIn(launch)
         char *gameDir;
         gameDir = joinStrings(gamePath, "/");
     fcc8:	|  \--|-> move.l 1a70a <gamePath>,d0
-    fcce:	|     |   pea 193b1 <graphics.c.1c13408a+0x1d2>
+    fcce:	|     |   pea 193bf <graphics.c.1c13408a+0x1e0>
     fcd4:	|     |   move.l d0,-(sp)
     fcd6:	|     |   jsr 136da <joinStrings>
     fcdc:	|     |   addq.l #8,sp
@@ -24925,8 +24925,8 @@ builtIn(_rem_movieStart)
     feaa:	jsr 14b32 <trimStack>
     feb0:	addq.l #4,sp
 	KPrintF("Movie Stuff not supported on Amiga");
-    feb2:	pea 193b3 <graphics.c.1c13408a+0x1d4>
-    feb8:	jsr 16b9e <KPrintF>
+    feb2:	pea 193c1 <graphics.c.1c13408a+0x1e2>
+    feb8:	jsr 16bac <KPrintF>
     febe:	addq.l #4,sp
 	return BR_CONTINUE;
     fec0:	moveq #2,d0
@@ -24940,8 +24940,8 @@ builtIn(_rem_movieAbort)
 	UNUSEDALL
 	//setVariable (&fun -> reg, SVT_INT, 0);
 	KPrintF("Movie Stuff not supported on Amiga");
-    fec4:	pea 193b3 <graphics.c.1c13408a+0x1d4>
-    feca:	jsr 16b9e <KPrintF>
+    fec4:	pea 193c1 <graphics.c.1c13408a+0x1e2>
+    feca:	jsr 16bac <KPrintF>
     fed0:	addq.l #4,sp
 	return BR_CONTINUE;
     fed2:	moveq #2,d0
@@ -24954,8 +24954,8 @@ builtIn(_rem_moviePlaying)
 {
 	UNUSEDALL
 	KPrintF("Movie Stuff not supported on Amiga");
-    fed6:	pea 193b3 <graphics.c.1c13408a+0x1d4>
-    fedc:	jsr 16b9e <KPrintF>
+    fed6:	pea 193c1 <graphics.c.1c13408a+0x1e2>
+    fedc:	jsr 16bac <KPrintF>
     fee2:	addq.l #4,sp
 	//setVariable (&fun -> reg, SVT_INT, 0);
 	return BR_CONTINUE;
@@ -24970,8 +24970,8 @@ builtIn(_rem_moviePlaying)
 		return BR_ALREADY_GONE;
 	}*/
 	KPrintF("Movie Stuff not supported on Amiga");
-    fee8:	pea 193b3 <graphics.c.1c13408a+0x1d4>
-    feee:	jsr 16b9e <KPrintF>
+    fee8:	pea 193c1 <graphics.c.1c13408a+0x1e2>
+    feee:	jsr 16bac <KPrintF>
     fef4:	addq.l #4,sp
 	return BR_CONTINUE;
     fef6:	moveq #2,d0
@@ -24985,8 +24985,8 @@ builtIn(_rem_moviePlaying)
 	
 	setVariable (&fun -> reg, SVT_INT, 0);*/
 	KPrintF("Movie Stuff not supported on Amiga");
-    fefa:	pea 193b3 <graphics.c.1c13408a+0x1d4>
-    ff00:	jsr 16b9e <KPrintF>
+    fefa:	pea 193c1 <graphics.c.1c13408a+0x1e2>
+    ff00:	jsr 16bac <KPrintF>
     ff06:	addq.l #4,sp
 	return BR_CONTINUE;
     ff08:	moveq #2,d0
@@ -25000,8 +25000,8 @@ builtIn(_rem_moviePlaying)
 	
 	setVariable (&fun -> reg, SVT_INT, 0);*/
 	KPrintF("Movie Stuff not supported on Amiga");
-    ff0c:	pea 193b3 <graphics.c.1c13408a+0x1d4>
-    ff12:	jsr 16b9e <KPrintF>
+    ff0c:	pea 193c1 <graphics.c.1c13408a+0x1e2>
+    ff12:	jsr 16bac <KPrintF>
     ff18:	addq.l #4,sp
 	return BR_CONTINUE;
     ff1a:	moveq #2,d0
@@ -25290,8 +25290,8 @@ builtIn(loopSound)
    10164:	             tst.l 36(sp)
    10168:	         /-- bgt.s 1017e <builtIn_loopSound+0x20>
 		KPrintF("Built-in function loopSound() must have at least 1 parameter.");
-   1016a:	         |   pea 193d6 <graphics.c.1c13408a+0x1f7>
-   10170:	         |   jsr 16b9e <KPrintF>
+   1016a:	         |   pea 193e4 <graphics.c.1c13408a+0x205>
+   10170:	         |   jsr 16bac <KPrintF>
    10176:	         |   addq.l #4,sp
 		return BR_ERROR;
    10178:	         |   moveq #1,d0
@@ -25384,8 +25384,8 @@ builtIn(loopSound)
    10254:	|  |  |      tst.w d0
    10256:	|  |  |  /-- bne.s 1026c <builtIn_loopSound+0x10e>
 				KPrintF("Illegal parameter given built-in function loopSound().");
-   10258:	|  |  |  |   pea 19414 <graphics.c.1c13408a+0x235>
-   1025e:	|  |  |  |   jsr 16b9e <KPrintF>
+   10258:	|  |  |  |   pea 19422 <graphics.c.1c13408a+0x243>
+   1025e:	|  |  |  |   jsr 16bac <KPrintF>
    10264:	|  |  |  |   addq.l #4,sp
 				return BR_ERROR;
    10266:	|  |  |  |   moveq #1,d0
@@ -25729,7 +25729,7 @@ builtIn(setFloor)
 		if (! setFloor (v)) return BR_ERROR;
    10566:	|         move.l (sp),d0
    10568:	|         move.l d0,-(sp)
-   1056a:	|         jsr 16348 <setFloor>
+   1056a:	|         jsr 16356 <setFloor>
    10570:	|         addq.l #4,sp
    10572:	|         tst.w d0
    10574:	|  /----- bne.s 10590 <builtIn_setFloor+0x6a>
@@ -25743,7 +25743,7 @@ builtIn(setFloor)
    10582:	   |  |   jsr 14b32 <trimStack>
    10588:	   |  |   addq.l #4,sp
 		setFloorNull ();
-   1058a:	   |  |   jsr 16ac2 <setFloorNull>
+   1058a:	   |  |   jsr 16ad0 <setFloorNull>
 	}
 	return BR_CONTINUE;
    10590:	   \--|-> moveq #2,d0
@@ -25757,7 +25757,7 @@ builtIn(showFloor)
 {
 	UNUSEDALL
 	drawFloor ();
-   10596:	jsr 15be0 <drawFloor>
+   10596:	jsr 15bee <drawFloor>
 	return BR_CONTINUE;
    1059c:	moveq #2,d0
 }
@@ -25825,8 +25825,8 @@ builtIn(setZBuffer)
 			return BR_ERROR;
 	}*/
 	KPrintF("Not implemented on Amiga");
-   10610:	pea 1944b <graphics.c.1c13408a+0x26c>
-   10616:	jsr 16b9e <KPrintF>
+   10610:	pea 19459 <graphics.c.1c13408a+0x27a>
+   10616:	jsr 16bac <KPrintF>
    1061c:	addq.l #4,sp
 	return BR_CONTINUE;
    1061e:	moveq #2,d0
@@ -25865,8 +25865,8 @@ builtIn(setSpeechMode)
    10668:	|     |   cmp.l d0,d1
    1066a:	|  /--|-- bge.s 1067e <builtIn_setSpeechMode+0x5c>
 		KPrintF ("Valid parameters are be SPEECHANDTEXT, SPEECHONLY or TEXTONLY");
-   1066c:	|  |  \-> pea 19464 <graphics.c.1c13408a+0x285>
-   10672:	|  |      jsr 16b9e <KPrintF>
+   1066c:	|  |  \-> pea 19472 <graphics.c.1c13408a+0x293>
+   10672:	|  |      jsr 16bac <KPrintF>
    10678:	|  |      addq.l #4,sp
 		return BR_ERROR;
    1067a:	|  |      moveq #1,d0
@@ -26069,7 +26069,7 @@ builtIn (getObjectX)
    10812:	|     |   movea.l 8(sp),a0
    10816:	|     |   move.l (a0),d0
    10818:	|     |   move.l d0,-(sp)
-   1081a:	|     |   jsr 16f72 <__fixsfsi>
+   1081a:	|     |   jsr 16f80 <__fixsfsi>
    10820:	|     |   addq.l #4,sp
    10822:	|     |   move.l d0,d1
    10824:	|     |   moveq #28,d0
@@ -26084,7 +26084,7 @@ builtIn (getObjectX)
 		struct screenRegion * la = getRegionForObject (objectNumber);
    1083e:	|  |  \-> move.l (sp),d0
    10840:	|  |      move.l d0,-(sp)
-   10842:	|  |      jsr 153c0 <getRegionForObject>
+   10842:	|  |      jsr 153ce <getRegionForObject>
    10848:	|  |      addq.l #4,sp
    1084a:	|  |      move.l d0,4(sp)
 		if (la) {
@@ -26156,7 +26156,7 @@ builtIn (getObjectY)
    108e0:	|     |   movea.l 8(sp),a0
    108e4:	|     |   move.l 4(a0),d0
    108e8:	|     |   move.l d0,-(sp)
-   108ea:	|     |   jsr 16f72 <__fixsfsi>
+   108ea:	|     |   jsr 16f80 <__fixsfsi>
    108f0:	|     |   addq.l #4,sp
    108f2:	|     |   move.l d0,d1
    108f4:	|     |   moveq #28,d0
@@ -26171,7 +26171,7 @@ builtIn (getObjectY)
 		struct screenRegion * la = getRegionForObject (objectNumber);
    1090e:	|  |  \-> move.l (sp),d0
    10910:	|  |      move.l d0,-(sp)
-   10912:	|  |      jsr 153c0 <getRegionForObject>
+   10912:	|  |      jsr 153ce <getRegionForObject>
    10918:	|  |      addq.l #4,sp
    1091a:	|  |      move.l d0,4(sp)
 		if (la) {
@@ -26384,7 +26384,7 @@ builtIn(addScreenRegion)
    10b52:	|      move.l a0,-(sp)
    10b54:	|      move.l d1,-(sp)
    10b56:	|      move.l d0,-(sp)
-   10b58:	|      jsr 1527a <addScreenRegion>
+   10b58:	|      jsr 15288 <addScreenRegion>
    10b5e:	|      lea 32(sp),sp
    10b62:	|      tst.w d0
    10b64:	|  /-- beq.s 10b6a <builtIn_addScreenRegion+0x208>
@@ -26428,7 +26428,7 @@ builtIn(removeScreenRegion)
 	removeScreenRegion (objectNumber);
    10bae:	|      move.l (sp),d0
    10bb0:	|      move.l d0,-(sp)
-   10bb2:	|      jsr 15568 <removeScreenRegion>
+   10bb2:	|      jsr 15576 <removeScreenRegion>
    10bb8:	|      addq.l #4,sp
 	return BR_CONTINUE;
    10bba:	|      moveq #2,d0
@@ -26442,7 +26442,7 @@ builtIn(showBoxes)
 {
 	UNUSEDALL
 	showBoxes ();
-   10bc0:	jsr 156ec <showBoxes>
+   10bc0:	jsr 156fa <showBoxes>
 	return BR_CONTINUE;
    10bc6:	moveq #2,d0
 }
@@ -26454,7 +26454,7 @@ builtIn(removeAllScreenRegions)
 {
 	UNUSEDALL
 	killAllRegions ();
-   10bca:	jsr 153ee <killAllRegions>
+   10bca:	jsr 153fc <killAllRegions>
 	return BR_CONTINUE;
    10bd0:	moveq #2,d0
 }
@@ -26723,8 +26723,8 @@ builtIn(setCharacterTransparency)
 {
 	UNUSEDALL
 	KPrintF("setCharacterTransparency: Not implemented on Amiga");
-   10e08:	pea 194a2 <graphics.c.1c13408a+0x2c3>
-   10e0e:	jsr 16b9e <KPrintF>
+   10e08:	pea 194b0 <graphics.c.1c13408a+0x2d1>
+   10e0e:	jsr 16bac <KPrintF>
    10e14:	addq.l #4,sp
 	return BR_CONTINUE;
    10e16:	moveq #2,d0
@@ -26737,8 +26737,8 @@ builtIn(setCharacterColourise)
 {
 	UNUSEDALL
 	KPrintF("setCharacterColourise: Currently not implemented on Amiga");
-   10e1a:	pea 194d5 <graphics.c.1c13408a+0x2f6>
-   10e20:	jsr 16b9e <KPrintF>
+   10e1a:	pea 194e3 <graphics.c.1c13408a+0x304>
+   10e20:	jsr 16bac <KPrintF>
    10e26:	addq.l #4,sp
 	if (! getValueType(&r, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
@@ -26869,8 +26869,8 @@ builtIn(stopCharacter)
 		setVariable (&fun -> reg, SVT_INT, 0);
 	} Todo: Amigize this*/
 	KPrintF("Not implemented yet for Amiga");
-   10f1e:	pea 1950f <graphics.c.1c13408a+0x330>
-   10f24:	jsr 16b9e <KPrintF>
+   10f1e:	pea 1951d <graphics.c.1c13408a+0x33e>
+   10f24:	jsr 16bac <KPrintF>
    10f2a:	addq.l #4,sp
 	return BR_CONTINUE;
    10f2c:	moveq #2,d0
@@ -27490,7 +27490,7 @@ static enum builtReturn moveChr(int numParams, struct loadedFunction * fun, BOOL
 			reggie = getRegionForObject (toObj);
    114e6:	|  |            move.l 24(sp),d0
    114ea:	|  |            move.l d0,-(sp)
-   114ec:	|  |            jsr 153c0 <getRegionForObject>
+   114ec:	|  |            jsr 153ce <getRegionForObject>
    114f2:	|  |            addq.l #4,sp
    114f4:	|  |            move.l d0,28(sp)
 			if (reggie == NULL) return BR_CONTINUE;
@@ -27568,8 +27568,8 @@ static enum builtReturn moveChr(int numParams, struct loadedFunction * fun, BOOL
 
 		default:
 			KPrintF ("Built-in function must have either 2 or 3 parameters.");
-   115aa:	\--|----------> pea 1952d <graphics.c.1c13408a+0x34e>
-   115b0:	   |            jsr 16b9e <KPrintF>
+   115aa:	\--|----------> pea 1953b <graphics.c.1c13408a+0x35c>
+   115b0:	   |            jsr 16bac <KPrintF>
    115b6:	   |            addq.l #4,sp
 			return BR_ERROR;
    115b8:	   |            moveq #1,d0
@@ -27878,8 +27878,8 @@ static BOOL getFuncNumForCallback(int numParams, struct loadedFunction * fun, in
 
 		default:
 			KPrintF ("Too many parameters.");
-   117ee:	|  \--|----> pea 19563 <graphics.c.1c13408a+0x384>
-   117f4:	|     |      jsr 16b9e <KPrintF>
+   117ee:	|  \--|----> pea 19571 <graphics.c.1c13408a+0x392>
+   117f4:	|     |      jsr 16bac <KPrintF>
    117fa:	|     |      addq.l #4,sp
 			return FALSE;
    117fc:	|     |      clr.w d0
@@ -28225,7 +28225,7 @@ builtIn(stringWidth)
 	// Return value
 	setVariable(&fun->reg, SVT_INT, stringWidth(theText));
    11a34:	|      move.l 8(sp),-(sp)
-   11a38:	|      jsr 15260 <stringWidth>
+   11a38:	|      jsr 1526e <stringWidth>
    11a3e:	|      addq.l #4,sp
    11a40:	|      move.l d0,d1
    11a42:	|      moveq #28,d0
@@ -28317,7 +28317,7 @@ builtIn(isScreenRegion)
 	setVariable (&fun -> reg, SVT_INT, getRegionForObject (objectNumber) != NULL);
    11afa:	|      move.l (sp),d0
    11afc:	|      move.l d0,-(sp)
-   11afe:	|      jsr 153c0 <getRegionForObject>
+   11afe:	|      jsr 153ce <getRegionForObject>
    11b04:	|      addq.l #4,sp
    11b06:	|      tst.l d0
    11b08:	|      sne d0
@@ -28367,11 +28367,11 @@ builtIn(setSpeechSpeed)
 	speechSpeed = number * (FLOAT) 0.01;
    11b66:	|      move.l (sp),d0
    11b68:	|      move.l d0,-(sp)
-   11b6a:	|      jsr 16fda <__floatsisf>
+   11b6a:	|      jsr 16fe8 <__floatsisf>
    11b70:	|      addq.l #4,sp
    11b72:	|      move.l #1008981770,-(sp)
    11b78:	|      move.l d0,-(sp)
-   11b7a:	|      jsr 1708c <__mulsf3>
+   11b7a:	|      jsr 1709a <__mulsf3>
    11b80:	|      addq.l #8,sp
    11b82:	|      move.l d0,1a12e <speechSpeed>
 	setVariable (&fun -> reg, SVT_INT, 1);
@@ -29188,8 +29188,8 @@ builtIn(cacheSound)
 	burnStringToBackdrop (newText, x, y, pastePalette);
 	delete[] newText; Todo: Amigize this*/
 	KPrintF("burnString: Not implemented for Amiga yet");
-   122fe:	pea 19578 <graphics.c.1c13408a+0x399>
-   12304:	jsr 16b9e <KPrintF>
+   122fe:	pea 19586 <graphics.c.1c13408a+0x3a7>
+   12304:	jsr 16bac <KPrintF>
    1230a:	addq.l #4,sp
 	return BR_CONTINUE;
    1230c:	moveq #2,d0
@@ -29444,8 +29444,8 @@ builtIn(_rem_updateDisplay)
 	fun -> reg.varData.theStack -> timesUsed = 1;
 	if (! getSoundCacheStack (&fun -> reg.varData.theStack)) return BR_ERROR; Todo: Amigize this?*/
 	KPrintF("getSoundCache: Not implemented yet for Amiga");
-   12538:	pea 195a2 <graphics.c.1c13408a+0x3c3>
-   1253e:	jsr 16b9e <KPrintF>
+   12538:	pea 195b0 <graphics.c.1c13408a+0x3d1>
+   1253e:	jsr 16bac <KPrintF>
    12544:	addq.l #4,sp
 	return BR_CONTINUE;
    12546:	moveq #2,d0
@@ -29507,8 +29507,8 @@ builtIn(saveCustomData)
    125c4:	|      cmp.l d0,d1
    125c6:	|  /-- beq.s 125da <builtIn_saveCustomData+0x90>
 		KPrintF("First parameter isn't a stack");
-   125c8:	|  |   pea 195cf <graphics.c.1c13408a+0x3f0>
-   125ce:	|  |   jsr 16b9e <KPrintF>
+   125c8:	|  |   pea 195dd <graphics.c.1c13408a+0x3fe>
+   125ce:	|  |   jsr 16bac <KPrintF>
    125d4:	|  |   addq.l #4,sp
 		return BR_ERROR;
    125d6:	|  |   moveq #1,d0
@@ -29876,8 +29876,8 @@ builtIn(parallaxClear)
 	fun -> reg.varData.theStack -> timesUsed = 1;
 	if (! getRGBIntoStack (x, y, &fun -> reg.varData.theStack)) return BR_ERROR; Todo: Amigize this*/
 	KPrintF("getPixelColor: Not implemented for Amiga");
-   1292a:	pea 195ed <newfatal.c.307beca7+0xe>
-   12930:	jsr 16b9e <KPrintF>
+   1292a:	pea 195fb <newfatal.c.307beca7+0x1c>
+   12930:	jsr 16bac <KPrintF>
    12936:	addq.l #4,sp
 
 	return BR_CONTINUE;
@@ -29963,8 +29963,8 @@ builtIn(makeFastArray)
    129d2:	\--|-------> nop
 	}
 	KPrintF ("Parameter must be a number or a stack.");
-   129d4:	   |         pea 19616 <newfatal.c.307beca7+0x37>
-   129da:	   |         jsr 16b9e <KPrintF>
+   129d4:	   |         pea 19624 <newfatal.c.307beca7+0x45>
+   129da:	   |         jsr 16bac <KPrintF>
    129e0:	   |         addq.l #4,sp
 	return BR_ERROR;
    129e2:	   |         moveq #1,d0
@@ -30013,10 +30013,10 @@ builtIn(getCharacterScale)
    12a36:	|  |      move.l 32(a0),d0
    12a3a:	|  |      move.l #1120403456,-(sp)
    12a40:	|  |      move.l d0,-(sp)
-   12a42:	|  |      jsr 1708c <__mulsf3>
+   12a42:	|  |      jsr 1709a <__mulsf3>
    12a48:	|  |      addq.l #8,sp
    12a4a:	|  |      move.l d0,-(sp)
-   12a4c:	|  |      jsr 16f72 <__fixsfsi>
+   12a4c:	|  |      jsr 16f80 <__fixsfsi>
    12a52:	|  |      addq.l #4,sp
    12a54:	|  |      move.l d0,d1
    12a56:	|  |      moveq #28,d0
@@ -30189,7 +30189,7 @@ builtIn(setThumbnailSize)
    12bc2:	|  |      move.l 1a6b6 <thumbWidth>,d0
    12bc8:	|  |      move.l d1,-(sp)
    12bca:	|  |      move.l d0,-(sp)
-   12bcc:	|  |      pea 1963d <newfatal.c.307beca7+0x5e>
+   12bcc:	|  |      pea 1964b <newfatal.c.307beca7+0x6c>
    12bd2:	|  |      lea 14(sp),a0
    12bd6:	|  |      move.l a0,-(sp)
    12bd8:	|  |      jsr 139b8 <sprintf>
@@ -30197,8 +30197,8 @@ builtIn(setThumbnailSize)
 		KPrintF ("Invalid thumbnail size", buff);
    12be2:	|  |      lea 2(sp),a0
    12be6:	|  |      move.l a0,-(sp)
-   12be8:	|  |      pea 19645 <newfatal.c.307beca7+0x66>
-   12bee:	|  |      jsr 16b9e <KPrintF>
+   12be8:	|  |      pea 19653 <newfatal.c.307beca7+0x74>
+   12bee:	|  |      jsr 16bac <KPrintF>
    12bf4:	|  |      addq.l #8,sp
 		return BR_ERROR;
    12bf6:	|  |      moveq #1,d0
@@ -30407,7 +30407,7 @@ builtIn(quitWithFatalError)
    12d98:	addq.l #4,sp
 	KPrintF (mess);
    12d9a:	move.l (sp),-(sp)
-   12d9c:	jsr 16b9e <KPrintF>
+   12d9c:	jsr 16bac <KPrintF>
    12da2:	addq.l #4,sp
 	return BR_ERROR;
    12da4:	moveq #1,d0
@@ -30519,8 +30519,8 @@ builtIn(doBackgroundEffect)
 	BOOL done = TRUE;
    12e52:	move.w #1,2(sp)
 	KPrintF("doBackgroundEffect: Function not implemented on Amiga");
-   12e58:	pea 1965c <newfatal.c.307beca7+0x7d>
-   12e5e:	jsr 16b9e <KPrintF>
+   12e58:	pea 1966a <newfatal.c.307beca7+0x8b>
+   12e5e:	jsr 16bac <KPrintF>
    12e64:	addq.l #4,sp
 	//Amiga Todo: Amigize this
 	setVariable (&fun -> reg, SVT_INT, done ? 1 : 0);
@@ -30589,9 +30589,9 @@ enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunctio
    12eec:	|  |         moveq #1,d1
    12eee:	|  |         cmp.l d0,d1
    12ef0:	|  |  /----- bne.s 12efa <callBuiltIn+0x6a>
-   12ef2:	|  |  |      move.l #99043,d0
+   12ef2:	|  |  |      move.l #99057,d0
    12ef8:	|  |  |  /-- bra.s 12f00 <callBuiltIn+0x70>
-   12efa:	|  |  \--|-> move.l #104082,d0
+   12efa:	|  |  \--|-> move.l #104096,d0
    12f00:	|  |     \-> move.l 104(sp),d1
    12f04:	|  |         add.l d1,d1
    12f06:	|  |         movea.l d1,a1
@@ -30600,7 +30600,7 @@ enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunctio
    12f10:	|  |         move.l (0,a1,a0.l),d1
    12f14:	|  |         move.l d0,-(sp)
    12f16:	|  |         move.l d1,-(sp)
-   12f18:	|  |         pea 19694 <newfatal.c.307beca7+0xb5>
+   12f18:	|  |         pea 196a2 <newfatal.c.307beca7+0xc3>
    12f1e:	|  |         lea 12(sp),a0
    12f22:	|  |         move.l a0,-(sp)
    12f24:	|  |         jsr 139b8 <sprintf>
@@ -30612,7 +30612,7 @@ enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunctio
    12f32:	|  |         jsr b8 <copyString>
    12f38:	|  |         addq.l #4,sp
    12f3a:	|  |         move.l d0,-(sp)
-   12f3c:	|  |         jsr 16b9e <KPrintF>
+   12f3c:	|  |         jsr 16bac <KPrintF>
    12f42:	|  |         addq.l #4,sp
 				return BR_ERROR;
    12f44:	|  |         moveq #1,d0
@@ -30646,8 +30646,8 @@ enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunctio
 	}
 
 	KPrintF("Unknown / unimplemented built-in function.");
-   12f80:	\--------|-> pea 196bf <newfatal.c.307beca7+0xe0>
-   12f86:	         |   jsr 16b9e <KPrintF>
+   12f80:	\--------|-> pea 196cd <newfatal.c.307beca7+0xee>
+   12f86:	         |   jsr 16bac <KPrintF>
    12f8c:	         |   addq.l #4,sp
 	return BR_ERROR;
    12f8e:	         |   moveq #1,d0
@@ -30757,7 +30757,7 @@ char * getPrefsFilename (char * filename) {
 	}
 
 	char * joined = joinStrings (f, ".ini");
-   13054:	          pea 196ea <newfatal.c.307beca7+0x10b>
+   13054:	          pea 196f8 <newfatal.c.307beca7+0x119>
    1305a:	          move.l 20(sp),-(sp)
    1305e:	          jsr 136da <joinStrings>
    13064:	          addq.l #8,sp
@@ -30803,8 +30803,8 @@ void makeLanguageTable (BPTR table)
    130cc:	             move.l 1a8ce <languageTable>,d0
    130d2:	         /-- bne.s 130e2 <makeLanguageTable+0x52>
         KPrintF("makeLanguageTable: Cannot Alloc Mem for languageTable");
-   130d4:	         |   pea 196ef <newfatal.c.307beca7+0x110>
-   130da:	         |   jsr 16b9e <KPrintF>
+   130d4:	         |   pea 196fd <newfatal.c.307beca7+0x11e>
+   130da:	         |   jsr 16bac <KPrintF>
    130e0:	         |   addq.l #4,sp
     }
 
@@ -30826,8 +30826,8 @@ void makeLanguageTable (BPTR table)
    13116:	             move.l 1a8d2 <languageName>,d0
    1311c:	         /-- bne.s 1312c <makeLanguageTable+0x9c>
         KPrintF("makeLanguageName: Cannot Alloc Mem for languageName");
-   1311e:	         |   pea 19725 <newfatal.c.307beca7+0x146>
-   13124:	         |   jsr 16b9e <KPrintF>
+   1311e:	         |   pea 19733 <newfatal.c.307beca7+0x154>
+   13124:	         |   jsr 16bac <KPrintF>
    1312a:	         |   addq.l #4,sp
     }
 
@@ -30951,7 +30951,7 @@ void readIniFile (char * filename) {
    13272:	|                     move.l d1,-(sp)
    13274:	|                     clr.l -(sp)
    13276:	|                     move.l d0,-(sp)
-   13278:	|                     jsr 16b22 <memset>
+   13278:	|                     jsr 16b30 <memset>
    1327e:	|                     lea 12(sp),sp
 		char secondSoFar[257] = "";
    13282:	|                     move.l sp,d0
@@ -30960,7 +30960,7 @@ void readIniFile (char * filename) {
    1328c:	|                     move.l d1,-(sp)
    1328e:	|                     clr.l -(sp)
    13290:	|                     move.l d0,-(sp)
-   13292:	|                     jsr 16b22 <memset>
+   13292:	|                     jsr 16b30 <memset>
    13298:	|                     lea 12(sp),sp
 		unsigned char here = 0;
    1329c:	|                     clr.b 571(sp)
@@ -31020,7 +31020,7 @@ void readIniFile (char * filename) {
    13316:	|  |  |  |        \-> tst.w 566(sp)
    1331a:	|  |  |  |     /----- beq.w 13494 <readIniFile+0x2d0>
 					if (strcmp (lineSoFar, "LANGUAGE") == 0)
-   1331e:	|  |  |  |     |      pea 19759 <newfatal.c.307beca7+0x17a>
+   1331e:	|  |  |  |     |      pea 19767 <newfatal.c.307beca7+0x188>
    13324:	|  |  |  |     |      move.l sp,d0
    13326:	|  |  |  |     |      addi.l #269,d0
    1332c:	|  |  |  |     |      move.l d0,-(sp)
@@ -31039,7 +31039,7 @@ void readIniFile (char * filename) {
    1334e:	|  |  |  |     +--|-- bra.w 13494 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "WINDOW") == 0)
-   13352:	|  |  |  |     |  \-> pea 19762 <newfatal.c.307beca7+0x183>
+   13352:	|  |  |  |     |  \-> pea 19770 <newfatal.c.307beca7+0x191>
    13358:	|  |  |  |     |      move.l sp,d0
    1335a:	|  |  |  |     |      addi.l #269,d0
    13360:	|  |  |  |     |      move.l d0,-(sp)
@@ -31063,7 +31063,7 @@ void readIniFile (char * filename) {
    1338e:	|  |  |  |     +--|-- bra.w 13494 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "REFRESH") == 0)
-   13392:	|  |  |  |     |  \-> pea 19769 <newfatal.c.307beca7+0x18a>
+   13392:	|  |  |  |     |  \-> pea 19777 <newfatal.c.307beca7+0x198>
    13398:	|  |  |  |     |      move.l sp,d0
    1339a:	|  |  |  |     |      addi.l #269,d0
    133a0:	|  |  |  |     |      move.l d0,-(sp)
@@ -31082,7 +31082,7 @@ void readIniFile (char * filename) {
    133c2:	|  |  |  |     +--|-- bra.w 13494 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "ANTIALIAS") == 0)
-   133c6:	|  |  |  |     |  \-> pea 19771 <newfatal.c.307beca7+0x192>
+   133c6:	|  |  |  |     |  \-> pea 1977f <newfatal.c.307beca7+0x1a0>
    133cc:	|  |  |  |     |      move.l sp,d0
    133ce:	|  |  |  |     |      addi.l #269,d0
    133d4:	|  |  |  |     |      move.l d0,-(sp)
@@ -31101,7 +31101,7 @@ void readIniFile (char * filename) {
    133f6:	|  |  |  |     +--|-- bra.w 13494 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "FIXEDPIXELS") == 0)
-   133fa:	|  |  |  |     |  \-> pea 1977b <newfatal.c.307beca7+0x19c>
+   133fa:	|  |  |  |     |  \-> pea 19789 <newfatal.c.307beca7+0x1aa>
    13400:	|  |  |  |     |      move.l sp,d0
    13402:	|  |  |  |     |      addi.l #269,d0
    13408:	|  |  |  |     |      move.l d0,-(sp)
@@ -31121,7 +31121,7 @@ void readIniFile (char * filename) {
    1342c:	|  |  |  |     +--|-- bra.s 13494 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "NOSTARTWINDOW") == 0)
-   1342e:	|  |  |  |     |  \-> pea 19787 <newfatal.c.307beca7+0x1a8>
+   1342e:	|  |  |  |     |  \-> pea 19795 <newfatal.c.307beca7+0x1b6>
    13434:	|  |  |  |     |      move.l sp,d0
    13436:	|  |  |  |     |      addi.l #269,d0
    1343c:	|  |  |  |     |      move.l d0,-(sp)
@@ -31141,7 +31141,7 @@ void readIniFile (char * filename) {
    13460:	|  |  |  |     +--|-- bra.s 13494 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "DEBUGMODE") == 0)
-   13462:	|  |  |  |     |  \-> pea 19795 <newfatal.c.307beca7+0x1b6>
+   13462:	|  |  |  |     |  \-> pea 197a3 <newfatal.c.307beca7+0x1c4>
    13468:	|  |  |  |     |      move.l sp,d0
    1346a:	|  |  |  |     |      addi.l #269,d0
    13470:	|  |  |  |     |      move.l d0,-(sp)
@@ -31324,8 +31324,8 @@ BYTE fileExists(const char * file) {
    135d8:	    move.l a6,-(sp)
    135da:	    move.l d2,-(sp)
 	KPrintF("fileexists: Checking File");
-   135dc:	    pea 1979f <newfatal.c.307beca7+0x1c0>
-   135e2:	    jsr 16b9e <KPrintF>
+   135dc:	    pea 197ad <newfatal.c.307beca7+0x1ce>
+   135e2:	    jsr 16bac <KPrintF>
    135e8:	    addq.l #4,sp
 	BPTR tester;
 	BYTE retval = 0;
@@ -31344,8 +31344,8 @@ BYTE fileExists(const char * file) {
 	if (tester) {
    1361c:	/-- beq.s 1364c <fileExists+0x78>
 		KPrintF("fileexists: File exists");
-   1361e:	|   pea 197b9 <newfatal.c.307beca7+0x1da>
-   13624:	|   jsr 16b9e <KPrintF>
+   1361e:	|   pea 197c7 <newfatal.c.307beca7+0x1e8>
+   13624:	|   jsr 16bac <KPrintF>
    1362a:	|   addq.l #4,sp
 		retval = 1;
    1362c:	|   move.b #1,35(sp)
@@ -31550,21 +31550,21 @@ char* itoa(int value, char* str, int base) {
    137be:	   /-> move.l 20(sp),d0
    137c2:	   |   move.l 28(sp),-(sp)
    137c6:	   |   move.l d0,-(sp)
-   137c8:	   |   jsr 17608 <__modsi3>
+   137c8:	   |   jsr 17616 <__modsi3>
    137ce:	   |   addq.l #8,sp
    137d0:	   |   movea.l d0,a1
    137d2:	   |   move.l 12(sp),d0
    137d6:	   |   move.l d0,d1
    137d8:	   |   addq.l #1,d1
    137da:	   |   move.l d1,12(sp)
-   137de:	   |   lea 197d1 <newfatal.c.307beca7+0x1f2>,a0
+   137de:	   |   lea 197df <main_sludge.c.0270f7ba+0x2>,a0
    137e4:	   |   move.b (0,a1,a0.l),d1
    137e8:	   |   movea.l d0,a0
    137ea:	   |   move.b d1,(a0)
         value /= base;
    137ec:	   |   move.l 28(sp),-(sp)
    137f0:	   |   move.l 24(sp),-(sp)
-   137f4:	   |   jsr 175da <__divsi3>
+   137f4:	   |   jsr 175e8 <__divsi3>
    137fa:	   |   addq.l #8,sp
    137fc:	   |   move.l d0,20(sp)
     } while (value);
@@ -31889,7 +31889,7 @@ BOOL addVarToStackQuick(struct variable *va, struct variableStack **thisStack) {
    13aaa:	|      pea 8 <_start+0x8>
    13aae:	|      move.l 28(sp),-(sp)
    13ab2:	|      move.l d0,-(sp)
-   13ab4:	|      jsr 16b52 <memcpy>
+   13ab4:	|      jsr 16b60 <memcpy>
    13aba:	|      lea 12(sp),sp
     va->varType = SVT_NULL;
    13abe:	|      movea.l 24(sp),a0
@@ -32393,8 +32393,8 @@ struct persona * getCostumeFromVar(struct variable *thisVar) {
    13f42:	      |     |   lea 1a680 <typeName>,a0
    13f48:	      |     |   move.l (0,a1,a0.l),d0
    13f4c:	      |     |   move.l d0,-(sp)
-   13f4e:	      |     |   pea 19843 <main_sludge.c.0270f7ba+0x66>
-   13f54:	      |     |   jsr 16b9e <KPrintF>
+   13f4e:	      |     |   pea 19851 <main_sludge.c.0270f7ba+0x74>
+   13f54:	      |     |   jsr 16bac <KPrintF>
    13f5a:	      |     |   addq.l #8,sp
     }
 
@@ -32413,7 +32413,7 @@ BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
    13f6e:	                movem.l d2-d3/a6,-(sp)
 	char * pattern = joinStrings("*", ext);
    13f72:	                move.l 116(sp),-(sp)
-   13f76:	                pea 1987b <main_sludge.c.0270f7ba+0x9e>
+   13f76:	                pea 19889 <main_sludge.c.0270f7ba+0xac>
    13f7c:	                jsr 136da <joinStrings>
    13f82:	                addq.l #8,sp
    13f84:	                move.l d0,102(sp)
@@ -32427,7 +32427,7 @@ BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
    13f90:	|           \-> clr.l 14(sp)
 
 	BPTR dirLock = Lock(".", ACCESS_READ);
-   13f94:	|               move.l #104573,98(sp)
+   13f94:	|               move.l #104587,98(sp)
    13f9c:	|               moveq #-2,d0
    13f9e:	|               move.l d0,94(sp)
    13fa2:	|               move.l 1a7aa <DOSBase>,d0
@@ -32622,7 +32622,7 @@ BOOL getValueType (int *toHere, enum variableType vT, const struct variable *v) 
    141c6:	|      lea 1a680 <typeName>,a0
    141cc:	|      move.l (0,a1,a0.l),d0
    141d0:	|      move.l d0,-(sp)
-   141d2:	|      pea 1987f <main_sludge.c.0270f7ba+0xa2>
+   141d2:	|      pea 1988d <main_sludge.c.0270f7ba+0xb0>
    141d8:	|      jsr 136da <joinStrings>
    141de:	|      addq.l #8,sp
    141e0:	|      move.l d0,4(sp)
@@ -32635,14 +32635,14 @@ BOOL getValueType (int *toHere, enum variableType vT, const struct variable *v) 
    141f0:	|      lea 1a680 <typeName>,a0
    141f6:	|      move.l (0,a1,a0.l),d0
    141fa:	|      move.l d0,-(sp)
-   141fc:	|      pea 198c1 <main_sludge.c.0270f7ba+0xe4>
+   141fc:	|      pea 198cf <main_sludge.c.0270f7ba+0xf2>
    14202:	|      jsr 136da <joinStrings>
    14208:	|      addq.l #8,sp
    1420a:	|      move.l d0,(sp)
 		KPrintF(e1, e2);
    1420c:	|      move.l (sp),-(sp)
    1420e:	|      move.l 8(sp),-(sp)
-   14212:	|      jsr 16b9e <KPrintF>
+   14212:	|      jsr 16bac <KPrintF>
    14218:	|      addq.l #8,sp
 
 		return FALSE;
@@ -32750,8 +32750,8 @@ BOOL makeFastArraySize (struct variable *to, int size) {
    142d0:	          tst.l 40(sp)
    142d4:	      /-- bge.s 142ea <makeFastArraySize+0x20>
 		KPrintF("makeFastArraySize: Can't create a fast array with a negative number of elements!");
-   142d6:	      |   pea 19906 <main_sludge.c.0270f7ba+0x129>
-   142dc:	      |   jsr 16b9e <KPrintF>
+   142d6:	      |   pea 19914 <main_sludge.c.0270f7ba+0x137>
+   142dc:	      |   jsr 16bac <KPrintF>
    142e2:	      |   addq.l #4,sp
 		return FALSE;
    142e4:	      |   clr.w d0
@@ -33116,8 +33116,8 @@ BOOL copyMain (const struct variable *from, struct variable *to) {
    14654:	\--|-> nop
 	}
 	KPrintF("Unknown value type");
-   14656:	   |   pea 19957 <main_sludge.c.0270f7ba+0x17a>
-   1465c:	   |   jsr 16b9e <KPrintF>
+   14656:	   |   pea 19965 <main_sludge.c.0270f7ba+0x188>
+   1465c:	   |   jsr 16bac <KPrintF>
    14662:	   |   addq.l #4,sp
 	return FALSE;
    14664:	   |   clr.w d0
@@ -33178,8 +33178,8 @@ struct personaAnimation * getAnimationFromVar (struct variable *thisVar) {
    146d0:	|      lea 1a680 <typeName>,a0
    146d6:	|      move.l (0,a1,a0.l),d0
    146da:	|      move.l d0,-(sp)
-   146dc:	|      pea 19843 <main_sludge.c.0270f7ba+0x66>
-   146e2:	|      jsr 16b9e <KPrintF>
+   146dc:	|      pea 19851 <main_sludge.c.0270f7ba+0x74>
+   146e2:	|      jsr 16bac <KPrintF>
    146e8:	|      addq.l #8,sp
 	return NULL;
    146ea:	|      moveq #0,d0
@@ -33296,7 +33296,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 		case SVT_FASTARRAY:
 		{
 			char * builder = copyString ("FAST:");
-   147d4:	|  |  |            pea 1996a <main_sludge.c.0270f7ba+0x18d>
+   147d4:	|  |  |            pea 19978 <main_sludge.c.0270f7ba+0x19b>
    147da:	|  |  |            jsr b8 <copyString>
    147e0:	|  |  |            addq.l #4,sp
    147e2:	|  |  |            move.l d0,76(sp)
@@ -33307,7 +33307,7 @@ char * getTextFromAnyVar (const struct variable *from) {
    147e6:	|  |  |            clr.l 72(sp)
    147ea:	|  |  |     /----- bra.w 14894 <getTextFromAnyVar+0x110>
 				builder2 = joinStrings (builder, " ");
-   147ee:	|  |  |  /--|----> pea 19970 <main_sludge.c.0270f7ba+0x193>
+   147ee:	|  |  |  /--|----> pea 1997e <main_sludge.c.0270f7ba+0x1a1>
    147f4:	|  |  |  |  |      move.l 80(sp),-(sp)
    147f8:	|  |  |  |  |      jsr 136da <joinStrings>
    147fe:	|  |  |  |  |      addq.l #8,sp
@@ -33375,7 +33375,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 		case SVT_STACK:
 		{
 			char * builder = copyString ("ARRAY:");
-   148b0:	|  |  |            pea 19972 <main_sludge.c.0270f7ba+0x195>
+   148b0:	|  |  |            pea 19980 <main_sludge.c.0270f7ba+0x1a3>
    148b6:	|  |  |            jsr b8 <copyString>
    148bc:	|  |  |            addq.l #4,sp
    148be:	|  |  |            move.l d0,68(sp)
@@ -33390,7 +33390,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 			while (stacky) {
    148ce:	|  |  |     /----- bra.w 14970 <getTextFromAnyVar+0x1ec>
 				builder2 = joinStrings (builder, " ");
-   148d2:	|  |  |  /--|----> pea 19970 <main_sludge.c.0270f7ba+0x193>
+   148d2:	|  |  |  /--|----> pea 1997e <main_sludge.c.0270f7ba+0x1a1>
    148d8:	|  |  |  |  |      move.l 72(sp),-(sp)
    148dc:	|  |  |  |  |      jsr 136da <joinStrings>
    148e2:	|  |  |  |  |      addq.l #8,sp
@@ -33466,8 +33466,8 @@ char * getTextFromAnyVar (const struct variable *from) {
 			if (! buff) {
    149aa:	|  |           /-- bne.s 149c0 <getTextFromAnyVar+0x23c>
 				KPrintF("getTextFromAnyVar: Cannot allocate Memory");
-   149ac:	|  |           |   pea 19979 <main_sludge.c.0270f7ba+0x19c>
-   149b2:	|  |           |   jsr 16b9e <KPrintF>
+   149ac:	|  |           |   pea 19987 <main_sludge.c.0270f7ba+0x1aa>
+   149b2:	|  |           |   jsr 16bac <KPrintF>
    149b8:	|  |           |   addq.l #4,sp
 				return NULL;
    149ba:	|  |           |   moveq #0,d0
@@ -33477,7 +33477,7 @@ char * getTextFromAnyVar (const struct variable *from) {
    149c0:	|  |           \-> movea.l 84(sp),a0
    149c4:	|  |               move.l 4(a0),d0
    149c8:	|  |               move.l d0,-(sp)
-   149ca:	|  |               pea 199a3 <main_sludge.c.0270f7ba+0x1c6>
+   149ca:	|  |               pea 199b1 <main_sludge.c.0270f7ba+0x1d4>
    149d0:	|  |               move.l 12(sp),-(sp)
    149d4:	|  |               jsr 139b8 <sprintf>
    149da:	|  |               lea 12(sp),sp
@@ -33496,7 +33496,7 @@ char * getTextFromAnyVar (const struct variable *from) {
    149ee:	|  |               jsr 3992 <resourceNameFromNum>
    149f4:	|  |               addq.l #4,sp
    149f6:	|  |               move.l d0,-(sp)
-   149f8:	|  |               pea 182e3 <PutChar+0xc71>
+   149f8:	|  |               pea 182f1 <PutChar+0xc71>
    149fe:	|  |               jsr 136da <joinStrings>
    14a04:	|  |               addq.l #8,sp
    14a06:	|  +-------------- bra.s 14a54 <getTextFromAnyVar+0x2d0>
@@ -33718,8 +33718,8 @@ BOOL freeze () {
    14b7a:	       lea -52(sp),sp
    14b7e:	       move.l a6,-(sp)
 	KPrintF("calling freeze()\n");
-   14b80:	       pea 199a6 <main_sludge.c.0270f7ba+0x1c9>
-   14b86:	       jsr 16b9e <KPrintF>
+   14b80:	       pea 199b4 <main_sludge.c.0270f7ba+0x1d7>
+   14b86:	       jsr 16bac <KPrintF>
    14b8c:	       addq.l #4,sp
 
 	struct frozenStuffStruct * newFreezer = (struct frozenStuffStruct *) AllocVec(sizeof(struct frozenStuffStruct), MEMF_ANY);
@@ -33861,7 +33861,7 @@ BOOL freeze () {
    14d0c:	|      pea 1c <_start+0x1c>
    14d10:	|      clr.l -(sp)
    14d12:	|      move.l d0,-(sp)
-   14d14:	|      jsr 16b22 <memset>
+   14d14:	|      jsr 16b30 <memset>
    14d1a:	|      lea 12(sp),sp
 
 	newFreezer -> next = frozenStuff;
@@ -33913,31 +33913,31 @@ void unfreeze () {
 	input.mouseX = (int)(input.mouseX * cameraZoom);
    14d9c:	|      move.l 1a75e <input+0xa>,d0
    14da2:	|      move.l d0,-(sp)
-   14da4:	|      jsr 16fda <__floatsisf>
+   14da4:	|      jsr 16fe8 <__floatsisf>
    14daa:	|      addq.l #4,sp
    14dac:	|      move.l d0,d1
    14dae:	|      move.l 1a142 <cameraZoom>,d0
    14db4:	|      move.l d0,-(sp)
    14db6:	|      move.l d1,-(sp)
-   14db8:	|      jsr 1708c <__mulsf3>
+   14db8:	|      jsr 1709a <__mulsf3>
    14dbe:	|      addq.l #8,sp
    14dc0:	|      move.l d0,-(sp)
-   14dc2:	|      jsr 16f72 <__fixsfsi>
+   14dc2:	|      jsr 16f80 <__fixsfsi>
    14dc8:	|      addq.l #4,sp
    14dca:	|      move.l d0,1a75e <input+0xa>
 	input.mouseY = (int)(input.mouseY * cameraZoom);
    14dd0:	|      move.l 1a762 <input+0xe>,d0
    14dd6:	|      move.l d0,-(sp)
-   14dd8:	|      jsr 16fda <__floatsisf>
+   14dd8:	|      jsr 16fe8 <__floatsisf>
    14dde:	|      addq.l #4,sp
    14de0:	|      move.l d0,d1
    14de2:	|      move.l 1a142 <cameraZoom>,d0
    14de8:	|      move.l d0,-(sp)
    14dea:	|      move.l d1,-(sp)
-   14dec:	|      jsr 1708c <__mulsf3>
+   14dec:	|      jsr 1709a <__mulsf3>
    14df2:	|      addq.l #8,sp
    14df4:	|      move.l d0,-(sp)
-   14df6:	|      jsr 16f72 <__fixsfsi>
+   14df6:	|      jsr 16f80 <__fixsfsi>
    14dfc:	|      addq.l #4,sp
    14dfe:	|      move.l d0,1a762 <input+0xe>
 	cameraZoom = frozenStuff -> cameraZoom;
@@ -33947,31 +33947,31 @@ void unfreeze () {
 	input.mouseX = (int)(input.mouseX / cameraZoom);
    14e14:	|      move.l 1a75e <input+0xa>,d0
    14e1a:	|      move.l d0,-(sp)
-   14e1c:	|      jsr 16fda <__floatsisf>
+   14e1c:	|      jsr 16fe8 <__floatsisf>
    14e22:	|      addq.l #4,sp
    14e24:	|      move.l d0,d1
    14e26:	|      move.l 1a142 <cameraZoom>,d0
    14e2c:	|      move.l d0,-(sp)
    14e2e:	|      move.l d1,-(sp)
-   14e30:	|      jsr 16e86 <__divsf3>
+   14e30:	|      jsr 16e94 <__divsf3>
    14e36:	|      addq.l #8,sp
    14e38:	|      move.l d0,-(sp)
-   14e3a:	|      jsr 16f72 <__fixsfsi>
+   14e3a:	|      jsr 16f80 <__fixsfsi>
    14e40:	|      addq.l #4,sp
    14e42:	|      move.l d0,1a75e <input+0xa>
 	input.mouseY = (int)(input.mouseY / cameraZoom);
    14e48:	|      move.l 1a762 <input+0xe>,d0
    14e4e:	|      move.l d0,-(sp)
-   14e50:	|      jsr 16fda <__floatsisf>
+   14e50:	|      jsr 16fe8 <__floatsisf>
    14e56:	|      addq.l #4,sp
    14e58:	|      move.l d0,d1
    14e5a:	|      move.l 1a142 <cameraZoom>,d0
    14e60:	|      move.l d0,-(sp)
    14e62:	|      move.l d1,-(sp)
-   14e64:	|      jsr 16e86 <__divsf3>
+   14e64:	|      jsr 16e94 <__divsf3>
    14e6a:	|      addq.l #8,sp
    14e6c:	|      move.l d0,-(sp)
-   14e6e:	|      jsr 16f72 <__fixsfsi>
+   14e6e:	|      jsr 16f80 <__fixsfsi>
    14e74:	|      addq.l #4,sp
    14e76:	|      move.l d0,1a762 <input+0xe>
 
@@ -33983,7 +33983,7 @@ void unfreeze () {
    14e8a:	|      move.l d0,1a85a <allPeople>
 
 	killAllRegions ();
-   14e90:	|      jsr 153ee <killAllRegions>
+   14e90:	|      jsr 153fc <killAllRegions>
 	allScreenRegions = frozenStuff -> allScreenRegions;
    14e96:	|      movea.l 1a8ee <frozenStuff>,a0
    14e9c:	|      move.l 4(a0),d0
@@ -34063,8 +34063,8 @@ struct loadedSpriteBank *theFont;
 
 BOOL isInFont (char * theText) {
 	KPrintF("isInFont: Not implemented yet on Amiga"); //Todo: Implement on Amiga
-   14f7e:	pea 199b8 <main_sludge.c.0270f7ba+0x1db>
-   14f84:	jsr 16b9e <KPrintF>
+   14f7e:	pea 199c6 <main_sludge.c.0270f7ba+0x1e9>
+   14f84:	jsr 16bac <KPrintF>
    14f8a:	addq.l #4,sp
 	return FALSE;
    14f8c:	clr.w d0
@@ -34243,8 +34243,8 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
    15166:	|         tst.w d0
    15168:	|     /-- bne.s 1517c <loadFont+0x1ec>
 		KPrintF("loadFont: Can't load font");
-   1516a:	|     |   pea 199df <main_sludge.c.0270f7ba+0x202>
-   15170:	|     |   jsr 16b9e <KPrintF>
+   1516a:	|     |   pea 199ed <main_sludge.c.0270f7ba+0x210>
+   15170:	|     |   jsr 16bac <KPrintF>
    15176:	|     |   addq.l #4,sp
 		return FALSE;
    15178:	|     |   clr.w d0
@@ -34263,3792 +34263,3797 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
 00015190 <pasteStringToBackdrop>:
 
 void pasteStringToBackdrop(char *theText, int xOff, int y) {
-   15190:	          lea -12(sp),sp
+   15190:	                lea -12(sp),sp
     struct sprite *mySprite;
     int a = 0;
-   15194:	          clr.l 8(sp)
+   15194:	                clr.l 4(sp)
 
     if (!fontTableSize) return;
-   15198:	          move.l 1a902 <fontTableSize>,d0
-   1519e:	/-------- beq.w 15258 <pasteStringToBackdrop+0xc8>
+   15198:	                move.l 1a902 <fontTableSize>,d0
+   1519e:	/-------------- beq.w 15266 <pasteStringToBackdrop+0xd6>
 
     xOff += fontSpace >> 1;
-   151a2:	|         move.w 1a6a8 <fontSpace>,d0
-   151a8:	|         asr.w #1,d0
-   151aa:	|         ext.l d0
-   151ac:	|         add.l d0,20(sp)
+   151a2:	|               move.w 1a6a8 <fontSpace>,d0
+   151a8:	|               asr.w #1,d0
+   151aa:	|               ext.l d0
+   151ac:	|               add.l d0,20(sp)
 	char *tmp = theText;
-   151b0:	|         move.l 16(sp),4(sp)
-    //while (*tmp) {        
+   151b0:	|               move.l 16(sp),8(sp)
+    while (*tmp) {        
+   151b6:	|     /-------- bra.w 1525a <pasteStringToBackdrop+0xca>
         mySprite = &theFont->bank.sprites[fontInTable( (UBYTE) *tmp)];
-   151b6:	|         movea.l 1a906 <theFont>,a0
-   151bc:	|         movea.l 16(a0),a0
-   151c0:	|         movea.l 4(sp),a1
-   151c4:	|         move.b (a1),d0
-   151c6:	|         move.b d0,d0
-   151c8:	|         andi.l #255,d0
-   151ce:	|         move.l 1a902 <fontTableSize>,d1
-   151d4:	|         cmp.l d0,d1
-   151d6:	|  /----- bls.s 15202 <pasteStringToBackdrop+0x72>
-   151d8:	|  |      move.l 1a8fe <fontTable>,d1
-   151de:	|  |      movea.l 4(sp),a1
-   151e2:	|  |      move.b (a1),d0
-   151e4:	|  |      move.b d0,d0
-   151e6:	|  |      andi.l #255,d0
-   151ec:	|  |      add.l d0,d0
-   151ee:	|  |      add.l d0,d0
-   151f0:	|  |      movea.l d1,a1
-   151f2:	|  |      adda.l d0,a1
-   151f4:	|  |      move.l (a1),d1
-   151f6:	|  |      move.l d1,d0
-   151f8:	|  |      lsl.l #3,d0
-   151fa:	|  |      sub.l d1,d0
-   151fc:	|  |      add.l d0,d0
-   151fe:	|  |      add.l d0,d0
-   15200:	|  |  /-- bra.s 15204 <pasteStringToBackdrop+0x74>
-   15202:	|  \--|-> moveq #0,d0
-   15204:	|     \-> adda.l d0,a0
-   15206:	|         move.l a0,(sp)
+   151ba:	|  /--|-------> movea.l 1a906 <theFont>,a0
+   151c0:	|  |  |         movea.l 16(a0),a0
+   151c4:	|  |  |         movea.l 8(sp),a1
+   151c8:	|  |  |         move.b (a1),d0
+   151ca:	|  |  |         move.b d0,d0
+   151cc:	|  |  |         andi.l #255,d0
+   151d2:	|  |  |         move.l 1a902 <fontTableSize>,d1
+   151d8:	|  |  |         cmp.l d0,d1
+   151da:	|  |  |  /----- bls.s 15206 <pasteStringToBackdrop+0x76>
+   151dc:	|  |  |  |      move.l 1a8fe <fontTable>,d1
+   151e2:	|  |  |  |      movea.l 8(sp),a1
+   151e6:	|  |  |  |      move.b (a1),d0
+   151e8:	|  |  |  |      move.b d0,d0
+   151ea:	|  |  |  |      andi.l #255,d0
+   151f0:	|  |  |  |      add.l d0,d0
+   151f2:	|  |  |  |      add.l d0,d0
+   151f4:	|  |  |  |      movea.l d1,a1
+   151f6:	|  |  |  |      adda.l d0,a1
+   151f8:	|  |  |  |      move.l (a1),d1
+   151fa:	|  |  |  |      move.l d1,d0
+   151fc:	|  |  |  |      lsl.l #3,d0
+   151fe:	|  |  |  |      sub.l d1,d0
+   15200:	|  |  |  |      add.l d0,d0
+   15202:	|  |  |  |      add.l d0,d0
+   15204:	|  |  |  |  /-- bra.s 15208 <pasteStringToBackdrop+0x78>
+   15206:	|  |  |  \--|-> moveq #0,d0
+   15208:	|  |  |     \-> adda.l d0,a0
+   1520a:	|  |  |         move.l a0,(sp)
         CstPasteChar( mySprite, xOff - mySprite->xhot, y - mySprite->yhot);
-   15208:	|         move.l 24(sp),d1
-   1520c:	|         movea.l (sp),a0
-   1520e:	|         move.l 12(a0),d0
-   15212:	|         move.l d0,d0
-   15214:	|         sub.w d0,d1
-   15216:	|         move.w d1,d0
-   15218:	|         movea.w d0,a1
-   1521a:	|         move.l 20(sp),d1
-   1521e:	|         movea.l (sp),a0
-   15220:	|         move.l 8(a0),d0
-   15224:	|         move.l d0,d0
-   15226:	|         sub.w d0,d1
-   15228:	|         move.w d1,d0
-   1522a:	|         movea.w d0,a0
-   1522c:	|         move.l a1,-(sp)
-   1522e:	|         move.l a0,-(sp)
-   15230:	|         move.l 8(sp),-(sp)
-   15234:	|         jsr 1c52 <CstPasteChar>
-   1523a:	|         lea 12(sp),sp
+   1520c:	|  |  |         move.l 24(sp),d1
+   15210:	|  |  |         movea.l (sp),a0
+   15212:	|  |  |         move.l 12(a0),d0
+   15216:	|  |  |         move.l d0,d0
+   15218:	|  |  |         sub.w d0,d1
+   1521a:	|  |  |         move.w d1,d0
+   1521c:	|  |  |         movea.w d0,a1
+   1521e:	|  |  |         move.l 20(sp),d1
+   15222:	|  |  |         movea.l (sp),a0
+   15224:	|  |  |         move.l 8(a0),d0
+   15228:	|  |  |         move.l d0,d0
+   1522a:	|  |  |         sub.w d0,d1
+   1522c:	|  |  |         move.w d1,d0
+   1522e:	|  |  |         movea.w d0,a0
+   15230:	|  |  |         move.l a1,-(sp)
+   15232:	|  |  |         move.l a0,-(sp)
+   15234:	|  |  |         move.l 8(sp),-(sp)
+   15238:	|  |  |         jsr 1c52 <CstPasteChar>
+   1523e:	|  |  |         lea 12(sp),sp
         xOff += mySprite->width + fontSpace;
-   1523e:	|         movea.l (sp),a0
-   15240:	|         move.l (a0),d1
-   15242:	|         move.w 1a6a8 <fontSpace>,d0
-   15248:	|         movea.w d0,a0
-   1524a:	|         move.l d1,d0
-   1524c:	|         add.l a0,d0
-   1524e:	|         add.l d0,20(sp)
+   15242:	|  |  |         movea.l (sp),a0
+   15244:	|  |  |         move.l (a0),d1
+   15246:	|  |  |         move.w 1a6a8 <fontSpace>,d0
+   1524c:	|  |  |         movea.w d0,a0
+   1524e:	|  |  |         move.l d1,d0
+   15250:	|  |  |         add.l a0,d0
+   15252:	|  |  |         add.l d0,20(sp)
 		tmp++;
-   15252:	|         addq.l #1,4(sp)
-   15256:	|     /-- bra.s 1525a <pasteStringToBackdrop+0xca>
+   15256:	|  |  |         addq.l #1,8(sp)
+    while (*tmp) {        
+   1525a:	|  |  \-------> movea.l 8(sp),a0
+   1525e:	|  |            move.b (a0),d0
+   15260:	|  \----------- bne.w 151ba <pasteStringToBackdrop+0x2a>
+   15264:	|           /-- bra.s 15268 <pasteStringToBackdrop+0xd8>
     if (!fontTableSize) return;
-   15258:	\-----|-> nop
-    //}
+   15266:	\-----------|-> nop
+    }
 }
-   1525a:	      \-> lea 12(sp),sp
-   1525e:	          rts
+   15268:	            \-> lea 12(sp),sp
+   1526c:	                rts
 
-00015260 <stringWidth>:
+0001526e <stringWidth>:
 
 
 int stringWidth (char * theText) {
-   15260:	       subq.l #8,sp
+   1526e:	       subq.l #8,sp
 	int a = 0;
-   15262:	       clr.l 4(sp)
+   15270:	       clr.l 4(sp)
     ULONG c;
 	int xOff = 0;
-   15266:	       clr.l (sp)
+   15274:	       clr.l (sp)
 
 	if (! fontTableSize) return 0;
-   15268:	       move.l 1a902 <fontTableSize>,d0
-   1526e:	/----- bne.s 15274 <stringWidth+0x14>
-   15270:	|      moveq #0,d0
-   15272:	|  /-- bra.s 15276 <stringWidth+0x16>
+   15276:	       move.l 1a902 <fontTableSize>,d0
+   1527c:	/----- bne.s 15282 <stringWidth+0x14>
+   1527e:	|      moveq #0,d0
+   15280:	|  /-- bra.s 15284 <stringWidth+0x16>
 	/*while (theText[a]) {
         c = u8_nextchar(theText, &a);
 		xOff += theFont.sprites[fontInTable(c)].width + fontSpace;
 	}Todo: Amigize this*/
 	
 	return xOff;
-   15274:	\--|-> move.l (sp),d0
+   15282:	\--|-> move.l (sp),d0
 }
-   15276:	   \-> addq.l #8,sp
-   15278:	       rts
+   15284:	   \-> addq.l #8,sp
+   15286:	       rts
 
-0001527a <addScreenRegion>:
+00015288 <addScreenRegion>:
 struct screenRegion * allScreenRegions = NULL;
 struct screenRegion * overRegion = NULL;
 
 
 
 BOOL addScreenRegion(int x1, int y1, int x2, int y2, int sX, int sY, int di, int objectNum) {
-   1527a:	       lea -16(sp),sp
-   1527e:	       move.l a6,-(sp)
+   15288:	       lea -16(sp),sp
+   1528c:	       move.l a6,-(sp)
     struct screenRegion *newRegion = AllocVec(sizeof(struct screenRegion), MEMF_ANY);
-   15280:	       moveq #36,d0
-   15282:	       move.l d0,16(sp)
-   15286:	       clr.l 12(sp)
-   1528a:	       move.l 1a7a2 <SysBase>,d0
-   15290:	       movea.l d0,a6
-   15292:	       move.l 16(sp),d0
-   15296:	       move.l 12(sp),d1
-   1529a:	       jsr -684(a6)
-   1529e:	       move.l d0,8(sp)
-   152a2:	       move.l 8(sp),d0
-   152a6:	       move.l d0,4(sp)
+   1528e:	       moveq #36,d0
+   15290:	       move.l d0,16(sp)
+   15294:	       clr.l 12(sp)
+   15298:	       move.l 1a7a2 <SysBase>,d0
+   1529e:	       movea.l d0,a6
+   152a0:	       move.l 16(sp),d0
+   152a4:	       move.l 12(sp),d1
+   152a8:	       jsr -684(a6)
+   152ac:	       move.l d0,8(sp)
+   152b0:	       move.l 8(sp),d0
+   152b4:	       move.l d0,4(sp)
     if (!newRegion) return FALSE;
-   152aa:	   /-- bne.s 152b2 <addScreenRegion+0x38>
-   152ac:	   |   clr.w d0
-   152ae:	/--|-- bra.w 15332 <addScreenRegion+0xb8>
+   152b8:	   /-- bne.s 152c0 <addScreenRegion+0x38>
+   152ba:	   |   clr.w d0
+   152bc:	/--|-- bra.w 15340 <addScreenRegion+0xb8>
     newRegion->di = di;
-   152b2:	|  \-> movea.l 4(sp),a0
-   152b6:	|      move.l 48(sp),24(a0)
+   152c0:	|  \-> movea.l 4(sp),a0
+   152c4:	|      move.l 48(sp),24(a0)
     newRegion->x1 = x1;
-   152bc:	|      movea.l 4(sp),a0
-   152c0:	|      move.l 24(sp),(a0)
+   152ca:	|      movea.l 4(sp),a0
+   152ce:	|      move.l 24(sp),(a0)
     newRegion->y1 = y1;
-   152c4:	|      movea.l 4(sp),a0
-   152c8:	|      move.l 28(sp),4(a0)
+   152d2:	|      movea.l 4(sp),a0
+   152d6:	|      move.l 28(sp),4(a0)
     newRegion->x2 = x2;
-   152ce:	|      movea.l 4(sp),a0
-   152d2:	|      move.l 32(sp),8(a0)
+   152dc:	|      movea.l 4(sp),a0
+   152e0:	|      move.l 32(sp),8(a0)
     newRegion->y2 = y2;
-   152d8:	|      movea.l 4(sp),a0
-   152dc:	|      move.l 36(sp),12(a0)
+   152e6:	|      movea.l 4(sp),a0
+   152ea:	|      move.l 36(sp),12(a0)
     newRegion->sX = sX;
-   152e2:	|      movea.l 4(sp),a0
-   152e6:	|      move.l 40(sp),16(a0)
+   152f0:	|      movea.l 4(sp),a0
+   152f4:	|      move.l 40(sp),16(a0)
     newRegion->sY = sY;
-   152ec:	|      movea.l 4(sp),a0
-   152f0:	|      move.l 44(sp),20(a0)
+   152fa:	|      movea.l 4(sp),a0
+   152fe:	|      move.l 44(sp),20(a0)
     newRegion->thisType = loadObjectType(objectNum);
-   152f6:	|      move.l 52(sp),-(sp)
-   152fa:	|      jsr d070 <loadObjectType>
-   15300:	|      addq.l #4,sp
-   15302:	|      movea.l 4(sp),a0
-   15306:	|      move.l d0,28(a0)
-    newRegion->next = allScreenRegions;
-   1530a:	|      move.l 1a90a <allScreenRegions>,d0
+   15304:	|      move.l 52(sp),-(sp)
+   15308:	|      jsr d070 <loadObjectType>
+   1530e:	|      addq.l #4,sp
    15310:	|      movea.l 4(sp),a0
-   15314:	|      move.l d0,32(a0)
+   15314:	|      move.l d0,28(a0)
+    newRegion->next = allScreenRegions;
+   15318:	|      move.l 1a90a <allScreenRegions>,d0
+   1531e:	|      movea.l 4(sp),a0
+   15322:	|      move.l d0,32(a0)
     allScreenRegions = newRegion;
-   15318:	|      move.l 4(sp),1a90a <allScreenRegions>
+   15326:	|      move.l 4(sp),1a90a <allScreenRegions>
     return (BOOL) (newRegion->thisType != NULL);
-   15320:	|      movea.l 4(sp),a0
-   15324:	|      move.l 28(a0),d0
-   15328:	|      sne d0
-   1532a:	|      neg.b d0
-   1532c:	|      move.b d0,d0
-   1532e:	|      andi.w #255,d0
+   1532e:	|      movea.l 4(sp),a0
+   15332:	|      move.l 28(a0),d0
+   15336:	|      sne d0
+   15338:	|      neg.b d0
+   1533a:	|      move.b d0,d0
+   1533c:	|      andi.w #255,d0
 }
-   15332:	\----> movea.l (sp)+,a6
-   15334:	       lea 16(sp),sp
-   15338:	       rts
+   15340:	\----> movea.l (sp)+,a6
+   15342:	       lea 16(sp),sp
+   15346:	       rts
 
-0001533a <getOverRegion>:
+00015348 <getOverRegion>:
 
 void getOverRegion () {
-   1533a:	             subq.l #4,sp
+   15348:	             subq.l #4,sp
 	struct screenRegion * thisRegion = allScreenRegions;
-   1533c:	             move.l 1a90a <allScreenRegions>,(sp)
+   1534a:	             move.l 1a90a <allScreenRegions>,(sp)
 	while (thisRegion) {
-   15342:	   /-------- bra.s 153b0 <getOverRegion+0x76>
+   15350:	   /-------- bra.s 153be <getOverRegion+0x76>
 		if ((input.mouseX >= thisRegion -> x1 - cameraX) && (input.mouseY >= thisRegion -> y1 - cameraY) &&
-   15344:	/--|-------> move.l 1a75e <input+0xa>,d0
-   1534a:	|  |         movea.l (sp),a0
-   1534c:	|  |         movea.l (a0),a0
-   1534e:	|  |         move.l 1a8b4 <cameraX>,d1
-   15354:	|  |         suba.l d1,a0
-   15356:	|  |         cmpa.l d0,a0
-   15358:	|  |  /----- bgt.s 153aa <getOverRegion+0x70>
-   1535a:	|  |  |      move.l 1a762 <input+0xe>,d0
-   15360:	|  |  |      movea.l (sp),a0
-   15362:	|  |  |      movea.l 4(a0),a0
-   15366:	|  |  |      move.l 1a8b8 <cameraY>,d1
-   1536c:	|  |  |      suba.l d1,a0
-   1536e:	|  |  |      cmpa.l d0,a0
-   15370:	|  |  +----- bgt.s 153aa <getOverRegion+0x70>
+   15352:	/--|-------> move.l 1a75e <input+0xa>,d0
+   15358:	|  |         movea.l (sp),a0
+   1535a:	|  |         movea.l (a0),a0
+   1535c:	|  |         move.l 1a8b4 <cameraX>,d1
+   15362:	|  |         suba.l d1,a0
+   15364:	|  |         cmpa.l d0,a0
+   15366:	|  |  /----- bgt.s 153b8 <getOverRegion+0x70>
+   15368:	|  |  |      move.l 1a762 <input+0xe>,d0
+   1536e:	|  |  |      movea.l (sp),a0
+   15370:	|  |  |      movea.l 4(a0),a0
+   15374:	|  |  |      move.l 1a8b8 <cameraY>,d1
+   1537a:	|  |  |      suba.l d1,a0
+   1537c:	|  |  |      cmpa.l d0,a0
+   1537e:	|  |  +----- bgt.s 153b8 <getOverRegion+0x70>
 			 (input.mouseX <= thisRegion -> x2 - cameraX) && (input.mouseY <= thisRegion -> y2 - cameraY)) {
-   15372:	|  |  |      move.l 1a75e <input+0xa>,d0
-   15378:	|  |  |      movea.l (sp),a0
-   1537a:	|  |  |      movea.l 8(a0),a0
-   1537e:	|  |  |      move.l 1a8b4 <cameraX>,d1
-   15384:	|  |  |      suba.l d1,a0
+   15380:	|  |  |      move.l 1a75e <input+0xa>,d0
+   15386:	|  |  |      movea.l (sp),a0
+   15388:	|  |  |      movea.l 8(a0),a0
+   1538c:	|  |  |      move.l 1a8b4 <cameraX>,d1
+   15392:	|  |  |      suba.l d1,a0
 		if ((input.mouseX >= thisRegion -> x1 - cameraX) && (input.mouseY >= thisRegion -> y1 - cameraY) &&
-   15386:	|  |  |      cmpa.l d0,a0
-   15388:	|  |  +----- blt.s 153aa <getOverRegion+0x70>
+   15394:	|  |  |      cmpa.l d0,a0
+   15396:	|  |  +----- blt.s 153b8 <getOverRegion+0x70>
 			 (input.mouseX <= thisRegion -> x2 - cameraX) && (input.mouseY <= thisRegion -> y2 - cameraY)) {
-   1538a:	|  |  |      move.l 1a762 <input+0xe>,d0
-   15390:	|  |  |      movea.l (sp),a0
-   15392:	|  |  |      movea.l 12(a0),a0
-   15396:	|  |  |      move.l 1a8b8 <cameraY>,d1
-   1539c:	|  |  |      suba.l d1,a0
-   1539e:	|  |  |      cmpa.l d0,a0
-   153a0:	|  |  +----- blt.s 153aa <getOverRegion+0x70>
+   15398:	|  |  |      move.l 1a762 <input+0xe>,d0
+   1539e:	|  |  |      movea.l (sp),a0
+   153a0:	|  |  |      movea.l 12(a0),a0
+   153a4:	|  |  |      move.l 1a8b8 <cameraY>,d1
+   153aa:	|  |  |      suba.l d1,a0
+   153ac:	|  |  |      cmpa.l d0,a0
+   153ae:	|  |  +----- blt.s 153b8 <getOverRegion+0x70>
 			overRegion = thisRegion;
-   153a2:	|  |  |      move.l (sp),1a90e <overRegion>
+   153b0:	|  |  |      move.l (sp),1a90e <overRegion>
 			return;
-   153a8:	|  |  |  /-- bra.s 153bc <getOverRegion+0x82>
+   153b6:	|  |  |  /-- bra.s 153ca <getOverRegion+0x82>
 		}
 		thisRegion = thisRegion -> next;
-   153aa:	|  |  \--|-> movea.l (sp),a0
-   153ac:	|  |     |   move.l 32(a0),(sp)
+   153b8:	|  |  \--|-> movea.l (sp),a0
+   153ba:	|  |     |   move.l 32(a0),(sp)
 	while (thisRegion) {
-   153b0:	|  \-----|-> tst.l (sp)
-   153b2:	\--------|-- bne.s 15344 <getOverRegion+0xa>
+   153be:	|  \-----|-> tst.l (sp)
+   153c0:	\--------|-- bne.s 15352 <getOverRegion+0xa>
 	}
 	overRegion = NULL;
-   153b4:	         |   clr.l 1a90e <overRegion>
+   153c2:	         |   clr.l 1a90e <overRegion>
 	return;
-   153ba:	         |   nop
+   153c8:	         |   nop
 }
-   153bc:	         \-> addq.l #4,sp
-   153be:	             rts
+   153ca:	         \-> addq.l #4,sp
+   153cc:	             rts
 
-000153c0 <getRegionForObject>:
+000153ce <getRegionForObject>:
 
 
 struct screenRegion * getRegionForObject (int obj) {
-   153c0:	             subq.l #4,sp
+   153ce:	             subq.l #4,sp
 	struct screenRegion * thisRegion = allScreenRegions;
-   153c2:	             move.l 1a90a <allScreenRegions>,(sp)
+   153d0:	             move.l 1a90a <allScreenRegions>,(sp)
 
 	while (thisRegion) {
-   153c8:	   /-------- bra.s 153e4 <getRegionForObject+0x24>
+   153d6:	   /-------- bra.s 153f2 <getRegionForObject+0x24>
 		if (obj == thisRegion -> thisType -> objectNum) {
-   153ca:	/--|-------> movea.l (sp),a0
-   153cc:	|  |         movea.l 28(a0),a0
-   153d0:	|  |         move.l 4(a0),d0
-   153d4:	|  |         cmp.l 8(sp),d0
-   153d8:	|  |     /-- bne.s 153de <getRegionForObject+0x1e>
+   153d8:	/--|-------> movea.l (sp),a0
+   153da:	|  |         movea.l 28(a0),a0
+   153de:	|  |         move.l 4(a0),d0
+   153e2:	|  |         cmp.l 8(sp),d0
+   153e6:	|  |     /-- bne.s 153ec <getRegionForObject+0x1e>
 			return thisRegion;
-   153da:	|  |     |   move.l (sp),d0
-   153dc:	|  |  /--|-- bra.s 153ea <getRegionForObject+0x2a>
+   153e8:	|  |     |   move.l (sp),d0
+   153ea:	|  |  /--|-- bra.s 153f8 <getRegionForObject+0x2a>
 		}
 		thisRegion = thisRegion -> next;
-   153de:	|  |  |  \-> movea.l (sp),a0
-   153e0:	|  |  |      move.l 32(a0),(sp)
+   153ec:	|  |  |  \-> movea.l (sp),a0
+   153ee:	|  |  |      move.l 32(a0),(sp)
 	while (thisRegion) {
-   153e4:	|  \--|----> tst.l (sp)
-   153e6:	\-----|----- bne.s 153ca <getRegionForObject+0xa>
+   153f2:	|  \--|----> tst.l (sp)
+   153f4:	\-----|----- bne.s 153d8 <getRegionForObject+0xa>
 	}
 
 	return NULL;
-   153e8:	      |      moveq #0,d0
+   153f6:	      |      moveq #0,d0
 }
-   153ea:	      \----> addq.l #4,sp
-   153ec:	             rts
+   153f8:	      \----> addq.l #4,sp
+   153fa:	             rts
 
-000153ee <killAllRegions>:
+000153fc <killAllRegions>:
 
 void killAllRegions () {
-   153ee:	       subq.l #8,sp
-   153f0:	       move.l a6,-(sp)
+   153fc:	       subq.l #8,sp
+   153fe:	       move.l a6,-(sp)
 	struct screenRegion * killRegion;
 	while (allScreenRegions) {
-   153f2:	   /-- bra.s 15434 <killAllRegions+0x46>
+   15400:	   /-- bra.s 15442 <killAllRegions+0x46>
 		killRegion = allScreenRegions;
-   153f4:	/--|-> move.l 1a90a <allScreenRegions>,8(sp)
+   15402:	/--|-> move.l 1a90a <allScreenRegions>,8(sp)
 		allScreenRegions = allScreenRegions -> next;
-   153fc:	|  |   movea.l 1a90a <allScreenRegions>,a0
-   15402:	|  |   move.l 32(a0),d0
-   15406:	|  |   move.l d0,1a90a <allScreenRegions>
+   1540a:	|  |   movea.l 1a90a <allScreenRegions>,a0
+   15410:	|  |   move.l 32(a0),d0
+   15414:	|  |   move.l d0,1a90a <allScreenRegions>
 		removeObjectType (killRegion -> thisType);
-   1540c:	|  |   movea.l 8(sp),a0
-   15410:	|  |   move.l 28(a0),d0
-   15414:	|  |   move.l d0,-(sp)
-   15416:	|  |   jsr d328 <removeObjectType>
-   1541c:	|  |   addq.l #4,sp
+   1541a:	|  |   movea.l 8(sp),a0
+   1541e:	|  |   move.l 28(a0),d0
+   15422:	|  |   move.l d0,-(sp)
+   15424:	|  |   jsr d328 <removeObjectType>
+   1542a:	|  |   addq.l #4,sp
 		FreeVec(killRegion);
-   1541e:	|  |   move.l 8(sp),4(sp)
-   15424:	|  |   move.l 1a7a2 <SysBase>,d0
-   1542a:	|  |   movea.l d0,a6
-   1542c:	|  |   movea.l 4(sp),a1
-   15430:	|  |   jsr -690(a6)
+   1542c:	|  |   move.l 8(sp),4(sp)
+   15432:	|  |   move.l 1a7a2 <SysBase>,d0
+   15438:	|  |   movea.l d0,a6
+   1543a:	|  |   movea.l 4(sp),a1
+   1543e:	|  |   jsr -690(a6)
 	while (allScreenRegions) {
-   15434:	|  \-> move.l 1a90a <allScreenRegions>,d0
-   1543a:	\----- bne.s 153f4 <killAllRegions+0x6>
+   15442:	|  \-> move.l 1a90a <allScreenRegions>,d0
+   15448:	\----- bne.s 15402 <killAllRegions+0x6>
 	}
 	overRegion = NULL;
-   1543c:	       clr.l 1a90e <overRegion>
+   1544a:	       clr.l 1a90e <overRegion>
 }
-   15442:	       nop
-   15444:	       movea.l (sp)+,a6
-   15446:	       addq.l #8,sp
-   15448:	       rts
+   15450:	       nop
+   15452:	       movea.l (sp)+,a6
+   15454:	       addq.l #8,sp
+   15456:	       rts
 
-0001544a <loadRegions>:
+00015458 <loadRegions>:
 
 void loadRegions (BPTR fp) {
-   1544a:	       lea -24(sp),sp
-   1544e:	       move.l a6,-(sp)
+   15458:	       lea -24(sp),sp
+   1545c:	       move.l a6,-(sp)
 	int numRegions = get2bytes (fp);
-   15450:	       move.l 32(sp),-(sp)
-   15454:	       jsr 6bc <get2bytes>
-   1545a:	       addq.l #4,sp
-   1545c:	       move.l d0,24(sp)
+   1545e:	       move.l 32(sp),-(sp)
+   15462:	       jsr 6bc <get2bytes>
+   15468:	       addq.l #4,sp
+   1546a:	       move.l d0,24(sp)
 
 	struct screenRegion * newRegion;
 	struct screenRegion * * pointy = & allScreenRegions;
-   15460:	       move.l #108810,20(sp)
+   1546e:	       move.l #108810,20(sp)
 
 	while (numRegions --) {
-   15468:	   /-- bra.w 15546 <loadRegions+0xfc>
+   15476:	   /-- bra.w 15554 <loadRegions+0xfc>
 		newRegion = AllocVec( sizeof(struct screenRegion),MEMF_ANY);
-   1546c:	/--|-> moveq #36,d0
-   1546e:	|  |   move.l d0,16(sp)
-   15472:	|  |   clr.l 12(sp)
-   15476:	|  |   move.l 1a7a2 <SysBase>,d0
-   1547c:	|  |   movea.l d0,a6
-   1547e:	|  |   move.l 16(sp),d0
-   15482:	|  |   move.l 12(sp),d1
-   15486:	|  |   jsr -684(a6)
-   1548a:	|  |   move.l d0,8(sp)
-   1548e:	|  |   move.l 8(sp),d0
-   15492:	|  |   move.l d0,4(sp)
+   1547a:	/--|-> moveq #36,d0
+   1547c:	|  |   move.l d0,16(sp)
+   15480:	|  |   clr.l 12(sp)
+   15484:	|  |   move.l 1a7a2 <SysBase>,d0
+   1548a:	|  |   movea.l d0,a6
+   1548c:	|  |   move.l 16(sp),d0
+   15490:	|  |   move.l 12(sp),d1
+   15494:	|  |   jsr -684(a6)
+   15498:	|  |   move.l d0,8(sp)
+   1549c:	|  |   move.l 8(sp),d0
+   154a0:	|  |   move.l d0,4(sp)
 		* pointy = newRegion;
-   15496:	|  |   movea.l 20(sp),a0
-   1549a:	|  |   move.l 4(sp),(a0)
+   154a4:	|  |   movea.l 20(sp),a0
+   154a8:	|  |   move.l 4(sp),(a0)
 		pointy = & (newRegion -> next);
-   1549e:	|  |   moveq #32,d1
-   154a0:	|  |   add.l 4(sp),d1
-   154a4:	|  |   move.l d1,20(sp)
+   154ac:	|  |   moveq #32,d1
+   154ae:	|  |   add.l 4(sp),d1
+   154b2:	|  |   move.l d1,20(sp)
 
 		newRegion -> x1 = get2bytes (fp);
-   154a8:	|  |   move.l 32(sp),-(sp)
-   154ac:	|  |   jsr 6bc <get2bytes>
-   154b2:	|  |   addq.l #4,sp
-   154b4:	|  |   movea.l 4(sp),a0
-   154b8:	|  |   move.l d0,(a0)
+   154b6:	|  |   move.l 32(sp),-(sp)
+   154ba:	|  |   jsr 6bc <get2bytes>
+   154c0:	|  |   addq.l #4,sp
+   154c2:	|  |   movea.l 4(sp),a0
+   154c6:	|  |   move.l d0,(a0)
 		newRegion -> y1 = get2bytes (fp);
-   154ba:	|  |   move.l 32(sp),-(sp)
-   154be:	|  |   jsr 6bc <get2bytes>
-   154c4:	|  |   addq.l #4,sp
-   154c6:	|  |   movea.l 4(sp),a0
-   154ca:	|  |   move.l d0,4(a0)
+   154c8:	|  |   move.l 32(sp),-(sp)
+   154cc:	|  |   jsr 6bc <get2bytes>
+   154d2:	|  |   addq.l #4,sp
+   154d4:	|  |   movea.l 4(sp),a0
+   154d8:	|  |   move.l d0,4(a0)
 		newRegion -> x2 = get2bytes (fp);
-   154ce:	|  |   move.l 32(sp),-(sp)
-   154d2:	|  |   jsr 6bc <get2bytes>
-   154d8:	|  |   addq.l #4,sp
-   154da:	|  |   movea.l 4(sp),a0
-   154de:	|  |   move.l d0,8(a0)
+   154dc:	|  |   move.l 32(sp),-(sp)
+   154e0:	|  |   jsr 6bc <get2bytes>
+   154e6:	|  |   addq.l #4,sp
+   154e8:	|  |   movea.l 4(sp),a0
+   154ec:	|  |   move.l d0,8(a0)
 		newRegion -> y2 = get2bytes (fp);
-   154e2:	|  |   move.l 32(sp),-(sp)
-   154e6:	|  |   jsr 6bc <get2bytes>
-   154ec:	|  |   addq.l #4,sp
-   154ee:	|  |   movea.l 4(sp),a0
-   154f2:	|  |   move.l d0,12(a0)
+   154f0:	|  |   move.l 32(sp),-(sp)
+   154f4:	|  |   jsr 6bc <get2bytes>
+   154fa:	|  |   addq.l #4,sp
+   154fc:	|  |   movea.l 4(sp),a0
+   15500:	|  |   move.l d0,12(a0)
 		newRegion -> sX = get2bytes (fp);
-   154f6:	|  |   move.l 32(sp),-(sp)
-   154fa:	|  |   jsr 6bc <get2bytes>
-   15500:	|  |   addq.l #4,sp
-   15502:	|  |   movea.l 4(sp),a0
-   15506:	|  |   move.l d0,16(a0)
+   15504:	|  |   move.l 32(sp),-(sp)
+   15508:	|  |   jsr 6bc <get2bytes>
+   1550e:	|  |   addq.l #4,sp
+   15510:	|  |   movea.l 4(sp),a0
+   15514:	|  |   move.l d0,16(a0)
 		newRegion -> sY = get2bytes (fp);
-   1550a:	|  |   move.l 32(sp),-(sp)
-   1550e:	|  |   jsr 6bc <get2bytes>
-   15514:	|  |   addq.l #4,sp
-   15516:	|  |   movea.l 4(sp),a0
-   1551a:	|  |   move.l d0,20(a0)
+   15518:	|  |   move.l 32(sp),-(sp)
+   1551c:	|  |   jsr 6bc <get2bytes>
+   15522:	|  |   addq.l #4,sp
+   15524:	|  |   movea.l 4(sp),a0
+   15528:	|  |   move.l d0,20(a0)
 		newRegion -> di = get2bytes (fp);
-   1551e:	|  |   move.l 32(sp),-(sp)
-   15522:	|  |   jsr 6bc <get2bytes>
-   15528:	|  |   addq.l #4,sp
-   1552a:	|  |   movea.l 4(sp),a0
-   1552e:	|  |   move.l d0,24(a0)
+   1552c:	|  |   move.l 32(sp),-(sp)
+   15530:	|  |   jsr 6bc <get2bytes>
+   15536:	|  |   addq.l #4,sp
+   15538:	|  |   movea.l 4(sp),a0
+   1553c:	|  |   move.l d0,24(a0)
 		newRegion -> thisType = loadObjectRef (fp);
-   15532:	|  |   move.l 32(sp),-(sp)
-   15536:	|  |   jsr d01e <loadObjectRef>
-   1553c:	|  |   addq.l #4,sp
-   1553e:	|  |   movea.l 4(sp),a0
-   15542:	|  |   move.l d0,28(a0)
+   15540:	|  |   move.l 32(sp),-(sp)
+   15544:	|  |   jsr d01e <loadObjectRef>
+   1554a:	|  |   addq.l #4,sp
+   1554c:	|  |   movea.l 4(sp),a0
+   15550:	|  |   move.l d0,28(a0)
 	while (numRegions --) {
-   15546:	|  \-> move.l 24(sp),d0
-   1554a:	|      move.l d0,d1
-   1554c:	|      subq.l #1,d1
-   1554e:	|      move.l d1,24(sp)
-   15552:	|      tst.l d0
-   15554:	\----- bne.w 1546c <loadRegions+0x22>
+   15554:	|  \-> move.l 24(sp),d0
+   15558:	|      move.l d0,d1
+   1555a:	|      subq.l #1,d1
+   1555c:	|      move.l d1,24(sp)
+   15560:	|      tst.l d0
+   15562:	\----- bne.w 1547a <loadRegions+0x22>
 	}
 	* pointy = NULL;
-   15558:	       movea.l 20(sp),a0
-   1555c:	       clr.l (a0)
+   15566:	       movea.l 20(sp),a0
+   1556a:	       clr.l (a0)
 }
-   1555e:	       nop
-   15560:	       movea.l (sp)+,a6
-   15562:	       lea 24(sp),sp
-   15566:	       rts
+   1556c:	       nop
+   1556e:	       movea.l (sp)+,a6
+   15570:	       lea 24(sp),sp
+   15574:	       rts
 
-00015568 <removeScreenRegion>:
+00015576 <removeScreenRegion>:
 
 void removeScreenRegion (int objectNum) {
-   15568:	             lea -12(sp),sp
-   1556c:	             move.l a6,-(sp)
+   15576:	             lea -12(sp),sp
+   1557a:	             move.l a6,-(sp)
     struct screenRegion ** huntRegion = &allScreenRegions;
-   1556e:	             move.l #108810,12(sp)
+   1557c:	             move.l #108810,12(sp)
     struct screenRegion * killMe;
 
     while (*huntRegion) {
-   15576:	   /-------- bra.s 155f0 <removeScreenRegion+0x88>
+   15584:	   /-------- bra.s 155fe <removeScreenRegion+0x88>
         if ((*huntRegion)->thisType->objectNum == objectNum) {
-   15578:	/--|-------> movea.l 12(sp),a0
-   1557c:	|  |         movea.l (a0),a0
-   1557e:	|  |         movea.l 28(a0),a0
-   15582:	|  |         move.l 4(a0),d0
-   15586:	|  |         cmp.l 20(sp),d0
-   1558a:	|  |  /----- bne.s 155e2 <removeScreenRegion+0x7a>
+   15586:	/--|-------> movea.l 12(sp),a0
+   1558a:	|  |         movea.l (a0),a0
+   1558c:	|  |         movea.l 28(a0),a0
+   15590:	|  |         move.l 4(a0),d0
+   15594:	|  |         cmp.l 20(sp),d0
+   15598:	|  |  /----- bne.s 155f0 <removeScreenRegion+0x7a>
             killMe = *huntRegion;
-   1558c:	|  |  |      movea.l 12(sp),a0
-   15590:	|  |  |      move.l (a0),8(sp)
+   1559a:	|  |  |      movea.l 12(sp),a0
+   1559e:	|  |  |      move.l (a0),8(sp)
             *huntRegion = killMe->next;
-   15594:	|  |  |      movea.l 8(sp),a0
-   15598:	|  |  |      move.l 32(a0),d0
-   1559c:	|  |  |      movea.l 12(sp),a0
-   155a0:	|  |  |      move.l d0,(a0)
-            removeObjectType(killMe->thisType);
    155a2:	|  |  |      movea.l 8(sp),a0
-   155a6:	|  |  |      move.l 28(a0),d0
-   155aa:	|  |  |      move.l d0,-(sp)
-   155ac:	|  |  |      jsr d328 <removeObjectType>
-   155b2:	|  |  |      addq.l #4,sp
+   155a6:	|  |  |      move.l 32(a0),d0
+   155aa:	|  |  |      movea.l 12(sp),a0
+   155ae:	|  |  |      move.l d0,(a0)
+            removeObjectType(killMe->thisType);
+   155b0:	|  |  |      movea.l 8(sp),a0
+   155b4:	|  |  |      move.l 28(a0),d0
+   155b8:	|  |  |      move.l d0,-(sp)
+   155ba:	|  |  |      jsr d328 <removeObjectType>
+   155c0:	|  |  |      addq.l #4,sp
             if (killMe == overRegion) overRegion = NULL;
-   155b4:	|  |  |      move.l 1a90e <overRegion>,d0
-   155ba:	|  |  |      cmp.l 8(sp),d0
-   155be:	|  |  |  /-- bne.s 155c6 <removeScreenRegion+0x5e>
-   155c0:	|  |  |  |   clr.l 1a90e <overRegion>
+   155c2:	|  |  |      move.l 1a90e <overRegion>,d0
+   155c8:	|  |  |      cmp.l 8(sp),d0
+   155cc:	|  |  |  /-- bne.s 155d4 <removeScreenRegion+0x5e>
+   155ce:	|  |  |  |   clr.l 1a90e <overRegion>
             FreeVec(killMe);
-   155c6:	|  |  |  \-> move.l 8(sp),4(sp)
-   155cc:	|  |  |      move.l 1a7a2 <SysBase>,d0
-   155d2:	|  |  |      movea.l d0,a6
-   155d4:	|  |  |      movea.l 4(sp),a1
-   155d8:	|  |  |      jsr -690(a6)
+   155d4:	|  |  |  \-> move.l 8(sp),4(sp)
+   155da:	|  |  |      move.l 1a7a2 <SysBase>,d0
+   155e0:	|  |  |      movea.l d0,a6
+   155e2:	|  |  |      movea.l 4(sp),a1
+   155e6:	|  |  |      jsr -690(a6)
             killMe = NULL;
-   155dc:	|  |  |      clr.l 8(sp)
-   155e0:	|  +--|----- bra.s 155f0 <removeScreenRegion+0x88>
+   155ea:	|  |  |      clr.l 8(sp)
+   155ee:	|  +--|----- bra.s 155fe <removeScreenRegion+0x88>
         } else {
             huntRegion = &((*huntRegion)->next);
-   155e2:	|  |  \----> movea.l 12(sp),a0
-   155e6:	|  |         move.l (a0),d0
-   155e8:	|  |         moveq #32,d1
-   155ea:	|  |         add.l d0,d1
-   155ec:	|  |         move.l d1,12(sp)
+   155f0:	|  |  \----> movea.l 12(sp),a0
+   155f4:	|  |         move.l (a0),d0
+   155f6:	|  |         moveq #32,d1
+   155f8:	|  |         add.l d0,d1
+   155fa:	|  |         move.l d1,12(sp)
     while (*huntRegion) {
-   155f0:	|  \-------> movea.l 12(sp),a0
-   155f4:	|            move.l (a0),d0
-   155f6:	\----------- bne.s 15578 <removeScreenRegion+0x10>
+   155fe:	|  \-------> movea.l 12(sp),a0
+   15602:	|            move.l (a0),d0
+   15604:	\----------- bne.s 15586 <removeScreenRegion+0x10>
         }
     }
 }
-   155f8:	             nop
-   155fa:	             nop
-   155fc:	             movea.l (sp)+,a6
-   155fe:	             lea 12(sp),sp
-   15602:	             rts
+   15606:	             nop
+   15608:	             nop
+   1560a:	             movea.l (sp)+,a6
+   1560c:	             lea 12(sp),sp
+   15610:	             rts
 
-00015604 <saveRegions>:
+00015612 <saveRegions>:
 
 void saveRegions (BPTR fp) {
-   15604:	       subq.l #8,sp
+   15612:	       subq.l #8,sp
 	int numRegions = 0;
-   15606:	       clr.l 4(sp)
+   15614:	       clr.l 4(sp)
 	struct screenRegion * thisRegion = allScreenRegions;
-   1560a:	       move.l 1a90a <allScreenRegions>,(sp)
+   15618:	       move.l 1a90a <allScreenRegions>,(sp)
 	while (thisRegion) {
-   15610:	   /-- bra.s 1561c <saveRegions+0x18>
+   1561e:	   /-- bra.s 1562a <saveRegions+0x18>
 		thisRegion = thisRegion -> next;
-   15612:	/--|-> movea.l (sp),a0
-   15614:	|  |   move.l 32(a0),(sp)
+   15620:	/--|-> movea.l (sp),a0
+   15622:	|  |   move.l 32(a0),(sp)
 		numRegions ++;
-   15618:	|  |   addq.l #1,4(sp)
+   15626:	|  |   addq.l #1,4(sp)
 	while (thisRegion) {
-   1561c:	|  \-> tst.l (sp)
-   1561e:	\----- bne.s 15612 <saveRegions+0xe>
+   1562a:	|  \-> tst.l (sp)
+   1562c:	\----- bne.s 15620 <saveRegions+0xe>
 	}
 	put2bytes (numRegions, fp);
-   15620:	       move.l 12(sp),-(sp)
-   15624:	       move.l 8(sp),-(sp)
-   15628:	       jsr 8d0 <put2bytes>
-   1562e:	       addq.l #8,sp
+   1562e:	       move.l 12(sp),-(sp)
+   15632:	       move.l 8(sp),-(sp)
+   15636:	       jsr 8d0 <put2bytes>
+   1563c:	       addq.l #8,sp
 	thisRegion = allScreenRegions;
-   15630:	       move.l 1a90a <allScreenRegions>,(sp)
+   1563e:	       move.l 1a90a <allScreenRegions>,(sp)
 	while (thisRegion) {
-   15636:	/----- bra.w 156de <saveRegions+0xda>
+   15644:	/----- bra.w 156ec <saveRegions+0xda>
 		put2bytes (thisRegion -> x1, fp);
-   1563a:	|  /-> movea.l (sp),a0
-   1563c:	|  |   move.l (a0),d0
-   1563e:	|  |   move.l 12(sp),-(sp)
-   15642:	|  |   move.l d0,-(sp)
-   15644:	|  |   jsr 8d0 <put2bytes>
-   1564a:	|  |   addq.l #8,sp
+   15648:	|  /-> movea.l (sp),a0
+   1564a:	|  |   move.l (a0),d0
+   1564c:	|  |   move.l 12(sp),-(sp)
+   15650:	|  |   move.l d0,-(sp)
+   15652:	|  |   jsr 8d0 <put2bytes>
+   15658:	|  |   addq.l #8,sp
 		put2bytes (thisRegion -> y1, fp);
-   1564c:	|  |   movea.l (sp),a0
-   1564e:	|  |   move.l 4(a0),d0
-   15652:	|  |   move.l 12(sp),-(sp)
-   15656:	|  |   move.l d0,-(sp)
-   15658:	|  |   jsr 8d0 <put2bytes>
-   1565e:	|  |   addq.l #8,sp
+   1565a:	|  |   movea.l (sp),a0
+   1565c:	|  |   move.l 4(a0),d0
+   15660:	|  |   move.l 12(sp),-(sp)
+   15664:	|  |   move.l d0,-(sp)
+   15666:	|  |   jsr 8d0 <put2bytes>
+   1566c:	|  |   addq.l #8,sp
 		put2bytes (thisRegion -> x2, fp);
-   15660:	|  |   movea.l (sp),a0
-   15662:	|  |   move.l 8(a0),d0
-   15666:	|  |   move.l 12(sp),-(sp)
-   1566a:	|  |   move.l d0,-(sp)
-   1566c:	|  |   jsr 8d0 <put2bytes>
-   15672:	|  |   addq.l #8,sp
+   1566e:	|  |   movea.l (sp),a0
+   15670:	|  |   move.l 8(a0),d0
+   15674:	|  |   move.l 12(sp),-(sp)
+   15678:	|  |   move.l d0,-(sp)
+   1567a:	|  |   jsr 8d0 <put2bytes>
+   15680:	|  |   addq.l #8,sp
 		put2bytes (thisRegion -> y2, fp);
-   15674:	|  |   movea.l (sp),a0
-   15676:	|  |   move.l 12(a0),d0
-   1567a:	|  |   move.l 12(sp),-(sp)
-   1567e:	|  |   move.l d0,-(sp)
-   15680:	|  |   jsr 8d0 <put2bytes>
-   15686:	|  |   addq.l #8,sp
+   15682:	|  |   movea.l (sp),a0
+   15684:	|  |   move.l 12(a0),d0
+   15688:	|  |   move.l 12(sp),-(sp)
+   1568c:	|  |   move.l d0,-(sp)
+   1568e:	|  |   jsr 8d0 <put2bytes>
+   15694:	|  |   addq.l #8,sp
 		put2bytes (thisRegion -> sX, fp);
-   15688:	|  |   movea.l (sp),a0
-   1568a:	|  |   move.l 16(a0),d0
-   1568e:	|  |   move.l 12(sp),-(sp)
-   15692:	|  |   move.l d0,-(sp)
-   15694:	|  |   jsr 8d0 <put2bytes>
-   1569a:	|  |   addq.l #8,sp
+   15696:	|  |   movea.l (sp),a0
+   15698:	|  |   move.l 16(a0),d0
+   1569c:	|  |   move.l 12(sp),-(sp)
+   156a0:	|  |   move.l d0,-(sp)
+   156a2:	|  |   jsr 8d0 <put2bytes>
+   156a8:	|  |   addq.l #8,sp
 		put2bytes (thisRegion -> sY, fp);
-   1569c:	|  |   movea.l (sp),a0
-   1569e:	|  |   move.l 20(a0),d0
-   156a2:	|  |   move.l 12(sp),-(sp)
-   156a6:	|  |   move.l d0,-(sp)
-   156a8:	|  |   jsr 8d0 <put2bytes>
-   156ae:	|  |   addq.l #8,sp
+   156aa:	|  |   movea.l (sp),a0
+   156ac:	|  |   move.l 20(a0),d0
+   156b0:	|  |   move.l 12(sp),-(sp)
+   156b4:	|  |   move.l d0,-(sp)
+   156b6:	|  |   jsr 8d0 <put2bytes>
+   156bc:	|  |   addq.l #8,sp
 		put2bytes (thisRegion -> di, fp);
-   156b0:	|  |   movea.l (sp),a0
-   156b2:	|  |   move.l 24(a0),d0
-   156b6:	|  |   move.l 12(sp),-(sp)
-   156ba:	|  |   move.l d0,-(sp)
-   156bc:	|  |   jsr 8d0 <put2bytes>
-   156c2:	|  |   addq.l #8,sp
+   156be:	|  |   movea.l (sp),a0
+   156c0:	|  |   move.l 24(a0),d0
+   156c4:	|  |   move.l 12(sp),-(sp)
+   156c8:	|  |   move.l d0,-(sp)
+   156ca:	|  |   jsr 8d0 <put2bytes>
+   156d0:	|  |   addq.l #8,sp
 		saveObjectRef (thisRegion -> thisType, fp);
-   156c4:	|  |   movea.l (sp),a0
-   156c6:	|  |   move.l 28(a0),d0
-   156ca:	|  |   move.l 12(sp),-(sp)
-   156ce:	|  |   move.l d0,-(sp)
-   156d0:	|  |   jsr d3c8 <saveObjectRef>
-   156d6:	|  |   addq.l #8,sp
+   156d2:	|  |   movea.l (sp),a0
+   156d4:	|  |   move.l 28(a0),d0
+   156d8:	|  |   move.l 12(sp),-(sp)
+   156dc:	|  |   move.l d0,-(sp)
+   156de:	|  |   jsr d3c8 <saveObjectRef>
+   156e4:	|  |   addq.l #8,sp
 
 		thisRegion = thisRegion -> next;
-   156d8:	|  |   movea.l (sp),a0
-   156da:	|  |   move.l 32(a0),(sp)
+   156e6:	|  |   movea.l (sp),a0
+   156e8:	|  |   move.l 32(a0),(sp)
 	while (thisRegion) {
-   156de:	\--|-> tst.l (sp)
-   156e0:	   \-- bne.w 1563a <saveRegions+0x36>
+   156ec:	\--|-> tst.l (sp)
+   156ee:	   \-- bne.w 15648 <saveRegions+0x36>
 	}
 }
-   156e4:	       nop
-   156e6:	       nop
-   156e8:	       addq.l #8,sp
-   156ea:	       rts
+   156f2:	       nop
+   156f4:	       nop
+   156f6:	       addq.l #8,sp
+   156f8:	       rts
 
-000156ec <showBoxes>:
+000156fa <showBoxes>:
 
 void showBoxes () {
-   156ec:	       subq.l #4,sp
+   156fa:	       subq.l #4,sp
 	struct screenRegion * huntRegion = allScreenRegions;
-   156ee:	       move.l 1a90a <allScreenRegions>,(sp)
+   156fc:	       move.l 1a90a <allScreenRegions>,(sp)
 
 	while (huntRegion) {
-   156f4:	/----- bra.w 15790 <showBoxes+0xa4>
+   15702:	/----- bra.w 1579e <showBoxes+0xa4>
 		drawVerticalLine (huntRegion -> x1, huntRegion -> y1, huntRegion -> y2);
-   156f8:	|  /-> movea.l (sp),a0
-   156fa:	|  |   move.l 12(a0),d0
-   156fe:	|  |   movea.l d0,a1
-   15700:	|  |   movea.l (sp),a0
-   15702:	|  |   move.l 4(a0),d0
-   15706:	|  |   move.l d0,d1
-   15708:	|  |   movea.l (sp),a0
-   1570a:	|  |   move.l (a0),d0
-   1570c:	|  |   move.l a1,-(sp)
-   1570e:	|  |   move.l d1,-(sp)
-   15710:	|  |   move.l d0,-(sp)
-   15712:	|  |   jsr ccac <drawVerticalLine>
-   15718:	|  |   lea 12(sp),sp
+   15706:	|  /-> movea.l (sp),a0
+   15708:	|  |   move.l 12(a0),d0
+   1570c:	|  |   movea.l d0,a1
+   1570e:	|  |   movea.l (sp),a0
+   15710:	|  |   move.l 4(a0),d0
+   15714:	|  |   move.l d0,d1
+   15716:	|  |   movea.l (sp),a0
+   15718:	|  |   move.l (a0),d0
+   1571a:	|  |   move.l a1,-(sp)
+   1571c:	|  |   move.l d1,-(sp)
+   1571e:	|  |   move.l d0,-(sp)
+   15720:	|  |   jsr ccac <drawVerticalLine>
+   15726:	|  |   lea 12(sp),sp
 		drawVerticalLine (huntRegion -> x2, huntRegion -> y1, huntRegion -> y2);
-   1571c:	|  |   movea.l (sp),a0
-   1571e:	|  |   move.l 12(a0),d0
-   15722:	|  |   movea.l d0,a1
-   15724:	|  |   movea.l (sp),a0
-   15726:	|  |   move.l 4(a0),d0
-   1572a:	|  |   move.l d0,d1
-   1572c:	|  |   movea.l (sp),a0
-   1572e:	|  |   move.l 8(a0),d0
-   15732:	|  |   move.l a1,-(sp)
-   15734:	|  |   move.l d1,-(sp)
-   15736:	|  |   move.l d0,-(sp)
-   15738:	|  |   jsr ccac <drawVerticalLine>
-   1573e:	|  |   lea 12(sp),sp
+   1572a:	|  |   movea.l (sp),a0
+   1572c:	|  |   move.l 12(a0),d0
+   15730:	|  |   movea.l d0,a1
+   15732:	|  |   movea.l (sp),a0
+   15734:	|  |   move.l 4(a0),d0
+   15738:	|  |   move.l d0,d1
+   1573a:	|  |   movea.l (sp),a0
+   1573c:	|  |   move.l 8(a0),d0
+   15740:	|  |   move.l a1,-(sp)
+   15742:	|  |   move.l d1,-(sp)
+   15744:	|  |   move.l d0,-(sp)
+   15746:	|  |   jsr ccac <drawVerticalLine>
+   1574c:	|  |   lea 12(sp),sp
 		drawHorizontalLine (huntRegion -> x1, huntRegion -> y1, huntRegion -> x2);
-   15742:	|  |   movea.l (sp),a0
-   15744:	|  |   move.l 8(a0),d0
-   15748:	|  |   movea.l d0,a1
-   1574a:	|  |   movea.l (sp),a0
-   1574c:	|  |   move.l 4(a0),d0
-   15750:	|  |   move.l d0,d1
-   15752:	|  |   movea.l (sp),a0
-   15754:	|  |   move.l (a0),d0
-   15756:	|  |   move.l a1,-(sp)
-   15758:	|  |   move.l d1,-(sp)
-   1575a:	|  |   move.l d0,-(sp)
-   1575c:	|  |   jsr cc86 <drawHorizontalLine>
-   15762:	|  |   lea 12(sp),sp
+   15750:	|  |   movea.l (sp),a0
+   15752:	|  |   move.l 8(a0),d0
+   15756:	|  |   movea.l d0,a1
+   15758:	|  |   movea.l (sp),a0
+   1575a:	|  |   move.l 4(a0),d0
+   1575e:	|  |   move.l d0,d1
+   15760:	|  |   movea.l (sp),a0
+   15762:	|  |   move.l (a0),d0
+   15764:	|  |   move.l a1,-(sp)
+   15766:	|  |   move.l d1,-(sp)
+   15768:	|  |   move.l d0,-(sp)
+   1576a:	|  |   jsr cc86 <drawHorizontalLine>
+   15770:	|  |   lea 12(sp),sp
 		drawHorizontalLine (huntRegion -> x1, huntRegion -> y2, huntRegion -> x2);
-   15766:	|  |   movea.l (sp),a0
-   15768:	|  |   move.l 8(a0),d0
-   1576c:	|  |   movea.l d0,a1
-   1576e:	|  |   movea.l (sp),a0
-   15770:	|  |   move.l 12(a0),d0
-   15774:	|  |   move.l d0,d1
-   15776:	|  |   movea.l (sp),a0
-   15778:	|  |   move.l (a0),d0
-   1577a:	|  |   move.l a1,-(sp)
-   1577c:	|  |   move.l d1,-(sp)
-   1577e:	|  |   move.l d0,-(sp)
-   15780:	|  |   jsr cc86 <drawHorizontalLine>
-   15786:	|  |   lea 12(sp),sp
+   15774:	|  |   movea.l (sp),a0
+   15776:	|  |   move.l 8(a0),d0
+   1577a:	|  |   movea.l d0,a1
+   1577c:	|  |   movea.l (sp),a0
+   1577e:	|  |   move.l 12(a0),d0
+   15782:	|  |   move.l d0,d1
+   15784:	|  |   movea.l (sp),a0
+   15786:	|  |   move.l (a0),d0
+   15788:	|  |   move.l a1,-(sp)
+   1578a:	|  |   move.l d1,-(sp)
+   1578c:	|  |   move.l d0,-(sp)
+   1578e:	|  |   jsr cc86 <drawHorizontalLine>
+   15794:	|  |   lea 12(sp),sp
 		huntRegion = huntRegion -> next;
-   1578a:	|  |   movea.l (sp),a0
-   1578c:	|  |   move.l 32(a0),(sp)
+   15798:	|  |   movea.l (sp),a0
+   1579a:	|  |   move.l 32(a0),(sp)
 	while (huntRegion) {
-   15790:	\--|-> tst.l (sp)
-   15792:	   \-- bne.w 156f8 <showBoxes+0xc>
+   1579e:	\--|-> tst.l (sp)
+   157a0:	   \-- bne.w 15706 <showBoxes+0xc>
 	}
-   15796:	       nop
-   15798:	       nop
-   1579a:	       addq.l #4,sp
-   1579c:	       rts
+   157a4:	       nop
+   157a6:	       nop
+   157a8:	       addq.l #4,sp
+   157aa:	       rts
 
-0001579e <rand>:
+000157ac <rand>:
 // Define constants for LCG
 #define MULTIPLIER 1103515245UL
 #define INCREMENT 12345UL
 #define MODULUS 0x7FFFFFFFUL
 
 ULONG rand() {
-   1579e:	       lea -88(sp),sp
-   157a2:	       move.l a6,-(sp)
+   157ac:	       lea -88(sp),sp
+   157b0:	       move.l a6,-(sp)
     struct timerequest *timereq;
 
     struct MsgPort *timerport = CreateMsgPort();
-   157a4:	       move.l 1a7a2 <SysBase>,d0
-   157aa:	       movea.l d0,a6
-   157ac:	       jsr -666(a6)
-   157b0:	       move.l d0,88(sp)
-   157b4:	       move.l 88(sp),d0
-   157b8:	       move.l d0,84(sp)
+   157b2:	       move.l 1a7a2 <SysBase>,d0
+   157b8:	       movea.l d0,a6
+   157ba:	       jsr -666(a6)
+   157be:	       move.l d0,88(sp)
+   157c2:	       move.l 88(sp),d0
+   157c6:	       move.l d0,84(sp)
 
     timereq = CreateIORequest(timerport, sizeof(struct timerequest));
-   157bc:	       move.l 84(sp),80(sp)
-   157c2:	       moveq #40,d0
-   157c4:	       move.l d0,76(sp)
-   157c8:	       move.l 1a7a2 <SysBase>,d0
-   157ce:	       movea.l d0,a6
-   157d0:	       movea.l 80(sp),a0
-   157d4:	       move.l 76(sp),d0
-   157d8:	       jsr -654(a6)
-   157dc:	       move.l d0,72(sp)
-   157e0:	       move.l 72(sp),d0
-   157e4:	       move.l d0,68(sp)
+   157ca:	       move.l 84(sp),80(sp)
+   157d0:	       moveq #40,d0
+   157d2:	       move.l d0,76(sp)
+   157d6:	       move.l 1a7a2 <SysBase>,d0
+   157dc:	       movea.l d0,a6
+   157de:	       movea.l 80(sp),a0
+   157e2:	       move.l 76(sp),d0
+   157e6:	       jsr -654(a6)
+   157ea:	       move.l d0,72(sp)
+   157ee:	       move.l 72(sp),d0
+   157f2:	       move.l d0,68(sp)
     struct IORequest* ioreq = (struct IORequest*)timereq;
-   157e8:	       move.l 68(sp),64(sp)
+   157f6:	       move.l 68(sp),64(sp)
     if (OpenDevice(TIMERNAME, UNIT_MICROHZ, ioreq, 0)) {
-   157ee:	       move.l #104953,60(sp)
-   157f6:	       clr.l 56(sp)
-   157fa:	       move.l 64(sp),52(sp)
-   15800:	       clr.l 48(sp)
-   15804:	       move.l 1a7a2 <SysBase>,d0
-   1580a:	       movea.l d0,a6
-   1580c:	       movea.l 60(sp),a0
-   15810:	       move.l 56(sp),d0
-   15814:	       movea.l 52(sp),a1
-   15818:	       move.l 48(sp),d1
-   1581c:	       jsr -444(a6)
-   15820:	       move.b d0,47(sp)
-   15824:	       move.b 47(sp),d0
-   15828:	   /-- beq.s 1583e <rand+0xa0>
+   157fc:	       move.l #104967,60(sp)
+   15804:	       clr.l 56(sp)
+   15808:	       move.l 64(sp),52(sp)
+   1580e:	       clr.l 48(sp)
+   15812:	       move.l 1a7a2 <SysBase>,d0
+   15818:	       movea.l d0,a6
+   1581a:	       movea.l 60(sp),a0
+   1581e:	       move.l 56(sp),d0
+   15822:	       movea.l 52(sp),a1
+   15826:	       move.l 48(sp),d1
+   1582a:	       jsr -444(a6)
+   1582e:	       move.b d0,47(sp)
+   15832:	       move.b 47(sp),d0
+   15836:	   /-- beq.s 1584c <rand+0xa0>
         KPrintF("Unable to open timer device\n");
-   1582a:	   |   pea 19a06 <main_sludge.c.0270f7ba+0x229>
-   15830:	   |   jsr 16b9e <KPrintF>
-   15836:	   |   addq.l #4,sp
+   15838:	   |   pea 19a14 <main_sludge.c.0270f7ba+0x237>
+   1583e:	   |   jsr 16bac <KPrintF>
+   15844:	   |   addq.l #4,sp
         return 0;
-   15838:	   |   moveq #0,d0
-   1583a:	/--|-- bra.w 158f8 <rand+0x15a>
+   15846:	   |   moveq #0,d0
+   15848:	/--|-- bra.w 15906 <rand+0x15a>
     }
     struct Device* TimerBase = ioreq->io_Device;
-   1583e:	|  \-> movea.l 64(sp),a0
-   15842:	|      move.l 20(a0),42(sp)
+   1584c:	|  \-> movea.l 64(sp),a0
+   15850:	|      move.l 20(a0),42(sp)
 
     struct EClockVal eclock;
     ReadEClock(&eclock);
-   15848:	|      lea 92(sp),a0
-   1584c:	|      lea -86(a0),a0
-   15850:	|      move.l a0,38(sp)
-   15854:	|      movea.l 42(sp),a6
-   15858:	|      movea.l 38(sp),a0
-   1585c:	|      jsr -60(a6)
-   15860:	|      move.l d0,34(sp)
+   15856:	|      lea 92(sp),a0
+   1585a:	|      lea -86(a0),a0
+   1585e:	|      move.l a0,38(sp)
+   15862:	|      movea.l 42(sp),a6
+   15866:	|      movea.l 38(sp),a0
+   1586a:	|      jsr -60(a6)
+   1586e:	|      move.l d0,34(sp)
 
     ULONG seed = eclock.ev_lo; // Using the lower part of EClock value as seed
-   15864:	|      move.l 10(sp),30(sp)
+   15872:	|      move.l 10(sp),30(sp)
     seed = (seed * MULTIPLIER + INCREMENT) & 0x7fffffff; // Simple LCG
-   1586a:	|      move.l #1103515245,-(sp)
-   15870:	|      move.l 34(sp),-(sp)
-   15874:	|      jsr 1755c <__mulsi3>
-   1587a:	|      addq.l #8,sp
-   1587c:	|      addi.l #12345,d0
-   15882:	|      move.l d0,d1
-   15884:	|      bclr #31,d1
-   15888:	|      move.l d1,30(sp)
+   15878:	|      move.l #1103515245,-(sp)
+   1587e:	|      move.l 34(sp),-(sp)
+   15882:	|      jsr 1756a <__mulsi3>
+   15888:	|      addq.l #8,sp
+   1588a:	|      addi.l #12345,d0
+   15890:	|      move.l d0,d1
+   15892:	|      bclr #31,d1
+   15896:	|      move.l d1,30(sp)
 
     // Transform the seed to a random number
     int random_number = seed % 100; // For example, a random number between 0 and 99
-   1588c:	|      move.l 30(sp),d0
-   15890:	|      pea 64 <_start+0x64>
-   15894:	|      move.l d0,-(sp)
-   15896:	|      jsr 17636 <__umodsi3>
-   1589c:	|      addq.l #8,sp
-   1589e:	|      move.l d0,26(sp)
+   1589a:	|      move.l 30(sp),d0
+   1589e:	|      pea 64 <_start+0x64>
+   158a2:	|      move.l d0,-(sp)
+   158a4:	|      jsr 17644 <__umodsi3>
+   158aa:	|      addq.l #8,sp
+   158ac:	|      move.l d0,26(sp)
     KPrintF("Random Number: %d\n", random_number);
-   158a2:	|      move.l 26(sp),-(sp)
-   158a6:	|      pea 19a23 <main_sludge.c.0270f7ba+0x246>
-   158ac:	|      jsr 16b9e <KPrintF>
-   158b2:	|      addq.l #8,sp
+   158b0:	|      move.l 26(sp),-(sp)
+   158b4:	|      pea 19a31 <main_sludge.c.0270f7ba+0x254>
+   158ba:	|      jsr 16bac <KPrintF>
+   158c0:	|      addq.l #8,sp
 
     CloseDevice(ioreq);
-   158b4:	|      move.l 64(sp),22(sp)
-   158ba:	|      move.l 1a7a2 <SysBase>,d0
-   158c0:	|      movea.l d0,a6
-   158c2:	|      movea.l 22(sp),a1
-   158c6:	|      jsr -450(a6)
+   158c2:	|      move.l 64(sp),22(sp)
+   158c8:	|      move.l 1a7a2 <SysBase>,d0
+   158ce:	|      movea.l d0,a6
+   158d0:	|      movea.l 22(sp),a1
+   158d4:	|      jsr -450(a6)
     DeleteIORequest(ioreq);
-   158ca:	|      move.l 64(sp),18(sp)
-   158d0:	|      move.l 1a7a2 <SysBase>,d0
-   158d6:	|      movea.l d0,a6
-   158d8:	|      movea.l 18(sp),a0
-   158dc:	|      jsr -660(a6)
+   158d8:	|      move.l 64(sp),18(sp)
+   158de:	|      move.l 1a7a2 <SysBase>,d0
+   158e4:	|      movea.l d0,a6
+   158e6:	|      movea.l 18(sp),a0
+   158ea:	|      jsr -660(a6)
     DeleteMsgPort(timerport);
-   158e0:	|      move.l 84(sp),14(sp)
-   158e6:	|      move.l 1a7a2 <SysBase>,d0
-   158ec:	|      movea.l d0,a6
-   158ee:	|      movea.l 14(sp),a0
-   158f2:	|      jsr -672(a6)
+   158ee:	|      move.l 84(sp),14(sp)
+   158f4:	|      move.l 1a7a2 <SysBase>,d0
+   158fa:	|      movea.l d0,a6
+   158fc:	|      movea.l 14(sp),a0
+   15900:	|      jsr -672(a6)
     return 0;
-   158f6:	|      moveq #0,d0
-   158f8:	\----> movea.l (sp)+,a6
-   158fa:	       lea 88(sp),sp
-   158fe:	       rts
+   15904:	|      moveq #0,d0
+   15906:	\----> movea.l (sp)+,a6
+   15908:	       lea 88(sp),sp
+   1590c:	       rts
 
-00015900 <loadBankForAnim>:
+0001590e <loadBankForAnim>:
 #include "sprbanks.h"
 #include "support/gcc8_c_support.h"
 
 struct loadedSpriteBank * allLoadedBanks = NULL;
 
 struct loadedSpriteBank * loadBankForAnim (int ID) {
-   15900:	             lea -20(sp),sp
-   15904:	             move.l a6,-(sp)
+   1590e:	             lea -20(sp),sp
+   15912:	             move.l a6,-(sp)
 	// KPrintF("loadBankForAnim: Looking for sprite bank with ID %d\n", ID);	
 	struct loadedSpriteBank * returnMe = allLoadedBanks;
-   15906:	             move.l 1a912 <allLoadedBanks>,20(sp)
+   15914:	             move.l 1a912 <allLoadedBanks>,20(sp)
 	while (returnMe) {
-   1590e:	      /----- bra.s 15940 <loadBankForAnim+0x40>
+   1591c:	      /----- bra.s 1594e <loadBankForAnim+0x40>
 		if (returnMe->ID == ID) {
-   15910:	   /--|----> movea.l 20(sp),a0
-   15914:	   |  |      move.l (a0),d0
-   15916:	   |  |      cmp.l 28(sp),d0
-   1591a:	   |  |  /-- bne.s 15936 <loadBankForAnim+0x36>
+   1591e:	   /--|----> movea.l 20(sp),a0
+   15922:	   |  |      move.l (a0),d0
+   15924:	   |  |      cmp.l 28(sp),d0
+   15928:	   |  |  /-- bne.s 15944 <loadBankForAnim+0x36>
 			// KPrintF("loadBankForAnim: Found existing sprite bank with ID %d\n", returnMe->ID);
 			returnMe->timesUsed++;
-   1591c:	   |  |  |   movea.l 20(sp),a0
-   15920:	   |  |  |   move.l 4(a0),d0
-   15924:	   |  |  |   addq.l #1,d0
-   15926:	   |  |  |   movea.l 20(sp),a0
-   1592a:	   |  |  |   move.l d0,4(a0)
+   1592a:	   |  |  |   movea.l 20(sp),a0
+   1592e:	   |  |  |   move.l 4(a0),d0
+   15932:	   |  |  |   addq.l #1,d0
+   15934:	   |  |  |   movea.l 20(sp),a0
+   15938:	   |  |  |   move.l d0,4(a0)
 			return returnMe;			
-   1592e:	   |  |  |   move.l 20(sp),d0
-   15932:	/--|--|--|-- bra.w 159f6 <loadBankForAnim+0xf6>
+   1593c:	   |  |  |   move.l 20(sp),d0
+   15940:	/--|--|--|-- bra.w 15a04 <loadBankForAnim+0xf6>
 		}		
 		returnMe = returnMe->next;
-   15936:	|  |  |  \-> movea.l 20(sp),a0
-   1593a:	|  |  |      move.l 22(a0),20(sp)
+   15944:	|  |  |  \-> movea.l 20(sp),a0
+   15948:	|  |  |      move.l 22(a0),20(sp)
 	while (returnMe) {
-   15940:	|  |  \----> tst.l 20(sp)
-   15944:	|  \-------- bne.s 15910 <loadBankForAnim+0x10>
+   1594e:	|  |  \----> tst.l 20(sp)
+   15952:	|  \-------- bne.s 1591e <loadBankForAnim+0x10>
 	}
 	returnMe = AllocVec(sizeof(struct loadedSpriteBank), MEMF_ANY);
-   15946:	|            moveq #26,d0
-   15948:	|            move.l d0,16(sp)
-   1594c:	|            clr.l 12(sp)
-   15950:	|            move.l 1a7a2 <SysBase>,d0
-   15956:	|            movea.l d0,a6
-   15958:	|            move.l 16(sp),d0
-   1595c:	|            move.l 12(sp),d1
-   15960:	|            jsr -684(a6)
-   15964:	|            move.l d0,8(sp)
-   15968:	|            move.l 8(sp),d0
-   1596c:	|            move.l d0,20(sp)
+   15954:	|            moveq #26,d0
+   15956:	|            move.l d0,16(sp)
+   1595a:	|            clr.l 12(sp)
+   1595e:	|            move.l 1a7a2 <SysBase>,d0
+   15964:	|            movea.l d0,a6
+   15966:	|            move.l 16(sp),d0
+   1596a:	|            move.l 12(sp),d1
+   1596e:	|            jsr -684(a6)
+   15972:	|            move.l d0,8(sp)
+   15976:	|            move.l 8(sp),d0
+   1597a:	|            move.l d0,20(sp)
 	// KPrintF("loadBankForAnim: No existing sprite bank with ID %d\n", ID);
 	if (returnMe) {
-   15970:	|     /----- beq.w 159f4 <loadBankForAnim+0xf4>
+   1597e:	|     /----- beq.w 15a02 <loadBankForAnim+0xf4>
 		returnMe->ID = ID;
-   15974:	|     |      movea.l 20(sp),a0
-   15978:	|     |      move.l 28(sp),(a0)
+   15982:	|     |      movea.l 20(sp),a0
+   15986:	|     |      move.l 28(sp),(a0)
 		if (loadSpriteBank(ID, &returnMe->bank, FALSE)) {
-   1597c:	|     |      move.l 20(sp),d0
-   15980:	|     |      addq.l #8,d0
-   15982:	|     |      clr.l -(sp)
-   15984:	|     |      move.l d0,-(sp)
-   15986:	|     |      move.l 36(sp),-(sp)
-   1598a:	|     |      jsr 8618 <loadSpriteBank>
-   15990:	|     |      lea 12(sp),sp
-   15994:	|     |      tst.w d0
-   15996:	|     |  /-- beq.s 159cc <loadBankForAnim+0xcc>
+   1598a:	|     |      move.l 20(sp),d0
+   1598e:	|     |      addq.l #8,d0
+   15990:	|     |      clr.l -(sp)
+   15992:	|     |      move.l d0,-(sp)
+   15994:	|     |      move.l 36(sp),-(sp)
+   15998:	|     |      jsr 8618 <loadSpriteBank>
+   1599e:	|     |      lea 12(sp),sp
+   159a2:	|     |      tst.w d0
+   159a4:	|     |  /-- beq.s 159da <loadBankForAnim+0xcc>
 			returnMe->timesUsed = 1;
-   15998:	|     |  |   movea.l 20(sp),a0
-   1599c:	|     |  |   moveq #1,d0
-   1599e:	|     |  |   move.l d0,4(a0)
+   159a6:	|     |  |   movea.l 20(sp),a0
+   159aa:	|     |  |   moveq #1,d0
+   159ac:	|     |  |   move.l d0,4(a0)
 			returnMe->next = allLoadedBanks;
-   159a2:	|     |  |   move.l 1a912 <allLoadedBanks>,d0
-   159a8:	|     |  |   movea.l 20(sp),a0
-   159ac:	|     |  |   move.l d0,22(a0)
+   159b0:	|     |  |   move.l 1a912 <allLoadedBanks>,d0
+   159b6:	|     |  |   movea.l 20(sp),a0
+   159ba:	|     |  |   move.l d0,22(a0)
 			allLoadedBanks = returnMe;
-   159b0:	|     |  |   move.l 20(sp),1a912 <allLoadedBanks>
+   159be:	|     |  |   move.l 20(sp),1a912 <allLoadedBanks>
 			KPrintF("loadBankForAnim: New sprite bank created OK\n");
-   159b8:	|     |  |   pea 19a36 <main_sludge.c.0270f7ba+0x259>
-   159be:	|     |  |   jsr 16b9e <KPrintF>
-   159c4:	|     |  |   addq.l #4,sp
+   159c6:	|     |  |   pea 19a44 <main_sludge.c.0270f7ba+0x267>
+   159cc:	|     |  |   jsr 16bac <KPrintF>
+   159d2:	|     |  |   addq.l #4,sp
 			return returnMe;
-   159c6:	|     |  |   move.l 20(sp),d0
-   159ca:	+-----|--|-- bra.s 159f6 <loadBankForAnim+0xf6>
+   159d4:	|     |  |   move.l 20(sp),d0
+   159d8:	+-----|--|-- bra.s 15a04 <loadBankForAnim+0xf6>
 		} else {
 			KPrintF("loadBankForAnim: I guess I couldn't load the sprites...\n");
-   159cc:	|     |  \-> pea 19a63 <main_sludge.c.0270f7ba+0x286>
-   159d2:	|     |      jsr 16b9e <KPrintF>
-   159d8:	|     |      addq.l #4,sp
+   159da:	|     |  \-> pea 19a71 <main_sludge.c.0270f7ba+0x294>
+   159e0:	|     |      jsr 16bac <KPrintF>
+   159e6:	|     |      addq.l #4,sp
 			FreeVec(returnMe);
-   159da:	|     |      move.l 20(sp),4(sp)
-   159e0:	|     |      move.l 1a7a2 <SysBase>,d0
-   159e6:	|     |      movea.l d0,a6
-   159e8:	|     |      movea.l 4(sp),a1
-   159ec:	|     |      jsr -690(a6)
+   159e8:	|     |      move.l 20(sp),4(sp)
+   159ee:	|     |      move.l 1a7a2 <SysBase>,d0
+   159f4:	|     |      movea.l d0,a6
+   159f6:	|     |      movea.l 4(sp),a1
+   159fa:	|     |      jsr -690(a6)
 			return NULL;
-   159f0:	|     |      moveq #0,d0
-   159f2:	+-----|----- bra.s 159f6 <loadBankForAnim+0xf6>
+   159fe:	|     |      moveq #0,d0
+   15a00:	+-----|----- bra.s 15a04 <loadBankForAnim+0xf6>
 		}
 	} else return NULL;
-   159f4:	|     \----> moveq #0,d0
+   15a02:	|     \----> moveq #0,d0
 }
-   159f6:	\----------> movea.l (sp)+,a6
-   159f8:	             lea 20(sp),sp
-   159fc:	             rts
+   15a04:	\----------> movea.l (sp)+,a6
+   15a06:	             lea 20(sp),sp
+   15a0a:	             rts
 
-000159fe <closestPointOnLine>:
+00015a0c <closestPointOnLine>:
 #include "support/gcc8_c_support.h"
 #include "line.h"
 
 struct flor * currentFloor = NULL;
 
 BOOL closestPointOnLine (int * closestX, int * closestY, int x1, int y1, int x2, int y2, int xP, int yP) {
-   159fe:	       lea -32(sp),sp
-   15a02:	       move.l d3,-(sp)
-   15a04:	       move.l d2,-(sp)
+   15a0c:	       lea -32(sp),sp
+   15a10:	       move.l d3,-(sp)
+   15a12:	       move.l d2,-(sp)
 	int xDiff = x2 - x1;
-   15a06:	       move.l 60(sp),d0
-   15a0a:	       sub.l 52(sp),d0
-   15a0e:	       move.l d0,36(sp)
+   15a14:	       move.l 60(sp),d0
+   15a18:	       sub.l 52(sp),d0
+   15a1c:	       move.l d0,36(sp)
 	int yDiff = y2 - y1;
-   15a12:	       move.l 64(sp),d0
-   15a16:	       sub.l 56(sp),d0
-   15a1a:	       move.l d0,32(sp)
+   15a20:	       move.l 64(sp),d0
+   15a24:	       sub.l 56(sp),d0
+   15a28:	       move.l d0,32(sp)
 
 	double m = xDiff * (xP - x1) + yDiff * (yP - y1);
-   15a1e:	       move.l 68(sp),d0
-   15a22:	       sub.l 52(sp),d0
-   15a26:	       move.l 36(sp),-(sp)
-   15a2a:	       move.l d0,-(sp)
-   15a2c:	       jsr 1755c <__mulsi3>
-   15a32:	       addq.l #8,sp
-   15a34:	       move.l d0,d2
-   15a36:	       move.l 72(sp),d0
-   15a3a:	       sub.l 56(sp),d0
-   15a3e:	       move.l 32(sp),-(sp)
-   15a42:	       move.l d0,-(sp)
-   15a44:	       jsr 1755c <__mulsi3>
-   15a4a:	       addq.l #8,sp
-   15a4c:	       add.l d2,d0
-   15a4e:	       move.l d0,-(sp)
-   15a50:	       jsr 16f9a <__floatsidf>
-   15a56:	       addq.l #4,sp
-   15a58:	       move.l d0,16(sp)
-   15a5c:	       move.l d1,20(sp)
-   15a60:	       move.l 16(sp),24(sp)
-   15a66:	       move.l 20(sp),28(sp)
+   15a2c:	       move.l 68(sp),d0
+   15a30:	       sub.l 52(sp),d0
+   15a34:	       move.l 36(sp),-(sp)
+   15a38:	       move.l d0,-(sp)
+   15a3a:	       jsr 1756a <__mulsi3>
+   15a40:	       addq.l #8,sp
+   15a42:	       move.l d0,d2
+   15a44:	       move.l 72(sp),d0
+   15a48:	       sub.l 56(sp),d0
+   15a4c:	       move.l 32(sp),-(sp)
+   15a50:	       move.l d0,-(sp)
+   15a52:	       jsr 1756a <__mulsi3>
+   15a58:	       addq.l #8,sp
+   15a5a:	       add.l d2,d0
+   15a5c:	       move.l d0,-(sp)
+   15a5e:	       jsr 16fa8 <__floatsidf>
+   15a64:	       addq.l #4,sp
+   15a66:	       move.l d0,16(sp)
+   15a6a:	       move.l d1,20(sp)
+   15a6e:	       move.l 16(sp),24(sp)
+   15a74:	       move.l 20(sp),28(sp)
 	m /= (xDiff * xDiff) + (yDiff * yDiff);
-   15a6c:	       move.l 36(sp),-(sp)
-   15a70:	       move.l 40(sp),-(sp)
-   15a74:	       jsr 1755c <__mulsi3>
-   15a7a:	       addq.l #8,sp
-   15a7c:	       move.l d0,d2
-   15a7e:	       move.l 32(sp),-(sp)
-   15a82:	       move.l 36(sp),-(sp)
-   15a86:	       jsr 1755c <__mulsi3>
-   15a8c:	       addq.l #8,sp
-   15a8e:	       add.l d2,d0
-   15a90:	       move.l d0,-(sp)
-   15a92:	       jsr 16f9a <__floatsidf>
-   15a98:	       addq.l #4,sp
-   15a9a:	       move.l d1,-(sp)
-   15a9c:	       move.l d0,-(sp)
-   15a9e:	       move.l 36(sp),-(sp)
-   15aa2:	       move.l 36(sp),-(sp)
-   15aa6:	       jsr 16e24 <__divdf3>
-   15aac:	       lea 16(sp),sp
-   15ab0:	       move.l d0,8(sp)
-   15ab4:	       move.l d1,12(sp)
-   15ab8:	       move.l 8(sp),24(sp)
-   15abe:	       move.l 12(sp),28(sp)
+   15a7a:	       move.l 36(sp),-(sp)
+   15a7e:	       move.l 40(sp),-(sp)
+   15a82:	       jsr 1756a <__mulsi3>
+   15a88:	       addq.l #8,sp
+   15a8a:	       move.l d0,d2
+   15a8c:	       move.l 32(sp),-(sp)
+   15a90:	       move.l 36(sp),-(sp)
+   15a94:	       jsr 1756a <__mulsi3>
+   15a9a:	       addq.l #8,sp
+   15a9c:	       add.l d2,d0
+   15a9e:	       move.l d0,-(sp)
+   15aa0:	       jsr 16fa8 <__floatsidf>
+   15aa6:	       addq.l #4,sp
+   15aa8:	       move.l d1,-(sp)
+   15aaa:	       move.l d0,-(sp)
+   15aac:	       move.l 36(sp),-(sp)
+   15ab0:	       move.l 36(sp),-(sp)
+   15ab4:	       jsr 16e32 <__divdf3>
+   15aba:	       lea 16(sp),sp
+   15abe:	       move.l d0,8(sp)
+   15ac2:	       move.l d1,12(sp)
+   15ac6:	       move.l 8(sp),24(sp)
+   15acc:	       move.l 12(sp),28(sp)
 
 	if (m < 0) {
-   15ac4:	       clr.l -(sp)
-   15ac6:	       clr.l -(sp)
-   15ac8:	       move.l 36(sp),-(sp)
-   15acc:	       move.l 36(sp),-(sp)
-   15ad0:	       jsr 171b2 <__ltdf2>
-   15ad6:	       lea 16(sp),sp
-   15ada:	       tst.l d0
-   15adc:	   /-- bge.s 15af2 <closestPointOnLine+0xf4>
+   15ad2:	       clr.l -(sp)
+   15ad4:	       clr.l -(sp)
+   15ad6:	       move.l 36(sp),-(sp)
+   15ada:	       move.l 36(sp),-(sp)
+   15ade:	       jsr 171c0 <__ltdf2>
+   15ae4:	       lea 16(sp),sp
+   15ae8:	       tst.l d0
+   15aea:	   /-- bge.s 15b00 <closestPointOnLine+0xf4>
 		*closestX = x1;
-   15ade:	   |   movea.l 44(sp),a0
-   15ae2:	   |   move.l 52(sp),(a0)
+   15aec:	   |   movea.l 44(sp),a0
+   15af0:	   |   move.l 52(sp),(a0)
 		*closestY = y1;
-   15ae6:	   |   movea.l 48(sp),a0
-   15aea:	   |   move.l 56(sp),(a0)
-   15aee:	/--|-- bra.w 15bd4 <closestPointOnLine+0x1d6>
+   15af4:	   |   movea.l 48(sp),a0
+   15af8:	   |   move.l 56(sp),(a0)
+   15afc:	/--|-- bra.w 15be2 <closestPointOnLine+0x1d6>
 	} else if (m > 1) {
-   15af2:	|  \-> clr.l -(sp)
-   15af4:	|      move.l #1072693248,-(sp)
-   15afa:	|      move.l 36(sp),-(sp)
-   15afe:	|      move.l 36(sp),-(sp)
-   15b02:	|      jsr 170f8 <__gtdf2>
-   15b08:	|      lea 16(sp),sp
-   15b0c:	|      tst.l d0
-   15b0e:	|  /-- ble.s 15b24 <closestPointOnLine+0x126>
+   15b00:	|  \-> clr.l -(sp)
+   15b02:	|      move.l #1072693248,-(sp)
+   15b08:	|      move.l 36(sp),-(sp)
+   15b0c:	|      move.l 36(sp),-(sp)
+   15b10:	|      jsr 17106 <__gtdf2>
+   15b16:	|      lea 16(sp),sp
+   15b1a:	|      tst.l d0
+   15b1c:	|  /-- ble.s 15b32 <closestPointOnLine+0x126>
 		*closestX = x2;
-   15b10:	|  |   movea.l 44(sp),a0
-   15b14:	|  |   move.l 60(sp),(a0)
+   15b1e:	|  |   movea.l 44(sp),a0
+   15b22:	|  |   move.l 60(sp),(a0)
 		*closestY = y2;
-   15b18:	|  |   movea.l 48(sp),a0
-   15b1c:	|  |   move.l 64(sp),(a0)
-   15b20:	+--|-- bra.w 15bd4 <closestPointOnLine+0x1d6>
+   15b26:	|  |   movea.l 48(sp),a0
+   15b2a:	|  |   move.l 64(sp),(a0)
+   15b2e:	+--|-- bra.w 15be2 <closestPointOnLine+0x1d6>
 	} else {
 		*closestX = x1 + m * xDiff;
-   15b24:	|  \-> move.l 52(sp),-(sp)
-   15b28:	|      jsr 16f9a <__floatsidf>
-   15b2e:	|      addq.l #4,sp
-   15b30:	|      move.l d0,d2
-   15b32:	|      move.l d1,d3
-   15b34:	|      move.l 36(sp),-(sp)
-   15b38:	|      jsr 16f9a <__floatsidf>
-   15b3e:	|      addq.l #4,sp
-   15b40:	|      move.l 28(sp),-(sp)
-   15b44:	|      move.l 28(sp),-(sp)
-   15b48:	|      move.l d1,-(sp)
-   15b4a:	|      move.l d0,-(sp)
-   15b4c:	|      jsr 1702a <__muldf3>
-   15b52:	|      lea 16(sp),sp
+   15b32:	|  \-> move.l 52(sp),-(sp)
+   15b36:	|      jsr 16fa8 <__floatsidf>
+   15b3c:	|      addq.l #4,sp
+   15b3e:	|      move.l d0,d2
+   15b40:	|      move.l d1,d3
+   15b42:	|      move.l 36(sp),-(sp)
+   15b46:	|      jsr 16fa8 <__floatsidf>
+   15b4c:	|      addq.l #4,sp
+   15b4e:	|      move.l 28(sp),-(sp)
+   15b52:	|      move.l 28(sp),-(sp)
    15b56:	|      move.l d1,-(sp)
    15b58:	|      move.l d0,-(sp)
-   15b5a:	|      move.l d3,-(sp)
-   15b5c:	|      move.l d2,-(sp)
-   15b5e:	|      jsr 16dc2 <__adddf3>
-   15b64:	|      lea 16(sp),sp
-   15b68:	|      move.l d1,-(sp)
-   15b6a:	|      move.l d0,-(sp)
-   15b6c:	|      jsr 16f32 <__fixdfsi>
-   15b72:	|      addq.l #8,sp
-   15b74:	|      movea.l 44(sp),a0
-   15b78:	|      move.l d0,(a0)
+   15b5a:	|      jsr 17038 <__muldf3>
+   15b60:	|      lea 16(sp),sp
+   15b64:	|      move.l d1,-(sp)
+   15b66:	|      move.l d0,-(sp)
+   15b68:	|      move.l d3,-(sp)
+   15b6a:	|      move.l d2,-(sp)
+   15b6c:	|      jsr 16dd0 <__adddf3>
+   15b72:	|      lea 16(sp),sp
+   15b76:	|      move.l d1,-(sp)
+   15b78:	|      move.l d0,-(sp)
+   15b7a:	|      jsr 16f40 <__fixdfsi>
+   15b80:	|      addq.l #8,sp
+   15b82:	|      movea.l 44(sp),a0
+   15b86:	|      move.l d0,(a0)
 		*closestY = y1 + m * yDiff;
-   15b7a:	|      move.l 56(sp),-(sp)
-   15b7e:	|      jsr 16f9a <__floatsidf>
-   15b84:	|      addq.l #4,sp
-   15b86:	|      move.l d0,d2
-   15b88:	|      move.l d1,d3
-   15b8a:	|      move.l 32(sp),-(sp)
-   15b8e:	|      jsr 16f9a <__floatsidf>
-   15b94:	|      addq.l #4,sp
-   15b96:	|      move.l 28(sp),-(sp)
-   15b9a:	|      move.l 28(sp),-(sp)
-   15b9e:	|      move.l d1,-(sp)
-   15ba0:	|      move.l d0,-(sp)
-   15ba2:	|      jsr 1702a <__muldf3>
-   15ba8:	|      lea 16(sp),sp
+   15b88:	|      move.l 56(sp),-(sp)
+   15b8c:	|      jsr 16fa8 <__floatsidf>
+   15b92:	|      addq.l #4,sp
+   15b94:	|      move.l d0,d2
+   15b96:	|      move.l d1,d3
+   15b98:	|      move.l 32(sp),-(sp)
+   15b9c:	|      jsr 16fa8 <__floatsidf>
+   15ba2:	|      addq.l #4,sp
+   15ba4:	|      move.l 28(sp),-(sp)
+   15ba8:	|      move.l 28(sp),-(sp)
    15bac:	|      move.l d1,-(sp)
    15bae:	|      move.l d0,-(sp)
-   15bb0:	|      move.l d3,-(sp)
-   15bb2:	|      move.l d2,-(sp)
-   15bb4:	|      jsr 16dc2 <__adddf3>
-   15bba:	|      lea 16(sp),sp
-   15bbe:	|      move.l d1,-(sp)
-   15bc0:	|      move.l d0,-(sp)
-   15bc2:	|      jsr 16f32 <__fixdfsi>
-   15bc8:	|      addq.l #8,sp
-   15bca:	|      movea.l 48(sp),a0
-   15bce:	|      move.l d0,(a0)
+   15bb0:	|      jsr 17038 <__muldf3>
+   15bb6:	|      lea 16(sp),sp
+   15bba:	|      move.l d1,-(sp)
+   15bbc:	|      move.l d0,-(sp)
+   15bbe:	|      move.l d3,-(sp)
+   15bc0:	|      move.l d2,-(sp)
+   15bc2:	|      jsr 16dd0 <__adddf3>
+   15bc8:	|      lea 16(sp),sp
+   15bcc:	|      move.l d1,-(sp)
+   15bce:	|      move.l d0,-(sp)
+   15bd0:	|      jsr 16f40 <__fixdfsi>
+   15bd6:	|      addq.l #8,sp
+   15bd8:	|      movea.l 48(sp),a0
+   15bdc:	|      move.l d0,(a0)
 		return TRUE;
-   15bd0:	|      moveq #1,d0
-   15bd2:	|  /-- bra.s 15bd6 <closestPointOnLine+0x1d8>
+   15bde:	|      moveq #1,d0
+   15be0:	|  /-- bra.s 15be4 <closestPointOnLine+0x1d8>
 	}
 	return FALSE;
-   15bd4:	\--|-> clr.w d0
+   15be2:	\--|-> clr.w d0
 }
-   15bd6:	   \-> move.l (sp)+,d2
-   15bd8:	       move.l (sp)+,d3
-   15bda:	       lea 32(sp),sp
-   15bde:	       rts
+   15be4:	   \-> move.l (sp)+,d2
+   15be6:	       move.l (sp)+,d3
+   15be8:	       lea 32(sp),sp
+   15bec:	       rts
 
-00015be0 <drawFloor>:
+00015bee <drawFloor>:
 
 void drawFloor() {
-   15be0:	                lea -12(sp),sp
-   15be4:	                move.l d3,-(sp)
-   15be6:	                move.l d2,-(sp)
+   15bee:	                lea -12(sp),sp
+   15bf2:	                move.l d3,-(sp)
+   15bf4:	                move.l d2,-(sp)
     int i, j, nV;
     for (i = 0; i < currentFloor->numPolygons; i++) {
-   15be8:	                clr.l 16(sp)
-   15bec:	   /----------- bra.w 15e00 <drawFloor+0x220>
+   15bf6:	                clr.l 16(sp)
+   15bfa:	   /----------- bra.w 15e0e <drawFloor+0x220>
         nV = currentFloor->polygon[i].numVertices;
-   15bf0:	/--|----------> movea.l 1a916 <currentFloor>,a0
-   15bf6:	|  |            move.l 12(a0),d1
-   15bfa:	|  |            move.l 16(sp),d0
-   15bfe:	|  |            lsl.l #3,d0
-   15c00:	|  |            movea.l d1,a0
-   15c02:	|  |            adda.l d0,a0
-   15c04:	|  |            move.l (a0),8(sp)
+   15bfe:	/--|----------> movea.l 1a916 <currentFloor>,a0
+   15c04:	|  |            move.l 12(a0),d1
+   15c08:	|  |            move.l 16(sp),d0
+   15c0c:	|  |            lsl.l #3,d0
+   15c0e:	|  |            movea.l d1,a0
+   15c10:	|  |            adda.l d0,a0
+   15c12:	|  |            move.l (a0),8(sp)
         if (nV > 1) {
-   15c08:	|  |            moveq #1,d0
-   15c0a:	|  |            cmp.l 8(sp),d0
-   15c0e:	|  |  /-------- bge.w 15dfc <drawFloor+0x21c>
+   15c16:	|  |            moveq #1,d0
+   15c18:	|  |            cmp.l 8(sp),d0
+   15c1c:	|  |  /-------- bge.w 15e0a <drawFloor+0x21c>
             for (j = 1; j < nV; j++) {
-   15c12:	|  |  |         moveq #1,d0
-   15c14:	|  |  |         move.l d0,12(sp)
-   15c18:	|  |  |     /-- bra.w 15d12 <drawFloor+0x132>
+   15c20:	|  |  |         moveq #1,d0
+   15c22:	|  |  |         move.l d0,12(sp)
+   15c26:	|  |  |     /-- bra.w 15d20 <drawFloor+0x132>
                 drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[j - 1]].x,
                          currentFloor->vertex[currentFloor->polygon[i].vertexID[j - 1]].y,
                          currentFloor->vertex[currentFloor->polygon[i].vertexID[j]].x,
                          currentFloor->vertex[currentFloor->polygon[i].vertexID[j]].y);
-   15c1c:	|  |  |  /--|-> movea.l 1a916 <currentFloor>,a0
-   15c22:	|  |  |  |  |   move.l 4(a0),d1
-   15c26:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   15c2c:	|  |  |  |  |   movea.l 12(a0),a0
-   15c30:	|  |  |  |  |   move.l 16(sp),d0
-   15c34:	|  |  |  |  |   lsl.l #3,d0
-   15c36:	|  |  |  |  |   adda.l d0,a0
-   15c38:	|  |  |  |  |   movea.l 4(a0),a0
-   15c3c:	|  |  |  |  |   move.l 12(sp),d0
-   15c40:	|  |  |  |  |   add.l d0,d0
-   15c42:	|  |  |  |  |   add.l d0,d0
+   15c2a:	|  |  |  /--|-> movea.l 1a916 <currentFloor>,a0
+   15c30:	|  |  |  |  |   move.l 4(a0),d1
+   15c34:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   15c3a:	|  |  |  |  |   movea.l 12(a0),a0
+   15c3e:	|  |  |  |  |   move.l 16(sp),d0
+   15c42:	|  |  |  |  |   lsl.l #3,d0
    15c44:	|  |  |  |  |   adda.l d0,a0
-   15c46:	|  |  |  |  |   move.l (a0),d0
-   15c48:	|  |  |  |  |   lsl.l #3,d0
-   15c4a:	|  |  |  |  |   movea.l d1,a0
-   15c4c:	|  |  |  |  |   adda.l d0,a0
+   15c46:	|  |  |  |  |   movea.l 4(a0),a0
+   15c4a:	|  |  |  |  |   move.l 12(sp),d0
+   15c4e:	|  |  |  |  |   add.l d0,d0
+   15c50:	|  |  |  |  |   add.l d0,d0
+   15c52:	|  |  |  |  |   adda.l d0,a0
+   15c54:	|  |  |  |  |   move.l (a0),d0
+   15c56:	|  |  |  |  |   lsl.l #3,d0
+   15c58:	|  |  |  |  |   movea.l d1,a0
+   15c5a:	|  |  |  |  |   adda.l d0,a0
                 drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[j - 1]].x,
-   15c4e:	|  |  |  |  |   move.l 4(a0),d2
+   15c5c:	|  |  |  |  |   move.l 4(a0),d2
                          currentFloor->vertex[currentFloor->polygon[i].vertexID[j]].x,
-   15c52:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   15c58:	|  |  |  |  |   move.l 4(a0),d1
-   15c5c:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   15c62:	|  |  |  |  |   movea.l 12(a0),a0
-   15c66:	|  |  |  |  |   move.l 16(sp),d0
-   15c6a:	|  |  |  |  |   lsl.l #3,d0
-   15c6c:	|  |  |  |  |   adda.l d0,a0
-   15c6e:	|  |  |  |  |   movea.l 4(a0),a0
-   15c72:	|  |  |  |  |   move.l 12(sp),d0
-   15c76:	|  |  |  |  |   add.l d0,d0
-   15c78:	|  |  |  |  |   add.l d0,d0
+   15c60:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   15c66:	|  |  |  |  |   move.l 4(a0),d1
+   15c6a:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   15c70:	|  |  |  |  |   movea.l 12(a0),a0
+   15c74:	|  |  |  |  |   move.l 16(sp),d0
+   15c78:	|  |  |  |  |   lsl.l #3,d0
    15c7a:	|  |  |  |  |   adda.l d0,a0
-   15c7c:	|  |  |  |  |   move.l (a0),d0
-   15c7e:	|  |  |  |  |   lsl.l #3,d0
-   15c80:	|  |  |  |  |   movea.l d1,a0
-   15c82:	|  |  |  |  |   adda.l d0,a0
+   15c7c:	|  |  |  |  |   movea.l 4(a0),a0
+   15c80:	|  |  |  |  |   move.l 12(sp),d0
+   15c84:	|  |  |  |  |   add.l d0,d0
+   15c86:	|  |  |  |  |   add.l d0,d0
+   15c88:	|  |  |  |  |   adda.l d0,a0
+   15c8a:	|  |  |  |  |   move.l (a0),d0
+   15c8c:	|  |  |  |  |   lsl.l #3,d0
+   15c8e:	|  |  |  |  |   movea.l d1,a0
+   15c90:	|  |  |  |  |   adda.l d0,a0
                 drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[j - 1]].x,
-   15c84:	|  |  |  |  |   movea.l (a0),a1
+   15c92:	|  |  |  |  |   movea.l (a0),a1
                          currentFloor->vertex[currentFloor->polygon[i].vertexID[j - 1]].y,
-   15c86:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   15c8c:	|  |  |  |  |   move.l 4(a0),d1
-   15c90:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   15c96:	|  |  |  |  |   movea.l 12(a0),a0
-   15c9a:	|  |  |  |  |   move.l 16(sp),d0
-   15c9e:	|  |  |  |  |   lsl.l #3,d0
-   15ca0:	|  |  |  |  |   adda.l d0,a0
-   15ca2:	|  |  |  |  |   movea.l 4(a0),a0
-   15ca6:	|  |  |  |  |   move.l 12(sp),d0
-   15caa:	|  |  |  |  |   addi.l #1073741823,d0
-   15cb0:	|  |  |  |  |   add.l d0,d0
-   15cb2:	|  |  |  |  |   add.l d0,d0
-   15cb4:	|  |  |  |  |   adda.l d0,a0
-   15cb6:	|  |  |  |  |   move.l (a0),d0
-   15cb8:	|  |  |  |  |   lsl.l #3,d0
-   15cba:	|  |  |  |  |   movea.l d1,a0
-   15cbc:	|  |  |  |  |   adda.l d0,a0
+   15c94:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   15c9a:	|  |  |  |  |   move.l 4(a0),d1
+   15c9e:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   15ca4:	|  |  |  |  |   movea.l 12(a0),a0
+   15ca8:	|  |  |  |  |   move.l 16(sp),d0
+   15cac:	|  |  |  |  |   lsl.l #3,d0
+   15cae:	|  |  |  |  |   adda.l d0,a0
+   15cb0:	|  |  |  |  |   movea.l 4(a0),a0
+   15cb4:	|  |  |  |  |   move.l 12(sp),d0
+   15cb8:	|  |  |  |  |   addi.l #1073741823,d0
+   15cbe:	|  |  |  |  |   add.l d0,d0
+   15cc0:	|  |  |  |  |   add.l d0,d0
+   15cc2:	|  |  |  |  |   adda.l d0,a0
+   15cc4:	|  |  |  |  |   move.l (a0),d0
+   15cc6:	|  |  |  |  |   lsl.l #3,d0
+   15cc8:	|  |  |  |  |   movea.l d1,a0
+   15cca:	|  |  |  |  |   adda.l d0,a0
                 drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[j - 1]].x,
-   15cbe:	|  |  |  |  |   move.l 4(a0),d1
-   15cc2:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   15cc8:	|  |  |  |  |   move.l 4(a0),d3
-   15ccc:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   15cd2:	|  |  |  |  |   movea.l 12(a0),a0
-   15cd6:	|  |  |  |  |   move.l 16(sp),d0
-   15cda:	|  |  |  |  |   lsl.l #3,d0
-   15cdc:	|  |  |  |  |   adda.l d0,a0
-   15cde:	|  |  |  |  |   movea.l 4(a0),a0
-   15ce2:	|  |  |  |  |   move.l 12(sp),d0
-   15ce6:	|  |  |  |  |   addi.l #1073741823,d0
-   15cec:	|  |  |  |  |   add.l d0,d0
-   15cee:	|  |  |  |  |   add.l d0,d0
-   15cf0:	|  |  |  |  |   adda.l d0,a0
-   15cf2:	|  |  |  |  |   move.l (a0),d0
-   15cf4:	|  |  |  |  |   lsl.l #3,d0
-   15cf6:	|  |  |  |  |   movea.l d3,a0
-   15cf8:	|  |  |  |  |   adda.l d0,a0
-   15cfa:	|  |  |  |  |   move.l (a0),d0
-   15cfc:	|  |  |  |  |   move.l d2,-(sp)
-   15cfe:	|  |  |  |  |   move.l a1,-(sp)
-   15d00:	|  |  |  |  |   move.l d1,-(sp)
-   15d02:	|  |  |  |  |   move.l d0,-(sp)
-   15d04:	|  |  |  |  |   jsr 36fc <drawLine>
-   15d0a:	|  |  |  |  |   lea 16(sp),sp
+   15ccc:	|  |  |  |  |   move.l 4(a0),d1
+   15cd0:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   15cd6:	|  |  |  |  |   move.l 4(a0),d3
+   15cda:	|  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   15ce0:	|  |  |  |  |   movea.l 12(a0),a0
+   15ce4:	|  |  |  |  |   move.l 16(sp),d0
+   15ce8:	|  |  |  |  |   lsl.l #3,d0
+   15cea:	|  |  |  |  |   adda.l d0,a0
+   15cec:	|  |  |  |  |   movea.l 4(a0),a0
+   15cf0:	|  |  |  |  |   move.l 12(sp),d0
+   15cf4:	|  |  |  |  |   addi.l #1073741823,d0
+   15cfa:	|  |  |  |  |   add.l d0,d0
+   15cfc:	|  |  |  |  |   add.l d0,d0
+   15cfe:	|  |  |  |  |   adda.l d0,a0
+   15d00:	|  |  |  |  |   move.l (a0),d0
+   15d02:	|  |  |  |  |   lsl.l #3,d0
+   15d04:	|  |  |  |  |   movea.l d3,a0
+   15d06:	|  |  |  |  |   adda.l d0,a0
+   15d08:	|  |  |  |  |   move.l (a0),d0
+   15d0a:	|  |  |  |  |   move.l d2,-(sp)
+   15d0c:	|  |  |  |  |   move.l a1,-(sp)
+   15d0e:	|  |  |  |  |   move.l d1,-(sp)
+   15d10:	|  |  |  |  |   move.l d0,-(sp)
+   15d12:	|  |  |  |  |   jsr 36fc <drawLine>
+   15d18:	|  |  |  |  |   lea 16(sp),sp
             for (j = 1; j < nV; j++) {
-   15d0e:	|  |  |  |  |   addq.l #1,12(sp)
-   15d12:	|  |  |  |  \-> move.l 12(sp),d0
-   15d16:	|  |  |  |      cmp.l 8(sp),d0
-   15d1a:	|  |  |  \----- blt.w 15c1c <drawFloor+0x3c>
+   15d1c:	|  |  |  |  |   addq.l #1,12(sp)
+   15d20:	|  |  |  |  \-> move.l 12(sp),d0
+   15d24:	|  |  |  |      cmp.l 8(sp),d0
+   15d28:	|  |  |  \----- blt.w 15c2a <drawFloor+0x3c>
             }
             drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[0]].x,
                      currentFloor->vertex[currentFloor->polygon[i].vertexID[0]].y,
                      currentFloor->vertex[currentFloor->polygon[i].vertexID[nV - 1]].x,
                      currentFloor->vertex[currentFloor->polygon[i].vertexID[nV - 1]].y);
-   15d1e:	|  |  |         movea.l 1a916 <currentFloor>,a0
-   15d24:	|  |  |         move.l 4(a0),d1
-   15d28:	|  |  |         movea.l 1a916 <currentFloor>,a0
-   15d2e:	|  |  |         movea.l 12(a0),a0
-   15d32:	|  |  |         move.l 16(sp),d0
-   15d36:	|  |  |         lsl.l #3,d0
-   15d38:	|  |  |         adda.l d0,a0
-   15d3a:	|  |  |         movea.l 4(a0),a0
-   15d3e:	|  |  |         move.l 8(sp),d0
-   15d42:	|  |  |         addi.l #1073741823,d0
-   15d48:	|  |  |         add.l d0,d0
-   15d4a:	|  |  |         add.l d0,d0
-   15d4c:	|  |  |         adda.l d0,a0
-   15d4e:	|  |  |         move.l (a0),d0
-   15d50:	|  |  |         lsl.l #3,d0
-   15d52:	|  |  |         movea.l d1,a0
-   15d54:	|  |  |         adda.l d0,a0
+   15d2c:	|  |  |         movea.l 1a916 <currentFloor>,a0
+   15d32:	|  |  |         move.l 4(a0),d1
+   15d36:	|  |  |         movea.l 1a916 <currentFloor>,a0
+   15d3c:	|  |  |         movea.l 12(a0),a0
+   15d40:	|  |  |         move.l 16(sp),d0
+   15d44:	|  |  |         lsl.l #3,d0
+   15d46:	|  |  |         adda.l d0,a0
+   15d48:	|  |  |         movea.l 4(a0),a0
+   15d4c:	|  |  |         move.l 8(sp),d0
+   15d50:	|  |  |         addi.l #1073741823,d0
+   15d56:	|  |  |         add.l d0,d0
+   15d58:	|  |  |         add.l d0,d0
+   15d5a:	|  |  |         adda.l d0,a0
+   15d5c:	|  |  |         move.l (a0),d0
+   15d5e:	|  |  |         lsl.l #3,d0
+   15d60:	|  |  |         movea.l d1,a0
+   15d62:	|  |  |         adda.l d0,a0
             drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[0]].x,
-   15d56:	|  |  |         move.l 4(a0),d2
+   15d64:	|  |  |         move.l 4(a0),d2
                      currentFloor->vertex[currentFloor->polygon[i].vertexID[nV - 1]].x,
-   15d5a:	|  |  |         movea.l 1a916 <currentFloor>,a0
-   15d60:	|  |  |         move.l 4(a0),d1
-   15d64:	|  |  |         movea.l 1a916 <currentFloor>,a0
-   15d6a:	|  |  |         movea.l 12(a0),a0
-   15d6e:	|  |  |         move.l 16(sp),d0
-   15d72:	|  |  |         lsl.l #3,d0
-   15d74:	|  |  |         adda.l d0,a0
-   15d76:	|  |  |         movea.l 4(a0),a0
-   15d7a:	|  |  |         move.l 8(sp),d0
-   15d7e:	|  |  |         addi.l #1073741823,d0
-   15d84:	|  |  |         add.l d0,d0
-   15d86:	|  |  |         add.l d0,d0
-   15d88:	|  |  |         adda.l d0,a0
-   15d8a:	|  |  |         move.l (a0),d0
-   15d8c:	|  |  |         lsl.l #3,d0
-   15d8e:	|  |  |         movea.l d1,a0
-   15d90:	|  |  |         adda.l d0,a0
+   15d68:	|  |  |         movea.l 1a916 <currentFloor>,a0
+   15d6e:	|  |  |         move.l 4(a0),d1
+   15d72:	|  |  |         movea.l 1a916 <currentFloor>,a0
+   15d78:	|  |  |         movea.l 12(a0),a0
+   15d7c:	|  |  |         move.l 16(sp),d0
+   15d80:	|  |  |         lsl.l #3,d0
+   15d82:	|  |  |         adda.l d0,a0
+   15d84:	|  |  |         movea.l 4(a0),a0
+   15d88:	|  |  |         move.l 8(sp),d0
+   15d8c:	|  |  |         addi.l #1073741823,d0
+   15d92:	|  |  |         add.l d0,d0
+   15d94:	|  |  |         add.l d0,d0
+   15d96:	|  |  |         adda.l d0,a0
+   15d98:	|  |  |         move.l (a0),d0
+   15d9a:	|  |  |         lsl.l #3,d0
+   15d9c:	|  |  |         movea.l d1,a0
+   15d9e:	|  |  |         adda.l d0,a0
             drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[0]].x,
-   15d92:	|  |  |         movea.l (a0),a1
+   15da0:	|  |  |         movea.l (a0),a1
                      currentFloor->vertex[currentFloor->polygon[i].vertexID[0]].y,
-   15d94:	|  |  |         movea.l 1a916 <currentFloor>,a0
-   15d9a:	|  |  |         move.l 4(a0),d1
-   15d9e:	|  |  |         movea.l 1a916 <currentFloor>,a0
-   15da4:	|  |  |         movea.l 12(a0),a0
-   15da8:	|  |  |         move.l 16(sp),d0
-   15dac:	|  |  |         lsl.l #3,d0
-   15dae:	|  |  |         adda.l d0,a0
-   15db0:	|  |  |         movea.l 4(a0),a0
-   15db4:	|  |  |         move.l (a0),d0
-   15db6:	|  |  |         lsl.l #3,d0
-   15db8:	|  |  |         movea.l d1,a0
-   15dba:	|  |  |         adda.l d0,a0
+   15da2:	|  |  |         movea.l 1a916 <currentFloor>,a0
+   15da8:	|  |  |         move.l 4(a0),d1
+   15dac:	|  |  |         movea.l 1a916 <currentFloor>,a0
+   15db2:	|  |  |         movea.l 12(a0),a0
+   15db6:	|  |  |         move.l 16(sp),d0
+   15dba:	|  |  |         lsl.l #3,d0
+   15dbc:	|  |  |         adda.l d0,a0
+   15dbe:	|  |  |         movea.l 4(a0),a0
+   15dc2:	|  |  |         move.l (a0),d0
+   15dc4:	|  |  |         lsl.l #3,d0
+   15dc6:	|  |  |         movea.l d1,a0
+   15dc8:	|  |  |         adda.l d0,a0
             drawLine(currentFloor->vertex[currentFloor->polygon[i].vertexID[0]].x,
-   15dbc:	|  |  |         move.l 4(a0),d1
-   15dc0:	|  |  |         movea.l 1a916 <currentFloor>,a0
-   15dc6:	|  |  |         move.l 4(a0),d3
-   15dca:	|  |  |         movea.l 1a916 <currentFloor>,a0
-   15dd0:	|  |  |         movea.l 12(a0),a0
-   15dd4:	|  |  |         move.l 16(sp),d0
-   15dd8:	|  |  |         lsl.l #3,d0
-   15dda:	|  |  |         adda.l d0,a0
-   15ddc:	|  |  |         movea.l 4(a0),a0
-   15de0:	|  |  |         move.l (a0),d0
-   15de2:	|  |  |         lsl.l #3,d0
-   15de4:	|  |  |         movea.l d3,a0
-   15de6:	|  |  |         adda.l d0,a0
-   15de8:	|  |  |         move.l (a0),d0
-   15dea:	|  |  |         move.l d2,-(sp)
-   15dec:	|  |  |         move.l a1,-(sp)
-   15dee:	|  |  |         move.l d1,-(sp)
-   15df0:	|  |  |         move.l d0,-(sp)
-   15df2:	|  |  |         jsr 36fc <drawLine>
-   15df8:	|  |  |         lea 16(sp),sp
+   15dca:	|  |  |         move.l 4(a0),d1
+   15dce:	|  |  |         movea.l 1a916 <currentFloor>,a0
+   15dd4:	|  |  |         move.l 4(a0),d3
+   15dd8:	|  |  |         movea.l 1a916 <currentFloor>,a0
+   15dde:	|  |  |         movea.l 12(a0),a0
+   15de2:	|  |  |         move.l 16(sp),d0
+   15de6:	|  |  |         lsl.l #3,d0
+   15de8:	|  |  |         adda.l d0,a0
+   15dea:	|  |  |         movea.l 4(a0),a0
+   15dee:	|  |  |         move.l (a0),d0
+   15df0:	|  |  |         lsl.l #3,d0
+   15df2:	|  |  |         movea.l d3,a0
+   15df4:	|  |  |         adda.l d0,a0
+   15df6:	|  |  |         move.l (a0),d0
+   15df8:	|  |  |         move.l d2,-(sp)
+   15dfa:	|  |  |         move.l a1,-(sp)
+   15dfc:	|  |  |         move.l d1,-(sp)
+   15dfe:	|  |  |         move.l d0,-(sp)
+   15e00:	|  |  |         jsr 36fc <drawLine>
+   15e06:	|  |  |         lea 16(sp),sp
     for (i = 0; i < currentFloor->numPolygons; i++) {
-   15dfc:	|  |  \-------> addq.l #1,16(sp)
-   15e00:	|  \----------> movea.l 1a916 <currentFloor>,a0
-   15e06:	|               move.l 8(a0),d0
-   15e0a:	|               cmp.l 16(sp),d0
-   15e0e:	\-------------- bgt.w 15bf0 <drawFloor+0x10>
+   15e0a:	|  |  \-------> addq.l #1,16(sp)
+   15e0e:	|  \----------> movea.l 1a916 <currentFloor>,a0
+   15e14:	|               move.l 8(a0),d0
+   15e18:	|               cmp.l 16(sp),d0
+   15e1c:	\-------------- bgt.w 15bfe <drawFloor+0x10>
         }
     }
 }
-   15e12:	                nop
-   15e14:	                nop
-   15e16:	                move.l (sp)+,d2
-   15e18:	                move.l (sp)+,d3
-   15e1a:	                lea 12(sp),sp
-   15e1e:	                rts
+   15e20:	                nop
+   15e22:	                nop
+   15e24:	                move.l (sp)+,d2
+   15e26:	                move.l (sp)+,d3
+   15e28:	                lea 12(sp),sp
+   15e2c:	                rts
 
-00015e20 <getMatchingCorners>:
+00015e2e <getMatchingCorners>:
 
 BOOL getMatchingCorners(struct floorPolygon *a, struct floorPolygon *b, int *cornerA, int *cornerB) {
-   15e20:	                      lea -12(sp),sp
+   15e2e:	                      lea -12(sp),sp
     int sharedVertices = 0;
-   15e24:	                      clr.l 8(sp)
+   15e32:	                      clr.l 8(sp)
     int i, j;
 
     for (i = 0; i < a->numVertices; i++) {
-   15e28:	                      clr.l 4(sp)
-   15e2c:	   /----------------- bra.w 15ebe <getMatchingCorners+0x9e>
+   15e36:	                      clr.l 4(sp)
+   15e3a:	   /----------------- bra.w 15ecc <getMatchingCorners+0x9e>
         for (j = 0; j < b->numVertices; j++) {
-   15e30:	/--|----------------> clr.l (sp)
-   15e32:	|  |     /----------- bra.s 15eae <getMatchingCorners+0x8e>
+   15e3e:	/--|----------------> clr.l (sp)
+   15e40:	|  |     /----------- bra.s 15ebc <getMatchingCorners+0x8e>
             if (a->vertexID[i] == b->vertexID[j]) {
-   15e34:	|  |  /--|----------> movea.l 16(sp),a0
-   15e38:	|  |  |  |            move.l 4(a0),d1
-   15e3c:	|  |  |  |            move.l 4(sp),d0
-   15e40:	|  |  |  |            add.l d0,d0
-   15e42:	|  |  |  |            add.l d0,d0
-   15e44:	|  |  |  |            movea.l d1,a0
-   15e46:	|  |  |  |            adda.l d0,a0
-   15e48:	|  |  |  |            move.l (a0),d1
-   15e4a:	|  |  |  |            movea.l 20(sp),a0
-   15e4e:	|  |  |  |            movea.l 4(a0),a0
-   15e52:	|  |  |  |            move.l (sp),d0
-   15e54:	|  |  |  |            add.l d0,d0
-   15e56:	|  |  |  |            add.l d0,d0
-   15e58:	|  |  |  |            adda.l d0,a0
-   15e5a:	|  |  |  |            move.l (a0),d0
-   15e5c:	|  |  |  |            cmp.l d1,d0
-   15e5e:	|  |  |  |  /-------- bne.s 15eac <getMatchingCorners+0x8c>
+   15e42:	|  |  /--|----------> movea.l 16(sp),a0
+   15e46:	|  |  |  |            move.l 4(a0),d1
+   15e4a:	|  |  |  |            move.l 4(sp),d0
+   15e4e:	|  |  |  |            add.l d0,d0
+   15e50:	|  |  |  |            add.l d0,d0
+   15e52:	|  |  |  |            movea.l d1,a0
+   15e54:	|  |  |  |            adda.l d0,a0
+   15e56:	|  |  |  |            move.l (a0),d1
+   15e58:	|  |  |  |            movea.l 20(sp),a0
+   15e5c:	|  |  |  |            movea.l 4(a0),a0
+   15e60:	|  |  |  |            move.l (sp),d0
+   15e62:	|  |  |  |            add.l d0,d0
+   15e64:	|  |  |  |            add.l d0,d0
+   15e66:	|  |  |  |            adda.l d0,a0
+   15e68:	|  |  |  |            move.l (a0),d0
+   15e6a:	|  |  |  |            cmp.l d1,d0
+   15e6c:	|  |  |  |  /-------- bne.s 15eba <getMatchingCorners+0x8c>
                 if (sharedVertices++) {
-   15e60:	|  |  |  |  |         move.l 8(sp),d0
-   15e64:	|  |  |  |  |         move.l d0,d1
-   15e66:	|  |  |  |  |         addq.l #1,d1
-   15e68:	|  |  |  |  |         move.l d1,8(sp)
-   15e6c:	|  |  |  |  |         tst.l d0
-   15e6e:	|  |  |  |  |     /-- beq.s 15e90 <getMatchingCorners+0x70>
+   15e6e:	|  |  |  |  |         move.l 8(sp),d0
+   15e72:	|  |  |  |  |         move.l d0,d1
+   15e74:	|  |  |  |  |         addq.l #1,d1
+   15e76:	|  |  |  |  |         move.l d1,8(sp)
+   15e7a:	|  |  |  |  |         tst.l d0
+   15e7c:	|  |  |  |  |     /-- beq.s 15e9e <getMatchingCorners+0x70>
                     *cornerB = a->vertexID[i];
-   15e70:	|  |  |  |  |     |   movea.l 16(sp),a0
-   15e74:	|  |  |  |  |     |   move.l 4(a0),d1
-   15e78:	|  |  |  |  |     |   move.l 4(sp),d0
-   15e7c:	|  |  |  |  |     |   add.l d0,d0
-   15e7e:	|  |  |  |  |     |   add.l d0,d0
-   15e80:	|  |  |  |  |     |   movea.l d1,a0
-   15e82:	|  |  |  |  |     |   adda.l d0,a0
-   15e84:	|  |  |  |  |     |   move.l (a0),d0
-   15e86:	|  |  |  |  |     |   movea.l 28(sp),a0
-   15e8a:	|  |  |  |  |     |   move.l d0,(a0)
+   15e7e:	|  |  |  |  |     |   movea.l 16(sp),a0
+   15e82:	|  |  |  |  |     |   move.l 4(a0),d1
+   15e86:	|  |  |  |  |     |   move.l 4(sp),d0
+   15e8a:	|  |  |  |  |     |   add.l d0,d0
+   15e8c:	|  |  |  |  |     |   add.l d0,d0
+   15e8e:	|  |  |  |  |     |   movea.l d1,a0
+   15e90:	|  |  |  |  |     |   adda.l d0,a0
+   15e92:	|  |  |  |  |     |   move.l (a0),d0
+   15e94:	|  |  |  |  |     |   movea.l 28(sp),a0
+   15e98:	|  |  |  |  |     |   move.l d0,(a0)
                     return TRUE;
-   15e8c:	|  |  |  |  |     |   moveq #1,d0
-   15e8e:	|  |  |  |  |  /--|-- bra.s 15ece <getMatchingCorners+0xae>
+   15e9a:	|  |  |  |  |     |   moveq #1,d0
+   15e9c:	|  |  |  |  |  /--|-- bra.s 15edc <getMatchingCorners+0xae>
                 } else {
                     *cornerA = a->vertexID[i];
-   15e90:	|  |  |  |  |  |  \-> movea.l 16(sp),a0
-   15e94:	|  |  |  |  |  |      move.l 4(a0),d1
-   15e98:	|  |  |  |  |  |      move.l 4(sp),d0
-   15e9c:	|  |  |  |  |  |      add.l d0,d0
-   15e9e:	|  |  |  |  |  |      add.l d0,d0
-   15ea0:	|  |  |  |  |  |      movea.l d1,a0
-   15ea2:	|  |  |  |  |  |      adda.l d0,a0
-   15ea4:	|  |  |  |  |  |      move.l (a0),d0
-   15ea6:	|  |  |  |  |  |      movea.l 24(sp),a0
-   15eaa:	|  |  |  |  |  |      move.l d0,(a0)
+   15e9e:	|  |  |  |  |  |  \-> movea.l 16(sp),a0
+   15ea2:	|  |  |  |  |  |      move.l 4(a0),d1
+   15ea6:	|  |  |  |  |  |      move.l 4(sp),d0
+   15eaa:	|  |  |  |  |  |      add.l d0,d0
+   15eac:	|  |  |  |  |  |      add.l d0,d0
+   15eae:	|  |  |  |  |  |      movea.l d1,a0
+   15eb0:	|  |  |  |  |  |      adda.l d0,a0
+   15eb2:	|  |  |  |  |  |      move.l (a0),d0
+   15eb4:	|  |  |  |  |  |      movea.l 24(sp),a0
+   15eb8:	|  |  |  |  |  |      move.l d0,(a0)
         for (j = 0; j < b->numVertices; j++) {
-   15eac:	|  |  |  |  \--|----> addq.l #1,(sp)
-   15eae:	|  |  |  \-----|----> movea.l 20(sp),a0
-   15eb2:	|  |  |        |      move.l (a0),d0
-   15eb4:	|  |  |        |      cmp.l (sp),d0
-   15eb6:	|  |  \--------|----- bgt.w 15e34 <getMatchingCorners+0x14>
+   15eba:	|  |  |  |  \--|----> addq.l #1,(sp)
+   15ebc:	|  |  |  \-----|----> movea.l 20(sp),a0
+   15ec0:	|  |  |        |      move.l (a0),d0
+   15ec2:	|  |  |        |      cmp.l (sp),d0
+   15ec4:	|  |  \--------|----- bgt.w 15e42 <getMatchingCorners+0x14>
     for (i = 0; i < a->numVertices; i++) {
-   15eba:	|  |           |      addq.l #1,4(sp)
-   15ebe:	|  \-----------|----> movea.l 16(sp),a0
-   15ec2:	|              |      move.l (a0),d0
-   15ec4:	|              |      cmp.l 4(sp),d0
-   15ec8:	\--------------|----- bgt.w 15e30 <getMatchingCorners+0x10>
+   15ec8:	|  |           |      addq.l #1,4(sp)
+   15ecc:	|  \-----------|----> movea.l 16(sp),a0
+   15ed0:	|              |      move.l (a0),d0
+   15ed2:	|              |      cmp.l 4(sp),d0
+   15ed6:	\--------------|----- bgt.w 15e3e <getMatchingCorners+0x10>
                 }
             }
         }
     }
 
     return FALSE;
-   15ecc:	               |      clr.w d0
+   15eda:	               |      clr.w d0
 }
-   15ece:	               \----> lea 12(sp),sp
-   15ed2:	                      rts
+   15edc:	               \----> lea 12(sp),sp
+   15ee0:	                      rts
 
-00015ed4 <noFloor>:
+00015ee2 <noFloor>:
 
 
 
 void noFloor () {
 	currentFloor -> numPolygons = 0;
-   15ed4:	movea.l 1a916 <currentFloor>,a0
-   15eda:	clr.l 8(a0)
+   15ee2:	movea.l 1a916 <currentFloor>,a0
+   15ee8:	clr.l 8(a0)
 	currentFloor -> polygon = NULL;
-   15ede:	movea.l 1a916 <currentFloor>,a0
-   15ee4:	clr.l 12(a0)
+   15eec:	movea.l 1a916 <currentFloor>,a0
+   15ef2:	clr.l 12(a0)
 	currentFloor -> vertex = NULL;
-   15ee8:	movea.l 1a916 <currentFloor>,a0
-   15eee:	clr.l 4(a0)
+   15ef6:	movea.l 1a916 <currentFloor>,a0
+   15efc:	clr.l 4(a0)
 	currentFloor -> matrix = NULL;
-   15ef2:	movea.l 1a916 <currentFloor>,a0
-   15ef8:	clr.l 16(a0)
+   15f00:	movea.l 1a916 <currentFloor>,a0
+   15f06:	clr.l 16(a0)
 }
-   15efc:	nop
-   15efe:	rts
+   15f0a:	nop
+   15f0c:	rts
 
-00015f00 <inFloor>:
+00015f0e <inFloor>:
 
 int inFloor (int x, int y) {
-   15f00:	          subq.l #8,sp
+   15f0e:	          subq.l #8,sp
 	int i, r = -1;
-   15f02:	          moveq #-1,d0
-   15f04:	          move.l d0,(sp)
+   15f10:	          moveq #-1,d0
+   15f12:	          move.l d0,(sp)
 
 	for (i = 0; i < currentFloor -> numPolygons; i ++)
-   15f06:	          clr.l 4(sp)
-   15f0a:	   /----- bra.s 15f3e <inFloor+0x3e>
+   15f14:	          clr.l 4(sp)
+   15f18:	   /----- bra.s 15f4c <inFloor+0x3e>
 		if (pointInFloorPolygon (&currentFloor -> polygon[i], x, y))
-   15f0c:	/--|----> movea.l 1a916 <currentFloor>,a0
-   15f12:	|  |      move.l 12(a0),d1
-   15f16:	|  |      move.l 4(sp),d0
-   15f1a:	|  |      lsl.l #3,d0
-   15f1c:	|  |      add.l d1,d0
-   15f1e:	|  |      move.l 16(sp),-(sp)
-   15f22:	|  |      move.l 16(sp),-(sp)
-   15f26:	|  |      move.l d0,-(sp)
-   15f28:	|  |      jsr 1610a <pointInFloorPolygon>
-   15f2e:	|  |      lea 12(sp),sp
-   15f32:	|  |      tst.w d0
-   15f34:	|  |  /-- beq.s 15f3a <inFloor+0x3a>
+   15f1a:	/--|----> movea.l 1a916 <currentFloor>,a0
+   15f20:	|  |      move.l 12(a0),d1
+   15f24:	|  |      move.l 4(sp),d0
+   15f28:	|  |      lsl.l #3,d0
+   15f2a:	|  |      add.l d1,d0
+   15f2c:	|  |      move.l 16(sp),-(sp)
+   15f30:	|  |      move.l 16(sp),-(sp)
+   15f34:	|  |      move.l d0,-(sp)
+   15f36:	|  |      jsr 16118 <pointInFloorPolygon>
+   15f3c:	|  |      lea 12(sp),sp
+   15f40:	|  |      tst.w d0
+   15f42:	|  |  /-- beq.s 15f48 <inFloor+0x3a>
 			r = i;
-   15f36:	|  |  |   move.l 4(sp),(sp)
+   15f44:	|  |  |   move.l 4(sp),(sp)
 	for (i = 0; i < currentFloor -> numPolygons; i ++)
-   15f3a:	|  |  \-> addq.l #1,4(sp)
-   15f3e:	|  \----> movea.l 1a916 <currentFloor>,a0
-   15f44:	|         move.l 8(a0),d0
-   15f48:	|         cmp.l 4(sp),d0
-   15f4c:	\-------- bgt.s 15f0c <inFloor+0xc>
+   15f48:	|  |  \-> addq.l #1,4(sp)
+   15f4c:	|  \----> movea.l 1a916 <currentFloor>,a0
+   15f52:	|         move.l 8(a0),d0
+   15f56:	|         cmp.l 4(sp),d0
+   15f5a:	\-------- bgt.s 15f1a <inFloor+0xc>
 
 	return r;
-   15f4e:	          move.l (sp),d0
+   15f5c:	          move.l (sp),d0
 }
-   15f50:	          addq.l #8,sp
-   15f52:	          rts
+   15f5e:	          addq.l #8,sp
+   15f60:	          rts
 
-00015f54 <initFloor>:
+00015f62 <initFloor>:
 
 BOOL initFloor () {
-   15f54:	       lea -12(sp),sp
-   15f58:	       move.l a6,-(sp)
+   15f62:	       lea -12(sp),sp
+   15f66:	       move.l a6,-(sp)
 	currentFloor = AllocVec(sizeof(struct flor), MEMF_ANY);
-   15f5a:	       moveq #20,d0
-   15f5c:	       move.l d0,12(sp)
-   15f60:	       clr.l 8(sp)
-   15f64:	       move.l 1a7a2 <SysBase>,d0
-   15f6a:	       movea.l d0,a6
-   15f6c:	       move.l 12(sp),d0
-   15f70:	       move.l 8(sp),d1
-   15f74:	       jsr -684(a6)
-   15f78:	       move.l d0,4(sp)
-   15f7c:	       move.l 4(sp),d0
-   15f80:	       move.l d0,1a916 <currentFloor>
+   15f68:	       moveq #20,d0
+   15f6a:	       move.l d0,12(sp)
+   15f6e:	       clr.l 8(sp)
+   15f72:	       move.l 1a7a2 <SysBase>,d0
+   15f78:	       movea.l d0,a6
+   15f7a:	       move.l 12(sp),d0
+   15f7e:	       move.l 8(sp),d1
+   15f82:	       jsr -684(a6)
+   15f86:	       move.l d0,4(sp)
+   15f8a:	       move.l 4(sp),d0
+   15f8e:	       move.l d0,1a916 <currentFloor>
 
     if(currentFloor == 0) {
-   15f86:	       move.l 1a916 <currentFloor>,d0
-   15f8c:	/----- bne.s 15fa0 <initFloor+0x4c>
+   15f94:	       move.l 1a916 <currentFloor>,d0
+   15f9a:	/----- bne.s 15fae <initFloor+0x4c>
         KPrintF("initFloor: Could not initialize Mem");
-   15f8e:	|      pea 19a9c <main_sludge.c.0270f7ba+0x2bf>
-   15f94:	|      jsr 16b9e <KPrintF>
-   15f9a:	|      addq.l #4,sp
+   15f9c:	|      pea 19aaa <main_sludge.c.0270f7ba+0x2cd>
+   15fa2:	|      jsr 16bac <KPrintF>
+   15fa8:	|      addq.l #4,sp
         return FALSE;
-   15f9c:	|      clr.w d0
-   15f9e:	|  /-- bra.s 15fa8 <initFloor+0x54>
+   15faa:	|      clr.w d0
+   15fac:	|  /-- bra.s 15fb6 <initFloor+0x54>
     }
 
 	noFloor ();
-   15fa0:	\--|-> jsr 15ed4 <noFloor>
+   15fae:	\--|-> jsr 15ee2 <noFloor>
 	return TRUE;
-   15fa6:	   |   moveq #1,d0
+   15fb4:	   |   moveq #1,d0
 }
-   15fa8:	   \-> movea.l (sp)+,a6
-   15faa:	       lea 12(sp),sp
-   15fae:	       rts
+   15fb6:	   \-> movea.l (sp)+,a6
+   15fb8:	       lea 12(sp),sp
+   15fbc:	       rts
 
-00015fb0 <killFloor>:
+00015fbe <killFloor>:
 
 void killFloor () {
-   15fb0:	       lea -24(sp),sp
-   15fb4:	       move.l a6,-(sp)
+   15fbe:	       lea -24(sp),sp
+   15fc2:	       move.l a6,-(sp)
 	for (int i = 0; i < currentFloor -> numPolygons; i ++) {
-   15fb6:	       clr.l 24(sp)
-   15fba:	   /-- bra.s 16014 <killFloor+0x64>
+   15fc4:	       clr.l 24(sp)
+   15fc8:	   /-- bra.s 16022 <killFloor+0x64>
 		FreeVec(currentFloor -> polygon[i].vertexID);
-   15fbc:	/--|-> movea.l 1a916 <currentFloor>,a0
-   15fc2:	|  |   move.l 12(a0),d1
-   15fc6:	|  |   move.l 24(sp),d0
-   15fca:	|  |   lsl.l #3,d0
-   15fcc:	|  |   movea.l d1,a0
-   15fce:	|  |   adda.l d0,a0
-   15fd0:	|  |   move.l 4(a0),8(sp)
-   15fd6:	|  |   move.l 1a7a2 <SysBase>,d0
-   15fdc:	|  |   movea.l d0,a6
-   15fde:	|  |   movea.l 8(sp),a1
-   15fe2:	|  |   jsr -690(a6)
+   15fca:	/--|-> movea.l 1a916 <currentFloor>,a0
+   15fd0:	|  |   move.l 12(a0),d1
+   15fd4:	|  |   move.l 24(sp),d0
+   15fd8:	|  |   lsl.l #3,d0
+   15fda:	|  |   movea.l d1,a0
+   15fdc:	|  |   adda.l d0,a0
+   15fde:	|  |   move.l 4(a0),8(sp)
+   15fe4:	|  |   move.l 1a7a2 <SysBase>,d0
+   15fea:	|  |   movea.l d0,a6
+   15fec:	|  |   movea.l 8(sp),a1
+   15ff0:	|  |   jsr -690(a6)
 		FreeVec(currentFloor -> matrix[i]);
-   15fe6:	|  |   movea.l 1a916 <currentFloor>,a0
-   15fec:	|  |   move.l 16(a0),d1
-   15ff0:	|  |   move.l 24(sp),d0
-   15ff4:	|  |   add.l d0,d0
-   15ff6:	|  |   add.l d0,d0
-   15ff8:	|  |   movea.l d1,a0
-   15ffa:	|  |   adda.l d0,a0
-   15ffc:	|  |   move.l (a0),4(sp)
-   16000:	|  |   move.l 1a7a2 <SysBase>,d0
-   16006:	|  |   movea.l d0,a6
-   16008:	|  |   movea.l 4(sp),a1
-   1600c:	|  |   jsr -690(a6)
+   15ff4:	|  |   movea.l 1a916 <currentFloor>,a0
+   15ffa:	|  |   move.l 16(a0),d1
+   15ffe:	|  |   move.l 24(sp),d0
+   16002:	|  |   add.l d0,d0
+   16004:	|  |   add.l d0,d0
+   16006:	|  |   movea.l d1,a0
+   16008:	|  |   adda.l d0,a0
+   1600a:	|  |   move.l (a0),4(sp)
+   1600e:	|  |   move.l 1a7a2 <SysBase>,d0
+   16014:	|  |   movea.l d0,a6
+   16016:	|  |   movea.l 4(sp),a1
+   1601a:	|  |   jsr -690(a6)
 	for (int i = 0; i < currentFloor -> numPolygons; i ++) {
-   16010:	|  |   addq.l #1,24(sp)
-   16014:	|  \-> movea.l 1a916 <currentFloor>,a0
-   1601a:	|      move.l 8(a0),d0
-   1601e:	|      cmp.l 24(sp),d0
-   16022:	\----- bgt.s 15fbc <killFloor+0xc>
+   1601e:	|  |   addq.l #1,24(sp)
+   16022:	|  \-> movea.l 1a916 <currentFloor>,a0
+   16028:	|      move.l 8(a0),d0
+   1602c:	|      cmp.l 24(sp),d0
+   16030:	\----- bgt.s 15fca <killFloor+0xc>
 	}
 	FreeVec(currentFloor -> polygon);
-   16024:	       movea.l 1a916 <currentFloor>,a0
-   1602a:	       move.l 12(a0),20(sp)
-   16030:	       move.l 1a7a2 <SysBase>,d0
-   16036:	       movea.l d0,a6
-   16038:	       movea.l 20(sp),a1
-   1603c:	       jsr -690(a6)
+   16032:	       movea.l 1a916 <currentFloor>,a0
+   16038:	       move.l 12(a0),20(sp)
+   1603e:	       move.l 1a7a2 <SysBase>,d0
+   16044:	       movea.l d0,a6
+   16046:	       movea.l 20(sp),a1
+   1604a:	       jsr -690(a6)
 	currentFloor -> polygon = NULL;
-   16040:	       movea.l 1a916 <currentFloor>,a0
-   16046:	       clr.l 12(a0)
+   1604e:	       movea.l 1a916 <currentFloor>,a0
+   16054:	       clr.l 12(a0)
 	FreeVec(currentFloor -> vertex);
-   1604a:	       movea.l 1a916 <currentFloor>,a0
-   16050:	       move.l 4(a0),16(sp)
-   16056:	       move.l 1a7a2 <SysBase>,d0
-   1605c:	       movea.l d0,a6
-   1605e:	       movea.l 16(sp),a1
-   16062:	       jsr -690(a6)
+   16058:	       movea.l 1a916 <currentFloor>,a0
+   1605e:	       move.l 4(a0),16(sp)
+   16064:	       move.l 1a7a2 <SysBase>,d0
+   1606a:	       movea.l d0,a6
+   1606c:	       movea.l 16(sp),a1
+   16070:	       jsr -690(a6)
 	currentFloor -> vertex = NULL;
-   16066:	       movea.l 1a916 <currentFloor>,a0
-   1606c:	       clr.l 4(a0)
+   16074:	       movea.l 1a916 <currentFloor>,a0
+   1607a:	       clr.l 4(a0)
 	FreeVec(currentFloor -> matrix);
-   16070:	       movea.l 1a916 <currentFloor>,a0
-   16076:	       move.l 16(a0),12(sp)
-   1607c:	       move.l 1a7a2 <SysBase>,d0
-   16082:	       movea.l d0,a6
-   16084:	       movea.l 12(sp),a1
-   16088:	       jsr -690(a6)
+   1607e:	       movea.l 1a916 <currentFloor>,a0
+   16084:	       move.l 16(a0),12(sp)
+   1608a:	       move.l 1a7a2 <SysBase>,d0
+   16090:	       movea.l d0,a6
+   16092:	       movea.l 12(sp),a1
+   16096:	       jsr -690(a6)
 	currentFloor -> matrix = NULL;
-   1608c:	       movea.l 1a916 <currentFloor>,a0
-   16092:	       clr.l 16(a0)
+   1609a:	       movea.l 1a916 <currentFloor>,a0
+   160a0:	       clr.l 16(a0)
 }
-   16096:	       nop
-   16098:	       movea.l (sp)+,a6
-   1609a:	       lea 24(sp),sp
-   1609e:	       rts
+   160a4:	       nop
+   160a6:	       movea.l (sp)+,a6
+   160a8:	       lea 24(sp),sp
+   160ac:	       rts
 
-000160a0 <polysShareSide>:
+000160ae <polysShareSide>:
 
 BOOL polysShareSide (struct floorPolygon a, struct floorPolygon b) {
-   160a0:	                   lea -12(sp),sp
+   160ae:	                   lea -12(sp),sp
 	int sharedVertices = 0;
-   160a4:	                   clr.l 8(sp)
+   160b2:	                   clr.l 8(sp)
 	int i, j;
 
 	for (i = 0; i < a.numVertices; i ++) {
-   160a8:	                   clr.l 4(sp)
-   160ac:	   /-------------- bra.s 160f8 <polysShareSide+0x58>
+   160b6:	                   clr.l 4(sp)
+   160ba:	   /-------------- bra.s 16106 <polysShareSide+0x58>
 		for (j = 0; j < b.numVertices; j ++) {
-   160ae:	/--|-------------> clr.l (sp)
-   160b0:	|  |     /-------- bra.s 160ec <polysShareSide+0x4c>
+   160bc:	/--|-------------> clr.l (sp)
+   160be:	|  |     /-------- bra.s 160fa <polysShareSide+0x4c>
 			if (a.vertexID[i] == b.vertexID[j]) {
-   160b2:	|  |  /--|-------> move.l 20(sp),d1
-   160b6:	|  |  |  |         move.l 4(sp),d0
-   160ba:	|  |  |  |         add.l d0,d0
-   160bc:	|  |  |  |         add.l d0,d0
-   160be:	|  |  |  |         movea.l d1,a0
-   160c0:	|  |  |  |         adda.l d0,a0
-   160c2:	|  |  |  |         move.l (a0),d1
-   160c4:	|  |  |  |         movea.l 28(sp),a0
-   160c8:	|  |  |  |         move.l (sp),d0
+   160c0:	|  |  /--|-------> move.l 20(sp),d1
+   160c4:	|  |  |  |         move.l 4(sp),d0
+   160c8:	|  |  |  |         add.l d0,d0
    160ca:	|  |  |  |         add.l d0,d0
-   160cc:	|  |  |  |         add.l d0,d0
+   160cc:	|  |  |  |         movea.l d1,a0
    160ce:	|  |  |  |         adda.l d0,a0
-   160d0:	|  |  |  |         move.l (a0),d0
-   160d2:	|  |  |  |         cmp.l d1,d0
-   160d4:	|  |  |  |     /-- bne.s 160ea <polysShareSide+0x4a>
+   160d0:	|  |  |  |         move.l (a0),d1
+   160d2:	|  |  |  |         movea.l 28(sp),a0
+   160d6:	|  |  |  |         move.l (sp),d0
+   160d8:	|  |  |  |         add.l d0,d0
+   160da:	|  |  |  |         add.l d0,d0
+   160dc:	|  |  |  |         adda.l d0,a0
+   160de:	|  |  |  |         move.l (a0),d0
+   160e0:	|  |  |  |         cmp.l d1,d0
+   160e2:	|  |  |  |     /-- bne.s 160f8 <polysShareSide+0x4a>
 				if (sharedVertices ++) return TRUE;
-   160d6:	|  |  |  |     |   move.l 8(sp),d0
-   160da:	|  |  |  |     |   move.l d0,d1
-   160dc:	|  |  |  |     |   addq.l #1,d1
-   160de:	|  |  |  |     |   move.l d1,8(sp)
-   160e2:	|  |  |  |     |   tst.l d0
-   160e4:	|  |  |  |     +-- beq.s 160ea <polysShareSide+0x4a>
-   160e6:	|  |  |  |     |   moveq #1,d0
-   160e8:	|  |  |  |  /--|-- bra.s 16104 <polysShareSide+0x64>
+   160e4:	|  |  |  |     |   move.l 8(sp),d0
+   160e8:	|  |  |  |     |   move.l d0,d1
+   160ea:	|  |  |  |     |   addq.l #1,d1
+   160ec:	|  |  |  |     |   move.l d1,8(sp)
+   160f0:	|  |  |  |     |   tst.l d0
+   160f2:	|  |  |  |     +-- beq.s 160f8 <polysShareSide+0x4a>
+   160f4:	|  |  |  |     |   moveq #1,d0
+   160f6:	|  |  |  |  /--|-- bra.s 16112 <polysShareSide+0x64>
 		for (j = 0; j < b.numVertices; j ++) {
-   160ea:	|  |  |  |  |  \-> addq.l #1,(sp)
-   160ec:	|  |  |  \--|----> move.l 24(sp),d0
-   160f0:	|  |  |     |      cmp.l (sp),d0
-   160f2:	|  |  \-----|----- bgt.s 160b2 <polysShareSide+0x12>
+   160f8:	|  |  |  |  |  \-> addq.l #1,(sp)
+   160fa:	|  |  |  \--|----> move.l 24(sp),d0
+   160fe:	|  |  |     |      cmp.l (sp),d0
+   16100:	|  |  \-----|----- bgt.s 160c0 <polysShareSide+0x12>
 	for (i = 0; i < a.numVertices; i ++) {
-   160f4:	|  |        |      addq.l #1,4(sp)
-   160f8:	|  \--------|----> move.l 16(sp),d0
-   160fc:	|           |      cmp.l 4(sp),d0
-   16100:	\-----------|----- bgt.s 160ae <polysShareSide+0xe>
+   16102:	|  |        |      addq.l #1,4(sp)
+   16106:	|  \--------|----> move.l 16(sp),d0
+   1610a:	|           |      cmp.l 4(sp),d0
+   1610e:	\-----------|----- bgt.s 160bc <polysShareSide+0xe>
 			}
 		}
 	}
 
 	return FALSE;
-   16102:	            |      clr.w d0
+   16110:	            |      clr.w d0
 }
-   16104:	            \----> lea 12(sp),sp
-   16108:	                   rts
+   16112:	            \----> lea 12(sp),sp
+   16116:	                   rts
 
-0001610a <pointInFloorPolygon>:
+00016118 <pointInFloorPolygon>:
 
 BOOL pointInFloorPolygon (struct floorPolygon * floorPoly, int x, int y) {
-   1610a:	             lea -28(sp),sp
-   1610e:	             move.l d3,-(sp)
-   16110:	             move.l d2,-(sp)
+   16118:	             lea -28(sp),sp
+   1611c:	             move.l d3,-(sp)
+   1611e:	             move.l d2,-(sp)
 	int i = 0, j, c = 0;
-   16112:	             clr.l 32(sp)
-   16116:	             clr.l 24(sp)
+   16120:	             clr.l 32(sp)
+   16124:	             clr.l 24(sp)
 	float xp_i, yp_i;
 	float xp_j, yp_j;
 
 	for (j = floorPoly->numVertices - 1; i < floorPoly->numVertices; j = i++) {
-   1611a:	             movea.l 40(sp),a0
-   1611e:	             move.l (a0),d0
-   16120:	             move.l d0,d1
-   16122:	             subq.l #1,d1
-   16124:	             move.l d1,28(sp)
-   16128:	   /-------- bra.w 16322 <pointInFloorPolygon+0x218>
+   16128:	             movea.l 40(sp),a0
+   1612c:	             move.l (a0),d0
+   1612e:	             move.l d0,d1
+   16130:	             subq.l #1,d1
+   16132:	             move.l d1,28(sp)
+   16136:	   /-------- bra.w 16330 <pointInFloorPolygon+0x218>
 
 		xp_i = currentFloor->vertex[floorPoly->vertexID[i]].x;
-   1612c:	/--|-------> movea.l 1a916 <currentFloor>,a0
-   16132:	|  |         move.l 4(a0),d1
-   16136:	|  |         movea.l 40(sp),a0
-   1613a:	|  |         movea.l 4(a0),a0
-   1613e:	|  |         move.l 32(sp),d0
-   16142:	|  |         add.l d0,d0
-   16144:	|  |         add.l d0,d0
-   16146:	|  |         adda.l d0,a0
-   16148:	|  |         move.l (a0),d0
-   1614a:	|  |         lsl.l #3,d0
-   1614c:	|  |         movea.l d1,a0
-   1614e:	|  |         adda.l d0,a0
-   16150:	|  |         move.l (a0),d0
-   16152:	|  |         move.l d0,-(sp)
-   16154:	|  |         jsr 16fda <__floatsisf>
-   1615a:	|  |         addq.l #4,sp
-   1615c:	|  |         move.l d0,20(sp)
+   1613a:	/--|-------> movea.l 1a916 <currentFloor>,a0
+   16140:	|  |         move.l 4(a0),d1
+   16144:	|  |         movea.l 40(sp),a0
+   16148:	|  |         movea.l 4(a0),a0
+   1614c:	|  |         move.l 32(sp),d0
+   16150:	|  |         add.l d0,d0
+   16152:	|  |         add.l d0,d0
+   16154:	|  |         adda.l d0,a0
+   16156:	|  |         move.l (a0),d0
+   16158:	|  |         lsl.l #3,d0
+   1615a:	|  |         movea.l d1,a0
+   1615c:	|  |         adda.l d0,a0
+   1615e:	|  |         move.l (a0),d0
+   16160:	|  |         move.l d0,-(sp)
+   16162:	|  |         jsr 16fe8 <__floatsisf>
+   16168:	|  |         addq.l #4,sp
+   1616a:	|  |         move.l d0,20(sp)
 		yp_i = currentFloor->vertex[floorPoly->vertexID[i]].y;
-   16160:	|  |         movea.l 1a916 <currentFloor>,a0
-   16166:	|  |         move.l 4(a0),d1
-   1616a:	|  |         movea.l 40(sp),a0
-   1616e:	|  |         movea.l 4(a0),a0
-   16172:	|  |         move.l 32(sp),d0
-   16176:	|  |         add.l d0,d0
-   16178:	|  |         add.l d0,d0
-   1617a:	|  |         adda.l d0,a0
-   1617c:	|  |         move.l (a0),d0
-   1617e:	|  |         lsl.l #3,d0
-   16180:	|  |         movea.l d1,a0
-   16182:	|  |         adda.l d0,a0
-   16184:	|  |         move.l 4(a0),d0
-   16188:	|  |         move.l d0,-(sp)
-   1618a:	|  |         jsr 16fda <__floatsisf>
-   16190:	|  |         addq.l #4,sp
-   16192:	|  |         move.l d0,16(sp)
+   1616e:	|  |         movea.l 1a916 <currentFloor>,a0
+   16174:	|  |         move.l 4(a0),d1
+   16178:	|  |         movea.l 40(sp),a0
+   1617c:	|  |         movea.l 4(a0),a0
+   16180:	|  |         move.l 32(sp),d0
+   16184:	|  |         add.l d0,d0
+   16186:	|  |         add.l d0,d0
+   16188:	|  |         adda.l d0,a0
+   1618a:	|  |         move.l (a0),d0
+   1618c:	|  |         lsl.l #3,d0
+   1618e:	|  |         movea.l d1,a0
+   16190:	|  |         adda.l d0,a0
+   16192:	|  |         move.l 4(a0),d0
+   16196:	|  |         move.l d0,-(sp)
+   16198:	|  |         jsr 16fe8 <__floatsisf>
+   1619e:	|  |         addq.l #4,sp
+   161a0:	|  |         move.l d0,16(sp)
 		xp_j = currentFloor->vertex[floorPoly->vertexID[j]].x;
-   16196:	|  |         movea.l 1a916 <currentFloor>,a0
-   1619c:	|  |         move.l 4(a0),d1
-   161a0:	|  |         movea.l 40(sp),a0
-   161a4:	|  |         movea.l 4(a0),a0
-   161a8:	|  |         move.l 28(sp),d0
-   161ac:	|  |         add.l d0,d0
-   161ae:	|  |         add.l d0,d0
-   161b0:	|  |         adda.l d0,a0
-   161b2:	|  |         move.l (a0),d0
-   161b4:	|  |         lsl.l #3,d0
-   161b6:	|  |         movea.l d1,a0
-   161b8:	|  |         adda.l d0,a0
-   161ba:	|  |         move.l (a0),d0
-   161bc:	|  |         move.l d0,-(sp)
-   161be:	|  |         jsr 16fda <__floatsisf>
-   161c4:	|  |         addq.l #4,sp
-   161c6:	|  |         move.l d0,12(sp)
+   161a4:	|  |         movea.l 1a916 <currentFloor>,a0
+   161aa:	|  |         move.l 4(a0),d1
+   161ae:	|  |         movea.l 40(sp),a0
+   161b2:	|  |         movea.l 4(a0),a0
+   161b6:	|  |         move.l 28(sp),d0
+   161ba:	|  |         add.l d0,d0
+   161bc:	|  |         add.l d0,d0
+   161be:	|  |         adda.l d0,a0
+   161c0:	|  |         move.l (a0),d0
+   161c2:	|  |         lsl.l #3,d0
+   161c4:	|  |         movea.l d1,a0
+   161c6:	|  |         adda.l d0,a0
+   161c8:	|  |         move.l (a0),d0
+   161ca:	|  |         move.l d0,-(sp)
+   161cc:	|  |         jsr 16fe8 <__floatsisf>
+   161d2:	|  |         addq.l #4,sp
+   161d4:	|  |         move.l d0,12(sp)
 		yp_j = currentFloor->vertex[floorPoly->vertexID[j]].y;
-   161ca:	|  |         movea.l 1a916 <currentFloor>,a0
-   161d0:	|  |         move.l 4(a0),d1
-   161d4:	|  |         movea.l 40(sp),a0
-   161d8:	|  |         movea.l 4(a0),a0
-   161dc:	|  |         move.l 28(sp),d0
-   161e0:	|  |         add.l d0,d0
-   161e2:	|  |         add.l d0,d0
-   161e4:	|  |         adda.l d0,a0
-   161e6:	|  |         move.l (a0),d0
-   161e8:	|  |         lsl.l #3,d0
-   161ea:	|  |         movea.l d1,a0
-   161ec:	|  |         adda.l d0,a0
-   161ee:	|  |         move.l 4(a0),d0
-   161f2:	|  |         move.l d0,-(sp)
-   161f4:	|  |         jsr 16fda <__floatsisf>
-   161fa:	|  |         addq.l #4,sp
-   161fc:	|  |         move.l d0,8(sp)
+   161d8:	|  |         movea.l 1a916 <currentFloor>,a0
+   161de:	|  |         move.l 4(a0),d1
+   161e2:	|  |         movea.l 40(sp),a0
+   161e6:	|  |         movea.l 4(a0),a0
+   161ea:	|  |         move.l 28(sp),d0
+   161ee:	|  |         add.l d0,d0
+   161f0:	|  |         add.l d0,d0
+   161f2:	|  |         adda.l d0,a0
+   161f4:	|  |         move.l (a0),d0
+   161f6:	|  |         lsl.l #3,d0
+   161f8:	|  |         movea.l d1,a0
+   161fa:	|  |         adda.l d0,a0
+   161fc:	|  |         move.l 4(a0),d0
+   16200:	|  |         move.l d0,-(sp)
+   16202:	|  |         jsr 16fe8 <__floatsisf>
+   16208:	|  |         addq.l #4,sp
+   1620a:	|  |         move.l d0,8(sp)
 
 		if ((((yp_i <= y) && (y < yp_j)) || ((yp_j <= y) && (y < yp_i))) &&
-   16200:	|  |         move.l 48(sp),-(sp)
-   16204:	|  |         jsr 16fda <__floatsisf>
-   1620a:	|  |         addq.l #4,sp
-   1620c:	|  |         move.l d0,-(sp)
-   1620e:	|  |         move.l 20(sp),-(sp)
-   16212:	|  |         jsr 1717c <__lesf2>
-   16218:	|  |         addq.l #8,sp
-   1621a:	|  |         tst.l d0
-   1621c:	|  |     /-- bgt.s 1623c <pointInFloorPolygon+0x132>
-   1621e:	|  |     |   move.l 48(sp),-(sp)
-   16222:	|  |     |   jsr 16fda <__floatsisf>
-   16228:	|  |     |   addq.l #4,sp
-   1622a:	|  |     |   move.l d0,-(sp)
-   1622c:	|  |     |   move.l 12(sp),-(sp)
-   16230:	|  |     |   jsr 17146 <__gtsf2>
-   16236:	|  |     |   addq.l #8,sp
-   16238:	|  |     |   tst.l d0
-   1623a:	|  |  /--|-- bgt.s 1627c <pointInFloorPolygon+0x172>
-   1623c:	|  |  |  \-> move.l 48(sp),-(sp)
-   16240:	|  |  |      jsr 16fda <__floatsisf>
-   16246:	|  |  |      addq.l #4,sp
-   16248:	|  |  |      move.l d0,-(sp)
-   1624a:	|  |  |      move.l 12(sp),-(sp)
-   1624e:	|  |  |      jsr 1717c <__lesf2>
-   16254:	|  |  |      addq.l #8,sp
-   16256:	|  |  |      tst.l d0
-   16258:	|  |  |  /-- bgt.w 16312 <pointInFloorPolygon+0x208>
-   1625c:	|  |  |  |   move.l 48(sp),-(sp)
-   16260:	|  |  |  |   jsr 16fda <__floatsisf>
-   16266:	|  |  |  |   addq.l #4,sp
-   16268:	|  |  |  |   move.l d0,-(sp)
-   1626a:	|  |  |  |   move.l 20(sp),-(sp)
-   1626e:	|  |  |  |   jsr 17146 <__gtsf2>
-   16274:	|  |  |  |   addq.l #8,sp
-   16276:	|  |  |  |   tst.l d0
-   16278:	|  |  |  +-- ble.w 16312 <pointInFloorPolygon+0x208>
+   1620e:	|  |         move.l 48(sp),-(sp)
+   16212:	|  |         jsr 16fe8 <__floatsisf>
+   16218:	|  |         addq.l #4,sp
+   1621a:	|  |         move.l d0,-(sp)
+   1621c:	|  |         move.l 20(sp),-(sp)
+   16220:	|  |         jsr 1718a <__lesf2>
+   16226:	|  |         addq.l #8,sp
+   16228:	|  |         tst.l d0
+   1622a:	|  |     /-- bgt.s 1624a <pointInFloorPolygon+0x132>
+   1622c:	|  |     |   move.l 48(sp),-(sp)
+   16230:	|  |     |   jsr 16fe8 <__floatsisf>
+   16236:	|  |     |   addq.l #4,sp
+   16238:	|  |     |   move.l d0,-(sp)
+   1623a:	|  |     |   move.l 12(sp),-(sp)
+   1623e:	|  |     |   jsr 17154 <__gtsf2>
+   16244:	|  |     |   addq.l #8,sp
+   16246:	|  |     |   tst.l d0
+   16248:	|  |  /--|-- bgt.s 1628a <pointInFloorPolygon+0x172>
+   1624a:	|  |  |  \-> move.l 48(sp),-(sp)
+   1624e:	|  |  |      jsr 16fe8 <__floatsisf>
+   16254:	|  |  |      addq.l #4,sp
+   16256:	|  |  |      move.l d0,-(sp)
+   16258:	|  |  |      move.l 12(sp),-(sp)
+   1625c:	|  |  |      jsr 1718a <__lesf2>
+   16262:	|  |  |      addq.l #8,sp
+   16264:	|  |  |      tst.l d0
+   16266:	|  |  |  /-- bgt.w 16320 <pointInFloorPolygon+0x208>
+   1626a:	|  |  |  |   move.l 48(sp),-(sp)
+   1626e:	|  |  |  |   jsr 16fe8 <__floatsisf>
+   16274:	|  |  |  |   addq.l #4,sp
+   16276:	|  |  |  |   move.l d0,-(sp)
+   16278:	|  |  |  |   move.l 20(sp),-(sp)
+   1627c:	|  |  |  |   jsr 17154 <__gtsf2>
+   16282:	|  |  |  |   addq.l #8,sp
+   16284:	|  |  |  |   tst.l d0
+   16286:	|  |  |  +-- ble.w 16320 <pointInFloorPolygon+0x208>
 			(x < (xp_j - xp_i) * (y - yp_i) / (yp_j - yp_i) + xp_i)) {
-   1627c:	|  |  \--|-> move.l 44(sp),-(sp)
-   16280:	|  |     |   jsr 16fda <__floatsisf>
-   16286:	|  |     |   addq.l #4,sp
-   16288:	|  |     |   move.l d0,d3
-   1628a:	|  |     |   move.l 20(sp),-(sp)
-   1628e:	|  |     |   move.l 16(sp),-(sp)
-   16292:	|  |     |   jsr 172ce <__subsf3>
-   16298:	|  |     |   addq.l #8,sp
-   1629a:	|  |     |   move.l d0,d2
-   1629c:	|  |     |   move.l 48(sp),-(sp)
-   162a0:	|  |     |   jsr 16fda <__floatsisf>
-   162a6:	|  |     |   addq.l #4,sp
-   162a8:	|  |     |   move.l 16(sp),-(sp)
-   162ac:	|  |     |   move.l d0,-(sp)
-   162ae:	|  |     |   jsr 172ce <__subsf3>
-   162b4:	|  |     |   addq.l #8,sp
-   162b6:	|  |     |   move.l d0,-(sp)
-   162b8:	|  |     |   move.l d2,-(sp)
-   162ba:	|  |     |   jsr 1708c <__mulsf3>
-   162c0:	|  |     |   addq.l #8,sp
-   162c2:	|  |     |   move.l d0,d2
-   162c4:	|  |     |   move.l 16(sp),-(sp)
-   162c8:	|  |     |   move.l 12(sp),-(sp)
-   162cc:	|  |     |   jsr 172ce <__subsf3>
-   162d2:	|  |     |   addq.l #8,sp
-   162d4:	|  |     |   move.l d0,-(sp)
-   162d6:	|  |     |   move.l d2,-(sp)
-   162d8:	|  |     |   jsr 16e86 <__divsf3>
-   162de:	|  |     |   addq.l #8,sp
-   162e0:	|  |     |   move.l 20(sp),-(sp)
-   162e4:	|  |     |   move.l d0,-(sp)
-   162e6:	|  |     |   jsr 16d8c <__addsf3>
+   1628a:	|  |  \--|-> move.l 44(sp),-(sp)
+   1628e:	|  |     |   jsr 16fe8 <__floatsisf>
+   16294:	|  |     |   addq.l #4,sp
+   16296:	|  |     |   move.l d0,d3
+   16298:	|  |     |   move.l 20(sp),-(sp)
+   1629c:	|  |     |   move.l 16(sp),-(sp)
+   162a0:	|  |     |   jsr 172dc <__subsf3>
+   162a6:	|  |     |   addq.l #8,sp
+   162a8:	|  |     |   move.l d0,d2
+   162aa:	|  |     |   move.l 48(sp),-(sp)
+   162ae:	|  |     |   jsr 16fe8 <__floatsisf>
+   162b4:	|  |     |   addq.l #4,sp
+   162b6:	|  |     |   move.l 16(sp),-(sp)
+   162ba:	|  |     |   move.l d0,-(sp)
+   162bc:	|  |     |   jsr 172dc <__subsf3>
+   162c2:	|  |     |   addq.l #8,sp
+   162c4:	|  |     |   move.l d0,-(sp)
+   162c6:	|  |     |   move.l d2,-(sp)
+   162c8:	|  |     |   jsr 1709a <__mulsf3>
+   162ce:	|  |     |   addq.l #8,sp
+   162d0:	|  |     |   move.l d0,d2
+   162d2:	|  |     |   move.l 16(sp),-(sp)
+   162d6:	|  |     |   move.l 12(sp),-(sp)
+   162da:	|  |     |   jsr 172dc <__subsf3>
+   162e0:	|  |     |   addq.l #8,sp
+   162e2:	|  |     |   move.l d0,-(sp)
+   162e4:	|  |     |   move.l d2,-(sp)
+   162e6:	|  |     |   jsr 16e94 <__divsf3>
    162ec:	|  |     |   addq.l #8,sp
+   162ee:	|  |     |   move.l 20(sp),-(sp)
+   162f2:	|  |     |   move.l d0,-(sp)
+   162f4:	|  |     |   jsr 16d9a <__addsf3>
+   162fa:	|  |     |   addq.l #8,sp
 		if ((((yp_i <= y) && (y < yp_j)) || ((yp_j <= y) && (y < yp_i))) &&
-   162ee:	|  |     |   move.l d0,-(sp)
-   162f0:	|  |     |   move.l d3,-(sp)
-   162f2:	|  |     |   jsr 17200 <__ltsf2>
-   162f8:	|  |     |   addq.l #8,sp
-   162fa:	|  |     |   tst.l d0
-   162fc:	|  |     +-- bge.s 16312 <pointInFloorPolygon+0x208>
+   162fc:	|  |     |   move.l d0,-(sp)
+   162fe:	|  |     |   move.l d3,-(sp)
+   16300:	|  |     |   jsr 1720e <__ltsf2>
+   16306:	|  |     |   addq.l #8,sp
+   16308:	|  |     |   tst.l d0
+   1630a:	|  |     +-- bge.s 16320 <pointInFloorPolygon+0x208>
 
 			c = !c;
-   162fe:	|  |     |   tst.l 24(sp)
-   16302:	|  |     |   seq d0
-   16304:	|  |     |   neg.b d0
-   16306:	|  |     |   move.b d0,d0
-   16308:	|  |     |   andi.l #255,d0
-   1630e:	|  |     |   move.l d0,24(sp)
+   1630c:	|  |     |   tst.l 24(sp)
+   16310:	|  |     |   seq d0
+   16312:	|  |     |   neg.b d0
+   16314:	|  |     |   move.b d0,d0
+   16316:	|  |     |   andi.l #255,d0
+   1631c:	|  |     |   move.l d0,24(sp)
 	for (j = floorPoly->numVertices - 1; i < floorPoly->numVertices; j = i++) {
-   16312:	|  |     \-> move.l 32(sp),d0
-   16316:	|  |         move.l d0,d1
-   16318:	|  |         addq.l #1,d1
-   1631a:	|  |         move.l d1,32(sp)
-   1631e:	|  |         move.l d0,28(sp)
-   16322:	|  \-------> movea.l 40(sp),a0
-   16326:	|            move.l (a0),d0
-   16328:	|            cmp.l 32(sp),d0
-   1632c:	\----------- bgt.w 1612c <pointInFloorPolygon+0x22>
+   16320:	|  |     \-> move.l 32(sp),d0
+   16324:	|  |         move.l d0,d1
+   16326:	|  |         addq.l #1,d1
+   16328:	|  |         move.l d1,32(sp)
+   1632c:	|  |         move.l d0,28(sp)
+   16330:	|  \-------> movea.l 40(sp),a0
+   16334:	|            move.l (a0),d0
+   16336:	|            cmp.l 32(sp),d0
+   1633a:	\----------- bgt.w 1613a <pointInFloorPolygon+0x22>
 		}
 	}
 	return c ? TRUE : FALSE;
-   16330:	             tst.l 24(sp)
-   16334:	             sne d0
-   16336:	             neg.b d0
-   16338:	             move.b d0,d0
-   1633a:	             andi.w #255,d0
+   1633e:	             tst.l 24(sp)
+   16342:	             sne d0
+   16344:	             neg.b d0
+   16346:	             move.b d0,d0
+   16348:	             andi.w #255,d0
 }
-   1633e:	             move.l (sp)+,d2
-   16340:	             move.l (sp)+,d3
-   16342:	             lea 28(sp),sp
-   16346:	             rts
+   1634c:	             move.l (sp)+,d2
+   1634e:	             move.l (sp)+,d3
+   16350:	             lea 28(sp),sp
+   16354:	             rts
 
-00016348 <setFloor>:
+00016356 <setFloor>:
 
 BOOL setFloor (int fileNum) {
-   16348:	                               lea -132(sp),sp
-   1634c:	                               move.l a6,-(sp)
-   1634e:	                               move.l a2,-(sp)
+   16356:	                               lea -132(sp),sp
+   1635a:	                               move.l a6,-(sp)
+   1635c:	                               move.l a2,-(sp)
 	int i, j;
 
 	killFloor ();
-   16350:	                               jsr 15fb0 <killFloor>
+   1635e:	                               jsr 15fbe <killFloor>
 
 	if (! openFileFromNum (fileNum)) return FALSE;
-   16356:	                               move.l 144(sp),-(sp)
-   1635a:	                               jsr 660a <openFileFromNum>
-   16360:	                               addq.l #4,sp
-   16362:	                               tst.l d0
-   16364:	                           /-- bne.s 1636c <setFloor+0x24>
-   16366:	                           |   clr.w d0
-   16368:	/--------------------------|-- bra.w 16ab8 <setFloor+0x770>
+   16364:	                               move.l 144(sp),-(sp)
+   16368:	                               jsr 660a <openFileFromNum>
+   1636e:	                               addq.l #4,sp
+   16370:	                               tst.l d0
+   16372:	                           /-- bne.s 1637a <setFloor+0x24>
+   16374:	                           |   clr.w d0
+   16376:	/--------------------------|-- bra.w 16ac6 <setFloor+0x770>
 
 	// Find out how many polygons there are and reserve memory
 
 	currentFloor -> originalNum = fileNum;
-   1636c:	|                          \-> movea.l 1a916 <currentFloor>,a0
-   16372:	|                              move.l 144(sp),(a0)
+   1637a:	|                          \-> movea.l 1a916 <currentFloor>,a0
+   16380:	|                              move.l 144(sp),(a0)
 	currentFloor -> numPolygons = FGetC (bigDataFile);
-   16376:	|                              move.l 1a78a <bigDataFile>,118(sp)
-   1637e:	|                              move.l 1a7aa <DOSBase>,d0
-   16384:	|                              movea.l d0,a6
-   16386:	|                              move.l 118(sp),d1
-   1638a:	|                              jsr -306(a6)
-   1638e:	|                              move.l d0,114(sp)
-   16392:	|                              move.l 114(sp),d0
-   16396:	|                              movea.l 1a916 <currentFloor>,a0
-   1639c:	|                              move.l d0,8(a0)
+   16384:	|                              move.l 1a78a <bigDataFile>,118(sp)
+   1638c:	|                              move.l 1a7aa <DOSBase>,d0
+   16392:	|                              movea.l d0,a6
+   16394:	|                              move.l 118(sp),d1
+   16398:	|                              jsr -306(a6)
+   1639c:	|                              move.l d0,114(sp)
+   163a0:	|                              move.l 114(sp),d0
+   163a4:	|                              movea.l 1a916 <currentFloor>,a0
+   163aa:	|                              move.l d0,8(a0)
 	currentFloor -> polygon = AllocVec(  sizeof( struct floorPolygon) * currentFloor -> numPolygons, MEMF_ANY);
-   163a0:	|                              movea.l 1a916 <currentFloor>,a0
-   163a6:	|                              move.l 8(a0),d0
-   163aa:	|                              lsl.l #3,d0
-   163ac:	|                              move.l d0,110(sp)
-   163b0:	|                              clr.l 106(sp)
-   163b4:	|                              move.l 1a7a2 <SysBase>,d0
-   163ba:	|                              movea.l d0,a6
-   163bc:	|                              move.l 110(sp),d0
-   163c0:	|                              move.l 106(sp),d1
-   163c4:	|                              jsr -684(a6)
-   163c8:	|                              move.l d0,102(sp)
-   163cc:	|                              move.l 102(sp),d0
-   163d0:	|                              movea.l 1a916 <currentFloor>,a0
-   163d6:	|                              move.l d0,12(a0)
+   163ae:	|                              movea.l 1a916 <currentFloor>,a0
+   163b4:	|                              move.l 8(a0),d0
+   163b8:	|                              lsl.l #3,d0
+   163ba:	|                              move.l d0,110(sp)
+   163be:	|                              clr.l 106(sp)
+   163c2:	|                              move.l 1a7a2 <SysBase>,d0
+   163c8:	|                              movea.l d0,a6
+   163ca:	|                              move.l 110(sp),d0
+   163ce:	|                              move.l 106(sp),d1
+   163d2:	|                              jsr -684(a6)
+   163d6:	|                              move.l d0,102(sp)
+   163da:	|                              move.l 102(sp),d0
+   163de:	|                              movea.l 1a916 <currentFloor>,a0
+   163e4:	|                              move.l d0,12(a0)
 	if (!(currentFloor -> polygon)) {
-   163da:	|                              movea.l 1a916 <currentFloor>,a0
-   163e0:	|                              move.l 12(a0),d0
-   163e4:	|                          /-- bne.s 163fa <setFloor+0xb2>
+   163e8:	|                              movea.l 1a916 <currentFloor>,a0
+   163ee:	|                              move.l 12(a0),d0
+   163f2:	|                          /-- bne.s 16408 <setFloor+0xb2>
 		KPrintF("setFloor: Cannot allocate memory");
-   163e6:	|                          |   pea 19ac0 <main_sludge.c.0270f7ba+0x2e3>
-   163ec:	|                          |   jsr 16b9e <KPrintF>
-   163f2:	|                          |   addq.l #4,sp
+   163f4:	|                          |   pea 19ace <main_sludge.c.0270f7ba+0x2f1>
+   163fa:	|                          |   jsr 16bac <KPrintF>
+   16400:	|                          |   addq.l #4,sp
 		return FALSE;
-   163f4:	|                          |   clr.w d0
-   163f6:	+--------------------------|-- bra.w 16ab8 <setFloor+0x770>
+   16402:	|                          |   clr.w d0
+   16404:	+--------------------------|-- bra.w 16ac6 <setFloor+0x770>
 	}
 
 	// Read in each polygon
 
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   163fa:	|                          \-> clr.l 136(sp)
-   163fe:	|                    /-------- bra.w 16516 <setFloor+0x1ce>
+   16408:	|                          \-> clr.l 136(sp)
+   1640c:	|                    /-------- bra.w 16524 <setFloor+0x1ce>
 
 		// Find out how many vertex IDs there are and reserve memory
 
 		currentFloor -> polygon[i].numVertices = FGetC (bigDataFile);
-   16402:	|                 /--|-------> move.l 1a78a <bigDataFile>,26(sp)
-   1640a:	|                 |  |         move.l 1a7aa <DOSBase>,d0
-   16410:	|                 |  |         movea.l d0,a6
-   16412:	|                 |  |         move.l 26(sp),d1
-   16416:	|                 |  |         jsr -306(a6)
-   1641a:	|                 |  |         move.l d0,22(sp)
-   1641e:	|                 |  |         move.l 22(sp),d1
-   16422:	|                 |  |         movea.l 1a916 <currentFloor>,a0
-   16428:	|                 |  |         movea.l 12(a0),a0
-   1642c:	|                 |  |         move.l 136(sp),d0
-   16430:	|                 |  |         lsl.l #3,d0
-   16432:	|                 |  |         adda.l d0,a0
-   16434:	|                 |  |         move.l d1,(a0)
+   16410:	|                 /--|-------> move.l 1a78a <bigDataFile>,26(sp)
+   16418:	|                 |  |         move.l 1a7aa <DOSBase>,d0
+   1641e:	|                 |  |         movea.l d0,a6
+   16420:	|                 |  |         move.l 26(sp),d1
+   16424:	|                 |  |         jsr -306(a6)
+   16428:	|                 |  |         move.l d0,22(sp)
+   1642c:	|                 |  |         move.l 22(sp),d1
+   16430:	|                 |  |         movea.l 1a916 <currentFloor>,a0
+   16436:	|                 |  |         movea.l 12(a0),a0
+   1643a:	|                 |  |         move.l 136(sp),d0
+   1643e:	|                 |  |         lsl.l #3,d0
+   16440:	|                 |  |         adda.l d0,a0
+   16442:	|                 |  |         move.l d1,(a0)
 		currentFloor -> polygon[i].vertexID = AllocVec(sizeof (int) * currentFloor -> polygon[i].numVertices, MEMF_ANY);
-   16436:	|                 |  |         movea.l 1a916 <currentFloor>,a0
-   1643c:	|                 |  |         move.l 12(a0),d1
-   16440:	|                 |  |         move.l 136(sp),d0
-   16444:	|                 |  |         lsl.l #3,d0
-   16446:	|                 |  |         movea.l d1,a0
-   16448:	|                 |  |         adda.l d0,a0
-   1644a:	|                 |  |         move.l (a0),d0
-   1644c:	|                 |  |         add.l d0,d0
-   1644e:	|                 |  |         add.l d0,d0
-   16450:	|                 |  |         move.l d0,18(sp)
-   16454:	|                 |  |         clr.l 14(sp)
-   16458:	|                 |  |         move.l 1a7a2 <SysBase>,d0
-   1645e:	|                 |  |         movea.l d0,a6
-   16460:	|                 |  |         move.l 18(sp),d0
-   16464:	|                 |  |         move.l 14(sp),d1
-   16468:	|                 |  |         jsr -684(a6)
-   1646c:	|                 |  |         move.l d0,10(sp)
-   16470:	|                 |  |         move.l 10(sp),d1
-   16474:	|                 |  |         movea.l 1a916 <currentFloor>,a0
-   1647a:	|                 |  |         movea.l 12(a0),a0
-   1647e:	|                 |  |         move.l 136(sp),d0
-   16482:	|                 |  |         lsl.l #3,d0
-   16484:	|                 |  |         adda.l d0,a0
-   16486:	|                 |  |         move.l d1,4(a0)
+   16444:	|                 |  |         movea.l 1a916 <currentFloor>,a0
+   1644a:	|                 |  |         move.l 12(a0),d1
+   1644e:	|                 |  |         move.l 136(sp),d0
+   16452:	|                 |  |         lsl.l #3,d0
+   16454:	|                 |  |         movea.l d1,a0
+   16456:	|                 |  |         adda.l d0,a0
+   16458:	|                 |  |         move.l (a0),d0
+   1645a:	|                 |  |         add.l d0,d0
+   1645c:	|                 |  |         add.l d0,d0
+   1645e:	|                 |  |         move.l d0,18(sp)
+   16462:	|                 |  |         clr.l 14(sp)
+   16466:	|                 |  |         move.l 1a7a2 <SysBase>,d0
+   1646c:	|                 |  |         movea.l d0,a6
+   1646e:	|                 |  |         move.l 18(sp),d0
+   16472:	|                 |  |         move.l 14(sp),d1
+   16476:	|                 |  |         jsr -684(a6)
+   1647a:	|                 |  |         move.l d0,10(sp)
+   1647e:	|                 |  |         move.l 10(sp),d1
+   16482:	|                 |  |         movea.l 1a916 <currentFloor>,a0
+   16488:	|                 |  |         movea.l 12(a0),a0
+   1648c:	|                 |  |         move.l 136(sp),d0
+   16490:	|                 |  |         lsl.l #3,d0
+   16492:	|                 |  |         adda.l d0,a0
+   16494:	|                 |  |         move.l d1,4(a0)
 		if (!(currentFloor -> polygon[i].vertexID)) {
-   1648a:	|                 |  |         movea.l 1a916 <currentFloor>,a0
-   16490:	|                 |  |         move.l 12(a0),d1
-   16494:	|                 |  |         move.l 136(sp),d0
-   16498:	|                 |  |         lsl.l #3,d0
-   1649a:	|                 |  |         movea.l d1,a0
-   1649c:	|                 |  |         adda.l d0,a0
-   1649e:	|                 |  |         move.l 4(a0),d0
-   164a2:	|                 |  |     /-- bne.s 164b8 <setFloor+0x170>
+   16498:	|                 |  |         movea.l 1a916 <currentFloor>,a0
+   1649e:	|                 |  |         move.l 12(a0),d1
+   164a2:	|                 |  |         move.l 136(sp),d0
+   164a6:	|                 |  |         lsl.l #3,d0
+   164a8:	|                 |  |         movea.l d1,a0
+   164aa:	|                 |  |         adda.l d0,a0
+   164ac:	|                 |  |         move.l 4(a0),d0
+   164b0:	|                 |  |     /-- bne.s 164c6 <setFloor+0x170>
 			KPrintF("setFloor: Cannot allocate memory");
-   164a4:	|                 |  |     |   pea 19ac0 <main_sludge.c.0270f7ba+0x2e3>
-   164aa:	|                 |  |     |   jsr 16b9e <KPrintF>
-   164b0:	|                 |  |     |   addq.l #4,sp
+   164b2:	|                 |  |     |   pea 19ace <main_sludge.c.0270f7ba+0x2f1>
+   164b8:	|                 |  |     |   jsr 16bac <KPrintF>
+   164be:	|                 |  |     |   addq.l #4,sp
 			return FALSE;
-   164b2:	|                 |  |     |   clr.w d0
-   164b4:	+-----------------|--|-----|-- bra.w 16ab8 <setFloor+0x770>
+   164c0:	|                 |  |     |   clr.w d0
+   164c2:	+-----------------|--|-----|-- bra.w 16ac6 <setFloor+0x770>
 		}
 
 		// Read in each vertex ID
 
 		for (j = 0; j < currentFloor -> polygon[i].numVertices; j ++) {
-   164b8:	|                 |  |     \-> clr.l 132(sp)
-   164bc:	|                 |  |     /-- bra.s 164f6 <setFloor+0x1ae>
+   164c6:	|                 |  |     \-> clr.l 132(sp)
+   164ca:	|                 |  |     /-- bra.s 16504 <setFloor+0x1ae>
 			currentFloor -> polygon[i].vertexID[j] = get2bytes (bigDataFile);
-   164be:	|                 |  |  /--|-> move.l 1a78a <bigDataFile>,d1
-   164c4:	|                 |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   164ca:	|                 |  |  |  |   movea.l 12(a0),a0
-   164ce:	|                 |  |  |  |   move.l 136(sp),d0
-   164d2:	|                 |  |  |  |   lsl.l #3,d0
-   164d4:	|                 |  |  |  |   adda.l d0,a0
-   164d6:	|                 |  |  |  |   movea.l 4(a0),a0
-   164da:	|                 |  |  |  |   move.l 132(sp),d0
-   164de:	|                 |  |  |  |   add.l d0,d0
-   164e0:	|                 |  |  |  |   add.l d0,d0
-   164e2:	|                 |  |  |  |   lea (0,a0,d0.l),a2
-   164e6:	|                 |  |  |  |   move.l d1,-(sp)
-   164e8:	|                 |  |  |  |   jsr 6bc <get2bytes>
-   164ee:	|                 |  |  |  |   addq.l #4,sp
-   164f0:	|                 |  |  |  |   move.l d0,(a2)
+   164cc:	|                 |  |  /--|-> move.l 1a78a <bigDataFile>,d1
+   164d2:	|                 |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   164d8:	|                 |  |  |  |   movea.l 12(a0),a0
+   164dc:	|                 |  |  |  |   move.l 136(sp),d0
+   164e0:	|                 |  |  |  |   lsl.l #3,d0
+   164e2:	|                 |  |  |  |   adda.l d0,a0
+   164e4:	|                 |  |  |  |   movea.l 4(a0),a0
+   164e8:	|                 |  |  |  |   move.l 132(sp),d0
+   164ec:	|                 |  |  |  |   add.l d0,d0
+   164ee:	|                 |  |  |  |   add.l d0,d0
+   164f0:	|                 |  |  |  |   lea (0,a0,d0.l),a2
+   164f4:	|                 |  |  |  |   move.l d1,-(sp)
+   164f6:	|                 |  |  |  |   jsr 6bc <get2bytes>
+   164fc:	|                 |  |  |  |   addq.l #4,sp
+   164fe:	|                 |  |  |  |   move.l d0,(a2)
 		for (j = 0; j < currentFloor -> polygon[i].numVertices; j ++) {
-   164f2:	|                 |  |  |  |   addq.l #1,132(sp)
-   164f6:	|                 |  |  |  \-> movea.l 1a916 <currentFloor>,a0
-   164fc:	|                 |  |  |      move.l 12(a0),d1
-   16500:	|                 |  |  |      move.l 136(sp),d0
-   16504:	|                 |  |  |      lsl.l #3,d0
-   16506:	|                 |  |  |      movea.l d1,a0
-   16508:	|                 |  |  |      adda.l d0,a0
-   1650a:	|                 |  |  |      move.l (a0),d0
-   1650c:	|                 |  |  |      cmp.l 132(sp),d0
-   16510:	|                 |  |  \----- bgt.s 164be <setFloor+0x176>
+   16500:	|                 |  |  |  |   addq.l #1,132(sp)
+   16504:	|                 |  |  |  \-> movea.l 1a916 <currentFloor>,a0
+   1650a:	|                 |  |  |      move.l 12(a0),d1
+   1650e:	|                 |  |  |      move.l 136(sp),d0
+   16512:	|                 |  |  |      lsl.l #3,d0
+   16514:	|                 |  |  |      movea.l d1,a0
+   16516:	|                 |  |  |      adda.l d0,a0
+   16518:	|                 |  |  |      move.l (a0),d0
+   1651a:	|                 |  |  |      cmp.l 132(sp),d0
+   1651e:	|                 |  |  \----- bgt.s 164cc <setFloor+0x176>
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   16512:	|                 |  |         addq.l #1,136(sp)
-   16516:	|                 |  \-------> movea.l 1a916 <currentFloor>,a0
-   1651c:	|                 |            move.l 8(a0),d0
-   16520:	|                 |            cmp.l 136(sp),d0
-   16524:	|                 \----------- bgt.w 16402 <setFloor+0xba>
+   16520:	|                 |  |         addq.l #1,136(sp)
+   16524:	|                 |  \-------> movea.l 1a916 <currentFloor>,a0
+   1652a:	|                 |            move.l 8(a0),d0
+   1652e:	|                 |            cmp.l 136(sp),d0
+   16532:	|                 \----------- bgt.w 16410 <setFloor+0xba>
 		}
 	}
 
 	// Find out how many vertices there are and reserve memory
 
 	i = get2bytes (bigDataFile);
-   16528:	|                              move.l 1a78a <bigDataFile>,d0
-   1652e:	|                              move.l d0,-(sp)
-   16530:	|                              jsr 6bc <get2bytes>
-   16536:	|                              addq.l #4,sp
-   16538:	|                              move.l d0,136(sp)
+   16536:	|                              move.l 1a78a <bigDataFile>,d0
+   1653c:	|                              move.l d0,-(sp)
+   1653e:	|                              jsr 6bc <get2bytes>
+   16544:	|                              addq.l #4,sp
+   16546:	|                              move.l d0,136(sp)
 	currentFloor -> vertex = AllocVec( sizeof(struct POINT)*i,MEMF_ANY);
-   1653c:	|                              move.l 136(sp),d0
-   16540:	|                              lsl.l #3,d0
-   16542:	|                              move.l d0,98(sp)
-   16546:	|                              clr.l 94(sp)
-   1654a:	|                              move.l 1a7a2 <SysBase>,d0
-   16550:	|                              movea.l d0,a6
-   16552:	|                              move.l 98(sp),d0
-   16556:	|                              move.l 94(sp),d1
-   1655a:	|                              jsr -684(a6)
-   1655e:	|                              move.l d0,90(sp)
-   16562:	|                              move.l 90(sp),d0
-   16566:	|                              movea.l 1a916 <currentFloor>,a0
-   1656c:	|                              move.l d0,4(a0)
+   1654a:	|                              move.l 136(sp),d0
+   1654e:	|                              lsl.l #3,d0
+   16550:	|                              move.l d0,98(sp)
+   16554:	|                              clr.l 94(sp)
+   16558:	|                              move.l 1a7a2 <SysBase>,d0
+   1655e:	|                              movea.l d0,a6
+   16560:	|                              move.l 98(sp),d0
+   16564:	|                              move.l 94(sp),d1
+   16568:	|                              jsr -684(a6)
+   1656c:	|                              move.l d0,90(sp)
+   16570:	|                              move.l 90(sp),d0
+   16574:	|                              movea.l 1a916 <currentFloor>,a0
+   1657a:	|                              move.l d0,4(a0)
 
 	if (!(currentFloor -> vertex)) {
-   16570:	|                              movea.l 1a916 <currentFloor>,a0
-   16576:	|                              move.l 4(a0),d0
-   1657a:	|                          /-- bne.s 16590 <setFloor+0x248>
+   1657e:	|                              movea.l 1a916 <currentFloor>,a0
+   16584:	|                              move.l 4(a0),d0
+   16588:	|                          /-- bne.s 1659e <setFloor+0x248>
 		KPrintF("setFloor: Cannot allocate memory");
-   1657c:	|                          |   pea 19ac0 <main_sludge.c.0270f7ba+0x2e3>
-   16582:	|                          |   jsr 16b9e <KPrintF>
-   16588:	|                          |   addq.l #4,sp
+   1658a:	|                          |   pea 19ace <main_sludge.c.0270f7ba+0x2f1>
+   16590:	|                          |   jsr 16bac <KPrintF>
+   16596:	|                          |   addq.l #4,sp
 		return FALSE;
-   1658a:	|                          |   clr.w d0
-   1658c:	+--------------------------|-- bra.w 16ab8 <setFloor+0x770>
+   16598:	|                          |   clr.w d0
+   1659a:	+--------------------------|-- bra.w 16ac6 <setFloor+0x770>
 	}
 
 	for (j = 0; j < i; j ++) {
-   16590:	|                          \-> clr.l 132(sp)
-   16594:	|                          /-- bra.s 165e8 <setFloor+0x2a0>
+   1659e:	|                          \-> clr.l 132(sp)
+   165a2:	|                          /-- bra.s 165f6 <setFloor+0x2a0>
 		currentFloor -> vertex[j].x = get2bytes (bigDataFile);
-   16596:	|                       /--|-> move.l 1a78a <bigDataFile>,d1
-   1659c:	|                       |  |   movea.l 1a916 <currentFloor>,a0
-   165a2:	|                       |  |   movea.l 4(a0),a0
-   165a6:	|                       |  |   move.l 132(sp),d0
-   165aa:	|                       |  |   lsl.l #3,d0
-   165ac:	|                       |  |   lea (0,a0,d0.l),a2
-   165b0:	|                       |  |   move.l d1,-(sp)
-   165b2:	|                       |  |   jsr 6bc <get2bytes>
-   165b8:	|                       |  |   addq.l #4,sp
-   165ba:	|                       |  |   move.l d0,(a2)
+   165a4:	|                       /--|-> move.l 1a78a <bigDataFile>,d1
+   165aa:	|                       |  |   movea.l 1a916 <currentFloor>,a0
+   165b0:	|                       |  |   movea.l 4(a0),a0
+   165b4:	|                       |  |   move.l 132(sp),d0
+   165b8:	|                       |  |   lsl.l #3,d0
+   165ba:	|                       |  |   lea (0,a0,d0.l),a2
+   165be:	|                       |  |   move.l d1,-(sp)
+   165c0:	|                       |  |   jsr 6bc <get2bytes>
+   165c6:	|                       |  |   addq.l #4,sp
+   165c8:	|                       |  |   move.l d0,(a2)
 		currentFloor -> vertex[j].y = get2bytes (bigDataFile);
-   165bc:	|                       |  |   move.l 1a78a <bigDataFile>,d1
-   165c2:	|                       |  |   movea.l 1a916 <currentFloor>,a0
-   165c8:	|                       |  |   movea.l 4(a0),a0
-   165cc:	|                       |  |   move.l 132(sp),d0
-   165d0:	|                       |  |   lsl.l #3,d0
-   165d2:	|                       |  |   lea (0,a0,d0.l),a2
-   165d6:	|                       |  |   move.l d1,-(sp)
-   165d8:	|                       |  |   jsr 6bc <get2bytes>
-   165de:	|                       |  |   addq.l #4,sp
-   165e0:	|                       |  |   move.l d0,4(a2)
+   165ca:	|                       |  |   move.l 1a78a <bigDataFile>,d1
+   165d0:	|                       |  |   movea.l 1a916 <currentFloor>,a0
+   165d6:	|                       |  |   movea.l 4(a0),a0
+   165da:	|                       |  |   move.l 132(sp),d0
+   165de:	|                       |  |   lsl.l #3,d0
+   165e0:	|                       |  |   lea (0,a0,d0.l),a2
+   165e4:	|                       |  |   move.l d1,-(sp)
+   165e6:	|                       |  |   jsr 6bc <get2bytes>
+   165ec:	|                       |  |   addq.l #4,sp
+   165ee:	|                       |  |   move.l d0,4(a2)
 	for (j = 0; j < i; j ++) {
-   165e4:	|                       |  |   addq.l #1,132(sp)
-   165e8:	|                       |  \-> move.l 132(sp),d0
-   165ec:	|                       |      cmp.l 136(sp),d0
-   165f0:	|                       \----- blt.s 16596 <setFloor+0x24e>
+   165f2:	|                       |  |   addq.l #1,132(sp)
+   165f6:	|                       |  \-> move.l 132(sp),d0
+   165fa:	|                       |      cmp.l 136(sp),d0
+   165fe:	|                       \----- blt.s 165a4 <setFloor+0x24e>
 	}
 
 	finishAccess ();
-   165f2:	|                              jsr 6502 <finishAccess>
+   16600:	|                              jsr 6502 <finishAccess>
 
 	// Now build the movement martix
 
 	currentFloor -> matrix = AllocVec( sizeof(int) * currentFloor -> numPolygons, MEMF_ANY);
-   165f8:	|                              movea.l 1a916 <currentFloor>,a0
-   165fe:	|                              move.l 8(a0),d0
-   16602:	|                              add.l d0,d0
-   16604:	|                              add.l d0,d0
-   16606:	|                              move.l d0,86(sp)
-   1660a:	|                              clr.l 82(sp)
-   1660e:	|                              move.l 1a7a2 <SysBase>,d0
-   16614:	|                              movea.l d0,a6
-   16616:	|                              move.l 86(sp),d0
-   1661a:	|                              move.l 82(sp),d1
-   1661e:	|                              jsr -684(a6)
-   16622:	|                              move.l d0,78(sp)
-   16626:	|                              move.l 78(sp),d0
-   1662a:	|                              movea.l 1a916 <currentFloor>,a0
-   16630:	|                              move.l d0,16(a0)
+   16606:	|                              movea.l 1a916 <currentFloor>,a0
+   1660c:	|                              move.l 8(a0),d0
+   16610:	|                              add.l d0,d0
+   16612:	|                              add.l d0,d0
+   16614:	|                              move.l d0,86(sp)
+   16618:	|                              clr.l 82(sp)
+   1661c:	|                              move.l 1a7a2 <SysBase>,d0
+   16622:	|                              movea.l d0,a6
+   16624:	|                              move.l 86(sp),d0
+   16628:	|                              move.l 82(sp),d1
+   1662c:	|                              jsr -684(a6)
+   16630:	|                              move.l d0,78(sp)
+   16634:	|                              move.l 78(sp),d0
+   16638:	|                              movea.l 1a916 <currentFloor>,a0
+   1663e:	|                              move.l d0,16(a0)
 	int * * distanceMatrix = AllocVec( sizeof(int) * currentFloor -> numPolygons, MEMF_ANY);
-   16634:	|                              movea.l 1a916 <currentFloor>,a0
-   1663a:	|                              move.l 8(a0),d0
-   1663e:	|                              add.l d0,d0
-   16640:	|                              add.l d0,d0
-   16642:	|                              move.l d0,74(sp)
-   16646:	|                              clr.l 70(sp)
-   1664a:	|                              move.l 1a7a2 <SysBase>,d0
-   16650:	|                              movea.l d0,a6
-   16652:	|                              move.l 74(sp),d0
-   16656:	|                              move.l 70(sp),d1
-   1665a:	|                              jsr -684(a6)
-   1665e:	|                              move.l d0,66(sp)
-   16662:	|                              move.l 66(sp),d0
-   16666:	|                              move.l d0,62(sp)
+   16642:	|                              movea.l 1a916 <currentFloor>,a0
+   16648:	|                              move.l 8(a0),d0
+   1664c:	|                              add.l d0,d0
+   1664e:	|                              add.l d0,d0
+   16650:	|                              move.l d0,74(sp)
+   16654:	|                              clr.l 70(sp)
+   16658:	|                              move.l 1a7a2 <SysBase>,d0
+   1665e:	|                              movea.l d0,a6
+   16660:	|                              move.l 74(sp),d0
+   16664:	|                              move.l 70(sp),d1
+   16668:	|                              jsr -684(a6)
+   1666c:	|                              move.l d0,66(sp)
+   16670:	|                              move.l 66(sp),d0
+   16674:	|                              move.l d0,62(sp)
 
 
 	if (!(currentFloor -> matrix)) {
-   1666a:	|                              movea.l 1a916 <currentFloor>,a0
-   16670:	|                              move.l 16(a0),d0
-   16674:	|                          /-- bne.s 1668a <setFloor+0x342>
+   16678:	|                              movea.l 1a916 <currentFloor>,a0
+   1667e:	|                              move.l 16(a0),d0
+   16682:	|                          /-- bne.s 16698 <setFloor+0x342>
 		KPrintF("setFloor: Cannot allocate memory");
-   16676:	|                          |   pea 19ac0 <main_sludge.c.0270f7ba+0x2e3>
-   1667c:	|                          |   jsr 16b9e <KPrintF>
-   16682:	|                          |   addq.l #4,sp
+   16684:	|                          |   pea 19ace <main_sludge.c.0270f7ba+0x2f1>
+   1668a:	|                          |   jsr 16bac <KPrintF>
+   16690:	|                          |   addq.l #4,sp
 		return FALSE;
-   16684:	|                          |   clr.w d0
-   16686:	+--------------------------|-- bra.w 16ab8 <setFloor+0x770>
+   16692:	|                          |   clr.w d0
+   16694:	+--------------------------|-- bra.w 16ac6 <setFloor+0x770>
 	}
 
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   1668a:	|                          \-> clr.l 136(sp)
-   1668e:	|                    /-------- bra.w 167b2 <setFloor+0x46a>
+   16698:	|                          \-> clr.l 136(sp)
+   1669c:	|                    /-------- bra.w 167c0 <setFloor+0x46a>
 		currentFloor -> matrix[i] = AllocVec( sizeof(int) * currentFloor -> numPolygons,MEMF_ANY);
-   16692:	|                 /--|-------> movea.l 1a916 <currentFloor>,a0
-   16698:	|                 |  |         move.l 8(a0),d0
-   1669c:	|                 |  |         add.l d0,d0
-   1669e:	|                 |  |         add.l d0,d0
-   166a0:	|                 |  |         move.l d0,50(sp)
-   166a4:	|                 |  |         clr.l 46(sp)
-   166a8:	|                 |  |         move.l 1a7a2 <SysBase>,d0
-   166ae:	|                 |  |         movea.l d0,a6
-   166b0:	|                 |  |         move.l 50(sp),d0
-   166b4:	|                 |  |         move.l 46(sp),d1
-   166b8:	|                 |  |         jsr -684(a6)
-   166bc:	|                 |  |         move.l d0,42(sp)
-   166c0:	|                 |  |         move.l 42(sp),d0
-   166c4:	|                 |  |         movea.l 1a916 <currentFloor>,a0
-   166ca:	|                 |  |         movea.l 16(a0),a0
-   166ce:	|                 |  |         move.l 136(sp),d1
-   166d2:	|                 |  |         add.l d1,d1
-   166d4:	|                 |  |         add.l d1,d1
-   166d6:	|                 |  |         adda.l d1,a0
-   166d8:	|                 |  |         move.l d0,(a0)
+   166a0:	|                 /--|-------> movea.l 1a916 <currentFloor>,a0
+   166a6:	|                 |  |         move.l 8(a0),d0
+   166aa:	|                 |  |         add.l d0,d0
+   166ac:	|                 |  |         add.l d0,d0
+   166ae:	|                 |  |         move.l d0,50(sp)
+   166b2:	|                 |  |         clr.l 46(sp)
+   166b6:	|                 |  |         move.l 1a7a2 <SysBase>,d0
+   166bc:	|                 |  |         movea.l d0,a6
+   166be:	|                 |  |         move.l 50(sp),d0
+   166c2:	|                 |  |         move.l 46(sp),d1
+   166c6:	|                 |  |         jsr -684(a6)
+   166ca:	|                 |  |         move.l d0,42(sp)
+   166ce:	|                 |  |         move.l 42(sp),d0
+   166d2:	|                 |  |         movea.l 1a916 <currentFloor>,a0
+   166d8:	|                 |  |         movea.l 16(a0),a0
+   166dc:	|                 |  |         move.l 136(sp),d1
+   166e0:	|                 |  |         add.l d1,d1
+   166e2:	|                 |  |         add.l d1,d1
+   166e4:	|                 |  |         adda.l d1,a0
+   166e6:	|                 |  |         move.l d0,(a0)
 		distanceMatrix        [i] = AllocVec( sizeof(int) * currentFloor -> numPolygons,MEMF_ANY);
-   166da:	|                 |  |         movea.l 1a916 <currentFloor>,a0
-   166e0:	|                 |  |         move.l 8(a0),d0
-   166e4:	|                 |  |         add.l d0,d0
-   166e6:	|                 |  |         add.l d0,d0
-   166e8:	|                 |  |         move.l d0,38(sp)
-   166ec:	|                 |  |         clr.l 34(sp)
-   166f0:	|                 |  |         move.l 1a7a2 <SysBase>,d0
-   166f6:	|                 |  |         movea.l d0,a6
-   166f8:	|                 |  |         move.l 38(sp),d0
-   166fc:	|                 |  |         move.l 34(sp),d1
-   16700:	|                 |  |         jsr -684(a6)
-   16704:	|                 |  |         move.l d0,30(sp)
-   16708:	|                 |  |         move.l 30(sp),d1
-   1670c:	|                 |  |         move.l 136(sp),d0
-   16710:	|                 |  |         add.l d0,d0
-   16712:	|                 |  |         add.l d0,d0
-   16714:	|                 |  |         movea.l 62(sp),a0
-   16718:	|                 |  |         adda.l d0,a0
-   1671a:	|                 |  |         move.l d1,(a0)
+   166e8:	|                 |  |         movea.l 1a916 <currentFloor>,a0
+   166ee:	|                 |  |         move.l 8(a0),d0
+   166f2:	|                 |  |         add.l d0,d0
+   166f4:	|                 |  |         add.l d0,d0
+   166f6:	|                 |  |         move.l d0,38(sp)
+   166fa:	|                 |  |         clr.l 34(sp)
+   166fe:	|                 |  |         move.l 1a7a2 <SysBase>,d0
+   16704:	|                 |  |         movea.l d0,a6
+   16706:	|                 |  |         move.l 38(sp),d0
+   1670a:	|                 |  |         move.l 34(sp),d1
+   1670e:	|                 |  |         jsr -684(a6)
+   16712:	|                 |  |         move.l d0,30(sp)
+   16716:	|                 |  |         move.l 30(sp),d1
+   1671a:	|                 |  |         move.l 136(sp),d0
+   1671e:	|                 |  |         add.l d0,d0
+   16720:	|                 |  |         add.l d0,d0
+   16722:	|                 |  |         movea.l 62(sp),a0
+   16726:	|                 |  |         adda.l d0,a0
+   16728:	|                 |  |         move.l d1,(a0)
 		if (!(currentFloor -> matrix[i])) { 
-   1671c:	|                 |  |         movea.l 1a916 <currentFloor>,a0
-   16722:	|                 |  |         move.l 16(a0),d1
-   16726:	|                 |  |         move.l 136(sp),d0
-   1672a:	|                 |  |         add.l d0,d0
-   1672c:	|                 |  |         add.l d0,d0
-   1672e:	|                 |  |         movea.l d1,a0
-   16730:	|                 |  |         adda.l d0,a0
-   16732:	|                 |  |         move.l (a0),d0
-   16734:	|                 |  |     /-- bne.s 1674a <setFloor+0x402>
+   1672a:	|                 |  |         movea.l 1a916 <currentFloor>,a0
+   16730:	|                 |  |         move.l 16(a0),d1
+   16734:	|                 |  |         move.l 136(sp),d0
+   16738:	|                 |  |         add.l d0,d0
+   1673a:	|                 |  |         add.l d0,d0
+   1673c:	|                 |  |         movea.l d1,a0
+   1673e:	|                 |  |         adda.l d0,a0
+   16740:	|                 |  |         move.l (a0),d0
+   16742:	|                 |  |     /-- bne.s 16758 <setFloor+0x402>
 			KPrintF("setFloor: Cannot allocate memory");
-   16736:	|                 |  |     |   pea 19ac0 <main_sludge.c.0270f7ba+0x2e3>
-   1673c:	|                 |  |     |   jsr 16b9e <KPrintF>
-   16742:	|                 |  |     |   addq.l #4,sp
+   16744:	|                 |  |     |   pea 19ace <main_sludge.c.0270f7ba+0x2f1>
+   1674a:	|                 |  |     |   jsr 16bac <KPrintF>
+   16750:	|                 |  |     |   addq.l #4,sp
 			return FALSE;
-   16744:	|                 |  |     |   clr.w d0
-   16746:	+-----------------|--|-----|-- bra.w 16ab8 <setFloor+0x770>
+   16752:	|                 |  |     |   clr.w d0
+   16754:	+-----------------|--|-----|-- bra.w 16ac6 <setFloor+0x770>
 		}
 		for (j = 0; j < currentFloor -> numPolygons; j ++) {
-   1674a:	|                 |  |     \-> clr.l 132(sp)
-   1674e:	|                 |  |     /-- bra.s 1679e <setFloor+0x456>
+   16758:	|                 |  |     \-> clr.l 132(sp)
+   1675c:	|                 |  |     /-- bra.s 167ac <setFloor+0x456>
 			currentFloor -> matrix[i][j] = -1;
-   16750:	|                 |  |  /--|-> movea.l 1a916 <currentFloor>,a0
-   16756:	|                 |  |  |  |   move.l 16(a0),d1
-   1675a:	|                 |  |  |  |   move.l 136(sp),d0
-   1675e:	|                 |  |  |  |   add.l d0,d0
-   16760:	|                 |  |  |  |   add.l d0,d0
-   16762:	|                 |  |  |  |   movea.l d1,a0
-   16764:	|                 |  |  |  |   adda.l d0,a0
-   16766:	|                 |  |  |  |   move.l (a0),d1
-   16768:	|                 |  |  |  |   move.l 132(sp),d0
+   1675e:	|                 |  |  /--|-> movea.l 1a916 <currentFloor>,a0
+   16764:	|                 |  |  |  |   move.l 16(a0),d1
+   16768:	|                 |  |  |  |   move.l 136(sp),d0
    1676c:	|                 |  |  |  |   add.l d0,d0
    1676e:	|                 |  |  |  |   add.l d0,d0
    16770:	|                 |  |  |  |   movea.l d1,a0
    16772:	|                 |  |  |  |   adda.l d0,a0
-   16774:	|                 |  |  |  |   moveq #-1,d1
-   16776:	|                 |  |  |  |   move.l d1,(a0)
-			distanceMatrix        [i][j] = 10000;
-   16778:	|                 |  |  |  |   move.l 136(sp),d0
+   16774:	|                 |  |  |  |   move.l (a0),d1
+   16776:	|                 |  |  |  |   move.l 132(sp),d0
+   1677a:	|                 |  |  |  |   add.l d0,d0
    1677c:	|                 |  |  |  |   add.l d0,d0
-   1677e:	|                 |  |  |  |   add.l d0,d0
-   16780:	|                 |  |  |  |   movea.l 62(sp),a0
-   16784:	|                 |  |  |  |   adda.l d0,a0
-   16786:	|                 |  |  |  |   move.l (a0),d1
-   16788:	|                 |  |  |  |   move.l 132(sp),d0
+   1677e:	|                 |  |  |  |   movea.l d1,a0
+   16780:	|                 |  |  |  |   adda.l d0,a0
+   16782:	|                 |  |  |  |   moveq #-1,d1
+   16784:	|                 |  |  |  |   move.l d1,(a0)
+			distanceMatrix        [i][j] = 10000;
+   16786:	|                 |  |  |  |   move.l 136(sp),d0
+   1678a:	|                 |  |  |  |   add.l d0,d0
    1678c:	|                 |  |  |  |   add.l d0,d0
-   1678e:	|                 |  |  |  |   add.l d0,d0
-   16790:	|                 |  |  |  |   movea.l d1,a0
+   1678e:	|                 |  |  |  |   movea.l 62(sp),a0
    16792:	|                 |  |  |  |   adda.l d0,a0
-   16794:	|                 |  |  |  |   move.l #10000,(a0)
+   16794:	|                 |  |  |  |   move.l (a0),d1
+   16796:	|                 |  |  |  |   move.l 132(sp),d0
+   1679a:	|                 |  |  |  |   add.l d0,d0
+   1679c:	|                 |  |  |  |   add.l d0,d0
+   1679e:	|                 |  |  |  |   movea.l d1,a0
+   167a0:	|                 |  |  |  |   adda.l d0,a0
+   167a2:	|                 |  |  |  |   move.l #10000,(a0)
 		for (j = 0; j < currentFloor -> numPolygons; j ++) {
-   1679a:	|                 |  |  |  |   addq.l #1,132(sp)
-   1679e:	|                 |  |  |  \-> movea.l 1a916 <currentFloor>,a0
-   167a4:	|                 |  |  |      move.l 8(a0),d0
-   167a8:	|                 |  |  |      cmp.l 132(sp),d0
-   167ac:	|                 |  |  \----- bgt.s 16750 <setFloor+0x408>
+   167a8:	|                 |  |  |  |   addq.l #1,132(sp)
+   167ac:	|                 |  |  |  \-> movea.l 1a916 <currentFloor>,a0
+   167b2:	|                 |  |  |      move.l 8(a0),d0
+   167b6:	|                 |  |  |      cmp.l 132(sp),d0
+   167ba:	|                 |  |  \----- bgt.s 1675e <setFloor+0x408>
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   167ae:	|                 |  |         addq.l #1,136(sp)
-   167b2:	|                 |  \-------> movea.l 1a916 <currentFloor>,a0
-   167b8:	|                 |            move.l 8(a0),d0
-   167bc:	|                 |            cmp.l 136(sp),d0
-   167c0:	|                 \----------- bgt.w 16692 <setFloor+0x34a>
+   167bc:	|                 |  |         addq.l #1,136(sp)
+   167c0:	|                 |  \-------> movea.l 1a916 <currentFloor>,a0
+   167c6:	|                 |            move.l 8(a0),d0
+   167ca:	|                 |            cmp.l 136(sp),d0
+   167ce:	|                 \----------- bgt.w 166a0 <setFloor+0x34a>
 		}
 	}
 
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   167c4:	|                              clr.l 136(sp)
-   167c8:	|              /-------------- bra.w 168ce <setFloor+0x586>
+   167d2:	|                              clr.l 136(sp)
+   167d6:	|              /-------------- bra.w 168dc <setFloor+0x586>
 		for (j = 0; j < currentFloor -> numPolygons; j ++) {
-   167cc:	|           /--|-------------> clr.l 132(sp)
-   167d0:	|           |  |     /-------- bra.w 168b8 <setFloor+0x570>
+   167da:	|           /--|-------------> clr.l 132(sp)
+   167de:	|           |  |     /-------- bra.w 168c6 <setFloor+0x570>
 			if (i != j) {
-   167d4:	|           |  |  /--|-------> move.l 136(sp),d0
-   167d8:	|           |  |  |  |         cmp.l 132(sp),d0
-   167dc:	|           |  |  |  |     /-- beq.w 1686e <setFloor+0x526>
+   167e2:	|           |  |  /--|-------> move.l 136(sp),d0
+   167e6:	|           |  |  |  |         cmp.l 132(sp),d0
+   167ea:	|           |  |  |  |     /-- beq.w 1687c <setFloor+0x526>
 				if (polysShareSide (currentFloor -> polygon[i], currentFloor -> polygon[j])) {
-   167e0:	|           |  |  |  |     |   movea.l 1a916 <currentFloor>,a0
-   167e6:	|           |  |  |  |     |   move.l 12(a0),d1
-   167ea:	|           |  |  |  |     |   move.l 132(sp),d0
-   167ee:	|           |  |  |  |     |   lsl.l #3,d0
-   167f0:	|           |  |  |  |     |   movea.l d1,a1
-   167f2:	|           |  |  |  |     |   adda.l d0,a1
-   167f4:	|           |  |  |  |     |   movea.l 1a916 <currentFloor>,a0
-   167fa:	|           |  |  |  |     |   move.l 12(a0),d1
-   167fe:	|           |  |  |  |     |   move.l 136(sp),d0
-   16802:	|           |  |  |  |     |   lsl.l #3,d0
-   16804:	|           |  |  |  |     |   movea.l d1,a0
-   16806:	|           |  |  |  |     |   adda.l d0,a0
-   16808:	|           |  |  |  |     |   move.l 4(a1),-(sp)
-   1680c:	|           |  |  |  |     |   move.l (a1),-(sp)
-   1680e:	|           |  |  |  |     |   move.l 4(a0),-(sp)
-   16812:	|           |  |  |  |     |   move.l (a0),-(sp)
-   16814:	|           |  |  |  |     |   jsr 160a0 <polysShareSide>
-   1681a:	|           |  |  |  |     |   lea 16(sp),sp
-   1681e:	|           |  |  |  |     |   tst.w d0
-   16820:	|           |  |  |  |  /--|-- beq.w 168b4 <setFloor+0x56c>
+   167ee:	|           |  |  |  |     |   movea.l 1a916 <currentFloor>,a0
+   167f4:	|           |  |  |  |     |   move.l 12(a0),d1
+   167f8:	|           |  |  |  |     |   move.l 132(sp),d0
+   167fc:	|           |  |  |  |     |   lsl.l #3,d0
+   167fe:	|           |  |  |  |     |   movea.l d1,a1
+   16800:	|           |  |  |  |     |   adda.l d0,a1
+   16802:	|           |  |  |  |     |   movea.l 1a916 <currentFloor>,a0
+   16808:	|           |  |  |  |     |   move.l 12(a0),d1
+   1680c:	|           |  |  |  |     |   move.l 136(sp),d0
+   16810:	|           |  |  |  |     |   lsl.l #3,d0
+   16812:	|           |  |  |  |     |   movea.l d1,a0
+   16814:	|           |  |  |  |     |   adda.l d0,a0
+   16816:	|           |  |  |  |     |   move.l 4(a1),-(sp)
+   1681a:	|           |  |  |  |     |   move.l (a1),-(sp)
+   1681c:	|           |  |  |  |     |   move.l 4(a0),-(sp)
+   16820:	|           |  |  |  |     |   move.l (a0),-(sp)
+   16822:	|           |  |  |  |     |   jsr 160ae <polysShareSide>
+   16828:	|           |  |  |  |     |   lea 16(sp),sp
+   1682c:	|           |  |  |  |     |   tst.w d0
+   1682e:	|           |  |  |  |  /--|-- beq.w 168c2 <setFloor+0x56c>
 					currentFloor -> matrix[i][j] = j;
-   16824:	|           |  |  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   1682a:	|           |  |  |  |  |  |   move.l 16(a0),d1
-   1682e:	|           |  |  |  |  |  |   move.l 136(sp),d0
-   16832:	|           |  |  |  |  |  |   add.l d0,d0
-   16834:	|           |  |  |  |  |  |   add.l d0,d0
-   16836:	|           |  |  |  |  |  |   movea.l d1,a0
-   16838:	|           |  |  |  |  |  |   adda.l d0,a0
-   1683a:	|           |  |  |  |  |  |   move.l (a0),d1
-   1683c:	|           |  |  |  |  |  |   move.l 132(sp),d0
+   16832:	|           |  |  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   16838:	|           |  |  |  |  |  |   move.l 16(a0),d1
+   1683c:	|           |  |  |  |  |  |   move.l 136(sp),d0
    16840:	|           |  |  |  |  |  |   add.l d0,d0
    16842:	|           |  |  |  |  |  |   add.l d0,d0
    16844:	|           |  |  |  |  |  |   movea.l d1,a0
    16846:	|           |  |  |  |  |  |   adda.l d0,a0
-   16848:	|           |  |  |  |  |  |   move.l 132(sp),(a0)
-					distanceMatrix        [i][j] = 1;
-   1684c:	|           |  |  |  |  |  |   move.l 136(sp),d0
+   16848:	|           |  |  |  |  |  |   move.l (a0),d1
+   1684a:	|           |  |  |  |  |  |   move.l 132(sp),d0
+   1684e:	|           |  |  |  |  |  |   add.l d0,d0
    16850:	|           |  |  |  |  |  |   add.l d0,d0
-   16852:	|           |  |  |  |  |  |   add.l d0,d0
-   16854:	|           |  |  |  |  |  |   movea.l 62(sp),a0
-   16858:	|           |  |  |  |  |  |   adda.l d0,a0
-   1685a:	|           |  |  |  |  |  |   move.l (a0),d1
-   1685c:	|           |  |  |  |  |  |   move.l 132(sp),d0
+   16852:	|           |  |  |  |  |  |   movea.l d1,a0
+   16854:	|           |  |  |  |  |  |   adda.l d0,a0
+   16856:	|           |  |  |  |  |  |   move.l 132(sp),(a0)
+					distanceMatrix        [i][j] = 1;
+   1685a:	|           |  |  |  |  |  |   move.l 136(sp),d0
+   1685e:	|           |  |  |  |  |  |   add.l d0,d0
    16860:	|           |  |  |  |  |  |   add.l d0,d0
-   16862:	|           |  |  |  |  |  |   add.l d0,d0
-   16864:	|           |  |  |  |  |  |   movea.l d1,a0
+   16862:	|           |  |  |  |  |  |   movea.l 62(sp),a0
    16866:	|           |  |  |  |  |  |   adda.l d0,a0
-   16868:	|           |  |  |  |  |  |   moveq #1,d1
-   1686a:	|           |  |  |  |  |  |   move.l d1,(a0)
-   1686c:	|           |  |  |  |  +--|-- bra.s 168b4 <setFloor+0x56c>
+   16868:	|           |  |  |  |  |  |   move.l (a0),d1
+   1686a:	|           |  |  |  |  |  |   move.l 132(sp),d0
+   1686e:	|           |  |  |  |  |  |   add.l d0,d0
+   16870:	|           |  |  |  |  |  |   add.l d0,d0
+   16872:	|           |  |  |  |  |  |   movea.l d1,a0
+   16874:	|           |  |  |  |  |  |   adda.l d0,a0
+   16876:	|           |  |  |  |  |  |   moveq #1,d1
+   16878:	|           |  |  |  |  |  |   move.l d1,(a0)
+   1687a:	|           |  |  |  |  +--|-- bra.s 168c2 <setFloor+0x56c>
 				}
 			} else {
 				currentFloor -> matrix[i][j] = -2;
-   1686e:	|           |  |  |  |  |  \-> movea.l 1a916 <currentFloor>,a0
-   16874:	|           |  |  |  |  |      move.l 16(a0),d1
-   16878:	|           |  |  |  |  |      move.l 136(sp),d0
-   1687c:	|           |  |  |  |  |      add.l d0,d0
-   1687e:	|           |  |  |  |  |      add.l d0,d0
-   16880:	|           |  |  |  |  |      movea.l d1,a0
-   16882:	|           |  |  |  |  |      adda.l d0,a0
-   16884:	|           |  |  |  |  |      move.l (a0),d1
-   16886:	|           |  |  |  |  |      move.l 132(sp),d0
+   1687c:	|           |  |  |  |  |  \-> movea.l 1a916 <currentFloor>,a0
+   16882:	|           |  |  |  |  |      move.l 16(a0),d1
+   16886:	|           |  |  |  |  |      move.l 136(sp),d0
    1688a:	|           |  |  |  |  |      add.l d0,d0
    1688c:	|           |  |  |  |  |      add.l d0,d0
    1688e:	|           |  |  |  |  |      movea.l d1,a0
    16890:	|           |  |  |  |  |      adda.l d0,a0
-   16892:	|           |  |  |  |  |      moveq #-2,d0
-   16894:	|           |  |  |  |  |      move.l d0,(a0)
-				distanceMatrix        [i][j] = 0;
-   16896:	|           |  |  |  |  |      move.l 136(sp),d0
+   16892:	|           |  |  |  |  |      move.l (a0),d1
+   16894:	|           |  |  |  |  |      move.l 132(sp),d0
+   16898:	|           |  |  |  |  |      add.l d0,d0
    1689a:	|           |  |  |  |  |      add.l d0,d0
-   1689c:	|           |  |  |  |  |      add.l d0,d0
-   1689e:	|           |  |  |  |  |      movea.l 62(sp),a0
-   168a2:	|           |  |  |  |  |      adda.l d0,a0
-   168a4:	|           |  |  |  |  |      move.l (a0),d1
-   168a6:	|           |  |  |  |  |      move.l 132(sp),d0
+   1689c:	|           |  |  |  |  |      movea.l d1,a0
+   1689e:	|           |  |  |  |  |      adda.l d0,a0
+   168a0:	|           |  |  |  |  |      moveq #-2,d0
+   168a2:	|           |  |  |  |  |      move.l d0,(a0)
+				distanceMatrix        [i][j] = 0;
+   168a4:	|           |  |  |  |  |      move.l 136(sp),d0
+   168a8:	|           |  |  |  |  |      add.l d0,d0
    168aa:	|           |  |  |  |  |      add.l d0,d0
-   168ac:	|           |  |  |  |  |      add.l d0,d0
-   168ae:	|           |  |  |  |  |      movea.l d1,a0
+   168ac:	|           |  |  |  |  |      movea.l 62(sp),a0
    168b0:	|           |  |  |  |  |      adda.l d0,a0
-   168b2:	|           |  |  |  |  |      clr.l (a0)
+   168b2:	|           |  |  |  |  |      move.l (a0),d1
+   168b4:	|           |  |  |  |  |      move.l 132(sp),d0
+   168b8:	|           |  |  |  |  |      add.l d0,d0
+   168ba:	|           |  |  |  |  |      add.l d0,d0
+   168bc:	|           |  |  |  |  |      movea.l d1,a0
+   168be:	|           |  |  |  |  |      adda.l d0,a0
+   168c0:	|           |  |  |  |  |      clr.l (a0)
 		for (j = 0; j < currentFloor -> numPolygons; j ++) {
-   168b4:	|           |  |  |  |  \----> addq.l #1,132(sp)
-   168b8:	|           |  |  |  \-------> movea.l 1a916 <currentFloor>,a0
-   168be:	|           |  |  |            move.l 8(a0),d0
-   168c2:	|           |  |  |            cmp.l 132(sp),d0
-   168c6:	|           |  |  \----------- bgt.w 167d4 <setFloor+0x48c>
+   168c2:	|           |  |  |  |  \----> addq.l #1,132(sp)
+   168c6:	|           |  |  |  \-------> movea.l 1a916 <currentFloor>,a0
+   168cc:	|           |  |  |            move.l 8(a0),d0
+   168d0:	|           |  |  |            cmp.l 132(sp),d0
+   168d4:	|           |  |  \----------- bgt.w 167e2 <setFloor+0x48c>
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   168ca:	|           |  |               addq.l #1,136(sp)
-   168ce:	|           |  \-------------> movea.l 1a916 <currentFloor>,a0
-   168d4:	|           |                  move.l 8(a0),d0
-   168d8:	|           |                  cmp.l 136(sp),d0
-   168dc:	|           \----------------- bgt.w 167cc <setFloor+0x484>
+   168d8:	|           |  |               addq.l #1,136(sp)
+   168dc:	|           |  \-------------> movea.l 1a916 <currentFloor>,a0
+   168e2:	|           |                  move.l 8(a0),d0
+   168e6:	|           |                  cmp.l 136(sp),d0
+   168ea:	|           \----------------- bgt.w 167da <setFloor+0x484>
 			}
 		}
 	}
 
 	BOOL madeChange;
 	int lookForDistance = 0;
-   168e0:	|                              clr.l 126(sp)
+   168ee:	|                              clr.l 126(sp)
 
 	do {
 		lookForDistance ++;
-   168e4:	|  /-------------------------> addq.l #1,126(sp)
+   168f2:	|  /-------------------------> addq.l #1,126(sp)
 //		debugMatrix ();
 		madeChange = FALSE;
-   168e8:	|  |                           clr.w 130(sp)
+   168f6:	|  |                           clr.w 130(sp)
 		for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   168ec:	|  |                           clr.l 136(sp)
-   168f0:	|  |     /-------------------- bra.w 16a46 <setFloor+0x6fe>
+   168fa:	|  |                           clr.l 136(sp)
+   168fe:	|  |     /-------------------- bra.w 16a54 <setFloor+0x6fe>
 			for (j = 0; j < currentFloor -> numPolygons; j ++) {
-   168f4:	|  |  /--|-------------------> clr.l 132(sp)
-   168f8:	|  |  |  |     /-------------- bra.w 16a30 <setFloor+0x6e8>
+   16902:	|  |  /--|-------------------> clr.l 132(sp)
+   16906:	|  |  |  |     /-------------- bra.w 16a3e <setFloor+0x6e8>
 				if (currentFloor -> matrix[i][j] == -1) {
-   168fc:	|  |  |  |  /--|-------------> movea.l 1a916 <currentFloor>,a0
-   16902:	|  |  |  |  |  |               move.l 16(a0),d1
-   16906:	|  |  |  |  |  |               move.l 136(sp),d0
-   1690a:	|  |  |  |  |  |               add.l d0,d0
-   1690c:	|  |  |  |  |  |               add.l d0,d0
-   1690e:	|  |  |  |  |  |               movea.l d1,a0
-   16910:	|  |  |  |  |  |               adda.l d0,a0
-   16912:	|  |  |  |  |  |               move.l (a0),d1
-   16914:	|  |  |  |  |  |               move.l 132(sp),d0
+   1690a:	|  |  |  |  /--|-------------> movea.l 1a916 <currentFloor>,a0
+   16910:	|  |  |  |  |  |               move.l 16(a0),d1
+   16914:	|  |  |  |  |  |               move.l 136(sp),d0
    16918:	|  |  |  |  |  |               add.l d0,d0
    1691a:	|  |  |  |  |  |               add.l d0,d0
    1691c:	|  |  |  |  |  |               movea.l d1,a0
    1691e:	|  |  |  |  |  |               adda.l d0,a0
-   16920:	|  |  |  |  |  |               move.l (a0),d0
-   16922:	|  |  |  |  |  |               moveq #-1,d1
-   16924:	|  |  |  |  |  |               cmp.l d0,d1
-   16926:	|  |  |  |  |  |  /----------- bne.w 16a2c <setFloor+0x6e4>
+   16920:	|  |  |  |  |  |               move.l (a0),d1
+   16922:	|  |  |  |  |  |               move.l 132(sp),d0
+   16926:	|  |  |  |  |  |               add.l d0,d0
+   16928:	|  |  |  |  |  |               add.l d0,d0
+   1692a:	|  |  |  |  |  |               movea.l d1,a0
+   1692c:	|  |  |  |  |  |               adda.l d0,a0
+   1692e:	|  |  |  |  |  |               move.l (a0),d0
+   16930:	|  |  |  |  |  |               moveq #-1,d1
+   16932:	|  |  |  |  |  |               cmp.l d0,d1
+   16934:	|  |  |  |  |  |  /----------- bne.w 16a3a <setFloor+0x6e4>
 
 					// OK, so we don't know how to get from i to j...
 					for (int d = 0; d < currentFloor -> numPolygons; d ++) {
-   1692a:	|  |  |  |  |  |  |            clr.l 122(sp)
-   1692e:	|  |  |  |  |  |  |     /----- bra.w 16a1a <setFloor+0x6d2>
+   16938:	|  |  |  |  |  |  |            clr.l 122(sp)
+   1693c:	|  |  |  |  |  |  |     /----- bra.w 16a28 <setFloor+0x6d2>
 						if (d != i && d != j) {
-   16932:	|  |  |  |  |  |  |  /--|----> move.l 122(sp),d0
-   16936:	|  |  |  |  |  |  |  |  |      cmp.l 136(sp),d0
-   1693a:	|  |  |  |  |  |  |  |  |  /-- beq.w 16a16 <setFloor+0x6ce>
-   1693e:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),d1
-   16942:	|  |  |  |  |  |  |  |  |  |   cmp.l 132(sp),d1
-   16946:	|  |  |  |  |  |  |  |  |  +-- beq.w 16a16 <setFloor+0x6ce>
+   16940:	|  |  |  |  |  |  |  /--|----> move.l 122(sp),d0
+   16944:	|  |  |  |  |  |  |  |  |      cmp.l 136(sp),d0
+   16948:	|  |  |  |  |  |  |  |  |  /-- beq.w 16a24 <setFloor+0x6ce>
+   1694c:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),d1
+   16950:	|  |  |  |  |  |  |  |  |  |   cmp.l 132(sp),d1
+   16954:	|  |  |  |  |  |  |  |  |  +-- beq.w 16a24 <setFloor+0x6ce>
 							if (currentFloor -> matrix[i][d] == d &&
-   1694a:	|  |  |  |  |  |  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   16950:	|  |  |  |  |  |  |  |  |  |   move.l 16(a0),d1
-   16954:	|  |  |  |  |  |  |  |  |  |   move.l 136(sp),d0
-   16958:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   1695a:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   1695c:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
-   1695e:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   16960:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
-   16962:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),d0
+   16958:	|  |  |  |  |  |  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   1695e:	|  |  |  |  |  |  |  |  |  |   move.l 16(a0),d1
+   16962:	|  |  |  |  |  |  |  |  |  |   move.l 136(sp),d0
    16966:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    16968:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    1696a:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
    1696c:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   1696e:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d0
-   16970:	|  |  |  |  |  |  |  |  |  |   cmp.l 122(sp),d0
-   16974:	|  |  |  |  |  |  |  |  |  +-- bne.w 16a16 <setFloor+0x6ce>
+   1696e:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
+   16970:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),d0
+   16974:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
+   16976:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
+   16978:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
+   1697a:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
+   1697c:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d0
+   1697e:	|  |  |  |  |  |  |  |  |  |   cmp.l 122(sp),d0
+   16982:	|  |  |  |  |  |  |  |  |  +-- bne.w 16a24 <setFloor+0x6ce>
 								currentFloor -> matrix[d][j] >= 0 &&
-   16978:	|  |  |  |  |  |  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   1697e:	|  |  |  |  |  |  |  |  |  |   move.l 16(a0),d1
-   16982:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),d0
-   16986:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   16988:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   1698a:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
-   1698c:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   1698e:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
-   16990:	|  |  |  |  |  |  |  |  |  |   move.l 132(sp),d0
+   16986:	|  |  |  |  |  |  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   1698c:	|  |  |  |  |  |  |  |  |  |   move.l 16(a0),d1
+   16990:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),d0
    16994:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    16996:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    16998:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
    1699a:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   1699c:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d0
-							if (currentFloor -> matrix[i][d] == d &&
-   1699e:	|  |  |  |  |  |  |  |  |  +-- bmi.s 16a16 <setFloor+0x6ce>
-								distanceMatrix        [d][j] <= lookForDistance) {
-   169a0:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),d0
+   1699c:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
+   1699e:	|  |  |  |  |  |  |  |  |  |   move.l 132(sp),d0
+   169a2:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    169a4:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   169a6:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   169a8:	|  |  |  |  |  |  |  |  |  |   movea.l 62(sp),a0
-   169ac:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   169ae:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
-   169b0:	|  |  |  |  |  |  |  |  |  |   move.l 132(sp),d0
+   169a6:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
+   169a8:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
+   169aa:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d0
+							if (currentFloor -> matrix[i][d] == d &&
+   169ac:	|  |  |  |  |  |  |  |  |  +-- bmi.s 16a24 <setFloor+0x6ce>
+								distanceMatrix        [d][j] <= lookForDistance) {
+   169ae:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),d0
+   169b2:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    169b4:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   169b6:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   169b8:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
+   169b6:	|  |  |  |  |  |  |  |  |  |   movea.l 62(sp),a0
    169ba:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   169bc:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d0
+   169bc:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
+   169be:	|  |  |  |  |  |  |  |  |  |   move.l 132(sp),d0
+   169c2:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
+   169c4:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
+   169c6:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
+   169c8:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
+   169ca:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d0
 								currentFloor -> matrix[d][j] >= 0 &&
-   169be:	|  |  |  |  |  |  |  |  |  |   cmp.l 126(sp),d0
-   169c2:	|  |  |  |  |  |  |  |  |  +-- bgt.s 16a16 <setFloor+0x6ce>
+   169cc:	|  |  |  |  |  |  |  |  |  |   cmp.l 126(sp),d0
+   169d0:	|  |  |  |  |  |  |  |  |  +-- bgt.s 16a24 <setFloor+0x6ce>
 
 								 currentFloor -> matrix[i][j] = d;
-   169c4:	|  |  |  |  |  |  |  |  |  |   movea.l 1a916 <currentFloor>,a0
-   169ca:	|  |  |  |  |  |  |  |  |  |   move.l 16(a0),d1
-   169ce:	|  |  |  |  |  |  |  |  |  |   move.l 136(sp),d0
-   169d2:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   169d4:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   169d6:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
-   169d8:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   169da:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
-   169dc:	|  |  |  |  |  |  |  |  |  |   move.l 132(sp),d0
+   169d2:	|  |  |  |  |  |  |  |  |  |   movea.l 1a916 <currentFloor>,a0
+   169d8:	|  |  |  |  |  |  |  |  |  |   move.l 16(a0),d1
+   169dc:	|  |  |  |  |  |  |  |  |  |   move.l 136(sp),d0
    169e0:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    169e2:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    169e4:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
    169e6:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   169e8:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),(a0)
-								 distanceMatrix		  [i][j] = lookForDistance + 1;
-   169ec:	|  |  |  |  |  |  |  |  |  |   move.l 136(sp),d0
+   169e8:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
+   169ea:	|  |  |  |  |  |  |  |  |  |   move.l 132(sp),d0
+   169ee:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    169f0:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   169f2:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   169f4:	|  |  |  |  |  |  |  |  |  |   movea.l 62(sp),a0
-   169f8:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   169fa:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
-   169fc:	|  |  |  |  |  |  |  |  |  |   move.l 132(sp),d0
+   169f2:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
+   169f4:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
+   169f6:	|  |  |  |  |  |  |  |  |  |   move.l 122(sp),(a0)
+								 distanceMatrix		  [i][j] = lookForDistance + 1;
+   169fa:	|  |  |  |  |  |  |  |  |  |   move.l 136(sp),d0
+   169fe:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
    16a00:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   16a02:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
-   16a04:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
+   16a02:	|  |  |  |  |  |  |  |  |  |   movea.l 62(sp),a0
    16a06:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
-   16a08:	|  |  |  |  |  |  |  |  |  |   move.l 126(sp),d0
-   16a0c:	|  |  |  |  |  |  |  |  |  |   addq.l #1,d0
-   16a0e:	|  |  |  |  |  |  |  |  |  |   move.l d0,(a0)
+   16a08:	|  |  |  |  |  |  |  |  |  |   move.l (a0),d1
+   16a0a:	|  |  |  |  |  |  |  |  |  |   move.l 132(sp),d0
+   16a0e:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
+   16a10:	|  |  |  |  |  |  |  |  |  |   add.l d0,d0
+   16a12:	|  |  |  |  |  |  |  |  |  |   movea.l d1,a0
+   16a14:	|  |  |  |  |  |  |  |  |  |   adda.l d0,a0
+   16a16:	|  |  |  |  |  |  |  |  |  |   move.l 126(sp),d0
+   16a1a:	|  |  |  |  |  |  |  |  |  |   addq.l #1,d0
+   16a1c:	|  |  |  |  |  |  |  |  |  |   move.l d0,(a0)
 								 madeChange = TRUE;
-   16a10:	|  |  |  |  |  |  |  |  |  |   move.w #1,130(sp)
+   16a1e:	|  |  |  |  |  |  |  |  |  |   move.w #1,130(sp)
 					for (int d = 0; d < currentFloor -> numPolygons; d ++) {
-   16a16:	|  |  |  |  |  |  |  |  |  \-> addq.l #1,122(sp)
-   16a1a:	|  |  |  |  |  |  |  |  \----> movea.l 1a916 <currentFloor>,a0
-   16a20:	|  |  |  |  |  |  |  |         move.l 8(a0),d0
-   16a24:	|  |  |  |  |  |  |  |         cmp.l 122(sp),d0
-   16a28:	|  |  |  |  |  |  |  \-------- bgt.w 16932 <setFloor+0x5ea>
+   16a24:	|  |  |  |  |  |  |  |  |  \-> addq.l #1,122(sp)
+   16a28:	|  |  |  |  |  |  |  |  \----> movea.l 1a916 <currentFloor>,a0
+   16a2e:	|  |  |  |  |  |  |  |         move.l 8(a0),d0
+   16a32:	|  |  |  |  |  |  |  |         cmp.l 122(sp),d0
+   16a36:	|  |  |  |  |  |  |  \-------- bgt.w 16940 <setFloor+0x5ea>
 			for (j = 0; j < currentFloor -> numPolygons; j ++) {
-   16a2c:	|  |  |  |  |  |  \----------> addq.l #1,132(sp)
-   16a30:	|  |  |  |  |  \-------------> movea.l 1a916 <currentFloor>,a0
-   16a36:	|  |  |  |  |                  move.l 8(a0),d0
-   16a3a:	|  |  |  |  |                  cmp.l 132(sp),d0
-   16a3e:	|  |  |  |  \----------------- bgt.w 168fc <setFloor+0x5b4>
+   16a3a:	|  |  |  |  |  |  \----------> addq.l #1,132(sp)
+   16a3e:	|  |  |  |  |  \-------------> movea.l 1a916 <currentFloor>,a0
+   16a44:	|  |  |  |  |                  move.l 8(a0),d0
+   16a48:	|  |  |  |  |                  cmp.l 132(sp),d0
+   16a4c:	|  |  |  |  \----------------- bgt.w 1690a <setFloor+0x5b4>
 		for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   16a42:	|  |  |  |                     addq.l #1,136(sp)
-   16a46:	|  |  |  \-------------------> movea.l 1a916 <currentFloor>,a0
-   16a4c:	|  |  |                        move.l 8(a0),d0
-   16a50:	|  |  |                        cmp.l 136(sp),d0
-   16a54:	|  |  \----------------------- bgt.w 168f4 <setFloor+0x5ac>
+   16a50:	|  |  |  |                     addq.l #1,136(sp)
+   16a54:	|  |  |  \-------------------> movea.l 1a916 <currentFloor>,a0
+   16a5a:	|  |  |                        move.l 8(a0),d0
+   16a5e:	|  |  |                        cmp.l 136(sp),d0
+   16a62:	|  |  \----------------------- bgt.w 16902 <setFloor+0x5ac>
 						}
 					}
 				}
 			}
 		}
 	} while (madeChange);
-   16a58:	|  |                           tst.w 130(sp)
-   16a5c:	|  \-------------------------- bne.w 168e4 <setFloor+0x59c>
+   16a66:	|  |                           tst.w 130(sp)
+   16a6a:	|  \-------------------------- bne.w 168f2 <setFloor+0x59c>
 
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   16a60:	|                              clr.l 136(sp)
-   16a64:	|                          /-- bra.s 16a8c <setFloor+0x744>
+   16a6e:	|                              clr.l 136(sp)
+   16a72:	|                          /-- bra.s 16a9a <setFloor+0x744>
 		FreeVec(distanceMatrix [i]);
-   16a66:	|                       /--|-> move.l 136(sp),d0
-   16a6a:	|                       |  |   add.l d0,d0
-   16a6c:	|                       |  |   add.l d0,d0
-   16a6e:	|                       |  |   movea.l 62(sp),a0
-   16a72:	|                       |  |   adda.l d0,a0
-   16a74:	|                       |  |   move.l (a0),54(sp)
-   16a78:	|                       |  |   move.l 1a7a2 <SysBase>,d0
-   16a7e:	|                       |  |   movea.l d0,a6
-   16a80:	|                       |  |   movea.l 54(sp),a1
-   16a84:	|                       |  |   jsr -690(a6)
+   16a74:	|                       /--|-> move.l 136(sp),d0
+   16a78:	|                       |  |   add.l d0,d0
+   16a7a:	|                       |  |   add.l d0,d0
+   16a7c:	|                       |  |   movea.l 62(sp),a0
+   16a80:	|                       |  |   adda.l d0,a0
+   16a82:	|                       |  |   move.l (a0),54(sp)
+   16a86:	|                       |  |   move.l 1a7a2 <SysBase>,d0
+   16a8c:	|                       |  |   movea.l d0,a6
+   16a8e:	|                       |  |   movea.l 54(sp),a1
+   16a92:	|                       |  |   jsr -690(a6)
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-   16a88:	|                       |  |   addq.l #1,136(sp)
-   16a8c:	|                       |  \-> movea.l 1a916 <currentFloor>,a0
-   16a92:	|                       |      move.l 8(a0),d0
-   16a96:	|                       |      cmp.l 136(sp),d0
-   16a9a:	|                       \----- bgt.s 16a66 <setFloor+0x71e>
+   16a96:	|                       |  |   addq.l #1,136(sp)
+   16a9a:	|                       |  \-> movea.l 1a916 <currentFloor>,a0
+   16aa0:	|                       |      move.l 8(a0),d0
+   16aa4:	|                       |      cmp.l 136(sp),d0
+   16aa8:	|                       \----- bgt.s 16a74 <setFloor+0x71e>
 	}
 
 	FreeVec(distanceMatrix);
-   16a9c:	|                              move.l 62(sp),58(sp)
-   16aa2:	|                              move.l 1a7a2 <SysBase>,d0
-   16aa8:	|                              movea.l d0,a6
-   16aaa:	|                              movea.l 58(sp),a1
-   16aae:	|                              jsr -690(a6)
+   16aaa:	|                              move.l 62(sp),58(sp)
+   16ab0:	|                              move.l 1a7a2 <SysBase>,d0
+   16ab6:	|                              movea.l d0,a6
+   16ab8:	|                              movea.l 58(sp),a1
+   16abc:	|                              jsr -690(a6)
 	distanceMatrix = NULL;	
-   16ab2:	|                              clr.l 62(sp)
+   16ac0:	|                              clr.l 62(sp)
 
 	return TRUE;
-   16ab6:	|                              moveq #1,d0
+   16ac4:	|                              moveq #1,d0
 }
-   16ab8:	\----------------------------> movea.l (sp)+,a2
-   16aba:	                               movea.l (sp)+,a6
-   16abc:	                               lea 132(sp),sp
-   16ac0:	                               rts
+   16ac6:	\----------------------------> movea.l (sp)+,a2
+   16ac8:	                               movea.l (sp)+,a6
+   16aca:	                               lea 132(sp),sp
+   16ace:	                               rts
 
-00016ac2 <setFloorNull>:
+00016ad0 <setFloorNull>:
 
 void setFloorNull () {
 	killFloor ();
-   16ac2:	jsr 15fb0 <killFloor>
+   16ad0:	jsr 15fbe <killFloor>
 	noFloor ();
-   16ac8:	jsr 15ed4 <noFloor>
-   16ace:	nop
-   16ad0:	rts
+   16ad6:	jsr 15ee2 <noFloor>
+   16adc:	nop
+   16ade:	rts
 
-00016ad2 <WaitVbl>:
+00016ae0 <WaitVbl>:
 void WaitVbl() {
-   16ad2:	       subq.l #8,sp
+   16ae0:	       subq.l #8,sp
 		volatile ULONG vpos=*(volatile ULONG*)0xDFF004;
-   16ad4:	   /-> movea.l #14675972,a0
-   16ada:	   |   move.l (a0),d0
-   16adc:	   |   move.l d0,(sp)
+   16ae2:	   /-> movea.l #14675972,a0
+   16ae8:	   |   move.l (a0),d0
+   16aea:	   |   move.l d0,(sp)
 		vpos&=0x1ff00;
-   16ade:	   |   move.l (sp),d0
-   16ae0:	   |   andi.l #130816,d0
-   16ae6:	   |   move.l d0,(sp)
+   16aec:	   |   move.l (sp),d0
+   16aee:	   |   andi.l #130816,d0
+   16af4:	   |   move.l d0,(sp)
 		if (vpos!=(300<<8))
-   16ae8:	   |   move.l (sp),d0
-   16aea:	   |   cmpi.l #76800,d0
-   16af0:	   \-- beq.s 16ad4 <WaitVbl+0x2>
+   16af6:	   |   move.l (sp),d0
+   16af8:	   |   cmpi.l #76800,d0
+   16afe:	   \-- beq.s 16ae2 <WaitVbl+0x2>
 		volatile ULONG vpos=*(volatile ULONG*)0xDFF004;
-   16af2:	/----> movea.l #14675972,a0
-   16af8:	|      move.l (a0),d0
-   16afa:	|      move.l d0,4(sp)
-		vpos&=0x1ff00;
-   16afe:	|      move.l 4(sp),d0
-   16b02:	|      andi.l #130816,d0
+   16b00:	/----> movea.l #14675972,a0
+   16b06:	|      move.l (a0),d0
    16b08:	|      move.l d0,4(sp)
-		if (vpos==(300<<8))
+		vpos&=0x1ff00;
    16b0c:	|      move.l 4(sp),d0
-   16b10:	|      cmpi.l #76800,d0
-   16b16:	|  /-- beq.s 16b1a <WaitVbl+0x48>
+   16b10:	|      andi.l #130816,d0
+   16b16:	|      move.l d0,4(sp)
+		if (vpos==(300<<8))
+   16b1a:	|      move.l 4(sp),d0
+   16b1e:	|      cmpi.l #76800,d0
+   16b24:	|  /-- beq.s 16b28 <WaitVbl+0x48>
 	while (1) {
-   16b18:	\--|-- bra.s 16af2 <WaitVbl+0x20>
+   16b26:	\--|-- bra.s 16b00 <WaitVbl+0x20>
 			break;
-   16b1a:	   \-> nop
+   16b28:	   \-> nop
 }
-   16b1c:	       nop
-   16b1e:	       addq.l #8,sp
-   16b20:	       rts
+   16b2a:	       nop
+   16b2c:	       addq.l #8,sp
+   16b2e:	       rts
 
-00016b22 <memset>:
+00016b30 <memset>:
 void* memset(void *dest, int val, unsigned long len) {
-   16b22:	       subq.l #4,sp
+   16b30:	       subq.l #4,sp
 	unsigned char *ptr = (unsigned char *)dest;
-   16b24:	       move.l 8(sp),(sp)
+   16b32:	       move.l 8(sp),(sp)
 	while(len-- > 0)
-   16b28:	   /-- bra.s 16b3a <memset+0x18>
+   16b36:	   /-- bra.s 16b48 <memset+0x18>
 		*ptr++ = val;
-   16b2a:	/--|-> move.l (sp),d0
-   16b2c:	|  |   move.l d0,d1
-   16b2e:	|  |   addq.l #1,d1
-   16b30:	|  |   move.l d1,(sp)
-   16b32:	|  |   move.l 12(sp),d1
-   16b36:	|  |   movea.l d0,a0
-   16b38:	|  |   move.b d1,(a0)
+   16b38:	/--|-> move.l (sp),d0
+   16b3a:	|  |   move.l d0,d1
+   16b3c:	|  |   addq.l #1,d1
+   16b3e:	|  |   move.l d1,(sp)
+   16b40:	|  |   move.l 12(sp),d1
+   16b44:	|  |   movea.l d0,a0
+   16b46:	|  |   move.b d1,(a0)
 	while(len-- > 0)
-   16b3a:	|  \-> move.l 16(sp),d0
-   16b3e:	|      move.l d0,d1
-   16b40:	|      subq.l #1,d1
-   16b42:	|      move.l d1,16(sp)
-   16b46:	|      tst.l d0
-   16b48:	\----- bne.s 16b2a <memset+0x8>
+   16b48:	|  \-> move.l 16(sp),d0
+   16b4c:	|      move.l d0,d1
+   16b4e:	|      subq.l #1,d1
+   16b50:	|      move.l d1,16(sp)
+   16b54:	|      tst.l d0
+   16b56:	\----- bne.s 16b38 <memset+0x8>
 	return dest;
-   16b4a:	       move.l 8(sp),d0
+   16b58:	       move.l 8(sp),d0
 }
-   16b4e:	       addq.l #4,sp
-   16b50:	       rts
+   16b5c:	       addq.l #4,sp
+   16b5e:	       rts
 
-00016b52 <memcpy>:
+00016b60 <memcpy>:
 void* memcpy(void *dest, const void *src, unsigned long len) {
-   16b52:	       subq.l #8,sp
-   16b54:	       move.l d2,-(sp)
+   16b60:	       subq.l #8,sp
+   16b62:	       move.l d2,-(sp)
 	char *d = (char *)dest;
-   16b56:	       move.l 16(sp),8(sp)
+   16b64:	       move.l 16(sp),8(sp)
 	const char *s = (const char *)src;
-   16b5c:	       move.l 20(sp),4(sp)
+   16b6a:	       move.l 20(sp),4(sp)
 	while(len--)
-   16b62:	   /-- bra.s 16b84 <memcpy+0x32>
+   16b70:	   /-- bra.s 16b92 <memcpy+0x32>
 		*d++ = *s++;
-   16b64:	/--|-> move.l 4(sp),d1
-   16b68:	|  |   move.l d1,d0
-   16b6a:	|  |   addq.l #1,d0
-   16b6c:	|  |   move.l d0,4(sp)
-   16b70:	|  |   move.l 8(sp),d0
-   16b74:	|  |   move.l d0,d2
-   16b76:	|  |   addq.l #1,d2
-   16b78:	|  |   move.l d2,8(sp)
-   16b7c:	|  |   movea.l d1,a0
-   16b7e:	|  |   move.b (a0),d1
-   16b80:	|  |   movea.l d0,a0
-   16b82:	|  |   move.b d1,(a0)
+   16b72:	/--|-> move.l 4(sp),d1
+   16b76:	|  |   move.l d1,d0
+   16b78:	|  |   addq.l #1,d0
+   16b7a:	|  |   move.l d0,4(sp)
+   16b7e:	|  |   move.l 8(sp),d0
+   16b82:	|  |   move.l d0,d2
+   16b84:	|  |   addq.l #1,d2
+   16b86:	|  |   move.l d2,8(sp)
+   16b8a:	|  |   movea.l d1,a0
+   16b8c:	|  |   move.b (a0),d1
+   16b8e:	|  |   movea.l d0,a0
+   16b90:	|  |   move.b d1,(a0)
 	while(len--)
-   16b84:	|  \-> move.l 24(sp),d0
-   16b88:	|      move.l d0,d1
-   16b8a:	|      subq.l #1,d1
-   16b8c:	|      move.l d1,24(sp)
-   16b90:	|      tst.l d0
-   16b92:	\----- bne.s 16b64 <memcpy+0x12>
+   16b92:	|  \-> move.l 24(sp),d0
+   16b96:	|      move.l d0,d1
+   16b98:	|      subq.l #1,d1
+   16b9a:	|      move.l d1,24(sp)
+   16b9e:	|      tst.l d0
+   16ba0:	\----- bne.s 16b72 <memcpy+0x12>
 	return dest;
-   16b94:	       move.l 16(sp),d0
+   16ba2:	       move.l 16(sp),d0
 }
-   16b98:	       move.l (sp)+,d2
-   16b9a:	       addq.l #8,sp
-   16b9c:	       rts
+   16ba6:	       move.l (sp)+,d2
+   16ba8:	       addq.l #8,sp
+   16baa:	       rts
 
-00016b9e <KPrintF>:
+00016bac <KPrintF>:
 void KPrintF(const char* fmt, ...) {
-   16b9e:	       lea -128(sp),sp
-   16ba2:	       movem.l a2-a3/a6,-(sp)
+   16bac:	       lea -128(sp),sp
+   16bb0:	       movem.l a2-a3/a6,-(sp)
 	if(*((UWORD *)UaeDbgLog) == 0x4eb9 || *((UWORD *)UaeDbgLog) == 0xa00e) {
-   16ba6:	       move.w f0ff60 <gcc8_c_support.c.cce2f5c3+0xec57a6>,d0
-   16bac:	       cmpi.w #20153,d0
-   16bb0:	   /-- beq.s 16bd4 <KPrintF+0x36>
-   16bb2:	   |   cmpi.w #-24562,d0
-   16bb6:	   +-- beq.s 16bd4 <KPrintF+0x36>
+   16bb4:	       move.w f0ff60 <gcc8_c_support.c.cce2f5c3+0xec57a6>,d0
+   16bba:	       cmpi.w #20153,d0
+   16bbe:	   /-- beq.s 16be2 <KPrintF+0x36>
+   16bc0:	   |   cmpi.w #-24562,d0
+   16bc4:	   +-- beq.s 16be2 <KPrintF+0x36>
 		RawDoFmt((CONST_STRPTR)fmt, vl, KPutCharX, 0);
-   16bb8:	   |   movea.l 1a7a2 <SysBase>,a6
-   16bbe:	   |   movea.l 144(sp),a0
-   16bc2:	   |   lea 148(sp),a1
-   16bc6:	   |   lea 17664 <KPutCharX>,a2
-   16bcc:	   |   suba.l a3,a3
-   16bce:	   |   jsr -522(a6)
+   16bc6:	   |   movea.l 1a7a2 <SysBase>,a6
+   16bcc:	   |   movea.l 144(sp),a0
+   16bd0:	   |   lea 148(sp),a1
+   16bd4:	   |   lea 17672 <KPutCharX>,a2
+   16bda:	   |   suba.l a3,a3
+   16bdc:	   |   jsr -522(a6)
 }
-   16bd2:	/--|-- bra.s 16bfe <KPrintF+0x60>
+   16be0:	/--|-- bra.s 16c0c <KPrintF+0x60>
 		RawDoFmt((CONST_STRPTR)fmt, vl, PutChar, temp);
-   16bd4:	|  \-> movea.l 1a7a2 <SysBase>,a6
-   16bda:	|      movea.l 144(sp),a0
-   16bde:	|      lea 148(sp),a1
-   16be2:	|      lea 17672 <PutChar>,a2
-   16be8:	|      lea 12(sp),a3
-   16bec:	|      jsr -522(a6)
+   16be2:	|  \-> movea.l 1a7a2 <SysBase>,a6
+   16be8:	|      movea.l 144(sp),a0
+   16bec:	|      lea 148(sp),a1
+   16bf0:	|      lea 17680 <PutChar>,a2
+   16bf6:	|      lea 12(sp),a3
+   16bfa:	|      jsr -522(a6)
 		UaeDbgLog(86, temp);
-   16bf0:	|      move.l a3,-(sp)
-   16bf2:	|      pea 56 <_start+0x56>
-   16bf6:	|      jsr f0ff60 <gcc8_c_support.c.cce2f5c3+0xec57a6>
+   16bfe:	|      move.l a3,-(sp)
+   16c00:	|      pea 56 <_start+0x56>
+   16c04:	|      jsr f0ff60 <gcc8_c_support.c.cce2f5c3+0xec57a6>
 	if(*((UWORD *)UaeDbgLog) == 0x4eb9 || *((UWORD *)UaeDbgLog) == 0xa00e) {
-   16bfc:	|      addq.l #8,sp
+   16c0a:	|      addq.l #8,sp
 }
-   16bfe:	\----> movem.l (sp)+,a2-a3/a6
-   16c02:	       lea 128(sp),sp
-   16c06:	       rts
+   16c0c:	\----> movem.l (sp)+,a2-a3/a6
+   16c10:	       lea 128(sp),sp
+   16c14:	       rts
 
-00016c08 <debug_cmd>:
+00016c16 <debug_cmd>:
 		UaeConf(82, -1, on ? "blitter_cycle_exact false" : "blitter_cycle_exact true", 0, &outbuf, 1);
 		UaeConf(82, -1, on ? "warp true" : "warp false", 0, &outbuf, 1);
 	}
 }
 
 static void debug_cmd(unsigned int arg1, unsigned int arg2, unsigned int arg3, unsigned int arg4) {
-   16c08:	       subq.l #4,sp
+   16c16:	       subq.l #4,sp
 	long(*UaeLib)(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3, unsigned int arg4);
 	UaeLib = (long(*)(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int))0xf0ff60;
-   16c0a:	       move.l #15794016,(sp)
+   16c18:	       move.l #15794016,(sp)
 	if(*((UWORD *)UaeLib) == 0x4eb9 || *((UWORD *)UaeLib) == 0xa00e) {
-   16c10:	       movea.l (sp),a0
-   16c12:	       move.w (a0),d0
-   16c14:	       cmpi.w #20153,d0
-   16c18:	   /-- beq.s 16c24 <debug_cmd+0x1c>
-   16c1a:	   |   movea.l (sp),a0
-   16c1c:	   |   move.w (a0),d0
-   16c1e:	   |   cmpi.w #-24562,d0
-   16c22:	/--|-- bne.s 16c42 <debug_cmd+0x3a>
+   16c1e:	       movea.l (sp),a0
+   16c20:	       move.w (a0),d0
+   16c22:	       cmpi.w #20153,d0
+   16c26:	   /-- beq.s 16c32 <debug_cmd+0x1c>
+   16c28:	   |   movea.l (sp),a0
+   16c2a:	   |   move.w (a0),d0
+   16c2c:	   |   cmpi.w #-24562,d0
+   16c30:	/--|-- bne.s 16c50 <debug_cmd+0x3a>
 		UaeLib(88, arg1, arg2, arg3, arg4);
-   16c24:	|  \-> move.l 20(sp),-(sp)
-   16c28:	|      move.l 20(sp),-(sp)
-   16c2c:	|      move.l 20(sp),-(sp)
-   16c30:	|      move.l 20(sp),-(sp)
-   16c34:	|      pea 58 <_start+0x58>
-   16c38:	|      movea.l 20(sp),a0
-   16c3c:	|      jsr (a0)
-   16c3e:	|      lea 20(sp),sp
+   16c32:	|  \-> move.l 20(sp),-(sp)
+   16c36:	|      move.l 20(sp),-(sp)
+   16c3a:	|      move.l 20(sp),-(sp)
+   16c3e:	|      move.l 20(sp),-(sp)
+   16c42:	|      pea 58 <_start+0x58>
+   16c46:	|      movea.l 20(sp),a0
+   16c4a:	|      jsr (a0)
+   16c4c:	|      lea 20(sp),sp
 	}
 }
-   16c42:	\----> nop
-   16c44:	       addq.l #4,sp
-   16c46:	       rts
+   16c50:	\----> nop
+   16c52:	       addq.l #4,sp
+   16c54:	       rts
 
-00016c48 <my_strncpy>:
+00016c56 <my_strncpy>:
 void debug_stop_idle() {
 	debug_cmd(barto_cmd_set_idle, 0, 0, 0);
 }
 
 // gfx debugger
 static void my_strncpy(char* destination, const char* source, unsigned long num) {
-   16c48:	       move.l d2,-(sp)
+   16c56:	       move.l d2,-(sp)
 	while(*source && --num > 0)
-   16c4a:	   /-- bra.s 16c6c <my_strncpy+0x24>
+   16c58:	   /-- bra.s 16c7a <my_strncpy+0x24>
 		*destination++ = *source++;
-   16c4c:	/--|-> move.l 12(sp),d1
-   16c50:	|  |   move.l d1,d0
-   16c52:	|  |   addq.l #1,d0
-   16c54:	|  |   move.l d0,12(sp)
-   16c58:	|  |   move.l 8(sp),d0
-   16c5c:	|  |   move.l d0,d2
-   16c5e:	|  |   addq.l #1,d2
-   16c60:	|  |   move.l d2,8(sp)
-   16c64:	|  |   movea.l d1,a0
-   16c66:	|  |   move.b (a0),d1
-   16c68:	|  |   movea.l d0,a0
-   16c6a:	|  |   move.b d1,(a0)
+   16c5a:	/--|-> move.l 12(sp),d1
+   16c5e:	|  |   move.l d1,d0
+   16c60:	|  |   addq.l #1,d0
+   16c62:	|  |   move.l d0,12(sp)
+   16c66:	|  |   move.l 8(sp),d0
+   16c6a:	|  |   move.l d0,d2
+   16c6c:	|  |   addq.l #1,d2
+   16c6e:	|  |   move.l d2,8(sp)
+   16c72:	|  |   movea.l d1,a0
+   16c74:	|  |   move.b (a0),d1
+   16c76:	|  |   movea.l d0,a0
+   16c78:	|  |   move.b d1,(a0)
 	while(*source && --num > 0)
-   16c6c:	|  \-> movea.l 12(sp),a0
-   16c70:	|      move.b (a0),d0
-   16c72:	|  /-- beq.s 16c7a <my_strncpy+0x32>
-   16c74:	|  |   subq.l #1,16(sp)
-   16c78:	\--|-- bne.s 16c4c <my_strncpy+0x4>
+   16c7a:	|  \-> movea.l 12(sp),a0
+   16c7e:	|      move.b (a0),d0
+   16c80:	|  /-- beq.s 16c88 <my_strncpy+0x32>
+   16c82:	|  |   subq.l #1,16(sp)
+   16c86:	\--|-- bne.s 16c5a <my_strncpy+0x4>
 	*destination = '\0';
-   16c7a:	   \-> movea.l 8(sp),a0
-   16c7e:	       clr.b (a0)
+   16c88:	   \-> movea.l 8(sp),a0
+   16c8c:	       clr.b (a0)
 }
-   16c80:	       nop
-   16c82:	       move.l (sp)+,d2
-   16c84:	       rts
+   16c8e:	       nop
+   16c90:	       move.l (sp)+,d2
+   16c92:	       rts
 
-00016c86 <debug_register_bitmap>:
+00016c94 <debug_register_bitmap>:
 
 void debug_register_bitmap(const void* addr, const char* name, short width, short height, short numPlanes, unsigned short flags) {
-   16c86:	    lea -60(sp),sp
-   16c8a:	    movea.l 72(sp),a1
-   16c8e:	    movea.l 76(sp),a0
-   16c92:	    move.l 80(sp),d1
-   16c96:	    move.l 84(sp),d0
-   16c9a:	    movea.w a1,a1
-   16c9c:	    move.w a1,8(sp)
-   16ca0:	    movea.w a0,a0
-   16ca2:	    move.w a0,6(sp)
-   16ca6:	    move.w d1,d1
-   16ca8:	    move.w d1,4(sp)
-   16cac:	    move.w d0,d0
-   16cae:	    move.w d0,2(sp)
+   16c94:	    lea -60(sp),sp
+   16c98:	    movea.l 72(sp),a1
+   16c9c:	    movea.l 76(sp),a0
+   16ca0:	    move.l 80(sp),d1
+   16ca4:	    move.l 84(sp),d0
+   16ca8:	    movea.w a1,a1
+   16caa:	    move.w a1,8(sp)
+   16cae:	    movea.w a0,a0
+   16cb0:	    move.w a0,6(sp)
+   16cb4:	    move.w d1,d1
+   16cb6:	    move.w d1,4(sp)
+   16cba:	    move.w d0,d0
+   16cbc:	    move.w d0,2(sp)
 	struct debug_resource resource = {
-   16cb2:	    lea 10(sp),a0
-   16cb6:	    clr.l (a0)
-   16cb8:	    addq.l #4,a0
-   16cba:	    clr.l (a0)
-   16cbc:	    addq.l #4,a0
-   16cbe:	    clr.l (a0)
-   16cc0:	    addq.l #4,a0
-   16cc2:	    clr.l (a0)
-   16cc4:	    addq.l #4,a0
-   16cc6:	    clr.l (a0)
-   16cc8:	    addq.l #4,a0
-   16cca:	    clr.l (a0)
-   16ccc:	    addq.l #4,a0
-   16cce:	    clr.l (a0)
-   16cd0:	    addq.l #4,a0
-   16cd2:	    clr.l (a0)
-   16cd4:	    addq.l #4,a0
-   16cd6:	    clr.l (a0)
-   16cd8:	    addq.l #4,a0
-   16cda:	    clr.l (a0)
-   16cdc:	    addq.l #4,a0
-   16cde:	    clr.l (a0)
-   16ce0:	    addq.l #4,a0
-   16ce2:	    clr.l (a0)
-   16ce4:	    addq.l #4,a0
-   16ce6:	    clr.w (a0)
-   16ce8:	    addq.l #2,a0
+   16cc0:	    lea 10(sp),a0
+   16cc4:	    clr.l (a0)
+   16cc6:	    addq.l #4,a0
+   16cc8:	    clr.l (a0)
+   16cca:	    addq.l #4,a0
+   16ccc:	    clr.l (a0)
+   16cce:	    addq.l #4,a0
+   16cd0:	    clr.l (a0)
+   16cd2:	    addq.l #4,a0
+   16cd4:	    clr.l (a0)
+   16cd6:	    addq.l #4,a0
+   16cd8:	    clr.l (a0)
+   16cda:	    addq.l #4,a0
+   16cdc:	    clr.l (a0)
+   16cde:	    addq.l #4,a0
+   16ce0:	    clr.l (a0)
+   16ce2:	    addq.l #4,a0
+   16ce4:	    clr.l (a0)
+   16ce6:	    addq.l #4,a0
+   16ce8:	    clr.l (a0)
+   16cea:	    addq.l #4,a0
+   16cec:	    clr.l (a0)
+   16cee:	    addq.l #4,a0
+   16cf0:	    clr.l (a0)
+   16cf2:	    addq.l #4,a0
+   16cf4:	    clr.w (a0)
+   16cf6:	    addq.l #2,a0
 		.address = (unsigned int)addr,
-   16cea:	    move.l 64(sp),d0
+   16cf8:	    move.l 64(sp),d0
 	struct debug_resource resource = {
-   16cee:	    move.l d0,10(sp)
+   16cfc:	    move.l d0,10(sp)
 		.size = width / 8 * height * numPlanes,
-   16cf2:	    move.w 8(sp),d0
-   16cf6:	/-- bpl.s 16cfa <debug_register_bitmap+0x74>
-   16cf8:	|   addq.w #7,d0
-   16cfa:	\-> asr.w #3,d0
-   16cfc:	    movea.w d0,a0
-   16cfe:	    movea.w 6(sp),a1
-   16d02:	    move.l a1,-(sp)
-   16d04:	    move.l a0,-(sp)
-   16d06:	    jsr 1755c <__mulsi3>
-   16d0c:	    addq.l #8,sp
-   16d0e:	    movea.w 4(sp),a0
+   16d00:	    move.w 8(sp),d0
+   16d04:	/-- bpl.s 16d08 <debug_register_bitmap+0x74>
+   16d06:	|   addq.w #7,d0
+   16d08:	\-> asr.w #3,d0
+   16d0a:	    movea.w d0,a0
+   16d0c:	    movea.w 6(sp),a1
+   16d10:	    move.l a1,-(sp)
    16d12:	    move.l a0,-(sp)
-   16d14:	    move.l d0,-(sp)
-   16d16:	    jsr 1755c <__mulsi3>
-   16d1c:	    addq.l #8,sp
+   16d14:	    jsr 1756a <__mulsi3>
+   16d1a:	    addq.l #8,sp
+   16d1c:	    movea.w 4(sp),a0
+   16d20:	    move.l a0,-(sp)
+   16d22:	    move.l d0,-(sp)
+   16d24:	    jsr 1756a <__mulsi3>
+   16d2a:	    addq.l #8,sp
 	struct debug_resource resource = {
-   16d1e:	    move.l d0,14(sp)
-   16d22:	    move.w 2(sp),52(sp)
-   16d28:	    move.w 8(sp),54(sp)
-   16d2e:	    move.w 6(sp),56(sp)
-   16d34:	    move.w 4(sp),58(sp)
+   16d2c:	    move.l d0,14(sp)
+   16d30:	    move.w 2(sp),52(sp)
+   16d36:	    move.w 8(sp),54(sp)
+   16d3c:	    move.w 6(sp),56(sp)
+   16d42:	    move.w 4(sp),58(sp)
 		.type = debug_resource_type_bitmap,
 		.flags = flags,
 		.bitmap = { width, height, numPlanes }
 	};
 
 	if (flags & debug_resource_bitmap_masked)
-   16d3a:	    moveq #0,d0
-   16d3c:	    move.w 2(sp),d0
-   16d40:	    moveq #2,d1
-   16d42:	    and.l d1,d0
-   16d44:	/-- beq.s 16d50 <debug_register_bitmap+0xca>
+   16d48:	    moveq #0,d0
+   16d4a:	    move.w 2(sp),d0
+   16d4e:	    moveq #2,d1
+   16d50:	    and.l d1,d0
+   16d52:	/-- beq.s 16d5e <debug_register_bitmap+0xca>
 		resource.size *= 2;
-   16d46:	|   move.l 14(sp),d0
-   16d4a:	|   add.l d0,d0
-   16d4c:	|   move.l d0,14(sp)
+   16d54:	|   move.l 14(sp),d0
+   16d58:	|   add.l d0,d0
+   16d5a:	|   move.l d0,14(sp)
 
 	my_strncpy(resource.name, name, sizeof(resource.name));
-   16d50:	\-> pea 20 <_start+0x20>
-   16d54:	    move.l 72(sp),-(sp)
-   16d58:	    lea 18(sp),a0
-   16d5c:	    move.l a0,d0
-   16d5e:	    addq.l #8,d0
-   16d60:	    move.l d0,-(sp)
-   16d62:	    jsr 16c48 <my_strncpy>
-   16d68:	    lea 12(sp),sp
+   16d5e:	\-> pea 20 <_start+0x20>
+   16d62:	    move.l 72(sp),-(sp)
+   16d66:	    lea 18(sp),a0
+   16d6a:	    move.l a0,d0
+   16d6c:	    addq.l #8,d0
+   16d6e:	    move.l d0,-(sp)
+   16d70:	    jsr 16c56 <my_strncpy>
+   16d76:	    lea 12(sp),sp
 	debug_cmd(barto_cmd_register_resource, (unsigned int)&resource, 0, 0);
-   16d6c:	    lea 10(sp),a0
-   16d70:	    clr.l -(sp)
-   16d72:	    clr.l -(sp)
-   16d74:	    move.l a0,-(sp)
-   16d76:	    pea 4 <_start+0x4>
-   16d7a:	    jsr 16c08 <debug_cmd>
-   16d80:	    lea 16(sp),sp
+   16d7a:	    lea 10(sp),a0
+   16d7e:	    clr.l -(sp)
+   16d80:	    clr.l -(sp)
+   16d82:	    move.l a0,-(sp)
+   16d84:	    pea 4 <_start+0x4>
+   16d88:	    jsr 16c16 <debug_cmd>
+   16d8e:	    lea 16(sp),sp
 }
-   16d84:	    nop
-   16d86:	    lea 60(sp),sp
-   16d8a:	    rts
+   16d92:	    nop
+   16d94:	    lea 60(sp),sp
+   16d98:	    rts
 
-00016d8c <__addsf3>:
+00016d9a <__addsf3>:
 	};
 	my_strncpy(resource.name, name, sizeof(resource.name));
 	debug_cmd(barto_cmd_save, (unsigned int)&resource, 0, 0);
 }
 
 FLOAT __addsf3( FLOAT a, FLOAT b) {
-   16d8c:	lea -12(sp),sp
-   16d90:	move.l a6,-(sp)
+   16d9a:	lea -12(sp),sp
+   16d9e:	move.l a6,-(sp)
 	return IEEESPAdd( a, b);
-   16d92:	move.l 20(sp),12(sp)
-   16d98:	move.l 24(sp),8(sp)
-   16d9e:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   16da4:	movea.l d0,a6
-   16da6:	move.l 12(sp),d0
-   16daa:	move.l 8(sp),d1
-   16dae:	jsr -66(a6)
-   16db2:	move.l d0,4(sp)
-   16db6:	move.l 4(sp),d0
+   16da0:	move.l 20(sp),12(sp)
+   16da6:	move.l 24(sp),8(sp)
+   16dac:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   16db2:	movea.l d0,a6
+   16db4:	move.l 12(sp),d0
+   16db8:	move.l 8(sp),d1
+   16dbc:	jsr -66(a6)
+   16dc0:	move.l d0,4(sp)
+   16dc4:	move.l 4(sp),d0
 }
-   16dba:	movea.l (sp)+,a6
-   16dbc:	lea 12(sp),sp
-   16dc0:	rts
+   16dc8:	movea.l (sp)+,a6
+   16dca:	lea 12(sp),sp
+   16dce:	rts
 
-00016dc2 <__adddf3>:
+00016dd0 <__adddf3>:
 
 DOUBLE __adddf3( DOUBLE a, DOUBLE b) {
-   16dc2:	lea -32(sp),sp
-   16dc6:	movem.l d2-d3/a6,-(sp)
+   16dd0:	lea -32(sp),sp
+   16dd4:	movem.l d2-d3/a6,-(sp)
 	return IEEEDPAdd( a, b);
-   16dca:	move.l 48(sp),36(sp)
-   16dd0:	move.l 52(sp),40(sp)
-   16dd6:	move.l 56(sp),28(sp)
-   16ddc:	move.l 60(sp),32(sp)
-   16de2:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
-   16de8:	movea.l d0,a6
-   16dea:	move.l 36(sp),d0
-   16dee:	move.l 40(sp),d1
-   16df2:	move.l 28(sp),d2
-   16df6:	move.l 32(sp),d3
-   16dfa:	jsr -66(a6)
-   16dfe:	move.l d0,12(sp)
-   16e02:	move.l d1,16(sp)
-   16e06:	move.l 12(sp),20(sp)
-   16e0c:	move.l 16(sp),24(sp)
-   16e12:	move.l 20(sp),d0
-   16e16:	move.l 24(sp),d1
+   16dd8:	move.l 48(sp),36(sp)
+   16dde:	move.l 52(sp),40(sp)
+   16de4:	move.l 56(sp),28(sp)
+   16dea:	move.l 60(sp),32(sp)
+   16df0:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
+   16df6:	movea.l d0,a6
+   16df8:	move.l 36(sp),d0
+   16dfc:	move.l 40(sp),d1
+   16e00:	move.l 28(sp),d2
+   16e04:	move.l 32(sp),d3
+   16e08:	jsr -66(a6)
+   16e0c:	move.l d0,12(sp)
+   16e10:	move.l d1,16(sp)
+   16e14:	move.l 12(sp),20(sp)
+   16e1a:	move.l 16(sp),24(sp)
+   16e20:	move.l 20(sp),d0
+   16e24:	move.l 24(sp),d1
 }
-   16e1a:	movem.l (sp)+,d2-d3/a6
-   16e1e:	lea 32(sp),sp
-   16e22:	rts
+   16e28:	movem.l (sp)+,d2-d3/a6
+   16e2c:	lea 32(sp),sp
+   16e30:	rts
 
-00016e24 <__divdf3>:
+00016e32 <__divdf3>:
 
 DOUBLE __divdf3( DOUBLE a, DOUBLE b) {
-   16e24:	lea -32(sp),sp
-   16e28:	movem.l d2-d3/a6,-(sp)
+   16e32:	lea -32(sp),sp
+   16e36:	movem.l d2-d3/a6,-(sp)
 	return IEEEDPDiv( a, b);
-   16e2c:	move.l 48(sp),36(sp)
-   16e32:	move.l 52(sp),40(sp)
-   16e38:	move.l 56(sp),28(sp)
-   16e3e:	move.l 60(sp),32(sp)
-   16e44:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
-   16e4a:	movea.l d0,a6
-   16e4c:	move.l 36(sp),d0
-   16e50:	move.l 40(sp),d1
-   16e54:	move.l 28(sp),d2
-   16e58:	move.l 32(sp),d3
-   16e5c:	jsr -84(a6)
-   16e60:	move.l d0,12(sp)
-   16e64:	move.l d1,16(sp)
-   16e68:	move.l 12(sp),20(sp)
-   16e6e:	move.l 16(sp),24(sp)
-   16e74:	move.l 20(sp),d0
-   16e78:	move.l 24(sp),d1
+   16e3a:	move.l 48(sp),36(sp)
+   16e40:	move.l 52(sp),40(sp)
+   16e46:	move.l 56(sp),28(sp)
+   16e4c:	move.l 60(sp),32(sp)
+   16e52:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
+   16e58:	movea.l d0,a6
+   16e5a:	move.l 36(sp),d0
+   16e5e:	move.l 40(sp),d1
+   16e62:	move.l 28(sp),d2
+   16e66:	move.l 32(sp),d3
+   16e6a:	jsr -84(a6)
+   16e6e:	move.l d0,12(sp)
+   16e72:	move.l d1,16(sp)
+   16e76:	move.l 12(sp),20(sp)
+   16e7c:	move.l 16(sp),24(sp)
+   16e82:	move.l 20(sp),d0
+   16e86:	move.l 24(sp),d1
 }
-   16e7c:	movem.l (sp)+,d2-d3/a6
-   16e80:	lea 32(sp),sp
-   16e84:	rts
+   16e8a:	movem.l (sp)+,d2-d3/a6
+   16e8e:	lea 32(sp),sp
+   16e92:	rts
 
-00016e86 <__divsf3>:
+00016e94 <__divsf3>:
 
 FLOAT __divsf3( FLOAT a, FLOAT b) {
-   16e86:	lea -12(sp),sp
-   16e8a:	move.l a6,-(sp)
+   16e94:	lea -12(sp),sp
+   16e98:	move.l a6,-(sp)
 	return IEEESPDiv( a, b);
-   16e8c:	move.l 20(sp),12(sp)
-   16e92:	move.l 24(sp),8(sp)
-   16e98:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   16e9e:	movea.l d0,a6
-   16ea0:	move.l 12(sp),d0
-   16ea4:	move.l 8(sp),d1
-   16ea8:	jsr -84(a6)
-   16eac:	move.l d0,4(sp)
-   16eb0:	move.l 4(sp),d0
+   16e9a:	move.l 20(sp),12(sp)
+   16ea0:	move.l 24(sp),8(sp)
+   16ea6:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   16eac:	movea.l d0,a6
+   16eae:	move.l 12(sp),d0
+   16eb2:	move.l 8(sp),d1
+   16eb6:	jsr -84(a6)
+   16eba:	move.l d0,4(sp)
+   16ebe:	move.l 4(sp),d0
 }
-   16eb4:	movea.l (sp)+,a6
-   16eb6:	lea 12(sp),sp
-   16eba:	rts
+   16ec2:	movea.l (sp)+,a6
+   16ec4:	lea 12(sp),sp
+   16ec8:	rts
 
-00016ebc <__eqsf2>:
+00016eca <__eqsf2>:
 
 int __eqsf2( FLOAT a, FLOAT b) {
-   16ebc:	lea -12(sp),sp
-   16ec0:	move.l a6,-(sp)
+   16eca:	lea -12(sp),sp
+   16ece:	move.l a6,-(sp)
 	return IEEESPCmp( a, b);
-   16ec2:	move.l 20(sp),12(sp)
-   16ec8:	move.l 24(sp),8(sp)
-   16ece:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   16ed4:	movea.l d0,a6
-   16ed6:	move.l 12(sp),d0
-   16eda:	move.l 8(sp),d1
-   16ede:	jsr -42(a6)
-   16ee2:	move.l d0,4(sp)
-   16ee6:	move.l 4(sp),d0
+   16ed0:	move.l 20(sp),12(sp)
+   16ed6:	move.l 24(sp),8(sp)
+   16edc:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   16ee2:	movea.l d0,a6
+   16ee4:	move.l 12(sp),d0
+   16ee8:	move.l 8(sp),d1
+   16eec:	jsr -42(a6)
+   16ef0:	move.l d0,4(sp)
+   16ef4:	move.l 4(sp),d0
 }
-   16eea:	movea.l (sp)+,a6
-   16eec:	lea 12(sp),sp
-   16ef0:	rts
+   16ef8:	movea.l (sp)+,a6
+   16efa:	lea 12(sp),sp
+   16efe:	rts
 
-00016ef2 <__extendsfdf2>:
+00016f00 <__extendsfdf2>:
 
 DOUBLE __extendsfdf2 (FLOAT a) {
-   16ef2:	lea -20(sp),sp
-   16ef6:	move.l a6,-(sp)
+   16f00:	lea -20(sp),sp
+   16f04:	move.l a6,-(sp)
 	return IEEEDPFieee( a );
-   16ef8:	move.l 28(sp),20(sp)
-   16efe:	move.l 1a7be <MathIeeeDoubTransBase>,d0
-   16f04:	movea.l d0,a6
-   16f06:	move.l 20(sp),d0
-   16f0a:	jsr -108(a6)
-   16f0e:	move.l d0,4(sp)
-   16f12:	move.l d1,8(sp)
-   16f16:	move.l 4(sp),12(sp)
-   16f1c:	move.l 8(sp),16(sp)
-   16f22:	move.l 12(sp),d0
-   16f26:	move.l 16(sp),d1
+   16f06:	move.l 28(sp),20(sp)
+   16f0c:	move.l 1a7be <MathIeeeDoubTransBase>,d0
+   16f12:	movea.l d0,a6
+   16f14:	move.l 20(sp),d0
+   16f18:	jsr -108(a6)
+   16f1c:	move.l d0,4(sp)
+   16f20:	move.l d1,8(sp)
+   16f24:	move.l 4(sp),12(sp)
+   16f2a:	move.l 8(sp),16(sp)
+   16f30:	move.l 12(sp),d0
+   16f34:	move.l 16(sp),d1
 }
-   16f2a:	movea.l (sp)+,a6
-   16f2c:	lea 20(sp),sp
-   16f30:	rts
+   16f38:	movea.l (sp)+,a6
+   16f3a:	lea 20(sp),sp
+   16f3e:	rts
 
-00016f32 <__fixdfsi>:
+00016f40 <__fixdfsi>:
 
 DOUBLE __fixdfsi(DOUBLE value) {
-   16f32:	lea -12(sp),sp
-   16f36:	move.l a6,-(sp)
+   16f40:	lea -12(sp),sp
+   16f44:	move.l a6,-(sp)
 	return IEEEDPFix(value);
-   16f38:	move.l 20(sp),8(sp)
-   16f3e:	move.l 24(sp),12(sp)
-   16f44:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
-   16f4a:	movea.l d0,a6
-   16f4c:	move.l 8(sp),d0
-   16f50:	move.l 12(sp),d1
-   16f54:	jsr -30(a6)
-   16f58:	move.l d0,4(sp)
-   16f5c:	move.l 4(sp),d0
-   16f60:	move.l d0,-(sp)
-   16f62:	jsr 16f9a <__floatsidf>
-   16f68:	addq.l #4,sp
+   16f46:	move.l 20(sp),8(sp)
+   16f4c:	move.l 24(sp),12(sp)
+   16f52:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
+   16f58:	movea.l d0,a6
+   16f5a:	move.l 8(sp),d0
+   16f5e:	move.l 12(sp),d1
+   16f62:	jsr -30(a6)
+   16f66:	move.l d0,4(sp)
+   16f6a:	move.l 4(sp),d0
+   16f6e:	move.l d0,-(sp)
+   16f70:	jsr 16fa8 <__floatsidf>
+   16f76:	addq.l #4,sp
 }
-   16f6a:	movea.l (sp)+,a6
-   16f6c:	lea 12(sp),sp
-   16f70:	rts
+   16f78:	movea.l (sp)+,a6
+   16f7a:	lea 12(sp),sp
+   16f7e:	rts
 
-00016f72 <__fixsfsi>:
+00016f80 <__fixsfsi>:
 
 LONG __fixsfsi(FLOAT value) {
-   16f72:	subq.l #8,sp
-   16f74:	move.l a6,-(sp)
+   16f80:	subq.l #8,sp
+   16f82:	move.l a6,-(sp)
 	return IEEESPFix(value);
-   16f76:	move.l 16(sp),8(sp)
-   16f7c:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   16f82:	movea.l d0,a6
-   16f84:	move.l 8(sp),d0
-   16f88:	jsr -30(a6)
-   16f8c:	move.l d0,4(sp)
-   16f90:	move.l 4(sp),d0
+   16f84:	move.l 16(sp),8(sp)
+   16f8a:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   16f90:	movea.l d0,a6
+   16f92:	move.l 8(sp),d0
+   16f96:	jsr -30(a6)
+   16f9a:	move.l d0,4(sp)
+   16f9e:	move.l 4(sp),d0
 }
-   16f94:	movea.l (sp)+,a6
-   16f96:	addq.l #8,sp
-   16f98:	rts
+   16fa2:	movea.l (sp)+,a6
+   16fa4:	addq.l #8,sp
+   16fa6:	rts
 
-00016f9a <__floatsidf>:
+00016fa8 <__floatsidf>:
 
 
 DOUBLE __floatsidf (int i) {
-   16f9a:	lea -20(sp),sp
-   16f9e:	move.l a6,-(sp)
+   16fa8:	lea -20(sp),sp
+   16fac:	move.l a6,-(sp)
 	return IEEEDPFlt((LONG) i);  
-   16fa0:	move.l 28(sp),20(sp)
-   16fa6:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
-   16fac:	movea.l d0,a6
-   16fae:	move.l 20(sp),d0
-   16fb2:	jsr -36(a6)
-   16fb6:	move.l d0,4(sp)
-   16fba:	move.l d1,8(sp)
-   16fbe:	move.l 4(sp),12(sp)
-   16fc4:	move.l 8(sp),16(sp)
-   16fca:	move.l 12(sp),d0
-   16fce:	move.l 16(sp),d1
+   16fae:	move.l 28(sp),20(sp)
+   16fb4:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
+   16fba:	movea.l d0,a6
+   16fbc:	move.l 20(sp),d0
+   16fc0:	jsr -36(a6)
+   16fc4:	move.l d0,4(sp)
+   16fc8:	move.l d1,8(sp)
+   16fcc:	move.l 4(sp),12(sp)
+   16fd2:	move.l 8(sp),16(sp)
+   16fd8:	move.l 12(sp),d0
+   16fdc:	move.l 16(sp),d1
 }
-   16fd2:	movea.l (sp)+,a6
-   16fd4:	lea 20(sp),sp
-   16fd8:	rts
+   16fe0:	movea.l (sp)+,a6
+   16fe2:	lea 20(sp),sp
+   16fe6:	rts
 
-00016fda <__floatsisf>:
+00016fe8 <__floatsisf>:
 
 FLOAT __floatsisf(int i) {
-   16fda:	subq.l #8,sp
-   16fdc:	move.l a6,-(sp)
+   16fe8:	subq.l #8,sp
+   16fea:	move.l a6,-(sp)
 	return IEEESPFlt((LONG) i); 
-   16fde:	move.l 16(sp),8(sp)
-   16fe4:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   16fea:	movea.l d0,a6
-   16fec:	move.l 8(sp),d0
-   16ff0:	jsr -36(a6)
-   16ff4:	move.l d0,4(sp)
-   16ff8:	move.l 4(sp),d0
+   16fec:	move.l 16(sp),8(sp)
+   16ff2:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   16ff8:	movea.l d0,a6
+   16ffa:	move.l 8(sp),d0
+   16ffe:	jsr -36(a6)
+   17002:	move.l d0,4(sp)
+   17006:	move.l 4(sp),d0
 }
-   16ffc:	movea.l (sp)+,a6
-   16ffe:	addq.l #8,sp
-   17000:	rts
+   1700a:	movea.l (sp)+,a6
+   1700c:	addq.l #8,sp
+   1700e:	rts
 
-00017002 <__floatunsisf>:
+00017010 <__floatunsisf>:
 
 FLOAT __floatunsisf(unsigned int i) {	
-   17002:	subq.l #8,sp
-   17004:	move.l a6,-(sp)
+   17010:	subq.l #8,sp
+   17012:	move.l a6,-(sp)
 	return IEEESPFlt((LONG) i); 
-   17006:	move.l 16(sp),8(sp)
-   1700c:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   17012:	movea.l d0,a6
-   17014:	move.l 8(sp),d0
-   17018:	jsr -36(a6)
-   1701c:	move.l d0,4(sp)
-   17020:	move.l 4(sp),d0
+   17014:	move.l 16(sp),8(sp)
+   1701a:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   17020:	movea.l d0,a6
+   17022:	move.l 8(sp),d0
+   17026:	jsr -36(a6)
+   1702a:	move.l d0,4(sp)
+   1702e:	move.l 4(sp),d0
 }
-   17024:	movea.l (sp)+,a6
-   17026:	addq.l #8,sp
-   17028:	rts
+   17032:	movea.l (sp)+,a6
+   17034:	addq.l #8,sp
+   17036:	rts
 
-0001702a <__muldf3>:
+00017038 <__muldf3>:
 
 DOUBLE __muldf3( DOUBLE leftParm, DOUBLE rightParm ) {
-   1702a:	lea -32(sp),sp
-   1702e:	movem.l d2-d3/a6,-(sp)
+   17038:	lea -32(sp),sp
+   1703c:	movem.l d2-d3/a6,-(sp)
 	return IEEEDPMul( leftParm, rightParm);
-   17032:	move.l 48(sp),36(sp)
-   17038:	move.l 52(sp),40(sp)
-   1703e:	move.l 56(sp),28(sp)
-   17044:	move.l 60(sp),32(sp)
-   1704a:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
-   17050:	movea.l d0,a6
-   17052:	move.l 36(sp),d0
-   17056:	move.l 40(sp),d1
-   1705a:	move.l 28(sp),d2
-   1705e:	move.l 32(sp),d3
-   17062:	jsr -78(a6)
-   17066:	move.l d0,12(sp)
-   1706a:	move.l d1,16(sp)
-   1706e:	move.l 12(sp),20(sp)
-   17074:	move.l 16(sp),24(sp)
-   1707a:	move.l 20(sp),d0
-   1707e:	move.l 24(sp),d1
+   17040:	move.l 48(sp),36(sp)
+   17046:	move.l 52(sp),40(sp)
+   1704c:	move.l 56(sp),28(sp)
+   17052:	move.l 60(sp),32(sp)
+   17058:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
+   1705e:	movea.l d0,a6
+   17060:	move.l 36(sp),d0
+   17064:	move.l 40(sp),d1
+   17068:	move.l 28(sp),d2
+   1706c:	move.l 32(sp),d3
+   17070:	jsr -78(a6)
+   17074:	move.l d0,12(sp)
+   17078:	move.l d1,16(sp)
+   1707c:	move.l 12(sp),20(sp)
+   17082:	move.l 16(sp),24(sp)
+   17088:	move.l 20(sp),d0
+   1708c:	move.l 24(sp),d1
 }
-   17082:	movem.l (sp)+,d2-d3/a6
-   17086:	lea 32(sp),sp
-   1708a:	rts
+   17090:	movem.l (sp)+,d2-d3/a6
+   17094:	lea 32(sp),sp
+   17098:	rts
 
-0001708c <__mulsf3>:
+0001709a <__mulsf3>:
 
  //FLOAT IEEESPMul( FLOAT leftParm, FLOAT rightParm );
 FLOAT __mulsf3( FLOAT leftParm, FLOAT rightParm ) {
-   1708c:	lea -12(sp),sp
-   17090:	move.l a6,-(sp)
+   1709a:	lea -12(sp),sp
+   1709e:	move.l a6,-(sp)
 	return IEEESPMul( leftParm, rightParm);
-   17092:	move.l 20(sp),12(sp)
-   17098:	move.l 24(sp),8(sp)
-   1709e:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   170a4:	movea.l d0,a6
-   170a6:	move.l 12(sp),d0
-   170aa:	move.l 8(sp),d1
-   170ae:	jsr -78(a6)
-   170b2:	move.l d0,4(sp)
-   170b6:	move.l 4(sp),d0
+   170a0:	move.l 20(sp),12(sp)
+   170a6:	move.l 24(sp),8(sp)
+   170ac:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   170b2:	movea.l d0,a6
+   170b4:	move.l 12(sp),d0
+   170b8:	move.l 8(sp),d1
+   170bc:	jsr -78(a6)
+   170c0:	move.l d0,4(sp)
+   170c4:	move.l 4(sp),d0
 }
-   170ba:	movea.l (sp)+,a6
-   170bc:	lea 12(sp),sp
-   170c0:	rts
+   170c8:	movea.l (sp)+,a6
+   170ca:	lea 12(sp),sp
+   170ce:	rts
 
-000170c2 <__gesf2>:
+000170d0 <__gesf2>:
 
 
 int __gesf2( FLOAT a, FLOAT b) {
-   170c2:	lea -12(sp),sp
-   170c6:	move.l a6,-(sp)
+   170d0:	lea -12(sp),sp
+   170d4:	move.l a6,-(sp)
 	return IEEESPCmp( a, b);
-   170c8:	move.l 20(sp),12(sp)
-   170ce:	move.l 24(sp),8(sp)
-   170d4:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   170da:	movea.l d0,a6
-   170dc:	move.l 12(sp),d0
-   170e0:	move.l 8(sp),d1
-   170e4:	jsr -42(a6)
-   170e8:	move.l d0,4(sp)
-   170ec:	move.l 4(sp),d0
+   170d6:	move.l 20(sp),12(sp)
+   170dc:	move.l 24(sp),8(sp)
+   170e2:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   170e8:	movea.l d0,a6
+   170ea:	move.l 12(sp),d0
+   170ee:	move.l 8(sp),d1
+   170f2:	jsr -42(a6)
+   170f6:	move.l d0,4(sp)
+   170fa:	move.l 4(sp),d0
 }
-   170f0:	movea.l (sp)+,a6
-   170f2:	lea 12(sp),sp
-   170f6:	rts
+   170fe:	movea.l (sp)+,a6
+   17100:	lea 12(sp),sp
+   17104:	rts
 
-000170f8 <__gtdf2>:
+00017106 <__gtdf2>:
 
 int __gtdf2( DOUBLE a, DOUBLE b) {
-   170f8:	lea -20(sp),sp
-   170fc:	movem.l d2-d3/a6,-(sp)
+   17106:	lea -20(sp),sp
+   1710a:	movem.l d2-d3/a6,-(sp)
 	return IEEEDPCmp( a, b);
-   17100:	move.l 36(sp),24(sp)
-   17106:	move.l 40(sp),28(sp)
-   1710c:	move.l 44(sp),16(sp)
-   17112:	move.l 48(sp),20(sp)
-   17118:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
-   1711e:	movea.l d0,a6
-   17120:	move.l 24(sp),d0
-   17124:	move.l 28(sp),d1
-   17128:	move.l 16(sp),d2
-   1712c:	move.l 20(sp),d3
-   17130:	jsr -42(a6)
-   17134:	move.l d0,12(sp)
-   17138:	move.l 12(sp),d0
+   1710e:	move.l 36(sp),24(sp)
+   17114:	move.l 40(sp),28(sp)
+   1711a:	move.l 44(sp),16(sp)
+   17120:	move.l 48(sp),20(sp)
+   17126:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
+   1712c:	movea.l d0,a6
+   1712e:	move.l 24(sp),d0
+   17132:	move.l 28(sp),d1
+   17136:	move.l 16(sp),d2
+   1713a:	move.l 20(sp),d3
+   1713e:	jsr -42(a6)
+   17142:	move.l d0,12(sp)
+   17146:	move.l 12(sp),d0
 }
-   1713c:	movem.l (sp)+,d2-d3/a6
-   17140:	lea 20(sp),sp
-   17144:	rts
+   1714a:	movem.l (sp)+,d2-d3/a6
+   1714e:	lea 20(sp),sp
+   17152:	rts
 
-00017146 <__gtsf2>:
+00017154 <__gtsf2>:
 
 int __gtsf2( FLOAT a, FLOAT b) {
-   17146:	lea -12(sp),sp
-   1714a:	move.l a6,-(sp)
+   17154:	lea -12(sp),sp
+   17158:	move.l a6,-(sp)
 	return IEEESPCmp( a, b);
-   1714c:	move.l 20(sp),12(sp)
-   17152:	move.l 24(sp),8(sp)
-   17158:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   1715e:	movea.l d0,a6
-   17160:	move.l 12(sp),d0
-   17164:	move.l 8(sp),d1
-   17168:	jsr -42(a6)
-   1716c:	move.l d0,4(sp)
-   17170:	move.l 4(sp),d0
+   1715a:	move.l 20(sp),12(sp)
+   17160:	move.l 24(sp),8(sp)
+   17166:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   1716c:	movea.l d0,a6
+   1716e:	move.l 12(sp),d0
+   17172:	move.l 8(sp),d1
+   17176:	jsr -42(a6)
+   1717a:	move.l d0,4(sp)
+   1717e:	move.l 4(sp),d0
 }
-   17174:	movea.l (sp)+,a6
-   17176:	lea 12(sp),sp
-   1717a:	rts
+   17182:	movea.l (sp)+,a6
+   17184:	lea 12(sp),sp
+   17188:	rts
 
-0001717c <__lesf2>:
+0001718a <__lesf2>:
 
 int __lesf2( FLOAT a, FLOAT b) {
-   1717c:	lea -12(sp),sp
-   17180:	move.l a6,-(sp)
+   1718a:	lea -12(sp),sp
+   1718e:	move.l a6,-(sp)
 	return IEEESPCmp( a, b);
-   17182:	move.l 20(sp),12(sp)
-   17188:	move.l 24(sp),8(sp)
-   1718e:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   17194:	movea.l d0,a6
-   17196:	move.l 12(sp),d0
-   1719a:	move.l 8(sp),d1
-   1719e:	jsr -42(a6)
-   171a2:	move.l d0,4(sp)
-   171a6:	move.l 4(sp),d0
+   17190:	move.l 20(sp),12(sp)
+   17196:	move.l 24(sp),8(sp)
+   1719c:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   171a2:	movea.l d0,a6
+   171a4:	move.l 12(sp),d0
+   171a8:	move.l 8(sp),d1
+   171ac:	jsr -42(a6)
+   171b0:	move.l d0,4(sp)
+   171b4:	move.l 4(sp),d0
 }
-   171aa:	movea.l (sp)+,a6
-   171ac:	lea 12(sp),sp
-   171b0:	rts
+   171b8:	movea.l (sp)+,a6
+   171ba:	lea 12(sp),sp
+   171be:	rts
 
-000171b2 <__ltdf2>:
+000171c0 <__ltdf2>:
 
 int __ltdf2( DOUBLE a, DOUBLE b) {
-   171b2:	lea -20(sp),sp
-   171b6:	movem.l d2-d3/a6,-(sp)
+   171c0:	lea -20(sp),sp
+   171c4:	movem.l d2-d3/a6,-(sp)
 	return IEEEDPCmp( a, b);
-   171ba:	move.l 36(sp),24(sp)
-   171c0:	move.l 40(sp),28(sp)
-   171c6:	move.l 44(sp),16(sp)
-   171cc:	move.l 48(sp),20(sp)
-   171d2:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
-   171d8:	movea.l d0,a6
-   171da:	move.l 24(sp),d0
-   171de:	move.l 28(sp),d1
-   171e2:	move.l 16(sp),d2
-   171e6:	move.l 20(sp),d3
-   171ea:	jsr -42(a6)
-   171ee:	move.l d0,12(sp)
-   171f2:	move.l 12(sp),d0
+   171c8:	move.l 36(sp),24(sp)
+   171ce:	move.l 40(sp),28(sp)
+   171d4:	move.l 44(sp),16(sp)
+   171da:	move.l 48(sp),20(sp)
+   171e0:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
+   171e6:	movea.l d0,a6
+   171e8:	move.l 24(sp),d0
+   171ec:	move.l 28(sp),d1
+   171f0:	move.l 16(sp),d2
+   171f4:	move.l 20(sp),d3
+   171f8:	jsr -42(a6)
+   171fc:	move.l d0,12(sp)
+   17200:	move.l 12(sp),d0
 }
-   171f6:	movem.l (sp)+,d2-d3/a6
-   171fa:	lea 20(sp),sp
-   171fe:	rts
+   17204:	movem.l (sp)+,d2-d3/a6
+   17208:	lea 20(sp),sp
+   1720c:	rts
 
-00017200 <__ltsf2>:
+0001720e <__ltsf2>:
 
 int __ltsf2( FLOAT a, FLOAT b) {
-   17200:	lea -12(sp),sp
-   17204:	move.l a6,-(sp)
+   1720e:	lea -12(sp),sp
+   17212:	move.l a6,-(sp)
 	return IEEESPCmp( a, b);
-   17206:	move.l 20(sp),12(sp)
-   1720c:	move.l 24(sp),8(sp)
-   17212:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   17218:	movea.l d0,a6
-   1721a:	move.l 12(sp),d0
-   1721e:	move.l 8(sp),d1
-   17222:	jsr -42(a6)
-   17226:	move.l d0,4(sp)
-   1722a:	move.l 4(sp),d0
+   17214:	move.l 20(sp),12(sp)
+   1721a:	move.l 24(sp),8(sp)
+   17220:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   17226:	movea.l d0,a6
+   17228:	move.l 12(sp),d0
+   1722c:	move.l 8(sp),d1
+   17230:	jsr -42(a6)
+   17234:	move.l d0,4(sp)
+   17238:	move.l 4(sp),d0
 }
-   1722e:	movea.l (sp)+,a6
-   17230:	lea 12(sp),sp
-   17234:	rts
+   1723c:	movea.l (sp)+,a6
+   1723e:	lea 12(sp),sp
+   17242:	rts
 
-00017236 <__nesf2>:
+00017244 <__nesf2>:
 
 int __nesf2( FLOAT a, FLOAT b) {
-   17236:	lea -12(sp),sp
-   1723a:	move.l a6,-(sp)
+   17244:	lea -12(sp),sp
+   17248:	move.l a6,-(sp)
 	return IEEESPCmp( a, b);
-   1723c:	move.l 20(sp),12(sp)
-   17242:	move.l 24(sp),8(sp)
-   17248:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   1724e:	movea.l d0,a6
-   17250:	move.l 12(sp),d0
-   17254:	move.l 8(sp),d1
-   17258:	jsr -42(a6)
-   1725c:	move.l d0,4(sp)
-   17260:	move.l 4(sp),d0
+   1724a:	move.l 20(sp),12(sp)
+   17250:	move.l 24(sp),8(sp)
+   17256:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   1725c:	movea.l d0,a6
+   1725e:	move.l 12(sp),d0
+   17262:	move.l 8(sp),d1
+   17266:	jsr -42(a6)
+   1726a:	move.l d0,4(sp)
+   1726e:	move.l 4(sp),d0
 }
-   17264:	movea.l (sp)+,a6
-   17266:	lea 12(sp),sp
-   1726a:	rts
+   17272:	movea.l (sp)+,a6
+   17274:	lea 12(sp),sp
+   17278:	rts
 
-0001726c <__subdf3>:
+0001727a <__subdf3>:
 
 DOUBLE __subdf3 (DOUBLE a, DOUBLE b) {
-   1726c:	lea -32(sp),sp
-   17270:	movem.l d2-d3/a6,-(sp)
+   1727a:	lea -32(sp),sp
+   1727e:	movem.l d2-d3/a6,-(sp)
 	return IEEEDPSub( a, b);
-   17274:	move.l 48(sp),36(sp)
-   1727a:	move.l 52(sp),40(sp)
-   17280:	move.l 56(sp),28(sp)
-   17286:	move.l 60(sp),32(sp)
-   1728c:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
-   17292:	movea.l d0,a6
-   17294:	move.l 36(sp),d0
-   17298:	move.l 40(sp),d1
-   1729c:	move.l 28(sp),d2
-   172a0:	move.l 32(sp),d3
-   172a4:	jsr -72(a6)
-   172a8:	move.l d0,12(sp)
-   172ac:	move.l d1,16(sp)
-   172b0:	move.l 12(sp),20(sp)
-   172b6:	move.l 16(sp),24(sp)
-   172bc:	move.l 20(sp),d0
-   172c0:	move.l 24(sp),d1
+   17282:	move.l 48(sp),36(sp)
+   17288:	move.l 52(sp),40(sp)
+   1728e:	move.l 56(sp),28(sp)
+   17294:	move.l 60(sp),32(sp)
+   1729a:	move.l 1a7ba <MathIeeeDoubBasBase>,d0
+   172a0:	movea.l d0,a6
+   172a2:	move.l 36(sp),d0
+   172a6:	move.l 40(sp),d1
+   172aa:	move.l 28(sp),d2
+   172ae:	move.l 32(sp),d3
+   172b2:	jsr -72(a6)
+   172b6:	move.l d0,12(sp)
+   172ba:	move.l d1,16(sp)
+   172be:	move.l 12(sp),20(sp)
+   172c4:	move.l 16(sp),24(sp)
+   172ca:	move.l 20(sp),d0
+   172ce:	move.l 24(sp),d1
 }
-   172c4:	movem.l (sp)+,d2-d3/a6
-   172c8:	lea 32(sp),sp
-   172cc:	rts
+   172d2:	movem.l (sp)+,d2-d3/a6
+   172d6:	lea 32(sp),sp
+   172da:	rts
 
-000172ce <__subsf3>:
+000172dc <__subsf3>:
 
 FLOAT __subsf3 (float a, float b) {
-   172ce:	lea -12(sp),sp
-   172d2:	move.l a6,-(sp)
+   172dc:	lea -12(sp),sp
+   172e0:	move.l a6,-(sp)
 	return IEEESPSub( a, b);
-   172d4:	move.l 20(sp),12(sp)
-   172da:	move.l 24(sp),8(sp)
-   172e0:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   172e6:	movea.l d0,a6
-   172e8:	move.l 12(sp),d0
-   172ec:	move.l 8(sp),d1
-   172f0:	jsr -72(a6)
-   172f4:	move.l d0,4(sp)
-   172f8:	move.l 4(sp),d0
+   172e2:	move.l 20(sp),12(sp)
+   172e8:	move.l 24(sp),8(sp)
+   172ee:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   172f4:	movea.l d0,a6
+   172f6:	move.l 12(sp),d0
+   172fa:	move.l 8(sp),d1
+   172fe:	jsr -72(a6)
+   17302:	move.l d0,4(sp)
+   17306:	move.l 4(sp),d0
 }
-   172fc:	movea.l (sp)+,a6
-   172fe:	lea 12(sp),sp
-   17302:	rts
+   1730a:	movea.l (sp)+,a6
+   1730c:	lea 12(sp),sp
+   17310:	rts
 
-00017304 <__truncdfsf2>:
+00017312 <__truncdfsf2>:
 
 FLOAT __truncdfsf2(DOUBLE a) {
-   17304:	lea -12(sp),sp
-   17308:	move.l a6,-(sp)
+   17312:	lea -12(sp),sp
+   17316:	move.l a6,-(sp)
 	return IEEEDPTieee( a);
-   1730a:	move.l 20(sp),8(sp)
-   17310:	move.l 24(sp),12(sp)
-   17316:	move.l 1a7be <MathIeeeDoubTransBase>,d0
-   1731c:	movea.l d0,a6
-   1731e:	move.l 8(sp),d0
-   17322:	move.l 12(sp),d1
-   17326:	jsr -102(a6)
-   1732a:	move.l d0,4(sp)
-   1732e:	move.l 4(sp),d0
+   17318:	move.l 20(sp),8(sp)
+   1731e:	move.l 24(sp),12(sp)
+   17324:	move.l 1a7be <MathIeeeDoubTransBase>,d0
+   1732a:	movea.l d0,a6
+   1732c:	move.l 8(sp),d0
+   17330:	move.l 12(sp),d1
+   17334:	jsr -102(a6)
+   17338:	move.l d0,4(sp)
+   1733c:	move.l 4(sp),d0
 }
-   17332:	movea.l (sp)+,a6
-   17334:	lea 12(sp),sp
-   17338:	rts
+   17340:	movea.l (sp)+,a6
+   17342:	lea 12(sp),sp
+   17346:	rts
 
-0001733a <__fixunssfsi>:
+00017348 <__fixunssfsi>:
 
 unsigned int __fixunssfsi (float a) {
-   1733a:	subq.l #8,sp
-   1733c:	move.l a6,-(sp)
+   17348:	subq.l #8,sp
+   1734a:	move.l a6,-(sp)
 	return IEEESPFix(a);
-   1733e:	move.l 16(sp),8(sp)
-   17344:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
-   1734a:	movea.l d0,a6
-   1734c:	move.l 8(sp),d0
-   17350:	jsr -30(a6)
-   17354:	move.l d0,4(sp)
-   17358:	move.l 4(sp),d0
+   1734c:	move.l 16(sp),8(sp)
+   17352:	move.l 1a7b2 <MathIeeeSingBasBase>,d0
+   17358:	movea.l d0,a6
+   1735a:	move.l 8(sp),d0
+   1735e:	jsr -30(a6)
+   17362:	move.l d0,4(sp)
+   17366:	move.l 4(sp),d0
 }
-   1735c:	movea.l (sp)+,a6
-   1735e:	addq.l #8,sp
-   17360:	rts
+   1736a:	movea.l (sp)+,a6
+   1736c:	addq.l #8,sp
+   1736e:	rts
 
-00017362 <atan2f>:
+00017370 <atan2f>:
 
 FLOAT atan2f(FLOAT y, FLOAT x) {
-   17362:	       lea -24(sp),sp
-   17366:	       move.l a6,-(sp)
+   17370:	       lea -24(sp),sp
+   17374:	       move.l a6,-(sp)
     if (x > 0) {
-   17368:	       clr.l -(sp)
-   1736a:	       move.l 40(sp),-(sp)
-   1736e:	       jsr 17146 <__gtsf2>
-   17374:	       addq.l #8,sp
-   17376:	       tst.l d0
-   17378:	   /-- ble.s 173aa <atan2f+0x48>
+   17376:	       clr.l -(sp)
+   17378:	       move.l 40(sp),-(sp)
+   1737c:	       jsr 17154 <__gtsf2>
+   17382:	       addq.l #8,sp
+   17384:	       tst.l d0
+   17386:	   /-- ble.s 173b8 <atan2f+0x48>
         return IEEESPAtan(y / x);
-   1737a:	   |   move.l 36(sp),-(sp)
-   1737e:	   |   move.l 36(sp),-(sp)
-   17382:	   |   jsr 16e86 <__divsf3>
-   17388:	   |   addq.l #8,sp
-   1738a:	   |   move.l d0,8(sp)
-   1738e:	   |   move.l 1a7b6 <MathIeeeSingTransBase>,d0
-   17394:	   |   movea.l d0,a6
-   17396:	   |   move.l 8(sp),d0
-   1739a:	   |   jsr -30(a6)
-   1739e:	   |   move.l d0,4(sp)
-   173a2:	   |   move.l 4(sp),d0
-   173a6:	/--|-- bra.w 1750a <atan2f+0x1a8>
+   17388:	   |   move.l 36(sp),-(sp)
+   1738c:	   |   move.l 36(sp),-(sp)
+   17390:	   |   jsr 16e94 <__divsf3>
+   17396:	   |   addq.l #8,sp
+   17398:	   |   move.l d0,8(sp)
+   1739c:	   |   move.l 1a7b6 <MathIeeeSingTransBase>,d0
+   173a2:	   |   movea.l d0,a6
+   173a4:	   |   move.l 8(sp),d0
+   173a8:	   |   jsr -30(a6)
+   173ac:	   |   move.l d0,4(sp)
+   173b0:	   |   move.l 4(sp),d0
+   173b4:	/--|-- bra.w 17518 <atan2f+0x1a8>
     } else if (x < 0 && y >= 0) {
-   173aa:	|  \-> clr.l -(sp)
-   173ac:	|      move.l 40(sp),-(sp)
-   173b0:	|      jsr 17200 <__ltsf2>
-   173b6:	|      addq.l #8,sp
-   173b8:	|      tst.l d0
-   173ba:	|  /-- bge.s 1742e <atan2f+0xcc>
-   173bc:	|  |   clr.l -(sp)
-   173be:	|  |   move.l 36(sp),-(sp)
-   173c2:	|  |   jsr 170c2 <__gesf2>
-   173c8:	|  |   addq.l #8,sp
-   173ca:	|  |   tst.l d0
-   173cc:	|  +-- blt.s 1742e <atan2f+0xcc>
+   173b8:	|  \-> clr.l -(sp)
+   173ba:	|      move.l 40(sp),-(sp)
+   173be:	|      jsr 1720e <__ltsf2>
+   173c4:	|      addq.l #8,sp
+   173c6:	|      tst.l d0
+   173c8:	|  /-- bge.s 1743c <atan2f+0xcc>
+   173ca:	|  |   clr.l -(sp)
+   173cc:	|  |   move.l 36(sp),-(sp)
+   173d0:	|  |   jsr 170d0 <__gesf2>
+   173d6:	|  |   addq.l #8,sp
+   173d8:	|  |   tst.l d0
+   173da:	|  +-- blt.s 1743c <atan2f+0xcc>
         return IEEESPAtan(y / x) + PI;
-   173ce:	|  |   move.l 36(sp),-(sp)
-   173d2:	|  |   move.l 36(sp),-(sp)
-   173d6:	|  |   jsr 16e86 <__divsf3>
-   173dc:	|  |   addq.l #8,sp
-   173de:	|  |   move.l d0,24(sp)
-   173e2:	|  |   move.l 1a7b6 <MathIeeeSingTransBase>,d0
-   173e8:	|  |   movea.l d0,a6
-   173ea:	|  |   move.l 24(sp),d0
-   173ee:	|  |   jsr -30(a6)
-   173f2:	|  |   move.l d0,20(sp)
-   173f6:	|  |   move.l 20(sp),d0
-   173fa:	|  |   move.l d0,-(sp)
-   173fc:	|  |   jsr 16ef2 <__extendsfdf2>
-   17402:	|  |   addq.l #4,sp
-   17404:	|  |   move.l #1413754136,-(sp)
-   1740a:	|  |   move.l #1074340347,-(sp)
-   17410:	|  |   move.l d1,-(sp)
-   17412:	|  |   move.l d0,-(sp)
-   17414:	|  |   jsr 16dc2 <__adddf3>
-   1741a:	|  |   lea 16(sp),sp
+   173dc:	|  |   move.l 36(sp),-(sp)
+   173e0:	|  |   move.l 36(sp),-(sp)
+   173e4:	|  |   jsr 16e94 <__divsf3>
+   173ea:	|  |   addq.l #8,sp
+   173ec:	|  |   move.l d0,24(sp)
+   173f0:	|  |   move.l 1a7b6 <MathIeeeSingTransBase>,d0
+   173f6:	|  |   movea.l d0,a6
+   173f8:	|  |   move.l 24(sp),d0
+   173fc:	|  |   jsr -30(a6)
+   17400:	|  |   move.l d0,20(sp)
+   17404:	|  |   move.l 20(sp),d0
+   17408:	|  |   move.l d0,-(sp)
+   1740a:	|  |   jsr 16f00 <__extendsfdf2>
+   17410:	|  |   addq.l #4,sp
+   17412:	|  |   move.l #1413754136,-(sp)
+   17418:	|  |   move.l #1074340347,-(sp)
    1741e:	|  |   move.l d1,-(sp)
    17420:	|  |   move.l d0,-(sp)
-   17422:	|  |   jsr 17304 <__truncdfsf2>
-   17428:	|  |   addq.l #8,sp
-   1742a:	+--|-- bra.w 1750a <atan2f+0x1a8>
+   17422:	|  |   jsr 16dd0 <__adddf3>
+   17428:	|  |   lea 16(sp),sp
+   1742c:	|  |   move.l d1,-(sp)
+   1742e:	|  |   move.l d0,-(sp)
+   17430:	|  |   jsr 17312 <__truncdfsf2>
+   17436:	|  |   addq.l #8,sp
+   17438:	+--|-- bra.w 17518 <atan2f+0x1a8>
     } else if (x < 0 && y < 0) {
-   1742e:	|  \-> clr.l -(sp)
-   17430:	|      move.l 40(sp),-(sp)
-   17434:	|      jsr 17200 <__ltsf2>
-   1743a:	|      addq.l #8,sp
-   1743c:	|      tst.l d0
-   1743e:	|  /-- bge.s 174b0 <atan2f+0x14e>
-   17440:	|  |   clr.l -(sp)
-   17442:	|  |   move.l 36(sp),-(sp)
-   17446:	|  |   jsr 17200 <__ltsf2>
-   1744c:	|  |   addq.l #8,sp
-   1744e:	|  |   tst.l d0
-   17450:	|  +-- bge.s 174b0 <atan2f+0x14e>
+   1743c:	|  \-> clr.l -(sp)
+   1743e:	|      move.l 40(sp),-(sp)
+   17442:	|      jsr 1720e <__ltsf2>
+   17448:	|      addq.l #8,sp
+   1744a:	|      tst.l d0
+   1744c:	|  /-- bge.s 174be <atan2f+0x14e>
+   1744e:	|  |   clr.l -(sp)
+   17450:	|  |   move.l 36(sp),-(sp)
+   17454:	|  |   jsr 1720e <__ltsf2>
+   1745a:	|  |   addq.l #8,sp
+   1745c:	|  |   tst.l d0
+   1745e:	|  +-- bge.s 174be <atan2f+0x14e>
         return IEEESPAtan(y / x) - PI;
-   17452:	|  |   move.l 36(sp),-(sp)
-   17456:	|  |   move.l 36(sp),-(sp)
-   1745a:	|  |   jsr 16e86 <__divsf3>
-   17460:	|  |   addq.l #8,sp
-   17462:	|  |   move.l d0,16(sp)
-   17466:	|  |   move.l 1a7b6 <MathIeeeSingTransBase>,d0
-   1746c:	|  |   movea.l d0,a6
-   1746e:	|  |   move.l 16(sp),d0
-   17472:	|  |   jsr -30(a6)
-   17476:	|  |   move.l d0,12(sp)
-   1747a:	|  |   move.l 12(sp),d0
-   1747e:	|  |   move.l d0,-(sp)
-   17480:	|  |   jsr 16ef2 <__extendsfdf2>
-   17486:	|  |   addq.l #4,sp
-   17488:	|  |   move.l #1413754136,-(sp)
-   1748e:	|  |   move.l #1074340347,-(sp)
-   17494:	|  |   move.l d1,-(sp)
-   17496:	|  |   move.l d0,-(sp)
-   17498:	|  |   jsr 1726c <__subdf3>
-   1749e:	|  |   lea 16(sp),sp
+   17460:	|  |   move.l 36(sp),-(sp)
+   17464:	|  |   move.l 36(sp),-(sp)
+   17468:	|  |   jsr 16e94 <__divsf3>
+   1746e:	|  |   addq.l #8,sp
+   17470:	|  |   move.l d0,16(sp)
+   17474:	|  |   move.l 1a7b6 <MathIeeeSingTransBase>,d0
+   1747a:	|  |   movea.l d0,a6
+   1747c:	|  |   move.l 16(sp),d0
+   17480:	|  |   jsr -30(a6)
+   17484:	|  |   move.l d0,12(sp)
+   17488:	|  |   move.l 12(sp),d0
+   1748c:	|  |   move.l d0,-(sp)
+   1748e:	|  |   jsr 16f00 <__extendsfdf2>
+   17494:	|  |   addq.l #4,sp
+   17496:	|  |   move.l #1413754136,-(sp)
+   1749c:	|  |   move.l #1074340347,-(sp)
    174a2:	|  |   move.l d1,-(sp)
    174a4:	|  |   move.l d0,-(sp)
-   174a6:	|  |   jsr 17304 <__truncdfsf2>
-   174ac:	|  |   addq.l #8,sp
-   174ae:	+--|-- bra.s 1750a <atan2f+0x1a8>
+   174a6:	|  |   jsr 1727a <__subdf3>
+   174ac:	|  |   lea 16(sp),sp
+   174b0:	|  |   move.l d1,-(sp)
+   174b2:	|  |   move.l d0,-(sp)
+   174b4:	|  |   jsr 17312 <__truncdfsf2>
+   174ba:	|  |   addq.l #8,sp
+   174bc:	+--|-- bra.s 17518 <atan2f+0x1a8>
     } else if (x == 0 && y > 0) {
-   174b0:	|  \-> clr.l -(sp)
-   174b2:	|      move.l 40(sp),-(sp)
-   174b6:	|      jsr 16ebc <__eqsf2>
-   174bc:	|      addq.l #8,sp
-   174be:	|      tst.l d0
-   174c0:	|  /-- bne.s 174dc <atan2f+0x17a>
-   174c2:	|  |   clr.l -(sp)
-   174c4:	|  |   move.l 36(sp),-(sp)
-   174c8:	|  |   jsr 17146 <__gtsf2>
-   174ce:	|  |   addq.l #8,sp
-   174d0:	|  |   tst.l d0
-   174d2:	|  +-- ble.s 174dc <atan2f+0x17a>
+   174be:	|  \-> clr.l -(sp)
+   174c0:	|      move.l 40(sp),-(sp)
+   174c4:	|      jsr 16eca <__eqsf2>
+   174ca:	|      addq.l #8,sp
+   174cc:	|      tst.l d0
+   174ce:	|  /-- bne.s 174ea <atan2f+0x17a>
+   174d0:	|  |   clr.l -(sp)
+   174d2:	|  |   move.l 36(sp),-(sp)
+   174d6:	|  |   jsr 17154 <__gtsf2>
+   174dc:	|  |   addq.l #8,sp
+   174de:	|  |   tst.l d0
+   174e0:	|  +-- ble.s 174ea <atan2f+0x17a>
         return PI / 2;
-   174d4:	|  |   move.l #1070141403,d0
-   174da:	+--|-- bra.s 1750a <atan2f+0x1a8>
+   174e2:	|  |   move.l #1070141403,d0
+   174e8:	+--|-- bra.s 17518 <atan2f+0x1a8>
     } else if (x == 0 && y < 0) {
-   174dc:	|  \-> clr.l -(sp)
-   174de:	|      move.l 40(sp),-(sp)
-   174e2:	|      jsr 16ebc <__eqsf2>
-   174e8:	|      addq.l #8,sp
-   174ea:	|      tst.l d0
-   174ec:	|  /-- bne.s 17508 <atan2f+0x1a6>
-   174ee:	|  |   clr.l -(sp)
-   174f0:	|  |   move.l 36(sp),-(sp)
-   174f4:	|  |   jsr 17200 <__ltsf2>
-   174fa:	|  |   addq.l #8,sp
-   174fc:	|  |   tst.l d0
-   174fe:	|  +-- bge.s 17508 <atan2f+0x1a6>
+   174ea:	|  \-> clr.l -(sp)
+   174ec:	|      move.l 40(sp),-(sp)
+   174f0:	|      jsr 16eca <__eqsf2>
+   174f6:	|      addq.l #8,sp
+   174f8:	|      tst.l d0
+   174fa:	|  /-- bne.s 17516 <atan2f+0x1a6>
+   174fc:	|  |   clr.l -(sp)
+   174fe:	|  |   move.l 36(sp),-(sp)
+   17502:	|  |   jsr 1720e <__ltsf2>
+   17508:	|  |   addq.l #8,sp
+   1750a:	|  |   tst.l d0
+   1750c:	|  +-- bge.s 17516 <atan2f+0x1a6>
         return -PI / 2;
-   17500:	|  |   move.l #-1077342245,d0
-   17506:	+--|-- bra.s 1750a <atan2f+0x1a8>
+   1750e:	|  |   move.l #-1077342245,d0
+   17514:	+--|-- bra.s 17518 <atan2f+0x1a8>
     } else {
         // This case is x == 0 and y == 0, atan2(0, 0) is undefined, but often treated as 0.
         return 0;
-   17508:	|  \-> moveq #0,d0
+   17516:	|  \-> moveq #0,d0
     }
 }
-   1750a:	\----> movea.l (sp)+,a6
-   1750c:	       lea 24(sp),sp
-   17510:	       rts
+   17518:	\----> movea.l (sp)+,a6
+   1751a:	       lea 24(sp),sp
+   1751e:	       rts
 
-00017512 <sqrt>:
+00017520 <sqrt>:
 
 DOUBLE sqrt( DOUBLE input) {
-   17512:	lea -24(sp),sp
-   17516:	move.l a6,-(sp)
+   17520:	lea -24(sp),sp
+   17524:	move.l a6,-(sp)
 	return IEEEDPSqrt(input);
-   17518:	move.l 32(sp),20(sp)
-   1751e:	move.l 36(sp),24(sp)
-   17524:	move.l 1a7be <MathIeeeDoubTransBase>,d0
-   1752a:	movea.l d0,a6
-   1752c:	move.l 20(sp),d0
-   17530:	move.l 24(sp),d1
-   17534:	jsr -96(a6)
-   17538:	move.l d0,4(sp)
-   1753c:	move.l d1,8(sp)
-   17540:	move.l 4(sp),12(sp)
-   17546:	move.l 8(sp),16(sp)
-   1754c:	move.l 12(sp),d0
-   17550:	move.l 16(sp),d1
+   17526:	move.l 32(sp),20(sp)
+   1752c:	move.l 36(sp),24(sp)
+   17532:	move.l 1a7be <MathIeeeDoubTransBase>,d0
+   17538:	movea.l d0,a6
+   1753a:	move.l 20(sp),d0
+   1753e:	move.l 24(sp),d1
+   17542:	jsr -96(a6)
+   17546:	move.l d0,4(sp)
+   1754a:	move.l d1,8(sp)
+   1754e:	move.l 4(sp),12(sp)
+   17554:	move.l 8(sp),16(sp)
+   1755a:	move.l 12(sp),d0
+   1755e:	move.l 16(sp),d1
 }
-   17554:	movea.l (sp)+,a6
-   17556:	lea 24(sp),sp
-   1755a:	rts
+   17562:	movea.l (sp)+,a6
+   17564:	lea 24(sp),sp
+   17568:	rts
 
-0001755c <__mulsi3>:
+0001756a <__mulsi3>:
 	.section .text.__mulsi3,"ax",@progbits
 	.type __mulsi3, function
 	.globl	__mulsi3
 __mulsi3:
 	.cfi_startproc
 	movew	sp@(4), d0	/* x0 -> d0 */
-   1755c:	move.w 4(sp),d0
+   1756a:	move.w 4(sp),d0
 	muluw	sp@(10), d0	/* x0*y1 */
-   17560:	mulu.w 10(sp),d0
-	movew	sp@(6), d1	/* x1 -> d1 */
-   17564:	move.w 6(sp),d1
-	muluw	sp@(8), d1	/* x1*y0 */
-   17568:	mulu.w 8(sp),d1
-	addw	d1, d0
-   1756c:	add.w d1,d0
-	swap	d0
-   1756e:	swap d0
-	clrw	d0
-   17570:	clr.w d0
+   1756e:	mulu.w 10(sp),d0
 	movew	sp@(6), d1	/* x1 -> d1 */
    17572:	move.w 6(sp),d1
+	muluw	sp@(8), d1	/* x1*y0 */
+   17576:	mulu.w 8(sp),d1
+	addw	d1, d0
+   1757a:	add.w d1,d0
+	swap	d0
+   1757c:	swap d0
+	clrw	d0
+   1757e:	clr.w d0
+	movew	sp@(6), d1	/* x1 -> d1 */
+   17580:	move.w 6(sp),d1
 	muluw	sp@(10), d1	/* x1*y1 */
-   17576:	mulu.w 10(sp),d1
+   17584:	mulu.w 10(sp),d1
 	addl	d1, d0
-   1757a:	add.l d1,d0
+   17588:	add.l d1,d0
 	rts
-   1757c:	rts
+   1758a:	rts
 
-0001757e <__udivsi3>:
+0001758c <__udivsi3>:
 	.section .text.__udivsi3,"ax",@progbits
 	.type __udivsi3, function
 	.globl	__udivsi3
 __udivsi3:
 	.cfi_startproc
 	movel	d2, sp@-
-   1757e:	       move.l d2,-(sp)
+   1758c:	       move.l d2,-(sp)
 	.cfi_adjust_cfa_offset 4
 	movel	sp@(12), d1	/* d1 = divisor */
-   17580:	       move.l 12(sp),d1
+   1758e:	       move.l 12(sp),d1
 	movel	sp@(8), d0	/* d0 = dividend */
-   17584:	       move.l 8(sp),d0
+   17592:	       move.l 8(sp),d0
 
 	cmpl	#0x10000, d1 /* divisor >= 2 ^ 16 ?   */
-   17588:	       cmpi.l #65536,d1
+   17596:	       cmpi.l #65536,d1
 	jcc	3f		/* then try next algorithm */
-   1758e:	   /-- bcc.s 175a6 <__udivsi3+0x28>
+   1759c:	   /-- bcc.s 175b4 <__udivsi3+0x28>
 	movel	d0, d2
-   17590:	   |   move.l d0,d2
+   1759e:	   |   move.l d0,d2
 	clrw	d2
-   17592:	   |   clr.w d2
+   175a0:	   |   clr.w d2
 	swap	d2
-   17594:	   |   swap d2
+   175a2:	   |   swap d2
 	divu	d1, d2          /* high quotient in lower word */
-   17596:	   |   divu.w d1,d2
+   175a4:	   |   divu.w d1,d2
 	movew	d2, d0		/* save high quotient */
-   17598:	   |   move.w d2,d0
+   175a6:	   |   move.w d2,d0
 	swap	d0
-   1759a:	   |   swap d0
+   175a8:	   |   swap d0
 	movew	sp@(10), d2	/* get low dividend + high rest */
-   1759c:	   |   move.w 10(sp),d2
+   175aa:	   |   move.w 10(sp),d2
 	divu	d1, d2		/* low quotient */
-   175a0:	   |   divu.w d1,d2
+   175ae:	   |   divu.w d1,d2
 	movew	d2, d0
-   175a2:	   |   move.w d2,d0
+   175b0:	   |   move.w d2,d0
 	jra	6f
-   175a4:	/--|-- bra.s 175d6 <__udivsi3+0x58>
+   175b2:	/--|-- bra.s 175e4 <__udivsi3+0x58>
 
 3:	movel	d1, d2		/* use d2 as divisor backup */
-   175a6:	|  \-> move.l d1,d2
+   175b4:	|  \-> move.l d1,d2
 4:	lsrl	#1, d1	/* shift divisor */
-   175a8:	|  /-> lsr.l #1,d1
+   175b6:	|  /-> lsr.l #1,d1
 	lsrl	#1, d0	/* shift dividend */
-   175aa:	|  |   lsr.l #1,d0
+   175b8:	|  |   lsr.l #1,d0
 	cmpl	#0x10000, d1 /* still divisor >= 2 ^ 16 ?  */
-   175ac:	|  |   cmpi.l #65536,d1
+   175ba:	|  |   cmpi.l #65536,d1
 	jcc	4b
-   175b2:	|  \-- bcc.s 175a8 <__udivsi3+0x2a>
+   175c0:	|  \-- bcc.s 175b6 <__udivsi3+0x2a>
 	divu	d1, d0		/* now we have 16-bit divisor */
-   175b4:	|      divu.w d1,d0
+   175c2:	|      divu.w d1,d0
 	andl	#0xffff, d0 /* mask out divisor, ignore remainder */
-   175b6:	|      andi.l #65535,d0
+   175c4:	|      andi.l #65535,d0
 
 /* Multiply the 16-bit tentative quotient with the 32-bit divisor.  Because of
    the operand ranges, this might give a 33-bit product.  If this product is
    greater than the dividend, the tentative quotient was too large. */
 	movel	d2, d1
-   175bc:	|      move.l d2,d1
+   175ca:	|      move.l d2,d1
 	mulu	d0, d1		/* low part, 32 bits */
-   175be:	|      mulu.w d0,d1
+   175cc:	|      mulu.w d0,d1
 	swap	d2
-   175c0:	|      swap d2
+   175ce:	|      swap d2
 	mulu	d0, d2		/* high part, at most 17 bits */
-   175c2:	|      mulu.w d0,d2
+   175d0:	|      mulu.w d0,d2
 	swap	d2		/* align high part with low part */
-   175c4:	|      swap d2
+   175d2:	|      swap d2
 	tstw	d2		/* high part 17 bits? */
-   175c6:	|      tst.w d2
+   175d4:	|      tst.w d2
 	jne	5f		/* if 17 bits, quotient was too large */
-   175c8:	|  /-- bne.s 175d4 <__udivsi3+0x56>
+   175d6:	|  /-- bne.s 175e2 <__udivsi3+0x56>
 	addl	d2, d1		/* add parts */
-   175ca:	|  |   add.l d2,d1
+   175d8:	|  |   add.l d2,d1
 	jcs	5f		/* if sum is 33 bits, quotient was too large */
-   175cc:	|  +-- bcs.s 175d4 <__udivsi3+0x56>
+   175da:	|  +-- bcs.s 175e2 <__udivsi3+0x56>
 	cmpl	sp@(8), d1	/* compare the sum with the dividend */
-   175ce:	|  |   cmp.l 8(sp),d1
+   175dc:	|  |   cmp.l 8(sp),d1
 	jls	6f		/* if sum > dividend, quotient was too large */
-   175d2:	+--|-- bls.s 175d6 <__udivsi3+0x58>
+   175e0:	+--|-- bls.s 175e4 <__udivsi3+0x58>
 5:	subql	#1, d0	/* adjust quotient */
-   175d4:	|  \-> subq.l #1,d0
+   175e2:	|  \-> subq.l #1,d0
 
 6:	movel	sp@+, d2
-   175d6:	\----> move.l (sp)+,d2
+   175e4:	\----> move.l (sp)+,d2
 	.cfi_adjust_cfa_offset -4
 	rts
-   175d8:	       rts
+   175e6:	       rts
 
-000175da <__divsi3>:
+000175e8 <__divsi3>:
 	.section .text.__divsi3,"ax",@progbits
 	.type __divsi3, function
 	.globl	__divsi3
  __divsi3:
  	.cfi_startproc
 	movel	d2, sp@-
-   175da:	    move.l d2,-(sp)
+   175e8:	    move.l d2,-(sp)
 	.cfi_adjust_cfa_offset 4
 
 	moveq	#1, d2	/* sign of result stored in d2 (=1 or =-1) */
-   175dc:	    moveq #1,d2
+   175ea:	    moveq #1,d2
 	movel	sp@(12), d1	/* d1 = divisor */
-   175de:	    move.l 12(sp),d1
+   175ec:	    move.l 12(sp),d1
 	jpl	1f
-   175e2:	/-- bpl.s 175e8 <__divsi3+0xe>
+   175f0:	/-- bpl.s 175f6 <__divsi3+0xe>
 	negl	d1
-   175e4:	|   neg.l d1
+   175f2:	|   neg.l d1
 	negb	d2		/* change sign because divisor <0  */
-   175e6:	|   neg.b d2
+   175f4:	|   neg.b d2
 1:	movel	sp@(8), d0	/* d0 = dividend */
-   175e8:	\-> move.l 8(sp),d0
+   175f6:	\-> move.l 8(sp),d0
 	jpl	2f
-   175ec:	/-- bpl.s 175f2 <__divsi3+0x18>
+   175fa:	/-- bpl.s 17600 <__divsi3+0x18>
 	negl	d0
-   175ee:	|   neg.l d0
+   175fc:	|   neg.l d0
 	negb	d2
-   175f0:	|   neg.b d2
+   175fe:	|   neg.b d2
 
 2:	movel	d1, sp@-
-   175f2:	\-> move.l d1,-(sp)
+   17600:	\-> move.l d1,-(sp)
 	.cfi_adjust_cfa_offset 4
 	movel	d0, sp@-
-   175f4:	    move.l d0,-(sp)
+   17602:	    move.l d0,-(sp)
 	.cfi_adjust_cfa_offset 4
 	jbsr	__udivsi3	/* divide abs(dividend) by abs(divisor) */
-   175f6:	    jsr 1757e <__udivsi3>
+   17604:	    jsr 1758c <__udivsi3>
 	addql	#8, sp
-   175fc:	    addq.l #8,sp
+   1760a:	    addq.l #8,sp
 	.cfi_adjust_cfa_offset -8
 
 	tstb	d2
-   175fe:	    tst.b d2
+   1760c:	    tst.b d2
 	jpl	3f
-   17600:	/-- bpl.s 17604 <__divsi3+0x2a>
+   1760e:	/-- bpl.s 17612 <__divsi3+0x2a>
 	negl	d0
-   17602:	|   neg.l d0
+   17610:	|   neg.l d0
 
 3:	movel	sp@+, d2
-   17604:	\-> move.l (sp)+,d2
+   17612:	\-> move.l (sp)+,d2
 	.cfi_adjust_cfa_offset -4
 	rts
-   17606:	    rts
+   17614:	    rts
 
-00017608 <__modsi3>:
+00017616 <__modsi3>:
 	.section .text.__modsi3,"ax",@progbits
 	.type __modsi3, function
 	.globl	__modsi3
 __modsi3:
 	.cfi_startproc
 	movel	sp@(8), d1	/* d1 = divisor */
-   17608:	move.l 8(sp),d1
+   17616:	move.l 8(sp),d1
 	movel	sp@(4), d0	/* d0 = dividend */
-   1760c:	move.l 4(sp),d0
+   1761a:	move.l 4(sp),d0
 	movel	d1, sp@-
-   17610:	move.l d1,-(sp)
+   1761e:	move.l d1,-(sp)
 	.cfi_adjust_cfa_offset 4
 	movel	d0, sp@-
-   17612:	move.l d0,-(sp)
+   17620:	move.l d0,-(sp)
 	.cfi_adjust_cfa_offset 4
 	jbsr	__divsi3
-   17614:	jsr 175da <__divsi3>
+   17622:	jsr 175e8 <__divsi3>
 	addql	#8, sp
-   1761a:	addq.l #8,sp
+   17628:	addq.l #8,sp
 	.cfi_adjust_cfa_offset -8
 	movel	sp@(8), d1	/* d1 = divisor */
-   1761c:	move.l 8(sp),d1
+   1762a:	move.l 8(sp),d1
 	movel	d1, sp@-
-   17620:	move.l d1,-(sp)
+   1762e:	move.l d1,-(sp)
 	.cfi_adjust_cfa_offset 4
 	movel	d0, sp@-
-   17622:	move.l d0,-(sp)
+   17630:	move.l d0,-(sp)
 	.cfi_adjust_cfa_offset 4
 	jbsr	__mulsi3	/* d0 = (a/b)*b */
-   17624:	jsr 1755c <__mulsi3>
+   17632:	jsr 1756a <__mulsi3>
 	addql	#8, sp
-   1762a:	addq.l #8,sp
+   17638:	addq.l #8,sp
 	.cfi_adjust_cfa_offset -8
 	movel	sp@(4), d1	/* d1 = dividend */
-   1762c:	move.l 4(sp),d1
+   1763a:	move.l 4(sp),d1
 	subl	d0, d1		/* d1 = a - (a/b)*b */
-   17630:	sub.l d0,d1
+   1763e:	sub.l d0,d1
 	movel	d1, d0
-   17632:	move.l d1,d0
+   17640:	move.l d1,d0
 	rts
-   17634:	rts
+   17642:	rts
 
-00017636 <__umodsi3>:
+00017644 <__umodsi3>:
 	.section .text.__umodsi3,"ax",@progbits
 	.type __umodsi3, function
 	.globl	__umodsi3
 __umodsi3:
 	.cfi_startproc
 	movel	sp@(8), d1	/* d1 = divisor */
-   17636:	move.l 8(sp),d1
+   17644:	move.l 8(sp),d1
 	movel	sp@(4), d0	/* d0 = dividend */
-   1763a:	move.l 4(sp),d0
+   17648:	move.l 4(sp),d0
 	movel	d1, sp@-
-   1763e:	move.l d1,-(sp)
+   1764c:	move.l d1,-(sp)
 	.cfi_adjust_cfa_offset 4
 	movel	d0, sp@-
-   17640:	move.l d0,-(sp)
+   1764e:	move.l d0,-(sp)
 	.cfi_adjust_cfa_offset 4
 	jbsr	__udivsi3
-   17642:	jsr 1757e <__udivsi3>
+   17650:	jsr 1758c <__udivsi3>
 	addql	#8, sp
-   17648:	addq.l #8,sp
+   17656:	addq.l #8,sp
 	.cfi_adjust_cfa_offset -8
 	movel	sp@(8), d1	/* d1 = divisor */
-   1764a:	move.l 8(sp),d1
+   17658:	move.l 8(sp),d1
 	movel	d1, sp@-
-   1764e:	move.l d1,-(sp)
+   1765c:	move.l d1,-(sp)
 	.cfi_adjust_cfa_offset 4
 	movel	d0, sp@-
-   17650:	move.l d0,-(sp)
+   1765e:	move.l d0,-(sp)
 	.cfi_adjust_cfa_offset 4
 	jbsr	__mulsi3	/* d0 = (a/b)*b */
-   17652:	jsr 1755c <__mulsi3>
+   17660:	jsr 1756a <__mulsi3>
 	addql	#8, sp
-   17658:	addq.l #8,sp
+   17666:	addq.l #8,sp
 	.cfi_adjust_cfa_offset -8
 	movel	sp@(4), d1	/* d1 = dividend */
-   1765a:	move.l 4(sp),d1
+   17668:	move.l 4(sp),d1
 	subl	d0, d1		/* d1 = a - (a/b)*b */
-   1765e:	sub.l d0,d1
+   1766c:	sub.l d0,d1
 	movel	d1, d0
-   17660:	move.l d1,d0
+   1766e:	move.l d1,d0
 	rts
-   17662:	rts
+   17670:	rts
 
-00017664 <KPutCharX>:
+00017672 <KPutCharX>:
 	.type KPutCharX, function
 	.globl	KPutCharX
 
 KPutCharX:
 	.cfi_startproc
     move.l  a6, -(sp)
-   17664:	move.l a6,-(sp)
+   17672:	move.l a6,-(sp)
 	.cfi_adjust_cfa_offset 4
     move.l  4.w, a6
-   17666:	movea.l 4 <_start+0x4>,a6
+   17674:	movea.l 4 <_start+0x4>,a6
     jsr     -0x204(a6)
-   1766a:	jsr -516(a6)
+   17678:	jsr -516(a6)
     move.l (sp)+, a6
-   1766e:	movea.l (sp)+,a6
+   1767c:	movea.l (sp)+,a6
 	.cfi_adjust_cfa_offset -4
     rts
-   17670:	rts
+   1767e:	rts
 
-00017672 <PutChar>:
+00017680 <PutChar>:
 	.type PutChar, function
 	.globl	PutChar
 
 PutChar:
 	.cfi_startproc
 	move.b d0, (a3)+
-   17672:	move.b d0,(a3)+
+   17680:	move.b d0,(a3)+
 	rts
-   17674:	rts
+   17682:	rts

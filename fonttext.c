@@ -74,12 +74,12 @@ void pasteStringToBackdrop(char *theText, int xOff, int y) {
 
     xOff += fontSpace >> 1;
 	char *tmp = theText;
-    //while (*tmp) {        
+    while (*tmp) {        
         mySprite = &theFont->bank.sprites[fontInTable( (UBYTE) *tmp)];
         CstPasteChar( mySprite, xOff - mySprite->xhot, y - mySprite->yhot);
         xOff += mySprite->width + fontSpace;
 		tmp++;
-    //}
+    }
 }
 
 
