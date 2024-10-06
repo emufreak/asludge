@@ -53,7 +53,7 @@ for($i = 1; $i -le $spritenum; $i++) {
             }
 
             KingCon $fullpathimage "${filename}_${i}" -F=5 -M        
-            Get-Content -Encoding Byte -Path source.aduc, "${filename}_${i}.BPL" | Set-Content -Encoding Byte target.aduc
+            Get-Content -Encoding Byte -Path source.aduc, "${filename}_${i}.BPL" | Set-Content -Encoding By.te target.aduc
             Remove-Item "${filename}_${i}.BPL" 
         }
         'font' 

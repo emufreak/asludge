@@ -25,6 +25,7 @@ void CstDrawBackdrop();
 void CstFreeBuffer();
 void CstFreeze();
 void CstLoadBackdrop( BPTR fp, int x, int y);
+void CstPasteChar( struct sprite *single, WORD x, WORD y);
 BOOL CstReserveBackdrop(int width, int height);
 void CstRestoreScreen();
 void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD x, WORD y, UWORD destinationtype); 

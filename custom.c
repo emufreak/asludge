@@ -9,7 +9,7 @@
 #define CSTBPL4LOW 35*2+1
 #define CSTBPL5HIGH 36*2+1
 #define CSTBPL5LOW 37*2+1
-//#define EMULATOR
+#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -420,6 +420,149 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 }
 
 ULONG test = 0;
+
+void CstPasteChar( struct sprite *single, WORD x, WORD y)
+{  
+  UWORD *destination = 0;
+  CstApplyBackDropCounter = 2;
+  destination = (UWORD *) CstBackDrop;      
+
+  UWORD extrawords; //When Input is shifted sometimes an extra word has to be written to cover the whole sprite
+  UWORD cutwordssource; //If some words are completely outside of screen
+  UWORD cutmaskpixel; //Single pixels outside of Screen need to be masked out to prevent corruption of background
+  UWORD bltalwm; //Mask out all or part of last word as out of range of source.
+  ULONG bltapt; //Start Position Source Mask
+  ULONG bltbpt; //Start Position Source
+  ULONG bltcpt; //Start Position Background
+  ULONG bltdpt; //Start Position DrawBuffer
+  ULONG bltcon0; //Channel configuration and shift mask
+  ULONG bltcon1; //Shift Source
+  ULONG ystartdst;
+  ULONG ystartsrc; 
+  ULONG blitheight;
+  ULONG blitwidth;
+
+  bltcon0 = 0;
+
+  blitwidth = single->width/16;
+  if(blitwidth == 0) blitwidth = 1;
+
+  if( y < 0) {
+    if(y + single->height < 0) {
+      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
+      return;
+    }
+    ystartdst = 0;
+    ystartsrc = y*-1;
+    blitheight = single->height+y;
+  } else if(y+single->height > (int) winHeight) {
+    if(y  > (int) winHeight) {
+      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
+      return;
+    }
+    ystartdst = y;
+    ystartsrc = 0;
+    blitheight = winHeight-y;
+  } else {
+    ystartdst = y;
+    ystartsrc = 0;
+    blitheight = single->height;
+  }
+
+
+  if( x < 0) { //Leftmost part outside screen
+    if(x + single->width < 0) {
+      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
+      return;
+
+    }
+    
+    extrawords = 1;
+
+    cutwordssource = (x*-1)/16; 
+    cutmaskpixel = (x*-1)%16;     
+    bltalwm = 0; //Last Word of this channel almost masked out
+    bltapt = ((ULONG) single->data)+cutwordssource*2+ystartsrc*single->width/8;
+    bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
+    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
+    bltcon0 = ((16-cutmaskpixel) << 12);
+
+    *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource+extrawords;
+    *CstBackDropBufferApplyCursor++ = blitheight;
+    *CstBackDropBufferApplyCursor++ = 0;
+    *CstBackDropBufferApplyCursor++ = ystartdst;
+    *CstBackDropBufferApplyCursor++ = 0;
+
+  } else if(x + single->width > (int) winWidth) { //Rightmost part outside screen   
+
+    if(x - single->width > (int) winWidth)
+    {    
+      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
+      return;
+    }
+    extrawords = 0; //Shifted out part of source outside screen. No need to blit this
+    cutwordssource = (x+single->width - winWidth)/16;
+    cutmaskpixel = 0;
+    bltalwm = 0xffff; //Last word contains source data to be blit
+    bltapt = (ULONG) single->data+ystartsrc*single->width/8;
+    bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
+    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
+    bltcon0 = ((single->width%16) << 12);    
+    
+    *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource;
+    *CstBackDropBufferApplyCursor++ = blitheight;
+    *CstBackDropBufferApplyCursor++ = (x/16)*2;
+    *CstBackDropBufferApplyCursor++ = ystartdst;
+    *CstBackDropBufferApplyCursor++ = 0;
+    
+  } else { //Whole Sprite on Screen
+
+    extrawords = 1;
+    cutwordssource = 0;
+    cutmaskpixel = 0;
+    bltalwm = 0; //Last Word of this channel almost masked out
+    bltapt = (ULONG) single->data+ystartsrc*(single->width/16)*2;
+    bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
+    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
+    bltcon0 = ((x%16) << 12);
+
+    *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource+extrawords;
+    *CstBackDropBufferApplyCursor++ = blitheight;
+    *CstBackDropBufferApplyCursor++ = (x/16)*2;
+    *CstBackDropBufferApplyCursor++ = ystartdst;
+    *CstBackDropBufferApplyCursor++ = 0;
+    
+  }
+
+  UWORD bltafwm = 0xffff >> cutmaskpixel;
+  WORD bltamod = cutwordssource*2-(extrawords*2); //Jump to next line
+  WORD bltcmod = winWidth/8-blitwidth*2-extrawords*2+cutwordssource*2;
+  WORD bltdmod = winWidth/8-blitwidth*2-extrawords*2+cutwordssource*2;
+
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+  WaitBlit();
+
+  custom->bltafwm = bltafwm;
+  custom->bltalwm = bltalwm;
+  custom->bltamod = bltamod;
+  custom->bltcmod = bltcmod;
+  custom->bltdmod = bltdmod;
+
+  UWORD bltcptplus = winWidth/8*winHeight;
+  for(int i=0;i<5;i++) //ToDo other numbers of Bitplanes
+  {
+    custom->bltcon0 = bltcon0 + 0xbfa;
+    custom->bltapt = (APTR) bltapt;
+    custom->bltcpt = (APTR) bltcpt;
+    custom->bltdpt = (APTR) bltdpt;
+    custom->bltsize = (blitheight << 6) + blitwidth-cutwordssource+extrawords;
+    bltcpt += bltcptplus;
+    bltdpt += bltcptplus;
+
+    WaitBlit();
+  }   
+}
+
 
 void CstRestoreScreen()
 {

@@ -859,8 +859,8 @@ builtIn(pasteString)
     if (!getValueType(&x, SVT_INT,&fun->stack->thisVar)) return BR_ERROR;
     trimStack(&fun->stack);
     if (x == IN_THE_CENTRE) x = (winWidth - stringWidth(newText)) >> 1;
-    //fixFont(pastePalette);
-    //pasteStringToBackdrop(newText, x, y, pastePalette); //Todo: Amigize this
+    //fixFont(pastePalette); //Todo: Amigize this
+    pasteStringToBackdrop(newText, x, y); 
     FreeVec(newText); 
     return BR_CONTINUE;
 }
