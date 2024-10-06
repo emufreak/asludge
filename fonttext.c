@@ -2,10 +2,13 @@
 #include <proto/exec.h>
 
 #include "stringy.h"
+#include "custom.h"
 #include "fonttext.h"
 #include "sprites.h"
 #include "sprbanks.h"
 #include "support/gcc8_c_support.h"
+
+#define fontInTable(x) ((x<fontTableSize) ? fontTable[(ULONG) x] : 0)
 
 int fontHeight = 0, numFontColours, loadedFontNum;
 char * fontOrderString = NULL;
@@ -14,6 +17,7 @@ short fontSpace = -1;
 ULONG * fontTable = NULL;
 unsigned int fontTableSize = 0;
 struct loadedSpriteBank *theFont;
+
 
 BOOL isInFont (char * theText) {
 	KPrintF("isInFont: Not implemented yet on Amiga"); //Todo: Implement on Amiga
@@ -62,7 +66,7 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
 	return TRUE;
 }
 
-void pasteStringToBackdrop(char *theText, int xOff, int y, struct spritePalette *thePal) {
+void pasteStringToBackdrop(char *theText, int xOff, int y) {
     struct sprite *mySprite;
     int a = 0;
 
@@ -70,11 +74,12 @@ void pasteStringToBackdrop(char *theText, int xOff, int y, struct spritePalette 
 
     xOff += fontSpace >> 1;
 	char *tmp = theText;
-    while (*tmp) {        
-        mySprite = &theFont->bank.sprites[fontInTable(*tmp++)];
-        //pasteSpriteToBackDrop(xOff, y, *mySprite, thePal);
+    //while (*tmp) {        
+        mySprite = &theFont->bank.sprites[fontInTable( (UBYTE) *tmp)];
+        CstPasteChar( mySprite, xOff - mySprite->xhot, y - mySprite->yhot);
         xOff += mySprite->width + fontSpace;
-    }
+		tmp++;
+    //}
 }
 
 

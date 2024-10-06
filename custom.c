@@ -9,7 +9,7 @@
 #define CSTBPL4LOW 35*2+1
 #define CSTBPL5HIGH 36*2+1
 #define CSTBPL5LOW 37*2+1
-//#define EMULATOR
+#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -427,7 +427,6 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
   CstApplyBackDropCounter = 2;
   destination = (UWORD *) CstBackDrop;      
 
-
   UWORD extrawords; //When Input is shifted sometimes an extra word has to be written to cover the whole sprite
   UWORD cutwordssource; //If some words are completely outside of screen
   UWORD cutmaskpixel; //Single pixels outside of Screen need to be masked out to prevent corruption of background
@@ -441,9 +440,12 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
   ULONG ystartdst;
   ULONG ystartsrc; 
   ULONG blitheight;
+  ULONG blitwidth;
 
   bltcon0 = 0;
 
+  blitwidth = single->width/16;
+  if(blitwidth == 0) blitwidth = 1;
 
   if( y < 0) {
     if(y + single->height < 0) {
@@ -476,13 +478,14 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     }
     
     extrawords = 1;
+
     cutwordssource = (x*-1)/16; 
     cutmaskpixel = (x*-1)%16;     
     bltalwm = 0; //Last Word of this channel almost masked out
     bltapt = ((ULONG) single->data)+cutwordssource*2+ystartsrc*single->width/8;
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
-    bltcon0 = bltcon0 + ((16-cutmaskpixel) << 12);
+    bltcon0 = ((16-cutmaskpixel) << 12);
 
     *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource+extrawords;
     *CstBackDropBufferApplyCursor++ = blitheight;
@@ -504,7 +507,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltapt = (ULONG) single->data+ystartsrc*single->width/8;
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
-    bltcon0 = bltcon0 + ((single->width%16) << 12);
+    bltcon0 = ((single->width%16) << 12);    
     
     *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource;
     *CstBackDropBufferApplyCursor++ = blitheight;
@@ -518,11 +521,11 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     cutwordssource = 0;
     cutmaskpixel = 0;
     bltalwm = 0; //Last Word of this channel almost masked out
-    bltapt = (ULONG) single->data+ystartsrc*single->width/8;
+    bltapt = (ULONG) single->data+ystartsrc*(single->width/16)*2;
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
-    bltcon0 = bltcon0 + ((x%16) << 12);
-    
+    bltcon0 = ((x%16) << 12);
+
     *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource+extrawords;
     *CstBackDropBufferApplyCursor++ = blitheight;
     *CstBackDropBufferApplyCursor++ = (x/16)*2;
@@ -531,11 +534,10 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     
   }
 
-
   UWORD bltafwm = 0xffff >> cutmaskpixel;
   WORD bltamod = cutwordssource*2-(extrawords*2); //Jump to next line
-  WORD bltcmod = winWidth/8-single->width/8-extrawords*2+cutwordssource*2;
-  WORD bltdmod = winWidth/8-single->width/8-extrawords*2+cutwordssource*2;
+  WORD bltcmod = winWidth/8-blitwidth*2-extrawords*2+cutwordssource*2;
+  WORD bltdmod = winWidth/8-blitwidth*2-extrawords*2+cutwordssource*2;
 
   volatile struct Custom *custom = (struct Custom*)0xdff000;
   WaitBlit();
@@ -546,16 +548,14 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
   custom->bltcmod = bltcmod;
   custom->bltdmod = bltdmod;
 
-  UWORD bltbptplus = (single->width >> 3)*single->height;
   UWORD bltcptplus = winWidth/8*winHeight;
   for(int i=0;i<5;i++) //ToDo other numbers of Bitplanes
   {
-    custom->bltcon0 = bltcon0 + 0xffa;
+    custom->bltcon0 = bltcon0 + 0xbfa;
     custom->bltapt = (APTR) bltapt;
     custom->bltcpt = (APTR) bltcpt;
     custom->bltdpt = (APTR) bltdpt;
-    custom->bltsize = (blitheight << 6) + single->width/16-cutwordssource+extrawords;
-    bltbpt += bltbptplus;
+    custom->bltsize = (blitheight << 6) + blitwidth-cutwordssource+extrawords;
     bltcpt += bltcptplus;
     bltdpt += bltcptplus;
 
