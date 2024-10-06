@@ -26615,7 +26615,7 @@ static enum builtReturn moveChr(int numParams, struct loadedFunction * fun, BOOL
    10b96:	|  |  |     |   movea.l 8(sp),a0
    10b9a:	|  |  |     |   move.l 12(sp),d1
    10b9e:	|  |  |     |   move.l 16(sp),d0
-   10ba2:	|  |  |     |   pea ffffffff <gcc8_c_support.c.cce2f5c3+0xfffb5baf>
+   10ba2:	|  |  |     |   pea ffffffff <gcc8_c_support.c.cce2f5c3+0xfffb5b1a>
    10ba6:	|  |  |     |   move.l 44(sp),-(sp)
    10baa:	|  |  |     |   move.l a0,-(sp)
    10bac:	|  |  |     |   move.l d1,-(sp)
@@ -26644,7 +26644,7 @@ static enum builtReturn moveChr(int numParams, struct loadedFunction * fun, BOOL
    10be8:	|  |  |  |  \-> movea.l 8(sp),a0
    10bec:	|  |  |  |      move.l 12(sp),d1
    10bf0:	|  |  |  |      move.l 16(sp),d0
-   10bf4:	|  |  |  |      pea ffffffff <gcc8_c_support.c.cce2f5c3+0xfffb5baf>
+   10bf4:	|  |  |  |      pea ffffffff <gcc8_c_support.c.cce2f5c3+0xfffb5b1a>
    10bf8:	|  |  |  |      move.l 44(sp),-(sp)
    10bfc:	|  |  |  |      move.l a0,-(sp)
    10bfe:	|  |  |  |      move.l d1,-(sp)
@@ -30540,7 +30540,7 @@ BYTE fileExists(const char * file) {
    12d7e:	    move.l a6,-(sp)
    12d80:	    move.l d2,-(sp)
 	KPrintF("fileexists: Checking File");
-   12d82:	    pea 18c9a <line.c.05397aaf>
+   12d82:	    pea 18c9a <PutChar+0x20d6>
    12d88:	    jsr 16274 <KPrintF>
    12d8e:	    addq.l #4,sp
 	BPTR tester;
@@ -30560,7 +30560,7 @@ BYTE fileExists(const char * file) {
 	if (tester) {
    12dc2:	/-- beq.s 12df2 <fileExists+0x78>
 		KPrintF("fileexists: File exists");
-   12dc4:	|   pea 18cb4 <line.c.05397aaf+0x1a>
+   12dc4:	|   pea 18cb4 <PutChar+0x20f0>
    12dca:	|   jsr 16274 <KPrintF>
    12dd0:	|   addq.l #4,sp
 		retval = 1;
@@ -30773,7 +30773,7 @@ char* itoa(int value, char* str, int base) {
    12f7c:	   |   move.l d0,d1
    12f7e:	   |   addq.l #1,d1
    12f80:	   |   move.l d1,12(sp)
-   12f84:	   |   lea 18ccc <line.c.05397aaf+0x32>,a0
+   12f84:	   |   lea 18ccc <line.c.05397aaf+0x5>,a0
    12f8a:	   |   move.b (0,a1,a0.l),d1
    12f8e:	   |   movea.l d0,a0
    12f90:	   |   move.b d1,(a0)
@@ -31609,7 +31609,7 @@ struct persona * getCostumeFromVar(struct variable *thisVar) {
    136e8:	      |     |   lea 1b726 <typeName>,a0
    136ee:	      |     |   move.l (0,a1,a0.l),d0
    136f2:	      |     |   move.l d0,-(sp)
-   136f4:	      |     |   pea 18d3e <line.c.05397aaf+0xa4>
+   136f4:	      |     |   pea 18d3e <line.c.05397aaf+0x77>
    136fa:	      |     |   jsr 16274 <KPrintF>
    13700:	      |     |   addq.l #8,sp
     }
@@ -31629,7 +31629,7 @@ BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
    13714:	                movem.l d2-d3/a6,-(sp)
 	char * pattern = joinStrings("*", ext);
    13718:	                move.l 116(sp),-(sp)
-   1371c:	                pea 18d76 <line.c.05397aaf+0xdc>
+   1371c:	                pea 18d76 <line.c.05397aaf+0xaf>
    13722:	                jsr 12e80 <joinStrings>
    13728:	                addq.l #8,sp
    1372a:	                move.l d0,102(sp)
@@ -31838,7 +31838,7 @@ BOOL getValueType (int *toHere, enum variableType vT, const struct variable *v) 
    1396c:	|      lea 1b726 <typeName>,a0
    13972:	|      move.l (0,a1,a0.l),d0
    13976:	|      move.l d0,-(sp)
-   13978:	|      pea 18d7a <line.c.05397aaf+0xe0>
+   13978:	|      pea 18d7a <line.c.05397aaf+0xb3>
    1397e:	|      jsr 12e80 <joinStrings>
    13984:	|      addq.l #8,sp
    13986:	|      move.l d0,4(sp)
@@ -31851,7 +31851,7 @@ BOOL getValueType (int *toHere, enum variableType vT, const struct variable *v) 
    13996:	|      lea 1b726 <typeName>,a0
    1399c:	|      move.l (0,a1,a0.l),d0
    139a0:	|      move.l d0,-(sp)
-   139a2:	|      pea 18dbc <line.c.05397aaf+0x122>
+   139a2:	|      pea 18dbc <line.c.05397aaf+0xf5>
    139a8:	|      jsr 12e80 <joinStrings>
    139ae:	|      addq.l #8,sp
    139b0:	|      move.l d0,(sp)
@@ -31966,7 +31966,7 @@ BOOL makeFastArraySize (struct variable *to, int size) {
    13a76:	          tst.l 40(sp)
    13a7a:	      /-- bge.s 13a90 <makeFastArraySize+0x20>
 		KPrintF("makeFastArraySize: Can't create a fast array with a negative number of elements!");
-   13a7c:	      |   pea 18e01 <line.c.05397aaf+0x167>
+   13a7c:	      |   pea 18e01 <line.c.05397aaf+0x13a>
    13a82:	      |   jsr 16274 <KPrintF>
    13a88:	      |   addq.l #4,sp
 		return FALSE;
@@ -32332,7 +32332,7 @@ BOOL copyMain (const struct variable *from, struct variable *to) {
    13dfa:	\--|-> nop
 	}
 	KPrintF("Unknown value type");
-   13dfc:	   |   pea 18e52 <line.c.05397aaf+0x1b8>
+   13dfc:	   |   pea 18e52 <line.c.05397aaf+0x18b>
    13e02:	   |   jsr 16274 <KPrintF>
    13e08:	   |   addq.l #4,sp
 	return FALSE;
@@ -32394,7 +32394,7 @@ struct personaAnimation * getAnimationFromVar (struct variable *thisVar) {
    13e76:	|      lea 1b726 <typeName>,a0
    13e7c:	|      move.l (0,a1,a0.l),d0
    13e80:	|      move.l d0,-(sp)
-   13e82:	|      pea 18d3e <line.c.05397aaf+0xa4>
+   13e82:	|      pea 18d3e <line.c.05397aaf+0x77>
    13e88:	|      jsr 16274 <KPrintF>
    13e8e:	|      addq.l #8,sp
 	return NULL;
@@ -32512,7 +32512,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 		case SVT_FASTARRAY:
 		{
 			char * builder = copyString ("FAST:");
-   13f7a:	|  |  |            pea 18e65 <line.c.05397aaf+0x1cb>
+   13f7a:	|  |  |            pea 18e65 <line.c.05397aaf+0x19e>
    13f80:	|  |  |            jsr b8 <copyString>
    13f86:	|  |  |            addq.l #4,sp
    13f88:	|  |  |            move.l d0,76(sp)
@@ -32523,7 +32523,7 @@ char * getTextFromAnyVar (const struct variable *from) {
    13f8c:	|  |  |            clr.l 72(sp)
    13f90:	|  |  |     /----- bra.w 1403a <getTextFromAnyVar+0x110>
 				builder2 = joinStrings (builder, " ");
-   13f94:	|  |  |  /--|----> pea 18e6b <line.c.05397aaf+0x1d1>
+   13f94:	|  |  |  /--|----> pea 18e6b <line.c.05397aaf+0x1a4>
    13f9a:	|  |  |  |  |      move.l 80(sp),-(sp)
    13f9e:	|  |  |  |  |      jsr 12e80 <joinStrings>
    13fa4:	|  |  |  |  |      addq.l #8,sp
@@ -32591,7 +32591,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 		case SVT_STACK:
 		{
 			char * builder = copyString ("ARRAY:");
-   14056:	|  |  |            pea 18e6d <line.c.05397aaf+0x1d3>
+   14056:	|  |  |            pea 18e6d <line.c.05397aaf+0x1a6>
    1405c:	|  |  |            jsr b8 <copyString>
    14062:	|  |  |            addq.l #4,sp
    14064:	|  |  |            move.l d0,68(sp)
@@ -32606,7 +32606,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 			while (stacky) {
    14074:	|  |  |     /----- bra.w 14116 <getTextFromAnyVar+0x1ec>
 				builder2 = joinStrings (builder, " ");
-   14078:	|  |  |  /--|----> pea 18e6b <line.c.05397aaf+0x1d1>
+   14078:	|  |  |  /--|----> pea 18e6b <line.c.05397aaf+0x1a4>
    1407e:	|  |  |  |  |      move.l 72(sp),-(sp)
    14082:	|  |  |  |  |      jsr 12e80 <joinStrings>
    14088:	|  |  |  |  |      addq.l #8,sp
@@ -32682,7 +32682,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 			if (! buff) {
    14150:	|  |           /-- bne.s 14166 <getTextFromAnyVar+0x23c>
 				KPrintF("getTextFromAnyVar: Cannot allocate Memory");
-   14152:	|  |           |   pea 18e74 <line.c.05397aaf+0x1da>
+   14152:	|  |           |   pea 18e74 <line.c.05397aaf+0x1ad>
    14158:	|  |           |   jsr 16274 <KPrintF>
    1415e:	|  |           |   addq.l #4,sp
 				return NULL;
@@ -32693,7 +32693,7 @@ char * getTextFromAnyVar (const struct variable *from) {
    14166:	|  |           \-> movea.l 84(sp),a0
    1416a:	|  |               move.l 4(a0),d0
    1416e:	|  |               move.l d0,-(sp)
-   14170:	|  |               pea 18e9e <line.c.05397aaf+0x204>
+   14170:	|  |               pea 18e9e <line.c.05397aaf+0x1d7>
    14176:	|  |               move.l 12(sp),-(sp)
    1417a:	|  |               jsr 1315e <sprintf>
    14180:	|  |               lea 12(sp),sp
@@ -32934,7 +32934,7 @@ BOOL freeze () {
    14320:	       lea -52(sp),sp
    14324:	       move.l a6,-(sp)
 	KPrintF("calling freeze()\n");
-   14326:	       pea 18ea1 <line.c.05397aaf+0x207>
+   14326:	       pea 18ea1 <line.c.05397aaf+0x1da>
    1432c:	       jsr 16274 <KPrintF>
    14332:	       addq.l #4,sp
 
@@ -33279,7 +33279,7 @@ struct loadedSpriteBank *theFont;
 
 BOOL isInFont (char * theText) {
 	KPrintF("isInFont: Not implemented yet on Amiga"); //Todo: Implement on Amiga
-   14724:	pea 18eb3 <line.c.05397aaf+0x219>
+   14724:	pea 18eb3 <line.c.05397aaf+0x1ec>
    1472a:	jsr 16274 <KPrintF>
    14730:	addq.l #4,sp
 	return FALSE;
@@ -33459,7 +33459,7 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
    1490c:	|         tst.w d0
    1490e:	|     /-- bne.s 14922 <loadFont+0x1ec>
 		KPrintF("loadFont: Can't load font");
-   14910:	|     |   pea 18eda <line.c.05397aaf+0x240>
+   14910:	|     |   pea 18eda <line.c.05397aaf+0x213>
    14916:	|     |   jsr 16274 <KPrintF>
    1491c:	|     |   addq.l #4,sp
 		return FALSE;
@@ -33477,10 +33477,10 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
    14934:	          rts
 
 00014936 <stringWidth>:
-		xOff += mySprite -> width + fontSpace;
-
-	}*/
+        xOff += mySprite->width + fontSpace;
+    }
 }
+
 
 int stringWidth (char * theText) {
    14936:	       subq.l #8,sp
@@ -34100,7 +34100,7 @@ ULONG rand() {
    14efa:	       move.b 47(sp),d0
    14efe:	   /-- beq.s 14f14 <rand+0xa0>
         KPrintF("Unable to open timer device\n");
-   14f00:	   |   pea 18f01 <graphics.c.1c13408a+0xb>
+   14f00:	   |   pea 18f01 <line.c.05397aaf+0x23a>
    14f06:	   |   jsr 16274 <KPrintF>
    14f0c:	   |   addq.l #4,sp
         return 0;
@@ -34143,7 +34143,7 @@ ULONG rand() {
    14f74:	|      move.l d0,26(sp)
     KPrintF("Random Number: %d\n", random_number);
    14f78:	|      move.l 26(sp),-(sp)
-   14f7c:	|      pea 18f1e <graphics.c.1c13408a+0x28>
+   14f7c:	|      pea 18f1e <line.c.05397aaf+0x257>
    14f82:	|      jsr 16274 <KPrintF>
    14f88:	|      addq.l #8,sp
 
@@ -34247,7 +34247,7 @@ struct loadedSpriteBank * loadBankForAnim (int ID) {
 			allLoadedBanks = returnMe;
    15086:	|     |  |   move.l 20(sp),1b9b8 <allLoadedBanks>
 			KPrintF("loadBankForAnim: New sprite bank created OK\n");
-   1508e:	|     |  |   pea 18f31 <graphics.c.1c13408a+0x3b>
+   1508e:	|     |  |   pea 18f31 <graphics.c.1c13408a+0xe>
    15094:	|     |  |   jsr 16274 <KPrintF>
    1509a:	|     |  |   addq.l #4,sp
 			return returnMe;
@@ -34255,7 +34255,7 @@ struct loadedSpriteBank * loadBankForAnim (int ID) {
    150a0:	+-----|--|-- bra.s 150cc <loadBankForAnim+0xf6>
 		} else {
 			KPrintF("loadBankForAnim: I guess I couldn't load the sprites...\n");
-   150a2:	|     |  \-> pea 18f5e <graphics.c.1c13408a+0x68>
+   150a2:	|     |  \-> pea 18f5e <graphics.c.1c13408a+0x3b>
    150a8:	|     |      jsr 16274 <KPrintF>
    150ae:	|     |      addq.l #4,sp
 			FreeVec(returnMe);
@@ -34820,7 +34820,7 @@ BOOL initFloor () {
    1565c:	       move.l 1b9bc <currentFloor>,d0
    15662:	/----- bne.s 15676 <initFloor+0x4c>
         KPrintF("initFloor: Could not initialize Mem");
-   15664:	|      pea 18f97 <graphics.c.1c13408a+0xa1>
+   15664:	|      pea 18f97 <graphics.c.1c13408a+0x74>
    1566a:	|      jsr 16274 <KPrintF>
    15670:	|      addq.l #4,sp
         return FALSE;
@@ -35230,7 +35230,7 @@ BOOL setFloor (int fileNum) {
    15ab6:	|                              move.l 12(a0),d0
    15aba:	|                          /-- bne.s 15ad0 <setFloor+0xb2>
 		KPrintF("setFloor: Cannot allocate memory");
-   15abc:	|                          |   pea 18fbb <graphics.c.1c13408a+0xc5>
+   15abc:	|                          |   pea 18fbb <graphics.c.1c13408a+0x98>
    15ac2:	|                          |   jsr 16274 <KPrintF>
    15ac8:	|                          |   addq.l #4,sp
 		return FALSE;
@@ -35295,7 +35295,7 @@ BOOL setFloor (int fileNum) {
    15b74:	|                 |  |         move.l 4(a0),d0
    15b78:	|                 |  |     /-- bne.s 15b8e <setFloor+0x170>
 			KPrintF("setFloor: Cannot allocate memory");
-   15b7a:	|                 |  |     |   pea 18fbb <graphics.c.1c13408a+0xc5>
+   15b7a:	|                 |  |     |   pea 18fbb <graphics.c.1c13408a+0x98>
    15b80:	|                 |  |     |   jsr 16274 <KPrintF>
    15b86:	|                 |  |     |   addq.l #4,sp
 			return FALSE;
@@ -35372,7 +35372,7 @@ BOOL setFloor (int fileNum) {
    15c4c:	|                              move.l 4(a0),d0
    15c50:	|                          /-- bne.s 15c66 <setFloor+0x248>
 		KPrintF("setFloor: Cannot allocate memory");
-   15c52:	|                          |   pea 18fbb <graphics.c.1c13408a+0xc5>
+   15c52:	|                          |   pea 18fbb <graphics.c.1c13408a+0x98>
    15c58:	|                          |   jsr 16274 <KPrintF>
    15c5e:	|                          |   addq.l #4,sp
 		return FALSE;
@@ -35455,7 +35455,7 @@ BOOL setFloor (int fileNum) {
    15d46:	|                              move.l 16(a0),d0
    15d4a:	|                          /-- bne.s 15d60 <setFloor+0x342>
 		KPrintF("setFloor: Cannot allocate memory");
-   15d4c:	|                          |   pea 18fbb <graphics.c.1c13408a+0xc5>
+   15d4c:	|                          |   pea 18fbb <graphics.c.1c13408a+0x98>
    15d52:	|                          |   jsr 16274 <KPrintF>
    15d58:	|                          |   addq.l #4,sp
 		return FALSE;
@@ -35518,7 +35518,7 @@ BOOL setFloor (int fileNum) {
    15e08:	|                 |  |         move.l (a0),d0
    15e0a:	|                 |  |     /-- bne.s 15e20 <setFloor+0x402>
 			KPrintF("setFloor: Cannot allocate memory");
-   15e0c:	|                 |  |     |   pea 18fbb <graphics.c.1c13408a+0xc5>
+   15e0c:	|                 |  |     |   pea 18fbb <graphics.c.1c13408a+0x98>
    15e12:	|                 |  |     |   jsr 16274 <KPrintF>
    15e18:	|                 |  |     |   addq.l #4,sp
 			return FALSE;
@@ -35991,7 +35991,7 @@ void KPrintF(const char* fmt, ...) {
    16274:	       lea -128(sp),sp
    16278:	       movem.l a2-a3/a6,-(sp)
 	if(*((UWORD *)UaeDbgLog) == 0x4eb9 || *((UWORD *)UaeDbgLog) == 0xa00e) {
-   1627c:	       move.w f0ff60 <gcc8_c_support.c.cce2f5c3+0xec5b10>,d0
+   1627c:	       move.w f0ff60 <gcc8_c_support.c.cce2f5c3+0xec5a7b>,d0
    16282:	       cmpi.w #20153,d0
    16286:	   /-- beq.s 162aa <KPrintF+0x36>
    16288:	   |   cmpi.w #-24562,d0
@@ -36015,7 +36015,7 @@ void KPrintF(const char* fmt, ...) {
 		UaeDbgLog(86, temp);
    162c6:	|      move.l a3,-(sp)
    162c8:	|      pea 56 <_start+0x56>
-   162cc:	|      jsr f0ff60 <gcc8_c_support.c.cce2f5c3+0xec5b10>
+   162cc:	|      jsr f0ff60 <gcc8_c_support.c.cce2f5c3+0xec5a7b>
 	if(*((UWORD *)UaeDbgLog) == 0x4eb9 || *((UWORD *)UaeDbgLog) == 0xa00e) {
    162d2:	|      addq.l #8,sp
 }

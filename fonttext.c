@@ -62,21 +62,21 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
 	return TRUE;
 }
 
-void pasteStringToBackdrop (char * theText, int xOff, int y) {
-	/*struct sprite * mySprite;
-	int a=0;
-	ULONG c;
+void pasteStringToBackdrop(char *theText, int xOff, int y, struct spritePalette *thePal) {
+    struct sprite *mySprite;
+    int a = 0;
 
-	if (! fontTableSize) return;
+    if (!fontTableSize) return;
 
-	xOff += fontSpace >> 1;
-	while (theText[a]) {
-		mySprite = & theFont->sprites[fontInTable(*theText++)];
-		//pasteSpriteToBackDrop (xOff, y, * mySprite);
-		xOff += mySprite -> width + fontSpace;
-
-	}*/
+    xOff += fontSpace >> 1;
+	char *tmp = theText;
+    while (*tmp) {        
+        mySprite = &theFont->bank.sprites[fontInTable(*tmp++)];
+        //pasteSpriteToBackDrop(xOff, y, *mySprite, thePal);
+        xOff += mySprite->width + fontSpace;
+    }
 }
+
 
 int stringWidth (char * theText) {
 	int a = 0;
