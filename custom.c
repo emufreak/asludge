@@ -23,6 +23,7 @@
 
 extern unsigned int winWidth, winHeight;
 
+UWORD textPaletteIndex = 0;
 UWORD CstPaletteLoaded = 0;
 UWORD CstBackdropSize;
 UWORD CstBackdropSizePlane;
@@ -549,9 +550,22 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
   custom->bltdmod = bltdmod;
 
   UWORD bltcptplus = winWidth/8*winHeight;
+  UWORD tmp = textPaletteIndex;
+
+  UWORD minterm;
+  //Apply palette color to planeblit
+  //Ugly double code in the name of performance
+  UWORD tmp2 = tmp & 0x01;
+  if(tmp2) {
+    minterm = 0xbfa;
+  } else {
+    minterm = 0xb0a;
+  }
+
   for(int i=0;i<5;i++) //ToDo other numbers of Bitplanes
   {
-    custom->bltcon0 = bltcon0 + 0xbfa;
+
+    custom->bltcon0 = bltcon0 + minterm;
     custom->bltapt = (APTR) bltapt;
     custom->bltcpt = (APTR) bltcpt;
     custom->bltdpt = (APTR) bltdpt;
@@ -559,7 +573,18 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltcpt += bltcptplus;
     bltdpt += bltcptplus;
 
-    WaitBlit();
+    //Apply palette color to planeblit
+    //Ugly double code in the name of performance
+    tmp = tmp >> 1;
+    tmp2 = tmp & 0x01;
+    if(tmp2) {
+      minterm = 0xbfa;
+    } else {
+      minterm = 0xb0a;
+    }   
+
+    WaitBlit();    
+ 
   }   
 }
 

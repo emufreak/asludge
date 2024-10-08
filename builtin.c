@@ -40,7 +40,9 @@ extern int numBIFNames, numUserFunc;
 extern unsigned short saveEncoding;
 extern unsigned int sceneWidth, sceneHeight;
 extern FLOAT speechSpeed;
+extern UWORD textPaletteIndex;
 extern struct screenRegion * overRegion;
+
 
 typedef enum builtReturn (* builtInSludgeFunc) (int numParams, struct loadedFunction * fun);
 
@@ -776,12 +778,20 @@ builtIn (setLitStatusColour)
 builtIn (setPasteColour)
 {
 	UNUSEDALL
-	int red, green, blue;
-	KPrintF("setPasteColour: Function not implemented on Amiga. Attention using this might cause problems!\n");
-	/*if (! getRGBParams(red, green, blue, fun))
-		return BR_ERROR;
+	ULONG index;
 
-	setFontColour (pastePalette, (byte) red, (byte) green, (byte) blue);Todo Amigize This?*/
+	if (! getValueType ( &textPaletteIndex, SVT_INT, &fun -> stack -> thisVar)) {
+		KPrintF ("setPasteColour: Parameter not a number");
+		return BR_ERROR;
+	}
+
+	if( textPaletteIndex > 31) {
+		KPrintF ("setPasteColour: Paletteindex out of Range");
+		textPaletteIndex = 0;
+		return BR_ERROR;
+	}
+
+	//setFontColour (pastePalette, (byte) red, (byte) green, (byte) blue);
 	return BR_CONTINUE;
 }
 
