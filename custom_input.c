@@ -6,8 +6,8 @@
 
 extern struct inputType input;
 
-counterx_old = 0;
-countery_old = 0;
+UWORD counterx_old = 0;
+UWORD countery_old = 0;
 
 void CsiCheckInput() {
     volatile struct Custom *custom = (struct Custom*)0xdff000;
