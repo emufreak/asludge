@@ -40,7 +40,9 @@ extern int numBIFNames, numUserFunc;
 extern unsigned short saveEncoding;
 extern unsigned int sceneWidth, sceneHeight;
 extern FLOAT speechSpeed;
+extern UWORD textPaletteIndex;
 extern struct screenRegion * overRegion;
+
 
 typedef enum builtReturn (* builtInSludgeFunc) (int numParams, struct loadedFunction * fun);
 
@@ -68,7 +70,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	0, 1, 1, 0, 2,  							// dark, save, load, quit, rename
 	1, 3, 3, 1, 2, 1, 1, 3, 1, 0, 0, 2, 1,		// stackSize, pasteString, startMusic, defvol, vol, stopmus, stopsound, setfont, alignStatus, show x 2, pos'Status, setFloor
 	-1, -1, 1, 1, 2, 1, 1, 1, -1, -1, -1, 1, 1,	// force, jump, peekstart, peekend, enqueue, getSavedGames, inFont, loopSound, removeChar, stopCharacter
-	1, 0, 3, 3, 1, 2, 1, 2, 2,					// launch, howFrozen, pastecol, litcol, checksaved, FLOAT, cancelfunc, walkspeed, delAll
+	1, 0, 1, 3, 1, 2, 1, 2, 2,					// launch, howFrozen, pastecol, litcol, checksaved, FLOAT, cancelfunc, walkspeed, delAll
 	2, 3, 1, 2, 2, 0, 0, 1, 2, 3, 1, -1,		// extras, mixoverlay, pastebloke, getMScreenX/Y, setSound(Default/-)Volume, looppoints, speechMode, setLightMap
 	-1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,			// think, getCharacterDirection, is(char/region/moving), deleteGame, renameGame, hardScroll, stringWidth, speechSpeed, normalCharacter
 	2, 1, 2, 1, 3, 1, 1, 2, 1,					// fetchEvent, setBrightness, spin, fontSpace, burnString, captureAll, cacheSound, setSpinSpeed, transitionMode
@@ -776,12 +778,24 @@ builtIn (setLitStatusColour)
 builtIn (setPasteColour)
 {
 	UNUSEDALL
-	int red, green, blue;
-	KPrintF("setPasteColour: Function not implemented on Amiga. Attention using this might cause problems!\n");
-	/*if (! getRGBParams(red, green, blue, fun))
-		return BR_ERROR;
+	int index;
 
-	setFontColour (pastePalette, (byte) red, (byte) green, (byte) blue);Todo Amigize This?*/
+	if (! getValueType ( &index, SVT_INT, &fun -> stack -> thisVar)) {
+		KPrintF ("setPasteColour: Parameter not a number");
+		return BR_ERROR;
+	}
+	trimStack (&fun -> stack);
+
+
+	UWORD textPaletteIndex = (UWORD)index;
+
+	if( textPaletteIndex > 31) {
+		KPrintF ("setPasteColour: Paletteindex out of Range");
+		textPaletteIndex = 0;
+		return BR_ERROR;
+	}
+
+	//setFontColour (pastePalette, (byte) red, (byte) green, (byte) blue);
 	return BR_CONTINUE;
 }
 
