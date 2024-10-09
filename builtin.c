@@ -787,7 +787,7 @@ builtIn (setPasteColour)
 	trimStack (&fun -> stack);
 
 
-	UWORD textPaletteIndex = (UWORD)index;
+	textPaletteIndex = (UWORD)index;
 
 	if( textPaletteIndex > 31) {
 		KPrintF ("setPasteColour: Paletteindex out of Range");
