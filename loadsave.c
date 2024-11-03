@@ -357,10 +357,10 @@ BOOL saveGame (char * fname) {
 		put2bytes (currentFloor -> originalNum, fp);
 	} else FPutC (fp, 0);
 
-	if (zBuffer.tex) {
+	/*if (zBuffer.tex) {
 		FPutC (fp, 1);
 		put2bytes (zBuffer.originalNum, fp);
-	} else FPutC (fp,0);
+	} else FPutC (fp,0);*/ 
 
 	FPutC (fp, speechMode);
 	FPutC (fadeMode, fp);

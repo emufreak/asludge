@@ -5,14 +5,9 @@
 #define _ZBUFFER_H_
 
 struct zBufferData {
-	int width, height;
-//	bool loaded;
-	int numPanels;
-	int panel[16];
-	int originalNum;
-
-	UBYTE * tex;
-	unsigned int texName;
+	int width, height, topx, topy;
+	BYTE *bitplane;
+	struct zBufferData *nextPanel;
 };
 
 void killZBuffer();
