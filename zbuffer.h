@@ -5,8 +5,8 @@
 #define _ZBUFFER_H_
 
 struct zBufferData {
-	int width, height, topx, topy;
-	BYTE *bitplane;
+	int width, height, topx, topy, yz;
+	BYTE *bitplane;	
 	struct zBufferData *nextPanel;
 };
 

@@ -6,9 +6,17 @@
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 
-struct zBufferData zBuffer;
+struct zBufferData *zBuffer;
 
-void killZBuffer () {	
+void killZBuffer () {
+	struct zBufferData *zbuffercursor =  zBuffer;
+
+	while(zbuffercursor) {
+		struct zBufferData *deleteme = zbuffercursor;
+		zbuffercursor = zbuffercursor->nextPanel;
+		FreeVec(deleteme);
+	}
+	zBuffer = NULL;
 }
 
 BOOL setZBuffer (unsigned int y) {
@@ -16,29 +24,46 @@ BOOL setZBuffer (unsigned int y) {
 	ULONG stillToGo = 0;
 	int yPalette[16], sorted[16], sortback[16];
 
-	killZBuffer ();
-
+	killZBuffer ();	
+	
 	if (! openFileFromNum (y)) return FALSE;
-	if (FGetC (bigDataFile) != 'a' && FGetC (bigDataFile) != 's' && FGetC (bigDataFile) != 'z' && FGetC (bigDataFile) != 'b') 
-	{
-		 KPrintF("Not a Asludge Z-buffer file. Remember the Amiga Version is using its own format.");
+	
+	if (FGetC (bigDataFile) != 'a' || FGetC (bigDataFile) != 's' || FGetC (bigDataFile) != 'z' || FGetC (bigDataFile) != 'b') 
+	{ 
+		 KPrintF("Not a Z-buffer file");
 		 return FALSE;
 	}
 
-	zBuffer.width = get2bytes (bigDataFile);
-	zBuffer.height = get2bytes (bigDataFile);
-	zBuffer.topx = get2bytes (bigDataFile);
-	zBuffer.topx = get2bytes (bigDataFile);
+	UWORD numelements = FGetC(bigDataFile);
 
-	UWORD size = zBuffer.width/8*zBuffer.height;
-	zBuffer.bitplane = AllocVec( size, MEMF_CHIP);
+	UWORD size;
+	UWORD count;
 
-	UWORD count = FRead( bigDataFile, zBuffer.bitplane, 1, size);
-	if(count == 0) {
-		KPrintF("Error loading zBuffer");
-		return FALSE;
+	zBuffer = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
+
+	struct zBufferData *currentitem;
+	currentitem = zBuffer;
+
+	while(numelements--)
+	{		
+		currentitem->width = get2bytes (bigDataFile);
+		currentitem->height = get2bytes (bigDataFile);
+
+		currentitem->topx = get2bytes (bigDataFile);
+		currentitem->topy = get2bytes (bigDataFile);
+		currentitem->yz = get2bytes (bigDataFile);
+
+		UWORD size = currentitem->width * currentitem->height / 8;
+		currentitem->bitplane = AllocVec( size, MEMF_CHIP);
+		count = FRead( bigDataFile, currentitem->bitplane, 1, size);				
+
+		if(numelements > 0) {
+			currentitem->nextPanel = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
+			currentitem = currentitem->nextPanel;
+		}
+
 	}
-
+	
 	finishAccess ();
 	
 	return TRUE;
