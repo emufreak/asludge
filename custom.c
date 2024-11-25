@@ -313,7 +313,7 @@ void CstDrawBackdrop() {
           UWORD xdiff = zbufferx1oncanvas - spritex1oncanvas; 
           UWORD xdiffbyte = (xdiff / 16) * 2;
           UWORD xdiffrest = xdiff - xdiffbyte * 8;
-          UWORD bytewidth, width;
+          UWORD bytewidth, width, rest;
 
           if( zbufferx2oncanvas > spritex2oncanvas)    
           {         
@@ -357,6 +357,10 @@ void CstDrawBackdrop() {
          
             width = spritex2oncanvas - zbufferx1oncanvas; 
             bytewidth = width/8;
+            UWORD rest = width - bytewidth * 8;
+            if( rest) {
+              bytewidth+=1;    
+            }
 
             custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8; 
             custom->bltapt = zbuffer->bitplane;
@@ -380,36 +384,47 @@ void CstDrawBackdrop() {
 
 
                             //A-Channel
-                            //GRID        111111111111111122222222222222223333333333333333    
-                            //Data        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                            //Negative Mod
+                            //                                            Next Line                              
+                            //GRID        111111111111111122222222222222221111111111111111
+                            //Data        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBIIIIIIIIIIIIIIII
                             //ShiftA      +++++++++++++++---------------------------------
                             //BltApt      +-----------------------------------------------
-                            //BltAMod     ------------------------------------------------
-                            //BltAfwm     ---------------+--------------------------------
-                            //BltAlwm     --------------------------------++++++++++++++++
+                            //BltAMod     --------------------------------NNNNNNNNNNNNNNNN
+                            //BltAfwm     ++++++++++++++++--------------------------------   
+                            //BltAlwm     ------------------------------------------------
                             //            |
             //TargetBuffer                +  
-            //GRID        1111111111111111222222222222222233333333333333334444444444444444                        
-            //BlitArea    DDDDDDDDDDDDDDDDKKKKKKKKKKKKKKKCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC           
-            //BltDpt      ----------------+-----------------------------------------------            
-            //BlDmod      ++++++++++++++++------------------------------------------------
-            //XDiff       +++++++++++++++++++++++++++++++---------------------------------
-            //XDiffByte   ++++++++++++++++------------------------------------------------
-            //XDiffRest   ----------------+++++++++++++++---------------------------------
-            //Width       -------------------------------+++++++++++++++++++++++++++++++++
-            //BWidth      ----------------++++++++++++++++++++++++++++++++++++++++++++++++
+            //GRID        11111111111111112222222222222222333333333333333344444444444444445555555555555555
+            //BlitArea    DDDDDDDDDDDDDDDDKKKKKKKKKKKKKKKCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCKDDDDDDDDDDDDDDDD           
+            //BltDpt      ----------------+---------------------------------------------------------------            
+            //BlDmod      ++++++++++++++++------------------------------------------------++++++++++++++++
+            //XDiff       +++++++++++++++++++++++++++++++-------------------------------------------------
+            //XDiffByte   ++++++++++++++++----------------------------------------------------------------
+            //XDiffRest   ----------------+++++++++++++++-------------------------------------------------
+            //Width       -------------------------------+++++++++++++++++++++++++++++++++----------------
+            //BWidth      ----------------++++++++++++++++++++++++++++++++++++++++++++++++----------------
                        // ^
             //B-Channel   |
-            //GRID        1111111111111111222222222222222233333333333333334444444444444444                                   
-            //Data        DDDDDDDDDDDDDDDDKKKKKKKKKKKKKKKCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-            //BltBpt      ----------------+-----------------------------------------------             
-            //BlBmod      ++++++++++++++++------------------------------------------------            
-            //ShiftB      ----------------------------------------------------------------
-            //XDiffByte   ++++++++++++++++------------------------------------------------  
-            //XDiffRest   ----------------+++++++++++++++---------------------------------
+            //GRID        11111111111111112222222222222222333333333333333344444444444444445555555555555555
+            //BlitArea    DDDDDDDDDDDDDDDDKKKKKKKKKKKKKKKCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCKDDDDDDDDDDDDDDDD           
+            //BltDpt      ----------------+---------------------------------------------------------------            
+            //BlDmod      ++++++++++++++++------------------------------------------------++++++++++++++++
+            //XDiff       +++++++++++++++++++++++++++++++-------------------------------------------------
+            //XDiffByte   ++++++++++++++++----------------------------------------------------------------
+            //XDiffRest   ----------------+++++++++++++++-------------------------------------------------
+            //Width       -------------------------------+++++++++++++++++++++++++++++++++----------------
+            //BWidth      ----------------++++++++++++++++++++++++++++++++++++++++++++++++----------------
+            //BltBpt      ----------------+---------------------------------------------------------------             
+            //BlBmod      ++++++++++++++++------------------------------------------------++++++++++++++++            
+
                                             
             width = zbuffer->width;                       
             bytewidth = width/8;
+            UWORD rest = width - bytewidth * 8;
+            if( rest) {
+              bytewidth+=1;    
+            }
 
             custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8; 
             custom->bltapt = zbuffer->bitplane;
@@ -419,7 +434,7 @@ void CstDrawBackdrop() {
             custom->bltamod = zbuffer->width/8 - bytewidth;
             custom->bltdmod = sprite->width/8 - bytewidth;
             custom->bltafwm = 0xffff;
-            custom->bltalwm = 0xffff << (16 - xdiffrest);
+            custom->bltalwm = 0; 
             custom->bltcon0 = 0xd0c;
             custom->bltsize = height*64+bytewidth/2;
           }
