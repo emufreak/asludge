@@ -6,6 +6,7 @@
 #include "support/gcc8_c_support.h"
 #include "freeze.h"
 
+extern struct zBufferData *zBuffer;  // In zbuffer.cpp
 extern struct onScreenPerson * allPeople;
 extern struct screenRegion * allScreenRegions;
 extern struct screenRegion * overRegion;
@@ -67,6 +68,9 @@ BOOL freeze () {
 	mouseCursorAnim = makeNullAnim ();
 	mouseCursorFrameNum = 0;
 
+	newFreezer -> zBuffer = zBuffer;
+	zBuffer = NULL;
+
 	newFreezer -> speech = speech;
 	initSpeech ();
 
@@ -107,6 +111,9 @@ void unfreeze () {
 	deleteAnim (mouseCursorAnim);  
 	mouseCursorAnim = frozenStuff -> mouseCursorAnim;
 	mouseCursorFrameNum = frozenStuff -> mouseCursorFrameNum;	
+
+	killZBuffer ();
+	zBuffer = frozenStuff->zBuffer;
 
 	if (currentEvents) FreeVec(currentEvents);
 	currentEvents = frozenStuff -> currentEvents;

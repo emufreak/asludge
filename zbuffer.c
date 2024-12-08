@@ -60,6 +60,8 @@ BOOL setZBuffer (unsigned int y) {
 		if(numelements > 0) {
 			currentitem->nextPanel = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
 			currentitem = currentitem->nextPanel;
+		} else {
+			currentitem->nextPanel = NULL;
 		}
 
 	}

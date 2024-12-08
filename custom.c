@@ -22,6 +22,8 @@
 #include "support/gcc8_c_support.h"
 #include "zbuffer.h"
 
+extern struct zBufferData *zBuffer;		
+
 extern unsigned int winWidth, winHeight;
 
 UWORD textPaletteIndex = 0;
@@ -242,9 +244,29 @@ void CstDrawBackdrop() {
 
   volatile struct Custom *custom = (struct Custom*)0xdff000;
   //In Case nothing needs to be done return sprite mask without changes
-  UBYTE *returnvalue = ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
+  UBYTE *returnvalue = AllocVec( sprite->width/8*sprite->height, MEMF_CHIP);
 
-  while(zbuffer) {
+  #ifdef EMULATOR
+    debug_register_bitmap(returnvalue, "SpriteMask", sprite->width, sprite->height, 1, 0);
+  #endif  
+
+  WaitBlit();
+
+  custom->bltafwm = 0xffff;
+  custom->bltalwm = 0xffff;
+  custom->bltamod = 0;
+  custom->bltbmod = 0;
+  custom->bltcmod = 0;
+  custom->bltdmod = 0;
+  custom->bltcon0 = 0x9f0; //Copy A to D
+  custom->bltcon1 = 0;        
+
+  custom->bltapt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
+  custom->bltdpt = (APTR) returnvalue;
+  custom->bltsize = (sprite->height<<6)+sprite->width/16;      
+
+  while(zbuffer) 
+  {
 
     UWORD spritex1oncanvas = x+sprite->xhot;
     UWORD spritex2oncanvas = spritex1oncanvas+sprite->width;
@@ -285,24 +307,9 @@ void CstDrawBackdrop() {
 
       //Overlap on both Axis
       if( (zbufferfromright || zbufferfromleft) && (zbufferfrombottom || zbufferfromtop))
-      {
-        UBYTE *returnvalue = AllocVec( sprite->width/8*sprite->height, MEMF_CHIP);
+      {      
 
-        WaitBlit();
-
-        custom->bltafwm = 0xffff;
-        custom->bltalwm = 0xffff;
-        custom->bltamod = 0;
-        custom->bltbmod = 0;
-        custom->bltcmod = 0;
-        custom->bltdmod = 0;
-        custom->bltcon0 = 0x9f0; //Copy A to D
-        custom->bltcon1 = 0;        
-  
-        custom->bltapt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
-        custom->bltdpt = (APTR) returnvalue;
-        custom->bltsize = (sprite->height<<6)+sprite->width/16;        
-
+        ULONG bltapt;
 
         if(zbufferfromright)
         {        
@@ -356,15 +363,15 @@ void CstDrawBackdrop() {
             //XDiffRest   ----------------+++++++++++++++---------------------------------
          
             width = spritex2oncanvas - zbufferx1oncanvas; 
-            bytewidth = width/8;
+            bytewidth = (width/16)*2;
             UWORD rest = width - bytewidth * 8;
             if( rest) {
               bytewidth+=1;    
             }
 
-            custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8; 
+            WaitBlit();
+
             custom->bltapt = zbuffer->bitplane;
-            custom->bltdpt = returnvalue+xdiffbyte+ydiff*sprite->width/8;
             custom->bltcon0 = xdiffrest * 4096;
             custom->bltbmod = sprite->width/8 - bytewidth;
             custom->bltamod = zbuffer->width/8 - bytewidth;
@@ -372,7 +379,6 @@ void CstDrawBackdrop() {
             custom->bltafwm = 0xffff;
             custom->bltalwm = 0xffff << (16 - xdiffrest);
             custom->bltcon0 = 0xd0c;
-            custom->bltsize = height*64+bytewidth/2;
           }
           else
           {
@@ -418,17 +424,16 @@ void CstDrawBackdrop() {
             //BltBpt      ----------------+---------------------------------------------------------------             
             //BlBmod      ++++++++++++++++------------------------------------------------++++++++++++++++            
 
+            WaitBlit();
                                             
             width = zbuffer->width;                       
-            bytewidth = width/8;
+            bytewidth = (width/16)*2;
             UWORD rest = width - bytewidth * 8;
             if( rest) {
               bytewidth+=1;    
             }
 
-            custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8; 
             custom->bltapt = zbuffer->bitplane;
-            custom->bltdpt = returnvalue+xdiffbyte+ydiff*sprite->width/8;
             custom->bltcon0 = xdiffrest * 4096;
             custom->bltbmod = sprite->width/8 - bytewidth;
             custom->bltamod = zbuffer->width/8 - bytewidth;
@@ -436,21 +441,7 @@ void CstDrawBackdrop() {
             custom->bltafwm = 0xffff;
             custom->bltalwm = 0; 
             custom->bltcon0 = 0xd0c;
-            custom->bltsize = height*64+bytewidth/2;
           }
-
-
-          //Blit needs to be word alligned and filled up width zeros
-          //Word     111111111111111122222222222222223333333333333333|4   
-          //width    ------------------wwwwwwwwwwwwwwww---------------
-          //blitwidth----------------zzwwwwwwwwwwwwwwww---------------
-          UWORD blitwidth = width + xdiffrest;
-          UWORD widthword = blitwidth / 16;
-          UWORD widthrest = width - widthword * 16;
-
-          //Round up
-          if(widthrest)
-            widthword += 1;
 
           if(zbufferfrombottom)
           {
@@ -467,17 +458,12 @@ void CstDrawBackdrop() {
 
             WaitBlit();
 
-            custom->bltapt = returnvalue+xdiffbyte+ydiff*sprite->width;
-            custom->bltbpt = zbuffer->bitplane;
-            custom->bltdpt = returnvalue+xdiffbyte+ydiff*sprite->width;
-            custom->bltcon1 = xdiffrest * 4096;
-            custom->bltamod = sprite->width/8 - widthword;
-            custom->bltbmod = sprite->width/8 - widthword;
-            custom->bltdmod = zbuffer->width/8 - widthword;
-            custom->bltafwm = 0xffff;
-            custom->bltalwm = 0xffff << (16 - xdiffrest);
-            custom->bltcon0 = 0xd30;
-            custom->bltsize = height*64+widthword;
+            custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8;            
+            custom->bltdpt = returnvalue+xdiffbyte+ydiff*sprite->width;          
+            custom->bltsize = height*64+bytewidth/2;
+          } else
+          {
+
           }
 
           //ToDo Finish Scenarios
@@ -487,42 +473,123 @@ void CstDrawBackdrop() {
         {
           //Get Distance R
           /*sprite  ------------RRRRRRRRx1++++++++++?????????------------*/    
-          //zbuffer ------------x1+++++++++++++++++++x2-----------------*/          
-          UWORD xdiff = spritex1oncanvas - zbufferx1oncanvas;
-          UWORD xdiffbyte = (xdiff / 16) * 2;
+          //zbuffer ------------x1+++++++++++++++++++x2-----------------*/                    
           
+          UWORD xdiff = spritex1oncanvas - zbufferx1oncanvas;
+          UWORD xdiffbyte = (xdiff / 16) * 2;          
           UWORD xdiffrest = xdiff - xdiffbyte * 8;
-
-          UWORD width;
-          if( zbufferx2oncanvas > spritex2oncanvas) 
-            width = sprite->width; 
-          else
-            width = zbuffer->width;
-
-          //Blit needs to be word alligned and filled up width zeros
-          //Word     111111111111111122222222222222223333333333333333|4   
-          //width    ------------------wwwwwwwwwwwwwwww---------------
-          //blitwidth----------------zzwwwwwwwwwwwwwwww---------------
-          UWORD blitwidth = width + xdiffrest;
-          UWORD widthword = blitwidth / 16;
-          UWORD widthrest = width - widthword * 16;
-
-          //Round up
-          if(widthrest)
-            widthword += 1;
+          UWORD bytewidth, width, rest;
 
 
+          if( zbufferx2oncanvas > spritex2oncanvas)    
+          {         
+              //K Keep Existing Value through blit
+            //C Combine width Background
+            //I Ignore the Bit of this Channel
+            //D Data Present but unchanged
+            //- No Data exists for this source
 
+            //A-Channel (Zbuffer)
+            //GRID        11111111111111112222222222222222333333333333333344444444444444445555555555555555                                         
+            //Data        DDDDDDDDDDDDDDDDIIIICCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCIIIIIIIIIIIIDDDDDDDDDDDDDDDD
+            //ShiftA      ----------------++++++++++++----------------------------------------------------
+            //BltApt      ----------------+---------------------------------------------------------------
+            //BltAMod     ++++++++++++++++------------------------------------------------++++++++++++++++
+            //BltAfwm     --------------------++++++++++++------------------------------------------------
+            //BltAlwm     ------------------------------------------------++++----------------------------
+            //XDiffByte   ++++++++++++++++----------------------------------------------------------------
+            //XDiffRest   ----------------++++------------------------------------------------------------                
+            //                            |             
+                            //D-Channel   +
+                            //GRID-Exta   Last Line
+                            //GRID        3333333333333333111111111111111122222222222222223333333333333333
+                            //Data        KKKKKKKKKKKKKKKKCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+                            //BltDpt      +---------------------------------------------------------------
+                            //BlDmod      NNNNNNNNNNNNNNNN------------------------------------------------
+                            //Width       ----------------++++++++++++++++++++++++++++++++++++++++++++++++
+                            //BWidth      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+            //B-Channel   |
+            //GRID-Exta   Last Line
+            //GRID        3333333333333333111111111111111122222222222222223333333333333333
+            //Data        KKKKKKKKKKKKKKKKCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+            //BltBpt      +---------------------------------------------------------------
+            //BlBmod      NNNNNNNNNNNNNNNN------------------------------------------------
+            //ShiftB      ----------------------------------------------------------------
+         
+            width = spritex2oncanvas - spritex1oncanvas; 
+            bytewidth = (width/16)*2;
+
+            WaitBlit();
+
+            bltapt = zbuffer->bitplane + xdiffbyte;
+            if( xdiffrest) {
+              bytewidth += 2;
+              bltapt += -2;
+              custom->bltcon0 = (16 - xdiffrest) * 4096 + 0xd0c;
+              custom->bltafwm = 0xffff >> (16 - xdiffrest);
+              custom->bltalwm = 0xffff << xdiffrest;
+              custom->bltbpt = returnvalue - 2;
+              custom->bltdpt = returnvalue - 2;
+            } else {
+              bytewidth += 2;
+              custom->bltcon0 = 0xd0c;
+              custom->bltafwm = 0xffff;
+              custom->bltalwm = 0xffff;
+              custom->bltbpt = returnvalue;
+              custom->bltdpt = returnvalue;
+            }
+
+            custom->bltbmod = sprite->width/8 - bytewidth;
+            custom->bltamod = zbuffer->width/8 - bytewidth;
+            custom->bltdmod = sprite->width/8 - bytewidth;                      
+          }
+          
           if(zbufferfromtop)
           {
+            //Get Distance R
+            //zbuffer ------------x1+++++++++++++++++++x2-----------------*/
+            /*sprite--------------RRRRRRRRx1++++++++++?????????------------*/    
+            UWORD ydiff = spritey1oncanvas - zbuffery1oncanvas;
 
+            UWORD height;
+            if( zbuffery2oncanvas > spritey2oncanvas) 
+              height = sprite->height;
+            else
+              height = zbuffery2oncanvas - spritey1oncanvas;
+
+            WaitBlit();
+
+            custom->bltapt = bltapt + ydiff*zbuffer->width/8;            
+            custom->bltsize = height*64+bytewidth/2;
+          }
+          else 
+          //Zbufferfrombottom
+          {
+           //Get Distance R
+            //sprite ------------x1+++++++++++++++++++x2-----------------*/
+            /*zbuffer------------RRRRRRRRx1++++++++++?????????------------*/    
+            UWORD ydiff = zbuffery1oncanvas - spritey1oncanvas; 
+
+            UWORD height;
+            if( zbuffery2oncanvas > spritey2oncanvas) 
+              height = spritey2oncanvas - zbuffery1oncanvas; 
+            else
+              height = zbuffer->height;
+
+            WaitBlit();
+
+            custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8;            
+            custom->bltdpt = returnvalue+xdiffbyte+ydiff*sprite->width;          
+            custom->bltsize = height*64+bytewidth/2;
           }
         }     
       }
+      zbuffer = zbuffer->nextPanel;
     }
   }
 
+  return returnvalue;
 
 }
 
@@ -922,6 +989,9 @@ void CstRestoreScreen()
 
 void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD x, WORD y, UWORD destinationtype)
 {  
+
+  UBYTE *mask = CstDrawZBuffer( single, zBuffer, x, y);
+
   UWORD *destination = 0;
   switch(destinationtype)
   {
@@ -982,7 +1052,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     cutwordssource = (x*-1)/16; 
     cutmaskpixel = (x*-1)%16;     
     bltalwm = 0; //Last Word of this channel almost masked out
-    bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+cutwordssource*2+ystartsrc*single->width/8;
+    bltapt = ((ULONG) mask)+cutwordssource*2+ystartsrc*single->width/8;
     bltbpt = ((ULONG) single->data)+cutwordssource*2+ystartsrc*single->width/8;
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
@@ -1020,7 +1090,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     cutwordssource = (x+single->width - winWidth)/16;
     cutmaskpixel = 0;
     bltalwm = 0xffff; //Last word contains source data to be blit
-    bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+ystartsrc*single->width/8;
+    bltapt = ((ULONG) mask)+ystartsrc*single->width/8;
     bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
@@ -1052,7 +1122,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     cutwordssource = 0;
     cutmaskpixel = 0;
     bltalwm = 0; //Last Word of this channel almost masked out
-    bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+ystartsrc*single->width/8;
+    bltapt = ((ULONG) mask) +ystartsrc*single->width/8;
     bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
@@ -1117,6 +1187,8 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     bltdpt += bltcptplus;
     WaitBlit();
   }   
+
+  FreeVec(mask);
 }
 
 void CstSetCl(UWORD *copperlist)

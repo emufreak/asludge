@@ -45,7 +45,7 @@ extern unsigned short saveEncoding;						// in savedata.cpp
 extern struct speechStruct * speech;					// In talk.cpp
 extern int speechMode;									// "	"	"
 extern char * typeName[];								// In variable.cpp
-extern struct zBufferData zBuffer;						// In zbuffer.cpp
+extern struct zBufferData *zBuffer;						// In zbuffer.cpp
 
 //----------------------------------------------------------------------
 // Globals (so we know what's saved already and what's a reference
