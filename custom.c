@@ -311,16 +311,21 @@ void CstDrawBackdrop() {
 
         ULONG bltapt;
 
+
+        UWORD xdiff;
+        UWORD xdiffbyte;          
+        UWORD xdiffrest;
+        UWORD bytewidth, width, rest;
         if(zbufferfromright)
         {        
           //Get Distance R
           /*sprite  ------------x1++++++++++?????????-------------------------*/    
           //zbuffer ------------------x1+++++++++++++++++++x2-----------------*/             
           
-          UWORD xdiff = spritex1oncanvas - zbufferx1oncanvas;
-          UWORD xdiffbyte = (xdiff / 16) * 2;          
-          UWORD xdiffrest = xdiff - xdiffbyte * 8;
-          UWORD bytewidth, width, rest;
+          xdiff = spritex1oncanvas - zbufferx1oncanvas;
+          xdiffbyte = (xdiff / 16) * 2;          
+          xdiffrest = xdiff - xdiffbyte * 8;
+          bytewidth, width, rest;
 
 
           if( zbufferx2oncanvas > spritex2oncanvas)    
@@ -428,10 +433,10 @@ void CstDrawBackdrop() {
           /*sprite  ------------RRRRRRRRx1++++++++++?????????------------*/    
           //zbuffer ------------x1+++++++++++++++++++x2-----------------*/                    
           
-          UWORD xdiff = spritex1oncanvas - zbufferx1oncanvas;
-          UWORD xdiffbyte = (xdiff / 16) * 2;          
-          UWORD xdiffrest = xdiff - xdiffbyte * 8;
-          UWORD bytewidth, width, rest;
+          xdiff = spritex1oncanvas - zbufferx1oncanvas;
+          xdiffbyte = (xdiff / 16) * 2;          
+          xdiffrest = xdiff - xdiffbyte * 8;
+          bytewidth, width, rest;
 
 
           if( zbufferx2oncanvas > spritex2oncanvas)    
@@ -496,9 +501,9 @@ void CstDrawBackdrop() {
             custom->bltbmod = sprite->width/8 - bytewidth;
             custom->bltamod = zbuffer->width/8 - bytewidth;
             custom->bltdmod = sprite->width/8 - bytewidth;                      
-          }
-          
-          if(zbufferfromtop)
+          }                    
+        }  
+        if(zbufferfromtop)
           {
             //Get Distance R
             //zbuffer ------------x1+++++++++++++++++++x2-----------------*/
@@ -535,8 +540,7 @@ void CstDrawBackdrop() {
             custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8;            
             custom->bltdpt = returnvalue+xdiffbyte+ydiff*sprite->width;          
             custom->bltsize = height*64+bytewidth/2;
-          }
-        }     
+          }   
       }
       zbuffer = zbuffer->nextPanel;
     }

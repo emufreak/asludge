@@ -2098,844 +2098,844 @@ void CstDrawBackdrop() {
 000014e8 <CstDrawZBuffer>:
 
  UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, UWORD x, UWORD y) {
-    14e8:	                      lea -88(sp),sp
-    14ec:	                      move.l a6,-(sp)
-    14ee:	                      move.l d2,-(sp)
-    14f0:	                      move.l 108(sp),d1
-    14f4:	                      move.l 112(sp),d0
-    14f8:	                      move.w d1,d1
-    14fa:	                      move.w d1,10(sp)
-    14fe:	                      move.w d0,d0
-    1500:	                      move.w d0,8(sp)
+    14e8:	                         lea -80(sp),sp
+    14ec:	                         move.l a6,-(sp)
+    14ee:	                         move.l d2,-(sp)
+    14f0:	                         move.l 100(sp),d1
+    14f4:	                         move.l 104(sp),d0
+    14f8:	                         move.w d1,d1
+    14fa:	                         move.w d1,12(sp)
+    14fe:	                         move.w d0,d0
+    1500:	                         move.w d0,10(sp)
 
   volatile struct Custom *custom = (struct Custom*)0xdff000;
-    1504:	                      move.l #14675968,68(sp)
+    1504:	                         move.l #14675968,60(sp)
   //In Case nothing needs to be done return sprite mask without changes
   UBYTE *returnvalue = AllocVec( sprite->width/8*sprite->height, MEMF_CHIP);
-    150c:	                      movea.l 100(sp),a0
-    1510:	                      move.l (a0),d0
-    1512:	                  /-- bpl.s 1516 <CstDrawZBuffer+0x2e>
-    1514:	                  |   addq.l #7,d0
-    1516:	                  \-> asr.l #3,d0
-    1518:	                      movea.l 100(sp),a0
-    151c:	                      move.l 4(a0),d1
-    1520:	                      move.l d1,-(sp)
-    1522:	                      move.l d0,-(sp)
-    1524:	                      jsr 17b34 <__mulsi3>
-    152a:	                      addq.l #8,sp
-    152c:	                      move.l d0,64(sp)
-    1530:	                      moveq #2,d0
-    1532:	                      move.l d0,60(sp)
-    1536:	                      move.l 1c85c <SysBase>,d0
-    153c:	                      movea.l d0,a6
-    153e:	                      move.l 64(sp),d0
-    1542:	                      move.l 60(sp),d1
-    1546:	                      jsr -684(a6)
-    154a:	                      move.l d0,56(sp)
-    154e:	                      move.l 56(sp),d0
-    1552:	                      move.l d0,52(sp)
+    150c:	                         movea.l 92(sp),a0
+    1510:	                         move.l (a0),d0
+    1512:	                     /-- bpl.s 1516 <CstDrawZBuffer+0x2e>
+    1514:	                     |   addq.l #7,d0
+    1516:	                     \-> asr.l #3,d0
+    1518:	                         movea.l 92(sp),a0
+    151c:	                         move.l 4(a0),d1
+    1520:	                         move.l d1,-(sp)
+    1522:	                         move.l d0,-(sp)
+    1524:	                         jsr 17b34 <__mulsi3>
+    152a:	                         addq.l #8,sp
+    152c:	                         move.l d0,56(sp)
+    1530:	                         moveq #2,d0
+    1532:	                         move.l d0,52(sp)
+    1536:	                         move.l 1c85c <SysBase>,d0
+    153c:	                         movea.l d0,a6
+    153e:	                         move.l 56(sp),d0
+    1542:	                         move.l 52(sp),d1
+    1546:	                         jsr -684(a6)
+    154a:	                         move.l d0,48(sp)
+    154e:	                         move.l 48(sp),d0
+    1552:	                         move.l d0,44(sp)
 
   #ifdef EMULATOR
     debug_register_bitmap(returnvalue, "SpriteMask", sprite->width, sprite->height, 1, 0);
-    1556:	                      movea.l 100(sp),a0
-    155a:	                      move.l 4(a0),d0
-    155e:	                      move.l d0,d0
-    1560:	                      movea.w d0,a1
-    1562:	                      movea.l 100(sp),a0
-    1566:	                      move.l (a0),d0
-    1568:	                      move.l d0,d0
-    156a:	                      movea.w d0,a0
-    156c:	                      clr.l -(sp)
-    156e:	                      pea 1 <_start+0x1>
-    1572:	                      move.l a1,-(sp)
-    1574:	                      move.l a0,-(sp)
-    1576:	                      pea 17daf <PutChar+0x165>
-    157c:	                      move.l 72(sp),-(sp)
-    1580:	                      jsr 1725e <debug_register_bitmap>
-    1586:	                      lea 24(sp),sp
+    1556:	                         movea.l 92(sp),a0
+    155a:	                         move.l 4(a0),d0
+    155e:	                         move.l d0,d0
+    1560:	                         movea.w d0,a1
+    1562:	                         movea.l 92(sp),a0
+    1566:	                         move.l (a0),d0
+    1568:	                         move.l d0,d0
+    156a:	                         movea.w d0,a0
+    156c:	                         clr.l -(sp)
+    156e:	                         pea 1 <_start+0x1>
+    1572:	                         move.l a1,-(sp)
+    1574:	                         move.l a0,-(sp)
+    1576:	                         pea 17daf <PutChar+0x165>
+    157c:	                         move.l 64(sp),-(sp)
+    1580:	                         jsr 1725e <debug_register_bitmap>
+    1586:	                         lea 24(sp),sp
   #endif  
 
   WaitBlit();
-    158a:	                      move.l 1c868 <GfxBase>,d0
-    1590:	                      movea.l d0,a6
-    1592:	                      jsr -228(a6)
+    158a:	                         move.l 1c868 <GfxBase>,d0
+    1590:	                         movea.l d0,a6
+    1592:	                         jsr -228(a6)
 
   custom->bltafwm = 0xffff;
-    1596:	                      movea.l 68(sp),a0
-    159a:	                      move.w #-1,68(a0)
+    1596:	                         movea.l 60(sp),a0
+    159a:	                         move.w #-1,68(a0)
   custom->bltalwm = 0xffff;
-    15a0:	                      movea.l 68(sp),a0
-    15a4:	                      move.w #-1,70(a0)
+    15a0:	                         movea.l 60(sp),a0
+    15a4:	                         move.w #-1,70(a0)
   custom->bltamod = 0;
-    15aa:	                      movea.l 68(sp),a0
-    15ae:	                      move.w #0,100(a0)
+    15aa:	                         movea.l 60(sp),a0
+    15ae:	                         move.w #0,100(a0)
   custom->bltbmod = 0;
-    15b4:	                      movea.l 68(sp),a0
-    15b8:	                      move.w #0,98(a0)
+    15b4:	                         movea.l 60(sp),a0
+    15b8:	                         move.w #0,98(a0)
   custom->bltcmod = 0;
-    15be:	                      movea.l 68(sp),a0
-    15c2:	                      move.w #0,96(a0)
+    15be:	                         movea.l 60(sp),a0
+    15c2:	                         move.w #0,96(a0)
   custom->bltdmod = 0;
-    15c8:	                      movea.l 68(sp),a0
-    15cc:	                      move.w #0,102(a0)
+    15c8:	                         movea.l 60(sp),a0
+    15cc:	                         move.w #0,102(a0)
   custom->bltcon0 = 0x9f0; //Copy A to D
-    15d2:	                      movea.l 68(sp),a0
-    15d6:	                      move.w #2544,64(a0)
+    15d2:	                         movea.l 60(sp),a0
+    15d6:	                         move.w #2544,64(a0)
   custom->bltcon1 = 0;        
-    15dc:	                      movea.l 68(sp),a0
-    15e0:	                      move.w #0,66(a0)
+    15dc:	                         movea.l 60(sp),a0
+    15e0:	                         move.w #0,66(a0)
 
   custom->bltapt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
-    15e6:	                      movea.l 100(sp),a0
-    15ea:	                      move.l 24(a0),d2
-    15ee:	                      movea.l 100(sp),a0
-    15f2:	                      move.l (a0),d0
-    15f4:	                  /-- bpl.s 15f8 <CstDrawZBuffer+0x110>
-    15f6:	                  |   addq.l #7,d0
-    15f8:	                  \-> asr.l #3,d0
-    15fa:	                      movea.l 100(sp),a0
-    15fe:	                      move.l 4(a0),d1
-    1602:	                      move.l d1,-(sp)
-    1604:	                      move.l d0,-(sp)
-    1606:	                      jsr 17b34 <__mulsi3>
-    160c:	                      addq.l #8,sp
-    160e:	                      move.l d0,d1
-    1610:	                      move.l d1,d0
-    1612:	                      add.l d0,d0
-    1614:	                      add.l d0,d0
-    1616:	                      add.l d1,d0
-    1618:	                      add.l d2,d0
-    161a:	                      movea.l 68(sp),a0
-    161e:	                      move.l d0,80(a0)
+    15e6:	                         movea.l 92(sp),a0
+    15ea:	                         move.l 24(a0),d2
+    15ee:	                         movea.l 92(sp),a0
+    15f2:	                         move.l (a0),d0
+    15f4:	                     /-- bpl.s 15f8 <CstDrawZBuffer+0x110>
+    15f6:	                     |   addq.l #7,d0
+    15f8:	                     \-> asr.l #3,d0
+    15fa:	                         movea.l 92(sp),a0
+    15fe:	                         move.l 4(a0),d1
+    1602:	                         move.l d1,-(sp)
+    1604:	                         move.l d0,-(sp)
+    1606:	                         jsr 17b34 <__mulsi3>
+    160c:	                         addq.l #8,sp
+    160e:	                         move.l d0,d1
+    1610:	                         move.l d1,d0
+    1612:	                         add.l d0,d0
+    1614:	                         add.l d0,d0
+    1616:	                         add.l d1,d0
+    1618:	                         add.l d2,d0
+    161a:	                         movea.l 60(sp),a0
+    161e:	                         move.l d0,80(a0)
   custom->bltdpt = (APTR) returnvalue;
-    1622:	                      movea.l 68(sp),a0
-    1626:	                      move.l 52(sp),84(a0)
+    1622:	                         movea.l 60(sp),a0
+    1626:	                         move.l 44(sp),84(a0)
   custom->bltsize = (sprite->height<<6)+sprite->width/16;      
-    162c:	                      movea.l 100(sp),a0
-    1630:	                      move.l 4(a0),d0
-    1634:	                      move.l d0,d0
-    1636:	                      move.w d0,d1
-    1638:	                      lsl.w #6,d1
-    163a:	                      movea.l 100(sp),a0
-    163e:	                      move.l (a0),d0
-    1640:	                      movea.l d0,a0
-    1642:	                      cmpa.w #0,a0
-    1646:	                  /-- bge.s 164c <CstDrawZBuffer+0x164>
-    1648:	                  |   lea 15(a0),a0
-    164c:	                  \-> move.l a0,d0
-    164e:	                      asr.l #4,d0
-    1650:	                      move.l d0,d0
-    1652:	                      add.w d1,d0
-    1654:	                      movea.l 68(sp),a0
-    1658:	                      move.w d0,88(a0)
+    162c:	                         movea.l 92(sp),a0
+    1630:	                         move.l 4(a0),d0
+    1634:	                         move.l d0,d0
+    1636:	                         move.w d0,d1
+    1638:	                         lsl.w #6,d1
+    163a:	                         movea.l 92(sp),a0
+    163e:	                         move.l (a0),d0
+    1640:	                         movea.l d0,a0
+    1642:	                         cmpa.w #0,a0
+    1646:	                     /-- bge.s 164c <CstDrawZBuffer+0x164>
+    1648:	                     |   lea 15(a0),a0
+    164c:	                     \-> move.l a0,d0
+    164e:	                         asr.l #4,d0
+    1650:	                         move.l d0,d0
+    1652:	                         add.w d1,d0
+    1654:	                         movea.l 60(sp),a0
+    1658:	                         move.w d0,88(a0)
 
   while(zbuffer) 
-    165c:	   /----------------- bra.w 1cb6 <CstDrawZBuffer+0x7ce>
+    165c:	   /-------------------- bra.w 1cb6 <CstDrawZBuffer+0x7ce>
   {
 
     UWORD spritex1oncanvas = x+sprite->xhot;
-    1660:	/--|----------------> movea.l 100(sp),a0
-    1664:	|  |                  move.l 8(a0),d0
-    1668:	|  |                  move.l d0,d0
-    166a:	|  |                  move.w 10(sp),d1
-    166e:	|  |                  add.w d0,d1
-    1670:	|  |                  move.w d1,50(sp)
+    1660:	/--|-------------------> movea.l 92(sp),a0
+    1664:	|  |                     move.l 8(a0),d0
+    1668:	|  |                     move.l d0,d0
+    166a:	|  |                     move.w 12(sp),d1
+    166e:	|  |                     add.w d0,d1
+    1670:	|  |                     move.w d1,42(sp)
     UWORD spritex2oncanvas = spritex1oncanvas+sprite->width;
-    1674:	|  |                  movea.l 100(sp),a0
-    1678:	|  |                  move.l (a0),d0
-    167a:	|  |                  move.l d0,d0
-    167c:	|  |                  move.w 50(sp),d1
-    1680:	|  |                  add.w d0,d1
-    1682:	|  |                  move.w d1,48(sp)
+    1674:	|  |                     movea.l 92(sp),a0
+    1678:	|  |                     move.l (a0),d0
+    167a:	|  |                     move.l d0,d0
+    167c:	|  |                     move.w 42(sp),d1
+    1680:	|  |                     add.w d0,d1
+    1682:	|  |                     move.w d1,40(sp)
     UWORD spritey1oncanvas = y+sprite->yhot;
-    1686:	|  |                  movea.l 100(sp),a0
-    168a:	|  |                  move.l 12(a0),d0
-    168e:	|  |                  move.l d0,d0
-    1690:	|  |                  move.w 8(sp),d1
-    1694:	|  |                  add.w d0,d1
-    1696:	|  |                  move.w d1,46(sp)
+    1686:	|  |                     movea.l 92(sp),a0
+    168a:	|  |                     move.l 12(a0),d0
+    168e:	|  |                     move.l d0,d0
+    1690:	|  |                     move.w 10(sp),d1
+    1694:	|  |                     add.w d0,d1
+    1696:	|  |                     move.w d1,38(sp)
     UWORD spritey2oncanvas = spritey1oncanvas + sprite->height;
-    169a:	|  |                  movea.l 100(sp),a0
-    169e:	|  |                  move.l 4(a0),d0
-    16a2:	|  |                  move.l d0,d0
-    16a4:	|  |                  move.w 46(sp),d1
-    16a8:	|  |                  add.w d0,d1
-    16aa:	|  |                  move.w d1,44(sp)
+    169a:	|  |                     movea.l 92(sp),a0
+    169e:	|  |                     move.l 4(a0),d0
+    16a2:	|  |                     move.l d0,d0
+    16a4:	|  |                     move.w 38(sp),d1
+    16a8:	|  |                     add.w d0,d1
+    16aa:	|  |                     move.w d1,36(sp)
 
     UWORD zbufferx1oncanvas = zbuffer->topx;
-    16ae:	|  |                  movea.l 104(sp),a0
-    16b2:	|  |                  move.l 8(a0),d0
-    16b6:	|  |                  move.w d0,42(sp)
+    16ae:	|  |                     movea.l 96(sp),a0
+    16b2:	|  |                     move.l 8(a0),d0
+    16b6:	|  |                     move.w d0,34(sp)
     UWORD zbufferx2oncanvas = zbufferx1oncanvas + zbuffer->width;
-    16ba:	|  |                  movea.l 104(sp),a0
-    16be:	|  |                  move.l (a0),d0
-    16c0:	|  |                  move.l d0,d0
-    16c2:	|  |                  move.w 42(sp),d1
-    16c6:	|  |                  add.w d0,d1
-    16c8:	|  |                  move.w d1,40(sp)
+    16ba:	|  |                     movea.l 96(sp),a0
+    16be:	|  |                     move.l (a0),d0
+    16c0:	|  |                     move.l d0,d0
+    16c2:	|  |                     move.w 34(sp),d1
+    16c6:	|  |                     add.w d0,d1
+    16c8:	|  |                     move.w d1,32(sp)
 
     UWORD zbuffery1oncanvas = zbuffer->topy;
-    16cc:	|  |                  movea.l 104(sp),a0
-    16d0:	|  |                  move.l 12(a0),d0
-    16d4:	|  |                  move.w d0,38(sp)
+    16cc:	|  |                     movea.l 96(sp),a0
+    16d0:	|  |                     move.l 12(a0),d0
+    16d4:	|  |                     move.w d0,30(sp)
     UWORD zbuffery2oncanvas = zbuffery1oncanvas + zbuffer->height;
-    16d8:	|  |                  movea.l 104(sp),a0
-    16dc:	|  |                  move.l 4(a0),d0
-    16e0:	|  |                  move.l d0,d0
-    16e2:	|  |                  move.w 38(sp),d1
-    16e6:	|  |                  add.w d0,d1
-    16e8:	|  |                  move.w d1,36(sp)
+    16d8:	|  |                     movea.l 96(sp),a0
+    16dc:	|  |                     move.l 4(a0),d0
+    16e0:	|  |                     move.l d0,d0
+    16e2:	|  |                     move.w 30(sp),d1
+    16e6:	|  |                     add.w d0,d1
+    16e8:	|  |                     move.w d1,28(sp)
   
     BOOL zbufferfromright = FALSE;
-    16ec:	|  |                  clr.w 94(sp)
+    16ec:	|  |                     clr.w 86(sp)
     BOOL zbufferfromleft = FALSE;
-    16f0:	|  |                  clr.w 92(sp)
+    16f0:	|  |                     clr.w 84(sp)
     BOOL zbufferfrombottom = FALSE;
-    16f4:	|  |                  clr.w 90(sp)
+    16f4:	|  |                     clr.w 82(sp)
     BOOL zbufferfromtop = FALSE;
-    16f8:	|  |                  clr.w 88(sp)
+    16f8:	|  |                     clr.w 80(sp)
 
     //Sprite will be drawn behind the zBuffer. We need to do something
     if(spritey2oncanvas < zbuffer->yz) {
-    16fc:	|  |                  moveq #0,d0
-    16fe:	|  |                  move.w 44(sp),d0
-    1702:	|  |                  movea.l 104(sp),a0
-    1706:	|  |                  move.l 16(a0),d1
-    170a:	|  |                  cmp.l d0,d1
-    170c:	|  +----------------- ble.w 1cb6 <CstDrawZBuffer+0x7ce>
+    16fc:	|  |                     moveq #0,d0
+    16fe:	|  |                     move.w 36(sp),d0
+    1702:	|  |                     movea.l 96(sp),a0
+    1706:	|  |                     move.l 16(a0),d1
+    170a:	|  |                     cmp.l d0,d1
+    170c:	|  +-------------------- ble.w 1cb6 <CstDrawZBuffer+0x7ce>
       //sprite ------------x1+++++++++++++++++++x2-----------------*/
       /*zbuffer-------------------x1++++++++++?????????------------*/      
       if(spritex1oncanvas <= zbufferx1oncanvas && spritex2oncanvas > zbufferx1oncanvas)
-    1710:	|  |                  move.w 42(sp),d0
-    1714:	|  |                  cmp.w 50(sp),d0
-    1718:	|  |              /-- bcs.s 172c <CstDrawZBuffer+0x244>
-    171a:	|  |              |   move.w 42(sp),d1
-    171e:	|  |              |   cmp.w 48(sp),d1
-    1722:	|  |              +-- bcc.s 172c <CstDrawZBuffer+0x244>
+    1710:	|  |                     move.w 34(sp),d0
+    1714:	|  |                     cmp.w 42(sp),d0
+    1718:	|  |                 /-- bcs.s 172c <CstDrawZBuffer+0x244>
+    171a:	|  |                 |   move.w 34(sp),d1
+    171e:	|  |                 |   cmp.w 40(sp),d1
+    1722:	|  |                 +-- bcc.s 172c <CstDrawZBuffer+0x244>
         zbufferfromright = TRUE;
-    1724:	|  |              |   move.w #1,94(sp)
-    172a:	|  |           /--|-- bra.s 1746 <CstDrawZBuffer+0x25e>
+    1724:	|  |                 |   move.w #1,86(sp)
+    172a:	|  |              /--|-- bra.s 1746 <CstDrawZBuffer+0x25e>
       //sprite -------------------------x1++++??????-------*/
       /*zbuffer-------------------x1+++++++++++x2----------*/  
       else if(spritex1oncanvas > zbufferx1oncanvas && spritex1oncanvas < zbufferx2oncanvas)
-    172c:	|  |           |  \-> move.w 42(sp),d0
-    1730:	|  |           |      cmp.w 50(sp),d0
-    1734:	|  |           +----- bcc.s 1746 <CstDrawZBuffer+0x25e>
-    1736:	|  |           |      move.w 40(sp),d1
-    173a:	|  |           |      cmp.w 50(sp),d1
-    173e:	|  |           +----- bls.s 1746 <CstDrawZBuffer+0x25e>
+    172c:	|  |              |  \-> move.w 34(sp),d0
+    1730:	|  |              |      cmp.w 42(sp),d0
+    1734:	|  |              +----- bcc.s 1746 <CstDrawZBuffer+0x25e>
+    1736:	|  |              |      move.w 32(sp),d1
+    173a:	|  |              |      cmp.w 42(sp),d1
+    173e:	|  |              +----- bls.s 1746 <CstDrawZBuffer+0x25e>
         zbufferfromleft = TRUE;       
-    1740:	|  |           |      move.w #1,92(sp)
+    1740:	|  |              |      move.w #1,84(sp)
 
       //Overlap on X-Axis. Now Check y-axis
       if( zbufferfromleft || zbufferfromright)         
-    1746:	|  |           \----> tst.w 92(sp)
-    174a:	|  |              /-- bne.s 1752 <CstDrawZBuffer+0x26a>
-    174c:	|  |              |   tst.w 94(sp)
-    1750:	|  |           /--|-- beq.s 1788 <CstDrawZBuffer+0x2a0>
+    1746:	|  |              \----> tst.w 84(sp)
+    174a:	|  |                 /-- bne.s 1752 <CstDrawZBuffer+0x26a>
+    174c:	|  |                 |   tst.w 86(sp)
+    1750:	|  |              /--|-- beq.s 1788 <CstDrawZBuffer+0x2a0>
       {
         if(spritey1oncanvas <= zbuffery1oncanvas && spritey2oncanvas > zbuffery1oncanvas)
-    1752:	|  |           |  \-> move.w 38(sp),d0
-    1756:	|  |           |      cmp.w 46(sp),d0
-    175a:	|  |           |  /-- bcs.s 176e <CstDrawZBuffer+0x286>
-    175c:	|  |           |  |   move.w 38(sp),d1
-    1760:	|  |           |  |   cmp.w 44(sp),d1
-    1764:	|  |           |  +-- bcc.s 176e <CstDrawZBuffer+0x286>
+    1752:	|  |              |  \-> move.w 30(sp),d0
+    1756:	|  |              |      cmp.w 38(sp),d0
+    175a:	|  |              |  /-- bcs.s 176e <CstDrawZBuffer+0x286>
+    175c:	|  |              |  |   move.w 30(sp),d1
+    1760:	|  |              |  |   cmp.w 36(sp),d1
+    1764:	|  |              |  +-- bcc.s 176e <CstDrawZBuffer+0x286>
           zbufferfrombottom = TRUE;
-    1766:	|  |           |  |   move.w #1,90(sp)
-    176c:	|  |           +--|-- bra.s 1788 <CstDrawZBuffer+0x2a0>
+    1766:	|  |              |  |   move.w #1,82(sp)
+    176c:	|  |              +--|-- bra.s 1788 <CstDrawZBuffer+0x2a0>
 
         else if(spritey1oncanvas > zbuffery1oncanvas && spritey1oncanvas < zbuffery2oncanvas)
-    176e:	|  |           |  \-> move.w 38(sp),d0
-    1772:	|  |           |      cmp.w 46(sp),d0
-    1776:	|  |           +----- bcc.s 1788 <CstDrawZBuffer+0x2a0>
-    1778:	|  |           |      move.w 36(sp),d1
-    177c:	|  |           |      cmp.w 46(sp),d1
-    1780:	|  |           +----- bls.s 1788 <CstDrawZBuffer+0x2a0>
+    176e:	|  |              |  \-> move.w 30(sp),d0
+    1772:	|  |              |      cmp.w 38(sp),d0
+    1776:	|  |              +----- bcc.s 1788 <CstDrawZBuffer+0x2a0>
+    1778:	|  |              |      move.w 28(sp),d1
+    177c:	|  |              |      cmp.w 38(sp),d1
+    1780:	|  |              +----- bls.s 1788 <CstDrawZBuffer+0x2a0>
           zbufferfromtop = TRUE;       
-    1782:	|  |           |      move.w #1,88(sp)
+    1782:	|  |              |      move.w #1,80(sp)
       }
 
       //Overlap on both Axis
       if( (zbufferfromright || zbufferfromleft) && (zbufferfrombottom || zbufferfromtop))
-    1788:	|  |           \----> tst.w 94(sp)
-    178c:	|  |              /-- bne.s 1796 <CstDrawZBuffer+0x2ae>
-    178e:	|  |              |   tst.w 92(sp)
-    1792:	|  |  /-----------|-- beq.w 1cac <CstDrawZBuffer+0x7c4>
-    1796:	|  |  |           \-> tst.w 90(sp)
-    179a:	|  |  |           /-- bne.s 17a4 <CstDrawZBuffer+0x2bc>
-    179c:	|  |  |           |   tst.w 88(sp)
-    17a0:	|  |  +-----------|-- beq.w 1cac <CstDrawZBuffer+0x7c4>
-      {      
+    1788:	|  |              \----> tst.w 86(sp)
+    178c:	|  |                 /-- bne.s 1796 <CstDrawZBuffer+0x2ae>
+    178e:	|  |                 |   tst.w 84(sp)
+    1792:	|  |  /--------------|-- beq.w 1cac <CstDrawZBuffer+0x7c4>
+    1796:	|  |  |              \-> tst.w 82(sp)
+    179a:	|  |  |              /-- bne.s 17a4 <CstDrawZBuffer+0x2bc>
+    179c:	|  |  |              |   tst.w 80(sp)
+    17a0:	|  |  +--------------|-- beq.w 1cac <CstDrawZBuffer+0x7c4>
 
-        ULONG bltapt;
-
+        UWORD xdiff;
+        UWORD xdiffbyte;          
+        UWORD xdiffrest;
+        UWORD bytewidth, width, rest;
         if(zbufferfromright)
-    17a4:	|  |  |           \-> tst.w 94(sp)
-    17a8:	|  |  |  /----------- beq.w 1a04 <CstDrawZBuffer+0x51c>
+    17a4:	|  |  |              \-> tst.w 86(sp)
+    17a8:	|  |  |  /-------------- beq.w 1a04 <CstDrawZBuffer+0x51c>
         {        
           //Get Distance R
           /*sprite  ------------x1++++++++++?????????-------------------------*/    
           //zbuffer ------------------x1+++++++++++++++++++x2-----------------*/             
           
-          UWORD xdiff = spritex1oncanvas - zbufferx1oncanvas;
-    17ac:	|  |  |  |            move.w 50(sp),d0
-    17b0:	|  |  |  |            sub.w 42(sp),d0
-    17b4:	|  |  |  |            move.w d0,22(sp)
-          UWORD xdiffbyte = (xdiff / 16) * 2;          
-    17b8:	|  |  |  |            move.w 22(sp),d0
-    17bc:	|  |  |  |            lsr.w #4,d0
-    17be:	|  |  |  |            add.w d0,d0
-    17c0:	|  |  |  |            move.w d0,20(sp)
-          UWORD xdiffrest = xdiff - xdiffbyte * 8;
-    17c4:	|  |  |  |            move.w 20(sp),d0
-    17c8:	|  |  |  |            lsl.w #3,d0
-    17ca:	|  |  |  |            move.w 22(sp),d1
-    17ce:	|  |  |  |            sub.w d0,d1
-    17d0:	|  |  |  |            move.w d1,18(sp)
-          UWORD bytewidth, width, rest;
+          xdiff = spritex1oncanvas - zbufferx1oncanvas;
+    17ac:	|  |  |  |               move.w 42(sp),d0
+    17b0:	|  |  |  |               sub.w 34(sp),d0
+    17b4:	|  |  |  |               move.w d0,26(sp)
+          xdiffbyte = (xdiff / 16) * 2;          
+    17b8:	|  |  |  |               move.w 26(sp),d0
+    17bc:	|  |  |  |               lsr.w #4,d0
+    17be:	|  |  |  |               add.w d0,d0
+    17c0:	|  |  |  |               move.w d0,74(sp)
+          xdiffrest = xdiff - xdiffbyte * 8;
+    17c4:	|  |  |  |               move.w 74(sp),d0
+    17c8:	|  |  |  |               lsl.w #3,d0
+    17ca:	|  |  |  |               move.w 26(sp),d1
+    17ce:	|  |  |  |               sub.w d0,d1
+    17d0:	|  |  |  |               move.w d1,24(sp)
+          bytewidth, width, rest;
 
 
           if( zbufferx2oncanvas > spritex2oncanvas)    
-    17d4:	|  |  |  |            move.w 48(sp),d0
-    17d8:	|  |  |  |            cmp.w 40(sp),d0
-    17dc:	|  |  |  |     /----- bcc.w 18c0 <CstDrawZBuffer+0x3d8>
+    17d4:	|  |  |  |               move.w 40(sp),d0
+    17d8:	|  |  |  |               cmp.w 32(sp),d0
+    17dc:	|  |  |  |        /----- bcc.w 18c0 <CstDrawZBuffer+0x3d8>
             //Width       ----------------++++++++++++++++++++++++++++----
             //BWidth      ----------------++++++++++++++++++++++++++++++++
             //ShiftB      ------------------------------------------------
 
          
             width = spritex2oncanvas - zbufferx1oncanvas;
-    17e0:	|  |  |  |     |      move.w 48(sp),d1
-    17e4:	|  |  |  |     |      sub.w 42(sp),d1
-    17e8:	|  |  |  |     |      move.w d1,16(sp)
+    17e0:	|  |  |  |        |      move.w 40(sp),d1
+    17e4:	|  |  |  |        |      sub.w 34(sp),d1
+    17e8:	|  |  |  |        |      move.w d1,22(sp)
             bytewidth = (width/16)*2;
-    17ec:	|  |  |  |     |      move.w 16(sp),d0
-    17f0:	|  |  |  |     |      lsr.w #4,d0
-    17f2:	|  |  |  |     |      add.w d0,d0
-    17f4:	|  |  |  |     |      move.w d0,82(sp)
+    17ec:	|  |  |  |        |      move.w 22(sp),d0
+    17f0:	|  |  |  |        |      lsr.w #4,d0
+    17f2:	|  |  |  |        |      add.w d0,d0
+    17f4:	|  |  |  |        |      move.w d0,72(sp)
 
             WaitBlit();
-    17f8:	|  |  |  |     |      move.l 1c868 <GfxBase>,d0
-    17fe:	|  |  |  |     |      movea.l d0,a6
-    1800:	|  |  |  |     |      jsr -228(a6)
+    17f8:	|  |  |  |        |      move.l 1c868 <GfxBase>,d0
+    17fe:	|  |  |  |        |      movea.l d0,a6
+    1800:	|  |  |  |        |      jsr -228(a6)
 
             bltapt = zbuffer->bitplane;
-    1804:	|  |  |  |     |      movea.l 104(sp),a0
-    1808:	|  |  |  |     |      move.l 20(a0),d0
-    180c:	|  |  |  |     |      move.l d0,84(sp)
+    1804:	|  |  |  |        |      movea.l 96(sp),a0
+    1808:	|  |  |  |        |      move.l 20(a0),d0
+    180c:	|  |  |  |        |      move.l d0,76(sp)
             if( xdiffrest) {
-    1810:	|  |  |  |     |      tst.w 18(sp)
-    1814:	|  |  |  |     |  /-- beq.s 181a <CstDrawZBuffer+0x332>
+    1810:	|  |  |  |        |      tst.w 24(sp)
+    1814:	|  |  |  |        |  /-- beq.s 181a <CstDrawZBuffer+0x332>
               bytewidth += 2;            
-    1816:	|  |  |  |     |  |   addq.w #2,82(sp)
+    1816:	|  |  |  |        |  |   addq.w #2,72(sp)
             } 
 
             custom->bltalwm = 0xffff << xdiffrest;
-    181a:	|  |  |  |     |  \-> moveq #0,d0
-    181c:	|  |  |  |     |      move.w 18(sp),d0
-    1820:	|  |  |  |     |      moveq #0,d1
-    1822:	|  |  |  |     |      not.w d1
-    1824:	|  |  |  |     |      lsl.l d0,d1
-    1826:	|  |  |  |     |      move.l d1,d0
-    1828:	|  |  |  |     |      movea.l 68(sp),a0
-    182c:	|  |  |  |     |      move.w d0,70(a0)
+    181a:	|  |  |  |        |  \-> moveq #0,d0
+    181c:	|  |  |  |        |      move.w 24(sp),d0
+    1820:	|  |  |  |        |      moveq #0,d1
+    1822:	|  |  |  |        |      not.w d1
+    1824:	|  |  |  |        |      lsl.l d0,d1
+    1826:	|  |  |  |        |      move.l d1,d0
+    1828:	|  |  |  |        |      movea.l 60(sp),a0
+    182c:	|  |  |  |        |      move.w d0,70(a0)
             custom->bltcon0 = xdiffrest * 4096 + 0xd0c;              
-    1830:	|  |  |  |     |      move.w 18(sp),d0
-    1834:	|  |  |  |     |      moveq #12,d1
-    1836:	|  |  |  |     |      lsl.w d1,d0
-    1838:	|  |  |  |     |      addi.w #3340,d0
-    183c:	|  |  |  |     |      movea.l 68(sp),a0
-    1840:	|  |  |  |     |      move.w d0,64(a0)
+    1830:	|  |  |  |        |      move.w 24(sp),d0
+    1834:	|  |  |  |        |      moveq #12,d1
+    1836:	|  |  |  |        |      lsl.w d1,d0
+    1838:	|  |  |  |        |      addi.w #3340,d0
+    183c:	|  |  |  |        |      movea.l 60(sp),a0
+    1840:	|  |  |  |        |      move.w d0,64(a0)
             custom->bltbpt = returnvalue + bytewidth;
-    1844:	|  |  |  |     |      moveq #0,d0
-    1846:	|  |  |  |     |      move.w 82(sp),d0
-    184a:	|  |  |  |     |      add.l 52(sp),d0
-    184e:	|  |  |  |     |      movea.l 68(sp),a0
-    1852:	|  |  |  |     |      move.l d0,76(a0)
+    1844:	|  |  |  |        |      moveq #0,d0
+    1846:	|  |  |  |        |      move.w 72(sp),d0
+    184a:	|  |  |  |        |      add.l 44(sp),d0
+    184e:	|  |  |  |        |      movea.l 60(sp),a0
+    1852:	|  |  |  |        |      move.l d0,76(a0)
             custom->bltdpt = returnvalue + bytewidth;
-    1856:	|  |  |  |     |      moveq #0,d0
-    1858:	|  |  |  |     |      move.w 82(sp),d0
-    185c:	|  |  |  |     |      add.l 52(sp),d0
-    1860:	|  |  |  |     |      movea.l 68(sp),a0
-    1864:	|  |  |  |     |      move.l d0,84(a0)
+    1856:	|  |  |  |        |      moveq #0,d0
+    1858:	|  |  |  |        |      move.w 72(sp),d0
+    185c:	|  |  |  |        |      add.l 44(sp),d0
+    1860:	|  |  |  |        |      movea.l 60(sp),a0
+    1864:	|  |  |  |        |      move.l d0,84(a0)
             custom->bltafwm = 0xffff;
-    1868:	|  |  |  |     |      movea.l 68(sp),a0
-    186c:	|  |  |  |     |      move.w #-1,68(a0)
+    1868:	|  |  |  |        |      movea.l 60(sp),a0
+    186c:	|  |  |  |        |      move.w #-1,68(a0)
             custom->bltbmod = sprite->width/8 - bytewidth;
-    1872:	|  |  |  |     |      movea.l 100(sp),a0
-    1876:	|  |  |  |     |      move.l (a0),d0
-    1878:	|  |  |  |     |  /-- bpl.s 187c <CstDrawZBuffer+0x394>
-    187a:	|  |  |  |     |  |   addq.l #7,d0
-    187c:	|  |  |  |     |  \-> asr.l #3,d0
-    187e:	|  |  |  |     |      move.l d0,d0
-    1880:	|  |  |  |     |      sub.w 82(sp),d0
-    1884:	|  |  |  |     |      movea.l 68(sp),a0
-    1888:	|  |  |  |     |      move.w d0,98(a0)
+    1872:	|  |  |  |        |      movea.l 92(sp),a0
+    1876:	|  |  |  |        |      move.l (a0),d0
+    1878:	|  |  |  |        |  /-- bpl.s 187c <CstDrawZBuffer+0x394>
+    187a:	|  |  |  |        |  |   addq.l #7,d0
+    187c:	|  |  |  |        |  \-> asr.l #3,d0
+    187e:	|  |  |  |        |      move.l d0,d0
+    1880:	|  |  |  |        |      sub.w 72(sp),d0
+    1884:	|  |  |  |        |      movea.l 60(sp),a0
+    1888:	|  |  |  |        |      move.w d0,98(a0)
             custom->bltamod = zbuffer->width/8 - bytewidth;
-    188c:	|  |  |  |     |      movea.l 104(sp),a0
-    1890:	|  |  |  |     |      move.l (a0),d0
-    1892:	|  |  |  |     |  /-- bpl.s 1896 <CstDrawZBuffer+0x3ae>
-    1894:	|  |  |  |     |  |   addq.l #7,d0
-    1896:	|  |  |  |     |  \-> asr.l #3,d0
-    1898:	|  |  |  |     |      move.l d0,d0
-    189a:	|  |  |  |     |      sub.w 82(sp),d0
-    189e:	|  |  |  |     |      movea.l 68(sp),a0
-    18a2:	|  |  |  |     |      move.w d0,100(a0)
+    188c:	|  |  |  |        |      movea.l 96(sp),a0
+    1890:	|  |  |  |        |      move.l (a0),d0
+    1892:	|  |  |  |        |  /-- bpl.s 1896 <CstDrawZBuffer+0x3ae>
+    1894:	|  |  |  |        |  |   addq.l #7,d0
+    1896:	|  |  |  |        |  \-> asr.l #3,d0
+    1898:	|  |  |  |        |      move.l d0,d0
+    189a:	|  |  |  |        |      sub.w 72(sp),d0
+    189e:	|  |  |  |        |      movea.l 60(sp),a0
+    18a2:	|  |  |  |        |      move.w d0,100(a0)
             custom->bltdmod = sprite->width/8 - bytewidth;                      
-    18a6:	|  |  |  |     |      movea.l 100(sp),a0
-    18aa:	|  |  |  |     |      move.l (a0),d0
-    18ac:	|  |  |  |     |  /-- bpl.s 18b0 <CstDrawZBuffer+0x3c8>
-    18ae:	|  |  |  |     |  |   addq.l #7,d0
-    18b0:	|  |  |  |     |  \-> asr.l #3,d0
-    18b2:	|  |  |  |     |      move.l d0,d0
-    18b4:	|  |  |  |     |      sub.w 82(sp),d0
-    18b8:	|  |  |  |     |      movea.l 68(sp),a0
-    18bc:	|  |  |  |     |      move.w d0,102(a0)
+    18a6:	|  |  |  |        |      movea.l 92(sp),a0
+    18aa:	|  |  |  |        |      move.l (a0),d0
+    18ac:	|  |  |  |        |  /-- bpl.s 18b0 <CstDrawZBuffer+0x3c8>
+    18ae:	|  |  |  |        |  |   addq.l #7,d0
+    18b0:	|  |  |  |        |  \-> asr.l #3,d0
+    18b2:	|  |  |  |        |      move.l d0,d0
+    18b4:	|  |  |  |        |      sub.w 72(sp),d0
+    18b8:	|  |  |  |        |      movea.l 60(sp),a0
+    18bc:	|  |  |  |        |      move.w d0,102(a0)
           }
           
           if(zbufferfromtop)
-    18c0:	|  |  |  |     \----> tst.w 88(sp)
-    18c4:	|  |  |  |  /-------- beq.w 194c <CstDrawZBuffer+0x464>
+    18c0:	|  |  |  |        \----> tst.w 80(sp)
+    18c4:	|  |  |  |     /-------- beq.w 194c <CstDrawZBuffer+0x464>
           {
             //Get Distance R
             //zbuffer ------------x1+++++++++++++++++++x2-----------------*/
             /*sprite--------------RRRRRRRRx1++++++++++?????????------------*/    
             UWORD ydiff = spritey1oncanvas - zbuffery1oncanvas;
-    18c8:	|  |  |  |  |         move.w 46(sp),d0
-    18cc:	|  |  |  |  |         sub.w 38(sp),d0
-    18d0:	|  |  |  |  |         move.w d0,12(sp)
+    18c8:	|  |  |  |     |         move.w 38(sp),d0
+    18cc:	|  |  |  |     |         sub.w 30(sp),d0
+    18d0:	|  |  |  |     |         move.w d0,18(sp)
 
             UWORD height;
             if( zbuffery2oncanvas > spritey2oncanvas) 
-    18d4:	|  |  |  |  |         move.w 44(sp),d1
-    18d8:	|  |  |  |  |         cmp.w 36(sp),d1
-    18dc:	|  |  |  |  |  /----- bcc.s 18ec <CstDrawZBuffer+0x404>
+    18d4:	|  |  |  |     |         move.w 36(sp),d1
+    18d8:	|  |  |  |     |         cmp.w 28(sp),d1
+    18dc:	|  |  |  |     |  /----- bcc.s 18ec <CstDrawZBuffer+0x404>
               height = sprite->height;
-    18de:	|  |  |  |  |  |      movea.l 100(sp),a0
-    18e2:	|  |  |  |  |  |      move.l 4(a0),d0
-    18e6:	|  |  |  |  |  |      move.w d0,80(sp)
-    18ea:	|  |  |  |  |  |  /-- bra.s 18f8 <CstDrawZBuffer+0x410>
+    18de:	|  |  |  |     |  |      movea.l 92(sp),a0
+    18e2:	|  |  |  |     |  |      move.l 4(a0),d0
+    18e6:	|  |  |  |     |  |      move.w d0,70(sp)
+    18ea:	|  |  |  |     |  |  /-- bra.s 18f8 <CstDrawZBuffer+0x410>
             else
               height = zbuffery2oncanvas - spritey1oncanvas;
-    18ec:	|  |  |  |  |  \--|-> move.w 36(sp),d0
-    18f0:	|  |  |  |  |     |   sub.w 46(sp),d0
-    18f4:	|  |  |  |  |     |   move.w d0,80(sp)
+    18ec:	|  |  |  |     |  \--|-> move.w 28(sp),d0
+    18f0:	|  |  |  |     |     |   sub.w 38(sp),d0
+    18f4:	|  |  |  |     |     |   move.w d0,70(sp)
 
             WaitBlit();
-    18f8:	|  |  |  |  |     \-> move.l 1c868 <GfxBase>,d0
-    18fe:	|  |  |  |  |         movea.l d0,a6
-    1900:	|  |  |  |  |         jsr -228(a6)
+    18f8:	|  |  |  |     |     \-> move.l 1c868 <GfxBase>,d0
+    18fe:	|  |  |  |     |         movea.l d0,a6
+    1900:	|  |  |  |     |         jsr -228(a6)
 
             custom->bltapt = bltapt + ydiff*zbuffer->width/8;            
-    1904:	|  |  |  |  |         moveq #0,d0
-    1906:	|  |  |  |  |         move.w 12(sp),d0
-    190a:	|  |  |  |  |         movea.l 104(sp),a0
-    190e:	|  |  |  |  |         move.l (a0),d1
-    1910:	|  |  |  |  |         move.l d1,-(sp)
-    1912:	|  |  |  |  |         move.l d0,-(sp)
-    1914:	|  |  |  |  |         jsr 17b34 <__mulsi3>
-    191a:	|  |  |  |  |         addq.l #8,sp
-    191c:	|  |  |  |  |         tst.l d0
-    191e:	|  |  |  |  |     /-- bge.s 1922 <CstDrawZBuffer+0x43a>
-    1920:	|  |  |  |  |     |   addq.l #7,d0
-    1922:	|  |  |  |  |     \-> asr.l #3,d0
-    1924:	|  |  |  |  |         add.l 84(sp),d0
-    1928:	|  |  |  |  |         movea.l 68(sp),a0
-    192c:	|  |  |  |  |         move.l d0,80(a0)
+    1904:	|  |  |  |     |         moveq #0,d0
+    1906:	|  |  |  |     |         move.w 18(sp),d0
+    190a:	|  |  |  |     |         movea.l 96(sp),a0
+    190e:	|  |  |  |     |         move.l (a0),d1
+    1910:	|  |  |  |     |         move.l d1,-(sp)
+    1912:	|  |  |  |     |         move.l d0,-(sp)
+    1914:	|  |  |  |     |         jsr 17b34 <__mulsi3>
+    191a:	|  |  |  |     |         addq.l #8,sp
+    191c:	|  |  |  |     |         tst.l d0
+    191e:	|  |  |  |     |     /-- bge.s 1922 <CstDrawZBuffer+0x43a>
+    1920:	|  |  |  |     |     |   addq.l #7,d0
+    1922:	|  |  |  |     |     \-> asr.l #3,d0
+    1924:	|  |  |  |     |         add.l 76(sp),d0
+    1928:	|  |  |  |     |         movea.l 60(sp),a0
+    192c:	|  |  |  |     |         move.l d0,80(a0)
             custom->bltsize = height*64+bytewidth/2;
-    1930:	|  |  |  |  |         move.w 80(sp),d0
-    1934:	|  |  |  |  |         move.w d0,d1
-    1936:	|  |  |  |  |         lsl.w #6,d1
-    1938:	|  |  |  |  |         move.w 82(sp),d0
-    193c:	|  |  |  |  |         lsr.w #1,d0
-    193e:	|  |  |  |  |         add.w d1,d0
-    1940:	|  |  |  |  |         movea.l 68(sp),a0
-    1944:	|  |  |  |  |         move.w d0,88(a0)
-    1948:	|  |  +--|--|-------- bra.w 1cac <CstDrawZBuffer+0x7c4>
+    1930:	|  |  |  |     |         move.w 70(sp),d0
+    1934:	|  |  |  |     |         move.w d0,d1
+    1936:	|  |  |  |     |         lsl.w #6,d1
+    1938:	|  |  |  |     |         move.w 72(sp),d0
+    193c:	|  |  |  |     |         lsr.w #1,d0
+    193e:	|  |  |  |     |         add.w d1,d0
+    1940:	|  |  |  |     |         movea.l 60(sp),a0
+    1944:	|  |  |  |     |         move.w d0,88(a0)
+    1948:	|  |  |  |  /--|-------- bra.w 1b6c <CstDrawZBuffer+0x684>
           //Zbufferfrombottom
           {
            //Get Distance R
             //sprite ------------x1+++++++++++++++++++x2-----------------*/
             /*zbuffer------------RRRRRRRRx1++++++++++?????????------------*/    
             UWORD ydiff = zbuffery1oncanvas - spritey1oncanvas; 
-    194c:	|  |  |  |  \-------> move.w 38(sp),d1
-    1950:	|  |  |  |            sub.w 46(sp),d1
-    1954:	|  |  |  |            move.w d1,14(sp)
+    194c:	|  |  |  |  |  \-------> move.w 30(sp),d1
+    1950:	|  |  |  |  |            sub.w 38(sp),d1
+    1954:	|  |  |  |  |            move.w d1,20(sp)
 
             UWORD height;
             if( zbuffery2oncanvas > spritey2oncanvas) 
-    1958:	|  |  |  |            move.w 44(sp),d0
-    195c:	|  |  |  |            cmp.w 36(sp),d0
-    1960:	|  |  |  |     /----- bcc.s 1970 <CstDrawZBuffer+0x488>
+    1958:	|  |  |  |  |            move.w 36(sp),d0
+    195c:	|  |  |  |  |            cmp.w 28(sp),d0
+    1960:	|  |  |  |  |     /----- bcc.s 1970 <CstDrawZBuffer+0x488>
               height = spritey2oncanvas - zbuffery1oncanvas; 
-    1962:	|  |  |  |     |      move.w 44(sp),d1
-    1966:	|  |  |  |     |      sub.w 38(sp),d1
-    196a:	|  |  |  |     |      move.w d1,78(sp)
-    196e:	|  |  |  |     |  /-- bra.s 197c <CstDrawZBuffer+0x494>
+    1962:	|  |  |  |  |     |      move.w 36(sp),d1
+    1966:	|  |  |  |  |     |      sub.w 30(sp),d1
+    196a:	|  |  |  |  |     |      move.w d1,68(sp)
+    196e:	|  |  |  |  |     |  /-- bra.s 197c <CstDrawZBuffer+0x494>
             else
               height = zbuffer->height;
-    1970:	|  |  |  |     \--|-> movea.l 104(sp),a0
-    1974:	|  |  |  |        |   move.l 4(a0),d0
-    1978:	|  |  |  |        |   move.w d0,78(sp)
+    1970:	|  |  |  |  |     \--|-> movea.l 96(sp),a0
+    1974:	|  |  |  |  |        |   move.l 4(a0),d0
+    1978:	|  |  |  |  |        |   move.w d0,68(sp)
 
             WaitBlit();
-    197c:	|  |  |  |        \-> move.l 1c868 <GfxBase>,d0
-    1982:	|  |  |  |            movea.l d0,a6
-    1984:	|  |  |  |            jsr -228(a6)
+    197c:	|  |  |  |  |        \-> move.l 1c868 <GfxBase>,d0
+    1982:	|  |  |  |  |            movea.l d0,a6
+    1984:	|  |  |  |  |            jsr -228(a6)
 
             custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8;            
-    1988:	|  |  |  |            moveq #0,d2
-    198a:	|  |  |  |            move.w 20(sp),d2
-    198e:	|  |  |  |            moveq #0,d0
-    1990:	|  |  |  |            move.w 14(sp),d0
-    1994:	|  |  |  |            movea.l 100(sp),a0
-    1998:	|  |  |  |            move.l (a0),d1
-    199a:	|  |  |  |            move.l d1,-(sp)
-    199c:	|  |  |  |            move.l d0,-(sp)
-    199e:	|  |  |  |            jsr 17b34 <__mulsi3>
-    19a4:	|  |  |  |            addq.l #8,sp
-    19a6:	|  |  |  |            tst.l d0
-    19a8:	|  |  |  |        /-- bge.s 19ac <CstDrawZBuffer+0x4c4>
-    19aa:	|  |  |  |        |   addq.l #7,d0
-    19ac:	|  |  |  |        \-> asr.l #3,d0
-    19ae:	|  |  |  |            add.l d2,d0
-    19b0:	|  |  |  |            add.l 52(sp),d0
-    19b4:	|  |  |  |            movea.l 68(sp),a0
-    19b8:	|  |  |  |            move.l d0,76(a0)
+    1988:	|  |  |  |  |            moveq #0,d2
+    198a:	|  |  |  |  |            move.w 74(sp),d2
+    198e:	|  |  |  |  |            moveq #0,d0
+    1990:	|  |  |  |  |            move.w 20(sp),d0
+    1994:	|  |  |  |  |            movea.l 92(sp),a0
+    1998:	|  |  |  |  |            move.l (a0),d1
+    199a:	|  |  |  |  |            move.l d1,-(sp)
+    199c:	|  |  |  |  |            move.l d0,-(sp)
+    199e:	|  |  |  |  |            jsr 17b34 <__mulsi3>
+    19a4:	|  |  |  |  |            addq.l #8,sp
+    19a6:	|  |  |  |  |            tst.l d0
+    19a8:	|  |  |  |  |        /-- bge.s 19ac <CstDrawZBuffer+0x4c4>
+    19aa:	|  |  |  |  |        |   addq.l #7,d0
+    19ac:	|  |  |  |  |        \-> asr.l #3,d0
+    19ae:	|  |  |  |  |            add.l d2,d0
+    19b0:	|  |  |  |  |            add.l 44(sp),d0
+    19b4:	|  |  |  |  |            movea.l 60(sp),a0
+    19b8:	|  |  |  |  |            move.l d0,76(a0)
             custom->bltdpt = returnvalue+xdiffbyte+ydiff*sprite->width;          
-    19bc:	|  |  |  |            moveq #0,d2
-    19be:	|  |  |  |            move.w 20(sp),d2
-    19c2:	|  |  |  |            moveq #0,d0
-    19c4:	|  |  |  |            move.w 14(sp),d0
-    19c8:	|  |  |  |            movea.l 100(sp),a0
-    19cc:	|  |  |  |            move.l (a0),d1
-    19ce:	|  |  |  |            move.l d1,-(sp)
-    19d0:	|  |  |  |            move.l d0,-(sp)
-    19d2:	|  |  |  |            jsr 17b34 <__mulsi3>
-    19d8:	|  |  |  |            addq.l #8,sp
-    19da:	|  |  |  |            add.l d2,d0
-    19dc:	|  |  |  |            add.l 52(sp),d0
-    19e0:	|  |  |  |            movea.l 68(sp),a0
-    19e4:	|  |  |  |            move.l d0,84(a0)
+    19bc:	|  |  |  |  |            moveq #0,d2
+    19be:	|  |  |  |  |            move.w 74(sp),d2
+    19c2:	|  |  |  |  |            moveq #0,d0
+    19c4:	|  |  |  |  |            move.w 20(sp),d0
+    19c8:	|  |  |  |  |            movea.l 92(sp),a0
+    19cc:	|  |  |  |  |            move.l (a0),d1
+    19ce:	|  |  |  |  |            move.l d1,-(sp)
+    19d0:	|  |  |  |  |            move.l d0,-(sp)
+    19d2:	|  |  |  |  |            jsr 17b34 <__mulsi3>
+    19d8:	|  |  |  |  |            addq.l #8,sp
+    19da:	|  |  |  |  |            add.l d2,d0
+    19dc:	|  |  |  |  |            add.l 44(sp),d0
+    19e0:	|  |  |  |  |            movea.l 60(sp),a0
+    19e4:	|  |  |  |  |            move.l d0,84(a0)
             custom->bltsize = height*64+bytewidth/2;
-    19e8:	|  |  |  |            move.w 78(sp),d0
-    19ec:	|  |  |  |            move.w d0,d1
-    19ee:	|  |  |  |            lsl.w #6,d1
-    19f0:	|  |  |  |            move.w 82(sp),d0
-    19f4:	|  |  |  |            lsr.w #1,d0
-    19f6:	|  |  |  |            add.w d1,d0
-    19f8:	|  |  |  |            movea.l 68(sp),a0
-    19fc:	|  |  |  |            move.w d0,88(a0)
-    1a00:	|  |  +--|----------- bra.w 1cac <CstDrawZBuffer+0x7c4>
+    19e8:	|  |  |  |  |            move.w 68(sp),d0
+    19ec:	|  |  |  |  |            move.w d0,d1
+    19ee:	|  |  |  |  |            lsl.w #6,d1
+    19f0:	|  |  |  |  |            move.w 72(sp),d0
+    19f4:	|  |  |  |  |            lsr.w #1,d0
+    19f6:	|  |  |  |  |            add.w d1,d0
+    19f8:	|  |  |  |  |            movea.l 60(sp),a0
+    19fc:	|  |  |  |  |            move.w d0,88(a0)
+    1a00:	|  |  |  |  +----------- bra.w 1b6c <CstDrawZBuffer+0x684>
         {
           //Get Distance R
           /*sprite  ------------RRRRRRRRx1++++++++++?????????------------*/    
           //zbuffer ------------x1+++++++++++++++++++x2-----------------*/                    
           
-          UWORD xdiff = spritex1oncanvas - zbufferx1oncanvas;
-    1a04:	|  |  |  \----------> move.w 50(sp),d0
-    1a08:	|  |  |               sub.w 42(sp),d0
-    1a0c:	|  |  |               move.w d0,34(sp)
-          UWORD xdiffbyte = (xdiff / 16) * 2;          
-    1a10:	|  |  |               move.w 34(sp),d0
-    1a14:	|  |  |               lsr.w #4,d0
-    1a16:	|  |  |               add.w d0,d0
-    1a18:	|  |  |               move.w d0,32(sp)
-          UWORD xdiffrest = xdiff - xdiffbyte * 8;
-    1a1c:	|  |  |               move.w 32(sp),d0
-    1a20:	|  |  |               lsl.w #3,d0
-    1a22:	|  |  |               move.w 34(sp),d1
-    1a26:	|  |  |               sub.w d0,d1
-    1a28:	|  |  |               move.w d1,30(sp)
-          UWORD bytewidth, width, rest;
+          xdiff = spritex1oncanvas - zbufferx1oncanvas;
+    1a04:	|  |  |  \--|----------> move.w 42(sp),d0
+    1a08:	|  |  |     |            sub.w 34(sp),d0
+    1a0c:	|  |  |     |            move.w d0,26(sp)
+          xdiffbyte = (xdiff / 16) * 2;          
+    1a10:	|  |  |     |            move.w 26(sp),d0
+    1a14:	|  |  |     |            lsr.w #4,d0
+    1a16:	|  |  |     |            add.w d0,d0
+    1a18:	|  |  |     |            move.w d0,74(sp)
+          xdiffrest = xdiff - xdiffbyte * 8;
+    1a1c:	|  |  |     |            move.w 74(sp),d0
+    1a20:	|  |  |     |            lsl.w #3,d0
+    1a22:	|  |  |     |            move.w 26(sp),d1
+    1a26:	|  |  |     |            sub.w d0,d1
+    1a28:	|  |  |     |            move.w d1,24(sp)
+          bytewidth, width, rest;
 
 
           if( zbufferx2oncanvas > spritex2oncanvas)    
-    1a2c:	|  |  |               move.w 48(sp),d0
-    1a30:	|  |  |               cmp.w 40(sp),d0
-    1a34:	|  |  |     /-------- bcc.w 1b6c <CstDrawZBuffer+0x684>
+    1a2c:	|  |  |     |            move.w 40(sp),d0
+    1a30:	|  |  |     |            cmp.w 32(sp),d0
+    1a34:	|  |  |     +----------- bcc.w 1b6c <CstDrawZBuffer+0x684>
                             //Data        KKKKKKKKKKKKKKKKCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
                             //BltBpt      +---------------------------------------------------------------
                             //BlBmod      NNNNNNNNNNNNNNNN------------------------------------------------
                             //ShiftB      ----------------------------------------------------------------
          
             width = spritex2oncanvas - spritex1oncanvas; 
-    1a38:	|  |  |     |         move.w 48(sp),d1
-    1a3c:	|  |  |     |         sub.w 50(sp),d1
-    1a40:	|  |  |     |         move.w d1,28(sp)
+    1a38:	|  |  |     |            move.w 40(sp),d1
+    1a3c:	|  |  |     |            sub.w 42(sp),d1
+    1a40:	|  |  |     |            move.w d1,22(sp)
             bytewidth = (width/16)*2;
-    1a44:	|  |  |     |         move.w 28(sp),d0
-    1a48:	|  |  |     |         lsr.w #4,d0
-    1a4a:	|  |  |     |         add.w d0,d0
-    1a4c:	|  |  |     |         move.w d0,76(sp)
+    1a44:	|  |  |     |            move.w 22(sp),d0
+    1a48:	|  |  |     |            lsr.w #4,d0
+    1a4a:	|  |  |     |            add.w d0,d0
+    1a4c:	|  |  |     |            move.w d0,72(sp)
 
             WaitBlit();
-    1a50:	|  |  |     |         move.l 1c868 <GfxBase>,d0
-    1a56:	|  |  |     |         movea.l d0,a6
-    1a58:	|  |  |     |         jsr -228(a6)
+    1a50:	|  |  |     |            move.l 1c868 <GfxBase>,d0
+    1a56:	|  |  |     |            movea.l d0,a6
+    1a58:	|  |  |     |            jsr -228(a6)
 
             bltapt = zbuffer->bitplane + xdiffbyte;
-    1a5c:	|  |  |     |         movea.l 104(sp),a0
-    1a60:	|  |  |     |         move.l 20(a0),d1
-    1a64:	|  |  |     |         moveq #0,d0
-    1a66:	|  |  |     |         move.w 32(sp),d0
-    1a6a:	|  |  |     |         add.l d1,d0
-    1a6c:	|  |  |     |         move.l d0,84(sp)
+    1a5c:	|  |  |     |            movea.l 96(sp),a0
+    1a60:	|  |  |     |            move.l 20(a0),d1
+    1a64:	|  |  |     |            moveq #0,d0
+    1a66:	|  |  |     |            move.w 74(sp),d0
+    1a6a:	|  |  |     |            add.l d1,d0
+    1a6c:	|  |  |     |            move.l d0,76(sp)
             if( xdiffrest) {
-    1a70:	|  |  |     |         tst.w 30(sp)
-    1a74:	|  |  |     |  /----- beq.s 1ae8 <CstDrawZBuffer+0x600>
+    1a70:	|  |  |     |            tst.w 24(sp)
+    1a74:	|  |  |     |     /----- beq.s 1ae8 <CstDrawZBuffer+0x600>
               bytewidth += 2;
-    1a76:	|  |  |     |  |      addq.w #2,76(sp)
+    1a76:	|  |  |     |     |      addq.w #2,72(sp)
               bltapt += -2;
-    1a7a:	|  |  |     |  |      subq.l #2,84(sp)
+    1a7a:	|  |  |     |     |      subq.l #2,76(sp)
               custom->bltcon0 = (16 - xdiffrest) * 4096 + 0xd0c;
-    1a7e:	|  |  |     |  |      moveq #0,d0
-    1a80:	|  |  |     |  |      move.w 30(sp),d0
-    1a84:	|  |  |     |  |      moveq #16,d1
-    1a86:	|  |  |     |  |      sub.l d0,d1
-    1a88:	|  |  |     |  |      move.l d1,d0
-    1a8a:	|  |  |     |  |      moveq #12,d1
-    1a8c:	|  |  |     |  |      lsl.w d1,d0
-    1a8e:	|  |  |     |  |      addi.w #3340,d0
-    1a92:	|  |  |     |  |      movea.l 68(sp),a0
-    1a96:	|  |  |     |  |      move.w d0,64(a0)
+    1a7e:	|  |  |     |     |      moveq #0,d0
+    1a80:	|  |  |     |     |      move.w 24(sp),d0
+    1a84:	|  |  |     |     |      moveq #16,d1
+    1a86:	|  |  |     |     |      sub.l d0,d1
+    1a88:	|  |  |     |     |      move.l d1,d0
+    1a8a:	|  |  |     |     |      moveq #12,d1
+    1a8c:	|  |  |     |     |      lsl.w d1,d0
+    1a8e:	|  |  |     |     |      addi.w #3340,d0
+    1a92:	|  |  |     |     |      movea.l 60(sp),a0
+    1a96:	|  |  |     |     |      move.w d0,64(a0)
               custom->bltafwm = 0xffff >> (16 - xdiffrest);
-    1a9a:	|  |  |     |  |      moveq #0,d0
-    1a9c:	|  |  |     |  |      move.w 30(sp),d0
-    1aa0:	|  |  |     |  |      moveq #16,d1
-    1aa2:	|  |  |     |  |      sub.l d0,d1
-    1aa4:	|  |  |     |  |      moveq #0,d0
-    1aa6:	|  |  |     |  |      not.w d0
-    1aa8:	|  |  |     |  |      asr.l d1,d0
-    1aaa:	|  |  |     |  |      move.l d0,d0
-    1aac:	|  |  |     |  |      movea.l 68(sp),a0
-    1ab0:	|  |  |     |  |      move.w d0,68(a0)
+    1a9a:	|  |  |     |     |      moveq #0,d0
+    1a9c:	|  |  |     |     |      move.w 24(sp),d0
+    1aa0:	|  |  |     |     |      moveq #16,d1
+    1aa2:	|  |  |     |     |      sub.l d0,d1
+    1aa4:	|  |  |     |     |      moveq #0,d0
+    1aa6:	|  |  |     |     |      not.w d0
+    1aa8:	|  |  |     |     |      asr.l d1,d0
+    1aaa:	|  |  |     |     |      move.l d0,d0
+    1aac:	|  |  |     |     |      movea.l 60(sp),a0
+    1ab0:	|  |  |     |     |      move.w d0,68(a0)
               custom->bltalwm = 0xffff << xdiffrest;
-    1ab4:	|  |  |     |  |      moveq #0,d0
-    1ab6:	|  |  |     |  |      move.w 30(sp),d0
-    1aba:	|  |  |     |  |      moveq #0,d1
-    1abc:	|  |  |     |  |      not.w d1
-    1abe:	|  |  |     |  |      lsl.l d0,d1
-    1ac0:	|  |  |     |  |      move.l d1,d0
-    1ac2:	|  |  |     |  |      movea.l 68(sp),a0
-    1ac6:	|  |  |     |  |      move.w d0,70(a0)
+    1ab4:	|  |  |     |     |      moveq #0,d0
+    1ab6:	|  |  |     |     |      move.w 24(sp),d0
+    1aba:	|  |  |     |     |      moveq #0,d1
+    1abc:	|  |  |     |     |      not.w d1
+    1abe:	|  |  |     |     |      lsl.l d0,d1
+    1ac0:	|  |  |     |     |      move.l d1,d0
+    1ac2:	|  |  |     |     |      movea.l 60(sp),a0
+    1ac6:	|  |  |     |     |      move.w d0,70(a0)
               custom->bltbpt = returnvalue - 2;
-    1aca:	|  |  |     |  |      move.l 52(sp),d0
-    1ace:	|  |  |     |  |      subq.l #2,d0
-    1ad0:	|  |  |     |  |      movea.l 68(sp),a0
-    1ad4:	|  |  |     |  |      move.l d0,76(a0)
+    1aca:	|  |  |     |     |      move.l 44(sp),d0
+    1ace:	|  |  |     |     |      subq.l #2,d0
+    1ad0:	|  |  |     |     |      movea.l 60(sp),a0
+    1ad4:	|  |  |     |     |      move.l d0,76(a0)
               custom->bltdpt = returnvalue - 2;
-    1ad8:	|  |  |     |  |      move.l 52(sp),d0
-    1adc:	|  |  |     |  |      subq.l #2,d0
-    1ade:	|  |  |     |  |      movea.l 68(sp),a0
-    1ae2:	|  |  |     |  |      move.l d0,84(a0)
-    1ae6:	|  |  |     |  |  /-- bra.s 1b1e <CstDrawZBuffer+0x636>
+    1ad8:	|  |  |     |     |      move.l 44(sp),d0
+    1adc:	|  |  |     |     |      subq.l #2,d0
+    1ade:	|  |  |     |     |      movea.l 60(sp),a0
+    1ae2:	|  |  |     |     |      move.l d0,84(a0)
+    1ae6:	|  |  |     |     |  /-- bra.s 1b1e <CstDrawZBuffer+0x636>
             } else {
               bytewidth += 2;
-    1ae8:	|  |  |     |  \--|-> addq.w #2,76(sp)
+    1ae8:	|  |  |     |     \--|-> addq.w #2,72(sp)
               custom->bltcon0 = 0xd0c;
-    1aec:	|  |  |     |     |   movea.l 68(sp),a0
-    1af0:	|  |  |     |     |   move.w #3340,64(a0)
+    1aec:	|  |  |     |        |   movea.l 60(sp),a0
+    1af0:	|  |  |     |        |   move.w #3340,64(a0)
               custom->bltafwm = 0xffff;
-    1af6:	|  |  |     |     |   movea.l 68(sp),a0
-    1afa:	|  |  |     |     |   move.w #-1,68(a0)
+    1af6:	|  |  |     |        |   movea.l 60(sp),a0
+    1afa:	|  |  |     |        |   move.w #-1,68(a0)
               custom->bltalwm = 0xffff;
-    1b00:	|  |  |     |     |   movea.l 68(sp),a0
-    1b04:	|  |  |     |     |   move.w #-1,70(a0)
+    1b00:	|  |  |     |        |   movea.l 60(sp),a0
+    1b04:	|  |  |     |        |   move.w #-1,70(a0)
               custom->bltbpt = returnvalue;
-    1b0a:	|  |  |     |     |   movea.l 68(sp),a0
-    1b0e:	|  |  |     |     |   move.l 52(sp),76(a0)
+    1b0a:	|  |  |     |        |   movea.l 60(sp),a0
+    1b0e:	|  |  |     |        |   move.l 44(sp),76(a0)
               custom->bltdpt = returnvalue;
-    1b14:	|  |  |     |     |   movea.l 68(sp),a0
-    1b18:	|  |  |     |     |   move.l 52(sp),84(a0)
+    1b14:	|  |  |     |        |   movea.l 60(sp),a0
+    1b18:	|  |  |     |        |   move.l 44(sp),84(a0)
             }
 
             custom->bltbmod = sprite->width/8 - bytewidth;
-    1b1e:	|  |  |     |     \-> movea.l 100(sp),a0
-    1b22:	|  |  |     |         move.l (a0),d0
-    1b24:	|  |  |     |     /-- bpl.s 1b28 <CstDrawZBuffer+0x640>
-    1b26:	|  |  |     |     |   addq.l #7,d0
-    1b28:	|  |  |     |     \-> asr.l #3,d0
-    1b2a:	|  |  |     |         move.l d0,d0
-    1b2c:	|  |  |     |         sub.w 76(sp),d0
-    1b30:	|  |  |     |         movea.l 68(sp),a0
-    1b34:	|  |  |     |         move.w d0,98(a0)
+    1b1e:	|  |  |     |        \-> movea.l 92(sp),a0
+    1b22:	|  |  |     |            move.l (a0),d0
+    1b24:	|  |  |     |        /-- bpl.s 1b28 <CstDrawZBuffer+0x640>
+    1b26:	|  |  |     |        |   addq.l #7,d0
+    1b28:	|  |  |     |        \-> asr.l #3,d0
+    1b2a:	|  |  |     |            move.l d0,d0
+    1b2c:	|  |  |     |            sub.w 72(sp),d0
+    1b30:	|  |  |     |            movea.l 60(sp),a0
+    1b34:	|  |  |     |            move.w d0,98(a0)
             custom->bltamod = zbuffer->width/8 - bytewidth;
-    1b38:	|  |  |     |         movea.l 104(sp),a0
-    1b3c:	|  |  |     |         move.l (a0),d0
-    1b3e:	|  |  |     |     /-- bpl.s 1b42 <CstDrawZBuffer+0x65a>
-    1b40:	|  |  |     |     |   addq.l #7,d0
-    1b42:	|  |  |     |     \-> asr.l #3,d0
-    1b44:	|  |  |     |         move.l d0,d0
-    1b46:	|  |  |     |         sub.w 76(sp),d0
-    1b4a:	|  |  |     |         movea.l 68(sp),a0
-    1b4e:	|  |  |     |         move.w d0,100(a0)
+    1b38:	|  |  |     |            movea.l 96(sp),a0
+    1b3c:	|  |  |     |            move.l (a0),d0
+    1b3e:	|  |  |     |        /-- bpl.s 1b42 <CstDrawZBuffer+0x65a>
+    1b40:	|  |  |     |        |   addq.l #7,d0
+    1b42:	|  |  |     |        \-> asr.l #3,d0
+    1b44:	|  |  |     |            move.l d0,d0
+    1b46:	|  |  |     |            sub.w 72(sp),d0
+    1b4a:	|  |  |     |            movea.l 60(sp),a0
+    1b4e:	|  |  |     |            move.w d0,100(a0)
             custom->bltdmod = sprite->width/8 - bytewidth;                      
-    1b52:	|  |  |     |         movea.l 100(sp),a0
-    1b56:	|  |  |     |         move.l (a0),d0
-    1b58:	|  |  |     |     /-- bpl.s 1b5c <CstDrawZBuffer+0x674>
-    1b5a:	|  |  |     |     |   addq.l #7,d0
-    1b5c:	|  |  |     |     \-> asr.l #3,d0
-    1b5e:	|  |  |     |         move.l d0,d0
-    1b60:	|  |  |     |         sub.w 76(sp),d0
-    1b64:	|  |  |     |         movea.l 68(sp),a0
-    1b68:	|  |  |     |         move.w d0,102(a0)
-          }
-          
-          if(zbufferfromtop)
-    1b6c:	|  |  |     \-------> tst.w 88(sp)
-    1b70:	|  |  |     /-------- beq.w 1bf8 <CstDrawZBuffer+0x710>
+    1b52:	|  |  |     |            movea.l 92(sp),a0
+    1b56:	|  |  |     |            move.l (a0),d0
+    1b58:	|  |  |     |        /-- bpl.s 1b5c <CstDrawZBuffer+0x674>
+    1b5a:	|  |  |     |        |   addq.l #7,d0
+    1b5c:	|  |  |     |        \-> asr.l #3,d0
+    1b5e:	|  |  |     |            move.l d0,d0
+    1b60:	|  |  |     |            sub.w 72(sp),d0
+    1b64:	|  |  |     |            movea.l 60(sp),a0
+    1b68:	|  |  |     |            move.w d0,102(a0)
+          }                    
+        }  
+        if(zbufferfromtop)
+    1b6c:	|  |  |     \----------> tst.w 80(sp)
+    1b70:	|  |  |        /-------- beq.w 1bf8 <CstDrawZBuffer+0x710>
           {
             //Get Distance R
             //zbuffer ------------x1+++++++++++++++++++x2-----------------*/
             /*sprite--------------RRRRRRRRx1++++++++++?????????------------*/    
             UWORD ydiff = spritey1oncanvas - zbuffery1oncanvas;
-    1b74:	|  |  |     |         move.w 46(sp),d0
-    1b78:	|  |  |     |         sub.w 38(sp),d0
-    1b7c:	|  |  |     |         move.w d0,24(sp)
+    1b74:	|  |  |        |         move.w 38(sp),d0
+    1b78:	|  |  |        |         sub.w 30(sp),d0
+    1b7c:	|  |  |        |         move.w d0,14(sp)
 
             UWORD height;
             if( zbuffery2oncanvas > spritey2oncanvas) 
-    1b80:	|  |  |     |         move.w 44(sp),d1
-    1b84:	|  |  |     |         cmp.w 36(sp),d1
-    1b88:	|  |  |     |  /----- bcc.s 1b98 <CstDrawZBuffer+0x6b0>
+    1b80:	|  |  |        |         move.w 36(sp),d1
+    1b84:	|  |  |        |         cmp.w 28(sp),d1
+    1b88:	|  |  |        |  /----- bcc.s 1b98 <CstDrawZBuffer+0x6b0>
               height = sprite->height;
-    1b8a:	|  |  |     |  |      movea.l 100(sp),a0
-    1b8e:	|  |  |     |  |      move.l 4(a0),d0
-    1b92:	|  |  |     |  |      move.w d0,74(sp)
-    1b96:	|  |  |     |  |  /-- bra.s 1ba4 <CstDrawZBuffer+0x6bc>
+    1b8a:	|  |  |        |  |      movea.l 92(sp),a0
+    1b8e:	|  |  |        |  |      move.l 4(a0),d0
+    1b92:	|  |  |        |  |      move.w d0,66(sp)
+    1b96:	|  |  |        |  |  /-- bra.s 1ba4 <CstDrawZBuffer+0x6bc>
             else
               height = zbuffery2oncanvas - spritey1oncanvas;
-    1b98:	|  |  |     |  \--|-> move.w 36(sp),d0
-    1b9c:	|  |  |     |     |   sub.w 46(sp),d0
-    1ba0:	|  |  |     |     |   move.w d0,74(sp)
+    1b98:	|  |  |        |  \--|-> move.w 28(sp),d0
+    1b9c:	|  |  |        |     |   sub.w 38(sp),d0
+    1ba0:	|  |  |        |     |   move.w d0,66(sp)
 
             WaitBlit();
-    1ba4:	|  |  |     |     \-> move.l 1c868 <GfxBase>,d0
-    1baa:	|  |  |     |         movea.l d0,a6
-    1bac:	|  |  |     |         jsr -228(a6)
+    1ba4:	|  |  |        |     \-> move.l 1c868 <GfxBase>,d0
+    1baa:	|  |  |        |         movea.l d0,a6
+    1bac:	|  |  |        |         jsr -228(a6)
 
             custom->bltapt = bltapt + ydiff*zbuffer->width/8;            
-    1bb0:	|  |  |     |         moveq #0,d0
-    1bb2:	|  |  |     |         move.w 24(sp),d0
-    1bb6:	|  |  |     |         movea.l 104(sp),a0
-    1bba:	|  |  |     |         move.l (a0),d1
-    1bbc:	|  |  |     |         move.l d1,-(sp)
-    1bbe:	|  |  |     |         move.l d0,-(sp)
-    1bc0:	|  |  |     |         jsr 17b34 <__mulsi3>
-    1bc6:	|  |  |     |         addq.l #8,sp
-    1bc8:	|  |  |     |         tst.l d0
-    1bca:	|  |  |     |     /-- bge.s 1bce <CstDrawZBuffer+0x6e6>
-    1bcc:	|  |  |     |     |   addq.l #7,d0
-    1bce:	|  |  |     |     \-> asr.l #3,d0
-    1bd0:	|  |  |     |         add.l 84(sp),d0
-    1bd4:	|  |  |     |         movea.l 68(sp),a0
-    1bd8:	|  |  |     |         move.l d0,80(a0)
+    1bb0:	|  |  |        |         moveq #0,d0
+    1bb2:	|  |  |        |         move.w 14(sp),d0
+    1bb6:	|  |  |        |         movea.l 96(sp),a0
+    1bba:	|  |  |        |         move.l (a0),d1
+    1bbc:	|  |  |        |         move.l d1,-(sp)
+    1bbe:	|  |  |        |         move.l d0,-(sp)
+    1bc0:	|  |  |        |         jsr 17b34 <__mulsi3>
+    1bc6:	|  |  |        |         addq.l #8,sp
+    1bc8:	|  |  |        |         tst.l d0
+    1bca:	|  |  |        |     /-- bge.s 1bce <CstDrawZBuffer+0x6e6>
+    1bcc:	|  |  |        |     |   addq.l #7,d0
+    1bce:	|  |  |        |     \-> asr.l #3,d0
+    1bd0:	|  |  |        |         add.l 76(sp),d0
+    1bd4:	|  |  |        |         movea.l 60(sp),a0
+    1bd8:	|  |  |        |         move.l d0,80(a0)
             custom->bltsize = height*64+bytewidth/2;
-    1bdc:	|  |  |     |         move.w 74(sp),d0
-    1be0:	|  |  |     |         move.w d0,d1
-    1be2:	|  |  |     |         lsl.w #6,d1
-    1be4:	|  |  |     |         move.w 76(sp),d0
-    1be8:	|  |  |     |         lsr.w #1,d0
-    1bea:	|  |  |     |         add.w d1,d0
-    1bec:	|  |  |     |         movea.l 68(sp),a0
-    1bf0:	|  |  |     |         move.w d0,88(a0)
-    1bf4:	|  |  +-----|-------- bra.w 1cac <CstDrawZBuffer+0x7c4>
+    1bdc:	|  |  |        |         move.w 66(sp),d0
+    1be0:	|  |  |        |         move.w d0,d1
+    1be2:	|  |  |        |         lsl.w #6,d1
+    1be4:	|  |  |        |         move.w 72(sp),d0
+    1be8:	|  |  |        |         lsr.w #1,d0
+    1bea:	|  |  |        |         add.w d1,d0
+    1bec:	|  |  |        |         movea.l 60(sp),a0
+    1bf0:	|  |  |        |         move.w d0,88(a0)
+    1bf4:	|  |  +--------|-------- bra.w 1cac <CstDrawZBuffer+0x7c4>
           //Zbufferfrombottom
           {
            //Get Distance R
             //sprite ------------x1+++++++++++++++++++x2-----------------*/
             /*zbuffer------------RRRRRRRRx1++++++++++?????????------------*/    
             UWORD ydiff = zbuffery1oncanvas - spritey1oncanvas; 
-    1bf8:	|  |  |     \-------> move.w 38(sp),d1
-    1bfc:	|  |  |               sub.w 46(sp),d1
-    1c00:	|  |  |               move.w d1,26(sp)
+    1bf8:	|  |  |        \-------> move.w 30(sp),d1
+    1bfc:	|  |  |                  sub.w 38(sp),d1
+    1c00:	|  |  |                  move.w d1,16(sp)
 
             UWORD height;
             if( zbuffery2oncanvas > spritey2oncanvas) 
-    1c04:	|  |  |               move.w 44(sp),d0
-    1c08:	|  |  |               cmp.w 36(sp),d0
-    1c0c:	|  |  |        /----- bcc.s 1c1c <CstDrawZBuffer+0x734>
+    1c04:	|  |  |                  move.w 36(sp),d0
+    1c08:	|  |  |                  cmp.w 28(sp),d0
+    1c0c:	|  |  |           /----- bcc.s 1c1c <CstDrawZBuffer+0x734>
               height = spritey2oncanvas - zbuffery1oncanvas; 
-    1c0e:	|  |  |        |      move.w 44(sp),d1
-    1c12:	|  |  |        |      sub.w 38(sp),d1
-    1c16:	|  |  |        |      move.w d1,72(sp)
-    1c1a:	|  |  |        |  /-- bra.s 1c28 <CstDrawZBuffer+0x740>
+    1c0e:	|  |  |           |      move.w 36(sp),d1
+    1c12:	|  |  |           |      sub.w 30(sp),d1
+    1c16:	|  |  |           |      move.w d1,64(sp)
+    1c1a:	|  |  |           |  /-- bra.s 1c28 <CstDrawZBuffer+0x740>
             else
               height = zbuffer->height;
-    1c1c:	|  |  |        \--|-> movea.l 104(sp),a0
-    1c20:	|  |  |           |   move.l 4(a0),d0
-    1c24:	|  |  |           |   move.w d0,72(sp)
+    1c1c:	|  |  |           \--|-> movea.l 96(sp),a0
+    1c20:	|  |  |              |   move.l 4(a0),d0
+    1c24:	|  |  |              |   move.w d0,64(sp)
 
             WaitBlit();
-    1c28:	|  |  |           \-> move.l 1c868 <GfxBase>,d0
-    1c2e:	|  |  |               movea.l d0,a6
-    1c30:	|  |  |               jsr -228(a6)
+    1c28:	|  |  |              \-> move.l 1c868 <GfxBase>,d0
+    1c2e:	|  |  |                  movea.l d0,a6
+    1c30:	|  |  |                  jsr -228(a6)
 
             custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8;            
-    1c34:	|  |  |               moveq #0,d2
-    1c36:	|  |  |               move.w 32(sp),d2
-    1c3a:	|  |  |               moveq #0,d0
-    1c3c:	|  |  |               move.w 26(sp),d0
-    1c40:	|  |  |               movea.l 100(sp),a0
-    1c44:	|  |  |               move.l (a0),d1
-    1c46:	|  |  |               move.l d1,-(sp)
-    1c48:	|  |  |               move.l d0,-(sp)
-    1c4a:	|  |  |               jsr 17b34 <__mulsi3>
-    1c50:	|  |  |               addq.l #8,sp
-    1c52:	|  |  |               tst.l d0
-    1c54:	|  |  |           /-- bge.s 1c58 <CstDrawZBuffer+0x770>
-    1c56:	|  |  |           |   addq.l #7,d0
-    1c58:	|  |  |           \-> asr.l #3,d0
-    1c5a:	|  |  |               add.l d2,d0
-    1c5c:	|  |  |               add.l 52(sp),d0
-    1c60:	|  |  |               movea.l 68(sp),a0
-    1c64:	|  |  |               move.l d0,76(a0)
+    1c34:	|  |  |                  moveq #0,d2
+    1c36:	|  |  |                  move.w 74(sp),d2
+    1c3a:	|  |  |                  moveq #0,d0
+    1c3c:	|  |  |                  move.w 16(sp),d0
+    1c40:	|  |  |                  movea.l 92(sp),a0
+    1c44:	|  |  |                  move.l (a0),d1
+    1c46:	|  |  |                  move.l d1,-(sp)
+    1c48:	|  |  |                  move.l d0,-(sp)
+    1c4a:	|  |  |                  jsr 17b34 <__mulsi3>
+    1c50:	|  |  |                  addq.l #8,sp
+    1c52:	|  |  |                  tst.l d0
+    1c54:	|  |  |              /-- bge.s 1c58 <CstDrawZBuffer+0x770>
+    1c56:	|  |  |              |   addq.l #7,d0
+    1c58:	|  |  |              \-> asr.l #3,d0
+    1c5a:	|  |  |                  add.l d2,d0
+    1c5c:	|  |  |                  add.l 44(sp),d0
+    1c60:	|  |  |                  movea.l 60(sp),a0
+    1c64:	|  |  |                  move.l d0,76(a0)
             custom->bltdpt = returnvalue+xdiffbyte+ydiff*sprite->width;          
-    1c68:	|  |  |               moveq #0,d2
-    1c6a:	|  |  |               move.w 32(sp),d2
-    1c6e:	|  |  |               moveq #0,d0
-    1c70:	|  |  |               move.w 26(sp),d0
-    1c74:	|  |  |               movea.l 100(sp),a0
-    1c78:	|  |  |               move.l (a0),d1
-    1c7a:	|  |  |               move.l d1,-(sp)
-    1c7c:	|  |  |               move.l d0,-(sp)
-    1c7e:	|  |  |               jsr 17b34 <__mulsi3>
-    1c84:	|  |  |               addq.l #8,sp
-    1c86:	|  |  |               add.l d2,d0
-    1c88:	|  |  |               add.l 52(sp),d0
-    1c8c:	|  |  |               movea.l 68(sp),a0
-    1c90:	|  |  |               move.l d0,84(a0)
+    1c68:	|  |  |                  moveq #0,d2
+    1c6a:	|  |  |                  move.w 74(sp),d2
+    1c6e:	|  |  |                  moveq #0,d0
+    1c70:	|  |  |                  move.w 16(sp),d0
+    1c74:	|  |  |                  movea.l 92(sp),a0
+    1c78:	|  |  |                  move.l (a0),d1
+    1c7a:	|  |  |                  move.l d1,-(sp)
+    1c7c:	|  |  |                  move.l d0,-(sp)
+    1c7e:	|  |  |                  jsr 17b34 <__mulsi3>
+    1c84:	|  |  |                  addq.l #8,sp
+    1c86:	|  |  |                  add.l d2,d0
+    1c88:	|  |  |                  add.l 44(sp),d0
+    1c8c:	|  |  |                  movea.l 60(sp),a0
+    1c90:	|  |  |                  move.l d0,84(a0)
             custom->bltsize = height*64+bytewidth/2;
-    1c94:	|  |  |               move.w 72(sp),d0
-    1c98:	|  |  |               move.w d0,d1
-    1c9a:	|  |  |               lsl.w #6,d1
-    1c9c:	|  |  |               move.w 76(sp),d0
-    1ca0:	|  |  |               lsr.w #1,d0
-    1ca2:	|  |  |               add.w d1,d0
-    1ca4:	|  |  |               movea.l 68(sp),a0
-    1ca8:	|  |  |               move.w d0,88(a0)
-          }
-        }     
+    1c94:	|  |  |                  move.w 64(sp),d0
+    1c98:	|  |  |                  move.w d0,d1
+    1c9a:	|  |  |                  lsl.w #6,d1
+    1c9c:	|  |  |                  move.w 72(sp),d0
+    1ca0:	|  |  |                  lsr.w #1,d0
+    1ca2:	|  |  |                  add.w d1,d0
+    1ca4:	|  |  |                  movea.l 60(sp),a0
+    1ca8:	|  |  |                  move.w d0,88(a0)
+          }   
       }
       zbuffer = zbuffer->nextPanel;
-    1cac:	|  |  \-------------> movea.l 104(sp),a0
-    1cb0:	|  |                  move.l 24(a0),104(sp)
+    1cac:	|  |  \----------------> movea.l 96(sp),a0
+    1cb0:	|  |                     move.l 24(a0),96(sp)
   while(zbuffer) 
-    1cb6:	|  \----------------> tst.l 104(sp)
-    1cba:	\-------------------- bne.w 1660 <CstDrawZBuffer+0x178>
+    1cb6:	|  \-------------------> tst.l 96(sp)
+    1cba:	\----------------------- bne.w 1660 <CstDrawZBuffer+0x178>
     }
   }
 
   return returnvalue;
-    1cbe:	                      move.l 52(sp),d0
+    1cbe:	                         move.l 44(sp),d0
 
 }
-    1cc2:	                      move.l (sp)+,d2
-    1cc4:	                      movea.l (sp)+,a6
-    1cc6:	                      lea 88(sp),sp
-    1cca:	                      rts
+    1cc2:	                         move.l (sp)+,d2
+    1cc4:	                         movea.l (sp)+,a6
+    1cc6:	                         lea 80(sp),sp
+    1cca:	                         rts
 
 00001ccc <CstFreeBuffer>:
 
@@ -27380,7 +27380,7 @@ builtIn(setCharacterColourise)
 {
 	UNUSEDALL
 	KPrintF("setCharacterColourise: Currently not implemented on Amiga");
-   113ba:	pea 199e3 <PutChar+0x1d99>
+   113ba:	pea 199e3 <line.c.05397aaf+0x31>
    113c0:	jsr 17176 <KPrintF>
    113c6:	addq.l #4,sp
 	if (! getValueType(&r, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -27512,7 +27512,7 @@ builtIn(stopCharacter)
 		setVariable (&fun -> reg, SVT_INT, 0);
 	} Todo: Amigize this*/
 	KPrintF("Not implemented yet for Amiga");
-   114be:	pea 19a1d <PutChar+0x1dd3>
+   114be:	pea 19a1d <line.c.05397aaf+0x6b>
    114c4:	jsr 17176 <KPrintF>
    114ca:	addq.l #4,sp
 	return BR_CONTINUE;
@@ -28042,7 +28042,7 @@ static enum builtReturn moveChr(int numParams, struct loadedFunction * fun, BOOL
    11990:	|  |  |     |   movea.l 8(sp),a0
    11994:	|  |  |     |   move.l 12(sp),d1
    11998:	|  |  |     |   move.l 16(sp),d0
-   1199c:	|  |  |     |   pea ffffffff <gcc8_c_support.c.cce2f5c3+0xfffb4d1e>
+   1199c:	|  |  |     |   pea ffffffff <gcc8_c_support.c.cce2f5c3+0xfffb4da9>
    119a0:	|  |  |     |   move.l 44(sp),-(sp)
    119a4:	|  |  |     |   move.l a0,-(sp)
    119a6:	|  |  |     |   move.l d1,-(sp)
@@ -28071,7 +28071,7 @@ static enum builtReturn moveChr(int numParams, struct loadedFunction * fun, BOOL
    119e2:	|  |  |  |  \-> movea.l 8(sp),a0
    119e6:	|  |  |  |      move.l 12(sp),d1
    119ea:	|  |  |  |      move.l 16(sp),d0
-   119ee:	|  |  |  |      pea ffffffff <gcc8_c_support.c.cce2f5c3+0xfffb4d1e>
+   119ee:	|  |  |  |      pea ffffffff <gcc8_c_support.c.cce2f5c3+0xfffb4da9>
    119f2:	|  |  |  |      move.l 44(sp),-(sp)
    119f6:	|  |  |  |      move.l a0,-(sp)
    119f8:	|  |  |  |      move.l d1,-(sp)
@@ -28211,7 +28211,7 @@ static enum builtReturn moveChr(int numParams, struct loadedFunction * fun, BOOL
 
 		default:
 			KPrintF ("Built-in function must have either 2 or 3 parameters.");
-   11b4a:	\--|----------> pea 19a3b <PutChar+0x1df1>
+   11b4a:	\--|----------> pea 19a3b <line.c.05397aaf+0x89>
    11b50:	   |            jsr 17176 <KPrintF>
    11b56:	   |            addq.l #4,sp
 			return BR_ERROR;
@@ -28521,7 +28521,7 @@ static BOOL getFuncNumForCallback(int numParams, struct loadedFunction * fun, in
 
 		default:
 			KPrintF ("Too many parameters.");
-   11d8e:	|  \--|----> pea 19a71 <line.c.05397aaf+0x34>
+   11d8e:	|  \--|----> pea 19a71 <line.c.05397aaf+0xbf>
    11d94:	|     |      jsr 17176 <KPrintF>
    11d9a:	|     |      addq.l #4,sp
 			return FALSE;
@@ -29831,7 +29831,7 @@ builtIn(cacheSound)
 	burnStringToBackdrop (newText, x, y, pastePalette);
 	delete[] newText; Todo: Amigize this*/
 	KPrintF("burnString: Not implemented for Amiga yet");
-   1289e:	pea 19a86 <line.c.05397aaf+0x49>
+   1289e:	pea 19a86 <line.c.05397aaf+0xd4>
    128a4:	jsr 17176 <KPrintF>
    128aa:	addq.l #4,sp
 	return BR_CONTINUE;
@@ -30087,7 +30087,7 @@ builtIn(_rem_updateDisplay)
 	fun -> reg.varData.theStack -> timesUsed = 1;
 	if (! getSoundCacheStack (&fun -> reg.varData.theStack)) return BR_ERROR; Todo: Amigize this?*/
 	KPrintF("getSoundCache: Not implemented yet for Amiga");
-   12ad8:	pea 19ab0 <line.c.05397aaf+0x73>
+   12ad8:	pea 19ab0 <line.c.05397aaf+0xfe>
    12ade:	jsr 17176 <KPrintF>
    12ae4:	addq.l #4,sp
 	return BR_CONTINUE;
@@ -30150,7 +30150,7 @@ builtIn(saveCustomData)
    12b64:	|      cmp.l d0,d1
    12b66:	|  /-- beq.s 12b7a <builtIn_saveCustomData+0x90>
 		KPrintF("First parameter isn't a stack");
-   12b68:	|  |   pea 19add <line.c.05397aaf+0xa0>
+   12b68:	|  |   pea 19add <line.c.05397aaf+0x12b>
    12b6e:	|  |   jsr 17176 <KPrintF>
    12b74:	|  |   addq.l #4,sp
 		return BR_ERROR;
@@ -30519,7 +30519,7 @@ builtIn(parallaxClear)
 	fun -> reg.varData.theStack -> timesUsed = 1;
 	if (! getRGBIntoStack (x, y, &fun -> reg.varData.theStack)) return BR_ERROR; Todo: Amigize this*/
 	KPrintF("getPixelColor: Not implemented for Amiga");
-   12eca:	pea 19afb <line.c.05397aaf+0xbe>
+   12eca:	pea 19afb <line.c.05397aaf+0x149>
    12ed0:	jsr 17176 <KPrintF>
    12ed6:	addq.l #4,sp
 
@@ -30606,7 +30606,7 @@ builtIn(makeFastArray)
    12f72:	\--|-------> nop
 	}
 	KPrintF ("Parameter must be a number or a stack.");
-   12f74:	   |         pea 19b24 <line.c.05397aaf+0xe7>
+   12f74:	   |         pea 19b24 <line.c.05397aaf+0x172>
    12f7a:	   |         jsr 17176 <KPrintF>
    12f80:	   |         addq.l #4,sp
 	return BR_ERROR;
@@ -30832,7 +30832,7 @@ builtIn(setThumbnailSize)
    13162:	|  |      move.l 1c76e <thumbWidth>,d0
    13168:	|  |      move.l d1,-(sp)
    1316a:	|  |      move.l d0,-(sp)
-   1316c:	|  |      pea 19b4b <line.c.05397aaf+0x10e>
+   1316c:	|  |      pea 19b4b <line.c.05397aaf+0x199>
    13172:	|  |      lea 14(sp),a0
    13176:	|  |      move.l a0,-(sp)
    13178:	|  |      jsr 13f58 <sprintf>
@@ -30840,7 +30840,7 @@ builtIn(setThumbnailSize)
 		KPrintF ("Invalid thumbnail size", buff);
    13182:	|  |      lea 2(sp),a0
    13186:	|  |      move.l a0,-(sp)
-   13188:	|  |      pea 19b53 <line.c.05397aaf+0x116>
+   13188:	|  |      pea 19b53 <line.c.05397aaf+0x1a1>
    1318e:	|  |      jsr 17176 <KPrintF>
    13194:	|  |      addq.l #8,sp
 		return BR_ERROR;
@@ -31162,7 +31162,7 @@ builtIn(doBackgroundEffect)
 	BOOL done = TRUE;
    133f2:	move.w #1,2(sp)
 	KPrintF("doBackgroundEffect: Function not implemented on Amiga");
-   133f8:	pea 19b6a <line.c.05397aaf+0x12d>
+   133f8:	pea 19b6a <line.c.05397aaf+0x1b8>
    133fe:	jsr 17176 <KPrintF>
    13404:	addq.l #4,sp
 	//Amiga Todo: Amigize this
@@ -31243,7 +31243,7 @@ enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunctio
    134b0:	|  |         move.l (0,a1,a0.l),d1
    134b4:	|  |         move.l d0,-(sp)
    134b6:	|  |         move.l d1,-(sp)
-   134b8:	|  |         pea 19ba2 <line.c.05397aaf+0x165>
+   134b8:	|  |         pea 19ba2 <line.c.05397aaf+0x1f0>
    134be:	|  |         lea 12(sp),a0
    134c2:	|  |         move.l a0,-(sp)
    134c4:	|  |         jsr 13f58 <sprintf>
@@ -31289,7 +31289,7 @@ enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunctio
 	}
 
 	KPrintF("Unknown / unimplemented built-in function.");
-   13520:	\--------|-> pea 19bcd <line.c.05397aaf+0x190>
+   13520:	\--------|-> pea 19bcd <line.c.05397aaf+0x21b>
    13526:	         |   jsr 17176 <KPrintF>
    1352c:	         |   addq.l #4,sp
 	return BR_ERROR;
@@ -31400,7 +31400,7 @@ char * getPrefsFilename (char * filename) {
 	}
 
 	char * joined = joinStrings (f, ".ini");
-   135f4:	          pea 19bf8 <line.c.05397aaf+0x1bb>
+   135f4:	          pea 19bf8 <line.c.05397aaf+0x246>
    135fa:	          move.l 20(sp),-(sp)
    135fe:	          jsr 13c7a <joinStrings>
    13604:	          addq.l #8,sp
@@ -31446,7 +31446,7 @@ void makeLanguageTable (BPTR table)
    1366c:	             move.l 1c930 <languageTable>,d0
    13672:	         /-- bne.s 13682 <makeLanguageTable+0x52>
         KPrintF("makeLanguageTable: Cannot Alloc Mem for languageTable");
-   13674:	         |   pea 19bfd <line.c.05397aaf+0x1c0>
+   13674:	         |   pea 19bfd <line.c.05397aaf+0x24b>
    1367a:	         |   jsr 17176 <KPrintF>
    13680:	         |   addq.l #4,sp
     }
@@ -31469,7 +31469,7 @@ void makeLanguageTable (BPTR table)
    136b6:	             move.l 1c934 <languageName>,d0
    136bc:	         /-- bne.s 136cc <makeLanguageTable+0x9c>
         KPrintF("makeLanguageName: Cannot Alloc Mem for languageName");
-   136be:	         |   pea 19c33 <line.c.05397aaf+0x1f6>
+   136be:	         |   pea 19c33 <graphics.c.1c13408a+0x25>
    136c4:	         |   jsr 17176 <KPrintF>
    136ca:	         |   addq.l #4,sp
     }
@@ -31663,7 +31663,7 @@ void readIniFile (char * filename) {
    138b6:	|  |  |  |        \-> tst.w 566(sp)
    138ba:	|  |  |  |     /----- beq.w 13a34 <readIniFile+0x2d0>
 					if (strcmp (lineSoFar, "LANGUAGE") == 0)
-   138be:	|  |  |  |     |      pea 19c67 <line.c.05397aaf+0x22a>
+   138be:	|  |  |  |     |      pea 19c67 <graphics.c.1c13408a+0x59>
    138c4:	|  |  |  |     |      move.l sp,d0
    138c6:	|  |  |  |     |      addi.l #269,d0
    138cc:	|  |  |  |     |      move.l d0,-(sp)
@@ -31682,7 +31682,7 @@ void readIniFile (char * filename) {
    138ee:	|  |  |  |     +--|-- bra.w 13a34 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "WINDOW") == 0)
-   138f2:	|  |  |  |     |  \-> pea 19c70 <line.c.05397aaf+0x233>
+   138f2:	|  |  |  |     |  \-> pea 19c70 <graphics.c.1c13408a+0x62>
    138f8:	|  |  |  |     |      move.l sp,d0
    138fa:	|  |  |  |     |      addi.l #269,d0
    13900:	|  |  |  |     |      move.l d0,-(sp)
@@ -31706,7 +31706,7 @@ void readIniFile (char * filename) {
    1392e:	|  |  |  |     +--|-- bra.w 13a34 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "REFRESH") == 0)
-   13932:	|  |  |  |     |  \-> pea 19c77 <line.c.05397aaf+0x23a>
+   13932:	|  |  |  |     |  \-> pea 19c77 <graphics.c.1c13408a+0x69>
    13938:	|  |  |  |     |      move.l sp,d0
    1393a:	|  |  |  |     |      addi.l #269,d0
    13940:	|  |  |  |     |      move.l d0,-(sp)
@@ -31725,7 +31725,7 @@ void readIniFile (char * filename) {
    13962:	|  |  |  |     +--|-- bra.w 13a34 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "ANTIALIAS") == 0)
-   13966:	|  |  |  |     |  \-> pea 19c7f <line.c.05397aaf+0x242>
+   13966:	|  |  |  |     |  \-> pea 19c7f <graphics.c.1c13408a+0x71>
    1396c:	|  |  |  |     |      move.l sp,d0
    1396e:	|  |  |  |     |      addi.l #269,d0
    13974:	|  |  |  |     |      move.l d0,-(sp)
@@ -31744,7 +31744,7 @@ void readIniFile (char * filename) {
    13996:	|  |  |  |     +--|-- bra.w 13a34 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "FIXEDPIXELS") == 0)
-   1399a:	|  |  |  |     |  \-> pea 19c89 <line.c.05397aaf+0x24c>
+   1399a:	|  |  |  |     |  \-> pea 19c89 <graphics.c.1c13408a+0x7b>
    139a0:	|  |  |  |     |      move.l sp,d0
    139a2:	|  |  |  |     |      addi.l #269,d0
    139a8:	|  |  |  |     |      move.l d0,-(sp)
@@ -31764,7 +31764,7 @@ void readIniFile (char * filename) {
    139cc:	|  |  |  |     +--|-- bra.s 13a34 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "NOSTARTWINDOW") == 0)
-   139ce:	|  |  |  |     |  \-> pea 19c95 <line.c.05397aaf+0x258>
+   139ce:	|  |  |  |     |  \-> pea 19c95 <graphics.c.1c13408a+0x87>
    139d4:	|  |  |  |     |      move.l sp,d0
    139d6:	|  |  |  |     |      addi.l #269,d0
    139dc:	|  |  |  |     |      move.l d0,-(sp)
@@ -31784,7 +31784,7 @@ void readIniFile (char * filename) {
    13a00:	|  |  |  |     +--|-- bra.s 13a34 <readIniFile+0x2d0>
 					}
 					else if (strcmp (lineSoFar, "DEBUGMODE") == 0)
-   13a02:	|  |  |  |     |  \-> pea 19ca3 <graphics.c.1c13408a+0xa>
+   13a02:	|  |  |  |     |  \-> pea 19ca3 <graphics.c.1c13408a+0x95>
    13a08:	|  |  |  |     |      move.l sp,d0
    13a0a:	|  |  |  |     |      addi.l #269,d0
    13a10:	|  |  |  |     |      move.l d0,-(sp)
@@ -31967,7 +31967,7 @@ BYTE fileExists(const char * file) {
    13b78:	    move.l a6,-(sp)
    13b7a:	    move.l d2,-(sp)
 	KPrintF("fileexists: Checking File");
-   13b7c:	    pea 19cad <graphics.c.1c13408a+0x14>
+   13b7c:	    pea 19cad <graphics.c.1c13408a+0x9f>
    13b82:	    jsr 17176 <KPrintF>
    13b88:	    addq.l #4,sp
 	BPTR tester;
@@ -31987,7 +31987,7 @@ BYTE fileExists(const char * file) {
 	if (tester) {
    13bbc:	/-- beq.s 13bec <fileExists+0x78>
 		KPrintF("fileexists: File exists");
-   13bbe:	|   pea 19cc7 <graphics.c.1c13408a+0x2e>
+   13bbe:	|   pea 19cc7 <graphics.c.1c13408a+0xb9>
    13bc4:	|   jsr 17176 <KPrintF>
    13bca:	|   addq.l #4,sp
 		retval = 1;
@@ -32200,7 +32200,7 @@ char* itoa(int value, char* str, int base) {
    13d76:	   |   move.l d0,d1
    13d78:	   |   addq.l #1,d1
    13d7a:	   |   move.l d1,12(sp)
-   13d7e:	   |   lea 19cdf <graphics.c.1c13408a+0x46>,a0
+   13d7e:	   |   lea 19cdf <graphics.c.1c13408a+0xd1>,a0
    13d84:	   |   move.b (0,a1,a0.l),d1
    13d88:	   |   movea.l d0,a0
    13d8a:	   |   move.b d1,(a0)
@@ -33036,7 +33036,7 @@ struct persona * getCostumeFromVar(struct variable *thisVar) {
    144e2:	      |     |   lea 1c738 <typeName>,a0
    144e8:	      |     |   move.l (0,a1,a0.l),d0
    144ec:	      |     |   move.l d0,-(sp)
-   144ee:	      |     |   pea 19d51 <graphics.c.1c13408a+0xb8>
+   144ee:	      |     |   pea 19d51 <graphics.c.1c13408a+0x143>
    144f4:	      |     |   jsr 17176 <KPrintF>
    144fa:	      |     |   addq.l #8,sp
     }
@@ -33056,7 +33056,7 @@ BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
    1450e:	                movem.l d2-d3/a6,-(sp)
 	char * pattern = joinStrings("*", ext);
    14512:	                move.l 116(sp),-(sp)
-   14516:	                pea 19d89 <graphics.c.1c13408a+0xf0>
+   14516:	                pea 19d89 <graphics.c.1c13408a+0x17b>
    1451c:	                jsr 13c7a <joinStrings>
    14522:	                addq.l #8,sp
    14524:	                move.l d0,102(sp)
@@ -33265,7 +33265,7 @@ BOOL getValueType (int *toHere, enum variableType vT, const struct variable *v) 
    14766:	|      lea 1c738 <typeName>,a0
    1476c:	|      move.l (0,a1,a0.l),d0
    14770:	|      move.l d0,-(sp)
-   14772:	|      pea 19d8d <graphics.c.1c13408a+0xf4>
+   14772:	|      pea 19d8d <graphics.c.1c13408a+0x17f>
    14778:	|      jsr 13c7a <joinStrings>
    1477e:	|      addq.l #8,sp
    14780:	|      move.l d0,4(sp)
@@ -33278,7 +33278,7 @@ BOOL getValueType (int *toHere, enum variableType vT, const struct variable *v) 
    14790:	|      lea 1c738 <typeName>,a0
    14796:	|      move.l (0,a1,a0.l),d0
    1479a:	|      move.l d0,-(sp)
-   1479c:	|      pea 19dcf <graphics.c.1c13408a+0x136>
+   1479c:	|      pea 19dcf <graphics.c.1c13408a+0x1c1>
    147a2:	|      jsr 13c7a <joinStrings>
    147a8:	|      addq.l #8,sp
    147aa:	|      move.l d0,(sp)
@@ -33393,7 +33393,7 @@ BOOL makeFastArraySize (struct variable *to, int size) {
    14870:	          tst.l 40(sp)
    14874:	      /-- bge.s 1488a <makeFastArraySize+0x20>
 		KPrintF("makeFastArraySize: Can't create a fast array with a negative number of elements!");
-   14876:	      |   pea 19e14 <graphics.c.1c13408a+0x17b>
+   14876:	      |   pea 19e14 <graphics.c.1c13408a+0x206>
    1487c:	      |   jsr 17176 <KPrintF>
    14882:	      |   addq.l #4,sp
 		return FALSE;
@@ -33759,7 +33759,7 @@ BOOL copyMain (const struct variable *from, struct variable *to) {
    14bf4:	\--|-> nop
 	}
 	KPrintF("Unknown value type");
-   14bf6:	   |   pea 19e65 <graphics.c.1c13408a+0x1cc>
+   14bf6:	   |   pea 19e65 <graphics.c.1c13408a+0x257>
    14bfc:	   |   jsr 17176 <KPrintF>
    14c02:	   |   addq.l #4,sp
 	return FALSE;
@@ -33821,7 +33821,7 @@ struct personaAnimation * getAnimationFromVar (struct variable *thisVar) {
    14c70:	|      lea 1c738 <typeName>,a0
    14c76:	|      move.l (0,a1,a0.l),d0
    14c7a:	|      move.l d0,-(sp)
-   14c7c:	|      pea 19d51 <graphics.c.1c13408a+0xb8>
+   14c7c:	|      pea 19d51 <graphics.c.1c13408a+0x143>
    14c82:	|      jsr 17176 <KPrintF>
    14c88:	|      addq.l #8,sp
 	return NULL;
@@ -33939,7 +33939,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 		case SVT_FASTARRAY:
 		{
 			char * builder = copyString ("FAST:");
-   14d74:	|  |  |            pea 19e78 <graphics.c.1c13408a+0x1df>
+   14d74:	|  |  |            pea 19e78 <graphics.c.1c13408a+0x26a>
    14d7a:	|  |  |            jsr b8 <copyString>
    14d80:	|  |  |            addq.l #4,sp
    14d82:	|  |  |            move.l d0,76(sp)
@@ -33950,7 +33950,7 @@ char * getTextFromAnyVar (const struct variable *from) {
    14d86:	|  |  |            clr.l 72(sp)
    14d8a:	|  |  |     /----- bra.w 14e34 <getTextFromAnyVar+0x110>
 				builder2 = joinStrings (builder, " ");
-   14d8e:	|  |  |  /--|----> pea 19e7e <graphics.c.1c13408a+0x1e5>
+   14d8e:	|  |  |  /--|----> pea 19e7e <graphics.c.1c13408a+0x270>
    14d94:	|  |  |  |  |      move.l 80(sp),-(sp)
    14d98:	|  |  |  |  |      jsr 13c7a <joinStrings>
    14d9e:	|  |  |  |  |      addq.l #8,sp
@@ -34018,7 +34018,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 		case SVT_STACK:
 		{
 			char * builder = copyString ("ARRAY:");
-   14e50:	|  |  |            pea 19e80 <graphics.c.1c13408a+0x1e7>
+   14e50:	|  |  |            pea 19e80 <graphics.c.1c13408a+0x272>
    14e56:	|  |  |            jsr b8 <copyString>
    14e5c:	|  |  |            addq.l #4,sp
    14e5e:	|  |  |            move.l d0,68(sp)
@@ -34033,7 +34033,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 			while (stacky) {
    14e6e:	|  |  |     /----- bra.w 14f10 <getTextFromAnyVar+0x1ec>
 				builder2 = joinStrings (builder, " ");
-   14e72:	|  |  |  /--|----> pea 19e7e <graphics.c.1c13408a+0x1e5>
+   14e72:	|  |  |  /--|----> pea 19e7e <graphics.c.1c13408a+0x270>
    14e78:	|  |  |  |  |      move.l 72(sp),-(sp)
    14e7c:	|  |  |  |  |      jsr 13c7a <joinStrings>
    14e82:	|  |  |  |  |      addq.l #8,sp
@@ -34109,7 +34109,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 			if (! buff) {
    14f4a:	|  |           /-- bne.s 14f60 <getTextFromAnyVar+0x23c>
 				KPrintF("getTextFromAnyVar: Cannot allocate Memory");
-   14f4c:	|  |           |   pea 19e87 <graphics.c.1c13408a+0x1ee>
+   14f4c:	|  |           |   pea 19e87 <graphics.c.1c13408a+0x279>
    14f52:	|  |           |   jsr 17176 <KPrintF>
    14f58:	|  |           |   addq.l #4,sp
 				return NULL;
@@ -34120,7 +34120,7 @@ char * getTextFromAnyVar (const struct variable *from) {
    14f60:	|  |           \-> movea.l 84(sp),a0
    14f64:	|  |               move.l 4(a0),d0
    14f68:	|  |               move.l d0,-(sp)
-   14f6a:	|  |               pea 19eb1 <graphics.c.1c13408a+0x218>
+   14f6a:	|  |               pea 19eb1 <graphics.c.1c13408a+0x2a3>
    14f70:	|  |               move.l 12(sp),-(sp)
    14f74:	|  |               jsr 13f58 <sprintf>
    14f7a:	|  |               lea 12(sp),sp
@@ -34361,7 +34361,7 @@ BOOL freeze () {
    1511a:	       lea -52(sp),sp
    1511e:	       move.l a6,-(sp)
 	KPrintF("calling freeze()\n");
-   15120:	       pea 19eb4 <graphics.c.1c13408a+0x21b>
+   15120:	       pea 19eb4 <graphics.c.1c13408a+0x2a6>
    15126:	       jsr 17176 <KPrintF>
    1512c:	       addq.l #4,sp
 
@@ -34720,7 +34720,7 @@ struct loadedSpriteBank *theFont;
 
 BOOL isInFont (char * theText) {
 	KPrintF("isInFont: Not implemented yet on Amiga"); //Todo: Implement on Amiga
-   15548:	pea 19ec6 <graphics.c.1c13408a+0x22d>
+   15548:	pea 19ec6 <graphics.c.1c13408a+0x2b8>
    1554e:	jsr 17176 <KPrintF>
    15554:	addq.l #4,sp
 	return FALSE;
@@ -34900,7 +34900,7 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
    15730:	|         tst.w d0
    15732:	|     /-- bne.s 15746 <loadFont+0x1ec>
 		KPrintF("loadFont: Can't load font");
-   15734:	|     |   pea 19eed <graphics.c.1c13408a+0x254>
+   15734:	|     |   pea 19eed <graphics.c.1c13408a+0x2df>
    1573a:	|     |   jsr 17176 <KPrintF>
    15740:	|     |   addq.l #4,sp
 		return FALSE;
@@ -35630,7 +35630,7 @@ ULONG rand() {
    15dfc:	       move.b 47(sp),d0
    15e00:	   /-- beq.s 15e16 <rand+0xa0>
         KPrintF("Unable to open timer device\n");
-   15e02:	   |   pea 19f14 <graphics.c.1c13408a+0x27b>
+   15e02:	   |   pea 19f14 <graphics.c.1c13408a+0x306>
    15e08:	   |   jsr 17176 <KPrintF>
    15e0e:	   |   addq.l #4,sp
         return 0;
@@ -35673,7 +35673,7 @@ ULONG rand() {
    15e76:	|      move.l d0,26(sp)
     KPrintF("Random Number: %d\n", random_number);
    15e7a:	|      move.l 26(sp),-(sp)
-   15e7e:	|      pea 19f31 <graphics.c.1c13408a+0x298>
+   15e7e:	|      pea 19f31 <graphics.c.1c13408a+0x323>
    15e84:	|      jsr 17176 <KPrintF>
    15e8a:	|      addq.l #8,sp
 
@@ -35777,7 +35777,7 @@ struct loadedSpriteBank * loadBankForAnim (int ID) {
 			allLoadedBanks = returnMe;
    15f88:	|     |  |   move.l 20(sp),1c974 <allLoadedBanks>
 			KPrintF("loadBankForAnim: New sprite bank created OK\n");
-   15f90:	|     |  |   pea 19f44 <graphics.c.1c13408a+0x2ab>
+   15f90:	|     |  |   pea 19f44 <graphics.c.1c13408a+0x336>
    15f96:	|     |  |   jsr 17176 <KPrintF>
    15f9c:	|     |  |   addq.l #4,sp
 			return returnMe;
@@ -35785,7 +35785,7 @@ struct loadedSpriteBank * loadBankForAnim (int ID) {
    15fa2:	+-----|--|-- bra.s 15fce <loadBankForAnim+0xf6>
 		} else {
 			KPrintF("loadBankForAnim: I guess I couldn't load the sprites...\n");
-   15fa4:	|     |  \-> pea 19f71 <graphics.c.1c13408a+0x2d8>
+   15fa4:	|     |  \-> pea 19f71 <graphics.c.1c13408a+0x363>
    15faa:	|     |      jsr 17176 <KPrintF>
    15fb0:	|     |      addq.l #4,sp
 			FreeVec(returnMe);
@@ -36350,7 +36350,7 @@ BOOL initFloor () {
    1655e:	       move.l 1c978 <currentFloor>,d0
    16564:	/----- bne.s 16578 <initFloor+0x4c>
         KPrintF("initFloor: Could not initialize Mem");
-   16566:	|      pea 19faa <graphics.c.1c13408a+0x311>
+   16566:	|      pea 19faa <graphics.c.1c13408a+0x39c>
    1656c:	|      jsr 17176 <KPrintF>
    16572:	|      addq.l #4,sp
         return FALSE;
@@ -36760,7 +36760,7 @@ BOOL setFloor (int fileNum) {
    169b8:	|                              move.l 12(a0),d0
    169bc:	|                          /-- bne.s 169d2 <setFloor+0xb2>
 		KPrintF("setFloor: Cannot allocate memory");
-   169be:	|                          |   pea 19fce <graphics.c.1c13408a+0x335>
+   169be:	|                          |   pea 19fce <graphics.c.1c13408a+0x3c0>
    169c4:	|                          |   jsr 17176 <KPrintF>
    169ca:	|                          |   addq.l #4,sp
 		return FALSE;
@@ -36825,7 +36825,7 @@ BOOL setFloor (int fileNum) {
    16a76:	|                 |  |         move.l 4(a0),d0
    16a7a:	|                 |  |     /-- bne.s 16a90 <setFloor+0x170>
 			KPrintF("setFloor: Cannot allocate memory");
-   16a7c:	|                 |  |     |   pea 19fce <graphics.c.1c13408a+0x335>
+   16a7c:	|                 |  |     |   pea 19fce <graphics.c.1c13408a+0x3c0>
    16a82:	|                 |  |     |   jsr 17176 <KPrintF>
    16a88:	|                 |  |     |   addq.l #4,sp
 			return FALSE;
@@ -36902,7 +36902,7 @@ BOOL setFloor (int fileNum) {
    16b4e:	|                              move.l 4(a0),d0
    16b52:	|                          /-- bne.s 16b68 <setFloor+0x248>
 		KPrintF("setFloor: Cannot allocate memory");
-   16b54:	|                          |   pea 19fce <graphics.c.1c13408a+0x335>
+   16b54:	|                          |   pea 19fce <graphics.c.1c13408a+0x3c0>
    16b5a:	|                          |   jsr 17176 <KPrintF>
    16b60:	|                          |   addq.l #4,sp
 		return FALSE;
@@ -36985,7 +36985,7 @@ BOOL setFloor (int fileNum) {
    16c48:	|                              move.l 16(a0),d0
    16c4c:	|                          /-- bne.s 16c62 <setFloor+0x342>
 		KPrintF("setFloor: Cannot allocate memory");
-   16c4e:	|                          |   pea 19fce <graphics.c.1c13408a+0x335>
+   16c4e:	|                          |   pea 19fce <graphics.c.1c13408a+0x3c0>
    16c54:	|                          |   jsr 17176 <KPrintF>
    16c5a:	|                          |   addq.l #4,sp
 		return FALSE;
@@ -37048,7 +37048,7 @@ BOOL setFloor (int fileNum) {
    16d0a:	|                 |  |         move.l (a0),d0
    16d0c:	|                 |  |     /-- bne.s 16d22 <setFloor+0x402>
 			KPrintF("setFloor: Cannot allocate memory");
-   16d0e:	|                 |  |     |   pea 19fce <graphics.c.1c13408a+0x335>
+   16d0e:	|                 |  |     |   pea 19fce <graphics.c.1c13408a+0x3c0>
    16d14:	|                 |  |     |   jsr 17176 <KPrintF>
    16d1a:	|                 |  |     |   addq.l #4,sp
 			return FALSE;
@@ -37521,7 +37521,7 @@ void KPrintF(const char* fmt, ...) {
    17176:	       lea -128(sp),sp
    1717a:	       movem.l a2-a3/a6,-(sp)
 	if(*((UWORD *)UaeDbgLog) == 0x4eb9 || *((UWORD *)UaeDbgLog) == 0xa00e) {
-   1717e:	       move.w f0ff60 <gcc8_c_support.c.cce2f5c3+0xec4c7f>,d0
+   1717e:	       move.w f0ff60 <gcc8_c_support.c.cce2f5c3+0xec4d0a>,d0
    17184:	       cmpi.w #20153,d0
    17188:	   /-- beq.s 171ac <KPrintF+0x36>
    1718a:	   |   cmpi.w #-24562,d0
@@ -37545,7 +37545,7 @@ void KPrintF(const char* fmt, ...) {
 		UaeDbgLog(86, temp);
    171c8:	|      move.l a3,-(sp)
    171ca:	|      pea 56 <_start+0x56>
-   171ce:	|      jsr f0ff60 <gcc8_c_support.c.cce2f5c3+0xec4c7f>
+   171ce:	|      jsr f0ff60 <gcc8_c_support.c.cce2f5c3+0xec4d0a>
 	if(*((UWORD *)UaeDbgLog) == 0x4eb9 || *((UWORD *)UaeDbgLog) == 0xa00e) {
    171d4:	|      addq.l #8,sp
 }
