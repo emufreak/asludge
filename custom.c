@@ -385,46 +385,7 @@ void CstDrawBackdrop() {
             custom->bltbmod = sprite->width/8 - bytewidth;
             custom->bltamod = zbuffer->width/8 - bytewidth;
             custom->bltdmod = sprite->width/8 - bytewidth;                      
-          }
-          
-          if(zbufferfromtop)
-          {
-            //Get Distance R
-            //zbuffer ------------x1+++++++++++++++++++x2-----------------*/
-            /*sprite--------------RRRRRRRRx1++++++++++?????????------------*/    
-            UWORD ydiff = spritey1oncanvas - zbuffery1oncanvas;
-
-            UWORD height;
-            if( zbuffery2oncanvas > spritey2oncanvas) 
-              height = sprite->height;
-            else
-              height = zbuffery2oncanvas - spritey1oncanvas;
-
-            WaitBlit();
-
-            custom->bltapt = bltapt + ydiff*zbuffer->width/8;            
-            custom->bltsize = height*64+bytewidth/2;
-          }
-          else 
-          //Zbufferfrombottom
-          {
-           //Get Distance R
-            //sprite ------------x1+++++++++++++++++++x2-----------------*/
-            /*zbuffer------------RRRRRRRRx1++++++++++?????????------------*/    
-            UWORD ydiff = zbuffery1oncanvas - spritey1oncanvas; 
-
-            UWORD height;
-            if( zbuffery2oncanvas > spritey2oncanvas) 
-              height = spritey2oncanvas - zbuffery1oncanvas; 
-            else
-              height = zbuffer->height;
-
-            WaitBlit();
-
-            custom->bltbpt = returnvalue+xdiffbyte+ydiff*sprite->width/8;            
-            custom->bltdpt = returnvalue+xdiffbyte+ydiff*sprite->width;          
-            custom->bltsize = height*64+bytewidth/2;
-          }
+          }                    
         } 
         else
         //ZbufferFromLeft
