@@ -84,6 +84,16 @@ BOOL freeze () {
 	return TRUE;
 }
 
+int howFrozen () {
+	int a = 0;
+	struct frozenStuffStruct * f = frozenStuff;
+	while (f) {
+		a ++;
+		f = f -> next;
+	}
+	return a;
+}
+
 void unfreeze () {
 	struct frozenStuffStruct * killMe = frozenStuff;
 

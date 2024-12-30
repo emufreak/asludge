@@ -48,6 +48,9 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 }
 
 BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
+
+	KPrintF("loadSpriteBank: Starting\n");
+
 	int i, tex_num, total, picwidth, picheight, howmany = 0, startIndex = 0;
 	int *totalwidth, *maxheight;
 	int numTextures = 0;
@@ -80,6 +83,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 	startIndex = 1;
 
 	for (i = 0; i < total; i++) {
+
 		UWORD width = get2bytes(bigDataFile);
 		loadhere->sprites[i].width = width;
 		loadhere->sprites[i].height = get2bytes(bigDataFile);
@@ -99,6 +103,10 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 			case 3: //Font
 				UWORD widthextra = loadhere->sprites[i].width % 16 > 0 ? 2 : 0;
 				size = ((loadhere->sprites[i].width  / 16) * 2 + widthextra) * loadhere->sprites[i].height;
+				if(size > 100)
+				{
+					UWORD br1 = 1;
+				}
 				break;
 		}
 
@@ -112,6 +120,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 
 	finishAccess ();
 
+	KPrintF("loadSpriteBank: Complete\n");
 	return TRUE;
 }
 

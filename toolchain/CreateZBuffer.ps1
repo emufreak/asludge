@@ -69,7 +69,7 @@ Get-ChildItem -Path . -Filter "$inputFileName*.png" | ForEach-Object -Process {
     Add-TwoByteInt -value $startY -byteStream ([ref]$byteStream)
     Add-TwoByteInt -value $yz -byteStream ([ref]$byteStream)
 
-    amigeconv --format bitplane --depth 1 $file.FullName $outputFileName
+    .\amigeconv --format bitplane --depth 1 $file.FullName $outputFileName
 
     # Add contents of the output .bpl file to the byte stream    
     $outputBytes = [System.IO.File]::ReadAllBytes("$PWD\$outputFileName")

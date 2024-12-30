@@ -25,3 +25,4 @@ struct frozenStuffStruct {
 
 BOOL freeze();
 void unfreeze ();
+int howFrozen ();

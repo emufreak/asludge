@@ -6,6 +6,8 @@
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 
+#define EMULATOR
+
 struct zBufferData *zBuffer;
 
 void killZBuffer () {
@@ -63,9 +65,13 @@ BOOL setZBuffer (unsigned int y) {
 		} else {
 			currentitem->nextPanel = NULL;
 		}
-
+		#ifdef EMULATOR  
+  			debug_register_bitmap(currentitem->bitplane, "zBuffer.bpl", currentitem->width, currentitem->height , 1, 0);
+		#endif  
+		
 	}
-	
+
+
 	finishAccess ();
 	
 	return TRUE;

@@ -182,8 +182,8 @@ builtIn(unfreeze)
 builtIn(howFrozen)
 {
 	UNUSEDALL
-	/*setVariable (&fun -> reg, SVT_INT, howFrozen ());
-	return BR_CONTINUE; Amiga todo implement*/
+	setVariable (&fun -> reg, SVT_INT, howFrozen ());
+	return BR_CONTINUE; 
 }
 
 builtIn(setCursor)

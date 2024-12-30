@@ -247,7 +247,8 @@ void CstDrawBackdrop() {
   UBYTE *returnvalue = AllocVec( sprite->width/8*sprite->height, MEMF_CHIP);
 
   #ifdef EMULATOR
-    debug_register_bitmap(returnvalue, "SpriteMask", sprite->width, sprite->height, 1, 0);
+    if(sprite->height == 60)
+      debug_register_bitmap(returnvalue, "SpriteMask", sprite->width, sprite->height, 1, 0);
   #endif  
 
   WaitBlit();
@@ -268,9 +269,9 @@ void CstDrawBackdrop() {
   while(zbuffer) 
   {
 
-    UWORD spritex1oncanvas = x+sprite->xhot;
+    UWORD spritex1oncanvas = x;
     UWORD spritex2oncanvas = spritex1oncanvas+sprite->width;
-    UWORD spritey1oncanvas = y+sprite->yhot;
+    UWORD spritey1oncanvas = y;
     UWORD spritey2oncanvas = spritey1oncanvas + sprite->height;
 
     UWORD zbufferx1oncanvas = zbuffer->topx;
@@ -379,13 +380,70 @@ void CstDrawBackdrop() {
 
             custom->bltalwm = 0xffff << xdiffrest;
             custom->bltcon0 = xdiffrest * 4096 + 0xd0c;              
-            custom->bltbpt = returnvalue + bytewidth;
-            custom->bltdpt = returnvalue + bytewidth;
+            custom->bltbpt = returnvalue + xdiffbyte;
+            custom->bltdpt = returnvalue + xdiffbyte;
             custom->bltafwm = 0xffff;
             custom->bltbmod = sprite->width/8 - bytewidth;
             custom->bltamod = zbuffer->width/8 - bytewidth;
             custom->bltdmod = sprite->width/8 - bytewidth;                      
-          }                    
+          }            
+          else
+          {
+            //K Keep Existing Value through blit
+            //C Combine width Background
+            //I Ignore the Bit of this Channel
+            //D Data Present but unchanged
+            //- No Data exists for this source
+
+                            //A-Channel (Zbuffer)
+                            //EXTRA       First Line                                      Next Line
+                            //GRID        1111111111111111222222222222222233333333333333331111111111111111
+                            //Data        CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCIIIIIIIIIIIIIIII
+                            //ShiftA      ++++------------------------------------------------------------
+                            //BltApt      +---------------------------------------------------------------
+                            //witdh       ++++++++++++++++++++++++++++++++++++++++++++++++----------------
+                            //BltWidth    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                            //BltAMod     ------------------------------------------------NNNNNNNNNNNNNNNN
+                            //BltAfwm     ++++++++++++++++------------------------------------------------
+                            //BltAlwm     ----------------------------------------------------------------
+                            //XDiffByte   ++++++++++++++++------------------------------------------------
+                            //XDiffRest   ----------------++++--------------------------------------------
+                            //            |
+            //D-Channel (SpriteMask)      +
+            //GRID        111111111111111122222222222222223333333333333333444444444444444455555555555555556666666666666666
+            //Data        DDDDDDDDDDDDDDDDCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCDDDDDDDDDDDDDDDD
+            //BltDpt      ----------------+-------------------------------------------------------------------------------
+            //BlDmod      ++++++++++++++++----------------------------------------------------------------++++++++++++++++
+            //Width       --------------------++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------
+            //BWidth      ----------------++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------
+            //            +                
+            //b-Channel (S|priteMask)      
+            //GRID        111111111111111122222222222222223333333333333333444444444444444455555555555555556666666666666666
+            //Data        DDDDDDDDDDDDDDDDCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCDDDDDDDDDDDDDDDD
+            //Bltbpt      ----------------+-------------------------------------------------------------------------------
+            //Blbmod      ++++++++++++++++----------------------------------------------------------------++++++++++++++++
+            //Width       --------------------++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------
+            //BWidth      ----------------++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------
+         
+            width = spritex2oncanvas - zbufferx1oncanvas;
+            bytewidth = (width/16)*2;
+
+            WaitBlit();
+
+            bltapt = zbuffer->bitplane;
+            if( xdiffrest) {
+              bytewidth += 2;            
+            } 
+
+            custom->bltalwm = 0x0;
+            custom->bltcon0 = xdiffrest * 4096 + 0xd0c;              
+            custom->bltbpt = returnvalue + xdiffbyte;
+            custom->bltdpt = returnvalue + xdiffbyte;
+            custom->bltafwm = 0xffff;
+            custom->bltbmod = sprite->width/8 - bytewidth;
+            custom->bltamod = zbuffer->width/8 - bytewidth;
+            custom->bltdmod = sprite->width/8 - bytewidth;          
+          }        
         } 
         else
         //ZbufferFromLeft
@@ -402,7 +460,7 @@ void CstDrawBackdrop() {
 
           if( zbufferx2oncanvas > spritex2oncanvas)    
           {         
-              //K Keep Existing Value through blit
+            //K Keep Existing Value through blit
             //C Combine width Background
             //I Ignore the Bit of this Channel
             //D Data Present but unchanged
@@ -462,8 +520,73 @@ void CstDrawBackdrop() {
             custom->bltbmod = sprite->width/8 - bytewidth;
             custom->bltamod = zbuffer->width/8 - bytewidth;
             custom->bltdmod = sprite->width/8 - bytewidth;                      
+          } 
+          else         
+          {
+            //K Keep Existing Value through blit
+            //C Combine width Background
+            //I Ignore the Bit of this Channel
+            //D Data Present but unchanged
+            //- No Data exists for this source
+
+            //A-Channel (Zbuffer)
+            //                            288          304 
+            //GRID        1111111111111111222222222222222233333333333333331111111111111111
+            //Data        DDDDDDDDDDDDDDDDIIIIIIIIIIIICCCCCCCCCCCCCCCCCCCCIIIIIIIIIIIIIIII
+            //ShiftA      ----------------++++--------------------------------------------
+            //BltApt      ----------------+-----------------------------------------------
+            //BltAMod     ++++++++++++++++------------------------------------------------
+            //BltAfwm     ----------------++++++++++++------------------------------------
+            //BltAlwm     ------------------------------------------------++++++++++++++++
+            //XDiffByte   ++++++++++++++++------------------------------------------------
+            //XDiffRest   ----------------++++--------------------------------------------
+            //                            |             
+                            //D-Channel   +
+                            //            Last Line
+                            //GRID        XXXXXXXXXXXXXXXX1111111111111111111122222222222222223333333333333333
+                            //Data        KKKKKKKKKKKKKKKKCCCCCCCCCCCCCCCCCCCCCCCCKKKKKKKKDDDDDDDDDDDDDDDDDDDD
+                            //BltDpt      +-------------------------------------------------------------------
+                            //BlDmod      ----------------------------------------------------++++++++++++++++
+                            //Width       ----------------++++++++++++++++++++++++----------------------------
+                            //BWidth      ++++++++++++++++++++++++++++++++++++++++++++++++++++----------------
+                            //            +
+                            //B-Channel   |
+                            //GRID-Exta   Last Line
+                            //GRID        3333333333333333111111111111111122222222222222223333333333333333
+                            //Data        KKKKKKKKKKKKKKKKCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+                            //BltBpt      +---------------------------------------------------------------
+                            //BlBmod      NNNNNNNNNNNNNNNN------------------------------------------------
+                            //ShiftB      ----------------------------------------------------------------
+         
+            width = zbufferx2oncanvas - spritex1oncanvas; 
+            bytewidth = (width/16)*2;
+
+            WaitBlit();
+
+            bltapt = zbuffer->bitplane + xdiffbyte;
+            if( xdiffrest) {
+              bytewidth += 2;
+              bltapt += -2;
+              custom->bltcon0 = (16 - xdiffrest) * 4096 + 0xd0c;
+              custom->bltafwm = 0xffff >> (16 - xdiffrest);
+              custom->bltalwm = 0xffff << xdiffrest;
+              custom->bltbpt = returnvalue - 2;
+              custom->bltdpt = returnvalue - 2;
+            } else {
+              bytewidth += 2;
+              custom->bltcon0 = 0xd0c;
+              custom->bltafwm = 0xffff;
+              custom->bltalwm = 0xffff;
+              custom->bltbpt = returnvalue;
+              custom->bltdpt = returnvalue;
+            }
+
+            custom->bltbmod = sprite->width/8 - bytewidth;
+            custom->bltamod = zbuffer->width/8 - bytewidth;
+            custom->bltdmod = sprite->width/8 - bytewidth;                                
           }                    
-        }  
+        } 
+        
         if(zbufferfromtop)
           {
             //Get Distance R
