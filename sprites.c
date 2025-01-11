@@ -24,8 +24,7 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 			FreeVec(cursprite->data);			
 		}
 	}
-	FreeVec(spritebanktoforget->sprites);
-	FreeVec(spritebanktoforget);
+	FreeVec(spritebanktoforget->sprites);	
 	
 	struct loadedSpriteBank *precedingbank = allLoadedBanks;
 	
@@ -47,7 +46,7 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 	}	
 }
 
-BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
+BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 
 	KPrintF("loadSpriteBank: Starting\n");
 
@@ -61,8 +60,6 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 		return FALSE;
 	}
 
-	loadhere->isFont = isFont;
-
 	get2bytes(bigDataFile); // Ignore first 2 bytes
 	loadhere->type = FGetC(bigDataFile);
 	total = get2bytes(bigDataFile);
@@ -71,7 +68,11 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 		KPrintF("loadSpriteBank: No sprites in bank or invalid sprite bank file\n");
 		return FALSE;
 	}
-	if (loadhere->type > 3) {
+	if (loadhere->type == 3)
+	{
+		loadhere->isFont = TRUE;
+	}
+	else if (loadhere->type > 3) {
 		KPrintF("loadSpriteBank: Unsupported sprite bank file format\n");
 		return FALSE;
 	}
