@@ -360,43 +360,37 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, UWORD
           xdiffbyte = (xdiff / 16) * 2;          
           xdiffrest = (xdiff - xdiffbyte * 8);    
 
-          if( zbufferx2oncanvas > spritex2oncanvas)    
-          {                         
-            bytewidth = (sprite->width/16)*2;
-            if(sprite->height == 60) {
-              sprite->height = 60;
-            }
-           
-            custom->bltafwm = 0xffff;
-            custom->bltalwm = 0xffff;                      
-            custom->bltcon1 = 0;          
+                         
+          bytewidth = (sprite->width/16)*2;
+          if(sprite->height == 60) {
+            sprite->height = 60;
+          }
+          
+          custom->bltafwm = 0xffff;
+          custom->bltalwm = 0xffff;                      
+          custom->bltcon1 = 0;          
 
-            if (xdiffrest) {
-              bytewidth += 2; 
-              //xdiffbyte += -2;            
-              bltapt = zbuffer->bitplane + xdiffbyte;  
-              WaitBlit();   
-              custom->bltdpt = tmpbuffer;                
-              custom->bltcon0 = (16 - xdiffrest) * 4096 + 0x9f0;              
-              custom->bltamod = zbuffer->width/8 - bytewidth;
-              custom->bltdmod = 0;                                                            
-            }
-            else
-            {       
-              //xdiffbyte += -2;      
-              bltapt = zbuffer->bitplane + xdiffbyte;  
-              WaitBlit();         
-              custom->bltdpt = tmpbuffer + 2;       
-              custom->bltcon0 = 4096 + 0x9f0;              
-              custom->bltamod = zbuffer->width/8 - bytewidth;
-              custom->bltdmod = 2;                                                            
-            }                                     
-          }            
+          if (xdiffrest) {
+            bytewidth += 2; 
+            //xdiffbyte += -2;            
+            bltapt = zbuffer->bitplane + xdiffbyte;  
+            WaitBlit();   
+            custom->bltdpt = tmpbuffer;                
+            custom->bltcon0 = (16 - xdiffrest) * 4096 + 0x9f0;              
+            custom->bltamod = zbuffer->width/8 - bytewidth;
+            custom->bltdmod = 0;                                                            
+          }
           else
-          {
-              KPrintF("Cstdrawzbuffer: Currenz version onl supports zbuffer size equal to screen size");
-              return FALSE;
-          }        
+          {       
+            //xdiffbyte += -2;      
+            bltapt = zbuffer->bitplane + xdiffbyte;  
+            WaitBlit();         
+            custom->bltdpt = tmpbuffer + 2;       
+            custom->bltcon0 = 4096 + 0x9f0;              
+            custom->bltamod = zbuffer->width/8 - bytewidth;
+            custom->bltdmod = 2;                                                            
+          }                                     
+          
 
         } 
         
