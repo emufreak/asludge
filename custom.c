@@ -502,10 +502,10 @@ void CstDrawBackdrop() {
             bltapt = zbuffer->bitplane + xdiffbyte;
             if( xdiffrest) {
               bytewidth += 2;
-              bltapt += -2;
+              //bltapt += -2;
               custom->bltcon0 = (16 - xdiffrest) * 4096 + 0xd0c;
-              custom->bltafwm = 0xffff >> (16 - xdiffrest);
-              custom->bltalwm = 0xffff << xdiffrest;
+              custom->bltafwm = 0xffff >> xdiffrest;
+              custom->bltalwm = 0xffff << (16 - xdiffrest);
               custom->bltbpt = returnvalue - 2;
               custom->bltdpt = returnvalue - 2;
             } else {
@@ -566,10 +566,10 @@ void CstDrawBackdrop() {
             bltapt = zbuffer->bitplane + xdiffbyte;
             if( xdiffrest) {
               bytewidth += 2;
-              bltapt += -2;
+              //bltapt += -2;
               custom->bltcon0 = (16 - xdiffrest) * 4096 + 0xd0c;
-              custom->bltafwm = 0xffff >> (16 - xdiffrest);
-              custom->bltalwm = 0xffff << xdiffrest;
+              custom->bltafwm = 0xffff >> xdiffrest;
+              custom->bltalwm = 0xffff << (16 - xdiffrest);
               custom->bltbpt = returnvalue - 2;
               custom->bltdpt = returnvalue - 2;
             } else {

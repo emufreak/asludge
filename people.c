@@ -1110,6 +1110,24 @@ BOOL turnPersonToFace (int thisNum, int direc) {
     return FALSE;
 }
 
+void walkAllPeople() {
+	struct onScreenPerson *thisPerson = allPeople;
+
+	while (thisPerson) {
+		if (thisPerson->walking) {
+			walkMe(thisPerson, TRUE);
+		} else if (thisPerson->spinning) {
+			spinStep(thisPerson);
+			setFrames(thisPerson, ANI_STAND);
+		}
+		if ((!thisPerson->walking) && (!thisPerson->spinning) && thisPerson->continueAfterWalking) {
+			restartFunction(thisPerson->continueAfterWalking);
+			thisPerson->continueAfterWalking = NULL;
+		}
+		thisPerson = thisPerson->next;
+	}
+}
+
 BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move) {
 	float xDiff, yDiff, maxDiff, s;
 

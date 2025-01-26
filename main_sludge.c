@@ -139,6 +139,7 @@ int main_sludge(int argc, char *argv[])
 		//custom->color[0] = 0xf00;			
 		sludgeDisplay ();
 		CsiCheckInput();
+		walkAllPeople();
 		handleInput();
 		//custom->color[0] = 0x000;			
 		WaitVbl();

@@ -22,9 +22,11 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 		struct sprite *cursprite = &spritebanktoforget->sprites[i];		
 		if(cursprite->data) {		
 			FreeVec(cursprite->data);			
-		}
+		}		
 	}
+
 	FreeVec(spritebanktoforget->sprites);	
+	
 	
 	struct loadedSpriteBank *precedingbank = allLoadedBanks;
 	
