@@ -900,11 +900,12 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
   }
 
 
-  if( x < 0) { //Leftmost part outside screen
+  if( x < 0) 
+  { //Leftmost part outside screen
+
     if(x + single->width < 0) {
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
       return;
-
     }
     
     extrawords = 1;
@@ -947,14 +948,14 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     }
     extrawords = 0; //Shifted out part of source outside screen. No need to blit this
     cutwordssource = (x+single->width - winWidth)/16;
-    cutmaskpixel = 0;
-    bltalwm = 0xffff; //Last word contains source data to be blit
+    cutmaskpixel = 0;    
     bltapt = ((ULONG) mask)+ystartsrc*single->width/8;
     bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
-    bltcon0 = 0xfca + ((single->width%16) << 12);
-    bltcon1 = ((single->width%16) << 12);
+    bltcon0 = 0xfca + ((x%16) << 12);
+    bltcon1 = ((x%16) << 12);
+    bltalwm = 0xffff << (x%16); 
     if( destinationtype == SCREEN)
     {
       struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
@@ -1009,10 +1010,6 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
       *CstBackDropBufferApplyCursor++ = 0;
     }
   }
-
- /*if(person && person->samePosCount > 3) {
-    return;
-  }*/
 
   UWORD bltafwm = 0xffff >> cutmaskpixel;
   WORD bltamod = cutwordssource*2-(extrawords*2); //Jump to next line
