@@ -129,10 +129,15 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 
 BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror) 
 {
-	UWORD x =  (UWORD) thisPerson->x - single->xhot;
-	UWORD y =  (UWORD) thisPerson->y - single->yhot;			
+	WORD x =  thisPerson->x - single->xhot;
+	WORD y =  thisPerson->y - single->yhot;			
 
-	CstScaleSprite( single, thisPerson, (WORD) x, (WORD) y,SCREEN);
+	if( x < 0)
+	{
+		x = thisPerson->x - single->xhot;
+	}
+
+	CstScaleSprite( single, thisPerson, x, y,SCREEN);
 
 	UWORD x1, y1, x2, y2;
 

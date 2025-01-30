@@ -240,7 +240,7 @@ void CstDrawBackdrop() {
   }    
 }
 
-UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, UWORD x, UWORD y) 
+UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD x, WORD y) 
 {
   volatile struct Custom *custom = (struct Custom*)0xdff000;
   //In Case nothing needs to be done return sprite mask without changes
@@ -255,16 +255,16 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, UWORD
 
   while(zbuffer) 
   {              
-    UWORD spritex1oncanvas = x;
+    WORD spritex1oncanvas = x;
     UWORD spritex2oncanvas = spritex1oncanvas+sprite->width;
-    UWORD spritey1oncanvas = y;
+    WORD spritey1oncanvas = y;
     UWORD spritey2oncanvas = spritey1oncanvas + sprite->height;
 
-    UWORD zbufferx1oncanvas = zbuffer->topx;
-    UWORD zbufferx2oncanvas = zbufferx1oncanvas + zbuffer->width;
+    WORD zbufferx1oncanvas = zbuffer->topx;
+    WORD zbufferx2oncanvas = zbufferx1oncanvas + zbuffer->width;
 
-    UWORD zbuffery1oncanvas = zbuffer->topy;
-    UWORD zbuffery2oncanvas = zbuffery1oncanvas + zbuffer->height;
+    WORD zbuffery1oncanvas = zbuffer->topy;
+    WORD zbuffery2oncanvas = zbuffery1oncanvas + zbuffer->height;
   
     BOOL zbufferfromright = FALSE;
     BOOL zbufferfromleft = FALSE;
@@ -312,7 +312,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, UWORD
           /*sprite  ------------x1++++++++++?????????-------------------------*/    
           //zbuffer ------------------x1+++++++++++++++++++x2-----------------*/             
           
-          xdiff = spritex1oncanvas - zbufferx1oncanvas;
+          xdiff = zbufferx1oncanvas - spritex1oncanvas;
           xdiffbyte = (xdiff / 16) * 2;          
           xdiffrest = (xdiff - xdiffbyte * 8)*-1;       
           bytewidth = (sprite->width/16)*2;
@@ -328,7 +328,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, UWORD
 
             if (xdiffrest) {
               bytewidth += 2; 
-              xdiffbyte += -2;                 
+              //xdiffbyte += -2;                 
       
               bltapt = zbuffer->bitplane + xdiffbyte;          
               custom->bltcon0 = (16 - xdiffrest) * 4096 + 0x9f0;              
@@ -908,16 +908,32 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
       return;
     }
     
-    extrawords = 1;
     cutwordssource = (x*-1)/16; 
-    cutmaskpixel = (x*-1)%16;     
+    cutmaskpixel = (x*-1)%16;   
+
+    extrawords = cutmaskpixel > 0 ? 1 : 0;
+    //extrawords = 1;
+    if( cutmaskpixel > 0)
+    {
+      extrawords = 1;
+      bltcon0 = 0xfca + ((16-cutmaskpixel) << 12);
+      bltcon1 = ((16-cutmaskpixel) << 12);
+      bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
+      bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
+    }
+    else
+    {
+      extrawords = 0;
+      bltcon0 = 0xfca;
+      bltcon1 = 0;
+      bltcpt = ((ULONG) destination) + ystartdst*winWidth/8;
+      bltdpt = ((ULONG) destination) + ystartdst*winWidth/8;   
+    }
+
     bltalwm = 0; //Last Word of this channel almost masked out
     bltapt = ((ULONG) mask)+cutwordssource*2+ystartsrc*single->width/8;
     bltbpt = ((ULONG) single->data)+cutwordssource*2+ystartsrc*single->width/8;
-    bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
-    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
-    bltcon0 = 0xfca + ((16-cutmaskpixel) << 12);
-    bltcon1 = ((16-cutmaskpixel) << 12);
+    
     if( destinationtype == SCREEN)
     {      
       struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
