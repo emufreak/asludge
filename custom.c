@@ -314,8 +314,8 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
           
           xdiff = zbufferx1oncanvas - spritex1oncanvas;
           xdiffbyte = (xdiff / 16) * 2;          
-          xdiffrest = (xdiff - xdiffbyte * 8)*-1;       
-          bytewidth = (sprite->width/16)*2;
+          xdiffrest = (xdiff - xdiffbyte * 8);       
+          bytewidth = (sprite->width/16)*2 + 2;
 
           if( zbufferx2oncanvas > spritex2oncanvas)    
           {               
@@ -327,20 +327,20 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
             custom->bltcon1 = 0;               
 
             if (xdiffrest) {
-              bytewidth += 2; 
-              //xdiffbyte += -2;                 
+              xdiffbyte += 2;                 
       
-              bltapt = zbuffer->bitplane + xdiffbyte;          
-              custom->bltcon0 = (16 - xdiffrest) * 4096 + 0x9f0;              
+              bltapt = zbuffer->bitplane - xdiffbyte;          
+              custom->bltcon0 = xdiffrest * 4096 + 0x9f0;              
               custom->bltamod = zbuffer->width/8 - bytewidth;
               custom->bltdmod = 0;                                                            
             }
             else
             {             
-              bltapt = zbuffer->bitplane + xdiffbyte;          
-              custom->bltcon0 = 4096 + 0x9f0;              
+              xdiffbyte += 2;    
+              bltapt = zbuffer->bitplane - xdiffbyte;          
+              custom->bltcon0 = 0x9f0;              
               custom->bltamod = zbuffer->width/8 - bytewidth;
-              custom->bltdmod = 2;                                                            
+              custom->bltdmod = 0;                                                            
             }                                     
           }            
           else
@@ -846,6 +846,7 @@ void CstRestoreScreen()
   
 }
 
+__attribute__((optimize("Ofast"))) 
 void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD x, WORD y, UWORD destinationtype)
 {  
 
