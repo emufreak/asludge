@@ -74,9 +74,10 @@ BOOL freeze () {
 	newFreezer -> speech = speech;
 	initSpeech ();
 
-	newFreezer -> currentEvents = (struct eventhandlers *) AllocVec(sizeof(struct eventHandlers), MEMF_ANY);
-	if (!newFreezer -> currentEvents) return FALSE;
-	memset (newFreezer -> currentEvents, 0, sizeof(struct eventHandlers));
+	newFreezer -> currentEvents = currentEvents;
+	currentEvents = (struct eventhandlers *) AllocVec(sizeof(struct eventHandlers), MEMF_ANY);
+	if (!currentEvents) return FALSE;
+	memset ( currentEvents, 0, sizeof(struct eventHandlers));
 
 	newFreezer -> next = frozenStuff;
 	frozenStuff = newFreezer;

@@ -69,6 +69,9 @@ void CsiCheckInput() {
         countery_old = countery_new;
     } 
 
+    input.leftRelease = FALSE;
+    input.rightRelease = FALSE;
+
     if(input.leftClick && ((*(volatile UBYTE*)0xbfe001)&64))
     {
         input.leftClick = FALSE;
@@ -83,7 +86,7 @@ void CsiCheckInput() {
 
 
     if(!((*(volatile UBYTE*)0xbfe001)&64)) {
-        input.leftClick = TRUE;        
+        input.leftClick = TRUE;              
     } 
     if(!((*(volatile UWORD*)0xdff016)&(1<<10)) ) {
         input.rightClick = TRUE;
