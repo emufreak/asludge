@@ -5,6 +5,7 @@
 #include "sludger.h"
 #include "statusba.h"
 #include "talk.h"
+#include "zbuffer.h"
 
 struct frozenStuffStruct {
 	struct onScreenPerson * allPeople;
@@ -18,8 +19,10 @@ struct frozenStuffStruct {
 	int mouseCursorFrameNum;
 	int cameraX, cameraY, sceneWidth, sceneHeight;
 	float cameraZoom;
-	struct frozenStuffStruct * next;
+	struct zBufferData *zBuffer;
+	struct frozenStuffStruct * next;	
 };
 
 BOOL freeze();
 void unfreeze ();
+int howFrozen ();

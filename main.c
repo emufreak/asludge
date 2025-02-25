@@ -224,6 +224,10 @@ static void Wait12() { WaitLine(0x12); }
 static void Wait13() { WaitLine(0x13); }
 
 int main(int argc, char *argv[]) {
+
+	int *bp = 0x200;
+  	*bp = 0;
+
 	SysBase = *((struct ExecBase**)4UL);
 	custom = (struct Custom*)0xdff000;	
 
@@ -255,9 +259,9 @@ int main(int argc, char *argv[]) {
 		Exit(0);
 	
 
-	KPrintF(" debugger from Amiga Test 026!\n");
+	KPrintF(" debugger from Amiga Test 032!\n");
 
-	Write(Output(), (APTR)"Hello console Test 026!\n", 25);
+	Write(Output(), (APTR)"Hello console Test 032!\n", 25);
 	Delay(50);
 
 	/*warpmode(1);

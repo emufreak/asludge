@@ -22,10 +22,11 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 		struct sprite *cursprite = &spritebanktoforget->sprites[i];		
 		if(cursprite->data) {		
 			FreeVec(cursprite->data);			
-		}
+		}		
 	}
-	FreeVec(spritebanktoforget->sprites);
-	FreeVec(spritebanktoforget);
+
+	FreeVec(spritebanktoforget->sprites);	
+	
 	
 	struct loadedSpriteBank *precedingbank = allLoadedBanks;
 	
@@ -47,7 +48,10 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 	}	
 }
 
-BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
+BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
+
+	KPrintF("loadSpriteBank: Starting\n");
+
 	int i, tex_num, total, picwidth, picheight, howmany = 0, startIndex = 0;
 	int *totalwidth, *maxheight;
 	int numTextures = 0;
@@ -58,8 +62,6 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 		return FALSE;
 	}
 
-	loadhere->isFont = isFont;
-
 	get2bytes(bigDataFile); // Ignore first 2 bytes
 	loadhere->type = FGetC(bigDataFile);
 	total = get2bytes(bigDataFile);
@@ -68,7 +70,11 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 		KPrintF("loadSpriteBank: No sprites in bank or invalid sprite bank file\n");
 		return FALSE;
 	}
-	if (loadhere->type > 3) {
+	if (loadhere->type == 3)
+	{
+		loadhere->isFont = TRUE;
+	}
+	else if (loadhere->type > 3) {
 		KPrintF("loadSpriteBank: Unsupported sprite bank file format\n");
 		return FALSE;
 	}
@@ -80,6 +86,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 	startIndex = 1;
 
 	for (i = 0; i < total; i++) {
+
 		UWORD width = get2bytes(bigDataFile);
 		loadhere->sprites[i].width = width;
 		loadhere->sprites[i].height = get2bytes(bigDataFile);
@@ -99,6 +106,10 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 			case 3: //Font
 				UWORD widthextra = loadhere->sprites[i].width % 16 > 0 ? 2 : 0;
 				size = ((loadhere->sprites[i].width  / 16) * 2 + widthextra) * loadhere->sprites[i].height;
+				if(size > 100)
+				{
+					UWORD br1 = 1;
+				}
 				break;
 		}
 
@@ -112,15 +123,21 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont) {
 
 	finishAccess ();
 
+	KPrintF("loadSpriteBank: Complete\n");
 	return TRUE;
 }
 
 BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror) 
 {
-	UWORD x =  (UWORD) thisPerson->x - single->xhot;
-	UWORD y =  (UWORD) thisPerson->y - single->yhot;			
+	WORD x =  thisPerson->x - single->xhot;
+	WORD y =  thisPerson->y - single->yhot;			
 
-	CstScaleSprite( single, thisPerson, (WORD) x, (WORD) y,SCREEN);
+	if( x < 0)
+	{
+		x = thisPerson->x - single->xhot;
+	}
+
+	CstScaleSprite( single, thisPerson, x, y,SCREEN);
 
 	UWORD x1, y1, x2, y2;
 

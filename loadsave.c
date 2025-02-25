@@ -45,7 +45,7 @@ extern unsigned short saveEncoding;						// in savedata.cpp
 extern struct speechStruct * speech;					// In talk.cpp
 extern int speechMode;									// "	"	"
 extern char * typeName[];								// In variable.cpp
-extern struct zBufferData zBuffer;						// In zbuffer.cpp
+extern struct zBufferData *zBuffer;						// In zbuffer.cpp
 
 //----------------------------------------------------------------------
 // Globals (so we know what's saved already and what's a reference
@@ -357,10 +357,10 @@ BOOL saveGame (char * fname) {
 		put2bytes (currentFloor -> originalNum, fp);
 	} else FPutC (fp, 0);
 
-	if (zBuffer.tex) {
+	/*if (zBuffer.tex) {
 		FPutC (fp, 1);
 		put2bytes (zBuffer.originalNum, fp);
-	} else FPutC (fp,0);
+	} else FPutC (fp,0);*/ 
 
 	FPutC (fp, speechMode);
 	FPutC (fadeMode, fp);

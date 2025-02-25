@@ -338,7 +338,7 @@ DOUBLE __extendsfdf2 (FLOAT a) {
 	return IEEEDPFieee( a );
 }
 
-DOUBLE __fixdfsi(DOUBLE value) {
+LONG __fixdfsi(DOUBLE value) {
 	return IEEEDPFix(value);
 }
 

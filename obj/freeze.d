@@ -12,7 +12,8 @@ obj/freeze.o: C:/Users/uersu/Documents/GitData/asludge/freeze.c \
  C:/Users/uersu/Documents/GitData/asludge/sludger.h \
  C:/Users/uersu/Documents/GitData/asludge/csludge.h \
  C:/Users/uersu/Documents/GitData/asludge/statusba.h \
- C:/Users/uersu/Documents/GitData/asludge/talk.h
+ C:/Users/uersu/Documents/GitData/asludge/talk.h \
+ C:/Users/uersu/Documents/GitData/asludge/zbuffer.h
 C:/Users/uersu/Documents/GitData/asludge/backdrop.h:
 C:/Users/uersu/Documents/GitData/asludge/custom.h:
 C:/Users/uersu/Documents/GitData/asludge/people.h:
@@ -27,3 +28,4 @@ C:/Users/uersu/Documents/GitData/asludge/sludger.h:
 C:/Users/uersu/Documents/GitData/asludge/csludge.h:
 C:/Users/uersu/Documents/GitData/asludge/statusba.h:
 C:/Users/uersu/Documents/GitData/asludge/talk.h:
+C:/Users/uersu/Documents/GitData/asludge/zbuffer.h:

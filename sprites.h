@@ -14,7 +14,7 @@ struct sprite {
 };
 
 void forgetSpriteBank (struct loadedSpriteBank * forgetme);
-BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere, BOOL isFont);
+BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere);
 BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror);
 
 #endif

@@ -30,8 +30,8 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
 
 	if( fontOrderString) FreeVec(fontOrderString);
 	fontOrderString = copyString(charOrder);
-	if( theFont) forgetSpriteBank(theFont);
-	theFont = AllocVec( sizeof(struct loadedSpriteBank), MEMF_ANY );
+	if( theFont) forgetSpriteBank(theFont);	
+	theFont = NULL;
 
 	loadedFontNum = filenum;
 
@@ -57,8 +57,9 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
 		fontTable[*tmp++] = i;
 		i++;
 	}
-
-	if (!loadSpriteBank(filenum, &theFont->bank, TRUE)) {
+	
+	theFont = loadBankForAnim(filenum);
+	if (!theFont) {
 		KPrintF("loadFont: Can't load font");
 		return FALSE;
 	}

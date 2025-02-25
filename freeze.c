@@ -6,6 +6,7 @@
 #include "support/gcc8_c_support.h"
 #include "freeze.h"
 
+extern struct zBufferData *zBuffer;  // In zbuffer.cpp
 extern struct onScreenPerson * allPeople;
 extern struct screenRegion * allScreenRegions;
 extern struct screenRegion * overRegion;
@@ -67,17 +68,31 @@ BOOL freeze () {
 	mouseCursorAnim = makeNullAnim ();
 	mouseCursorFrameNum = 0;
 
+	newFreezer -> zBuffer = zBuffer;
+	zBuffer = NULL;
+
 	newFreezer -> speech = speech;
 	initSpeech ();
 
-	newFreezer -> currentEvents = (struct eventhandlers *) AllocVec(sizeof(struct eventHandlers), MEMF_ANY);
-	if (!newFreezer -> currentEvents) return FALSE;
-	memset (newFreezer -> currentEvents, 0, sizeof(struct eventHandlers));
+	newFreezer -> currentEvents = currentEvents;
+	currentEvents = (struct eventhandlers *) AllocVec(sizeof(struct eventHandlers), MEMF_ANY);
+	if (!currentEvents) return FALSE;
+	memset ( currentEvents, 0, sizeof(struct eventHandlers));
 
 	newFreezer -> next = frozenStuff;
 	frozenStuff = newFreezer;
 
 	return TRUE;
+}
+
+int howFrozen () {
+	int a = 0;
+	struct frozenStuffStruct * f = frozenStuff;
+	while (f) {
+		a ++;
+		f = f -> next;
+	}
+	return a;
 }
 
 void unfreeze () {
@@ -107,6 +122,9 @@ void unfreeze () {
 	deleteAnim (mouseCursorAnim);  
 	mouseCursorAnim = frozenStuff -> mouseCursorAnim;
 	mouseCursorFrameNum = frozenStuff -> mouseCursorFrameNum;	
+
+	killZBuffer ();
+	zBuffer = frozenStuff->zBuffer;
 
 	if (currentEvents) FreeVec(currentEvents);
 	currentEvents = frozenStuff -> currentEvents;

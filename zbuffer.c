@@ -6,17 +6,19 @@
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 
-struct zBufferData zBuffer;
+#define EMULATOR
+
+struct zBufferData *zBuffer;
 
 void killZBuffer () {
-	if (zBuffer.tex) {
-		deleteTextures (1, &zBuffer.texName);
-		zBuffer.texName = 0;
-        FreeVec(zBuffer.tex);
-		zBuffer.tex = NULL;
+	struct zBufferData *zbuffercursor =  zBuffer;
+
+	while(zbuffercursor) {
+		struct zBufferData *deleteme = zbuffercursor;
+		zbuffercursor = zbuffercursor->nextPanel;
+		FreeVec(deleteme);
 	}
-	zBuffer.numPanels = 0;
-	zBuffer.originalNum =0;
+	zBuffer = NULL;
 }
 
 BOOL setZBuffer (unsigned int y) {
@@ -24,70 +26,51 @@ BOOL setZBuffer (unsigned int y) {
 	ULONG stillToGo = 0;
 	int yPalette[16], sorted[16], sortback[16];
 
-	killZBuffer ();
-
-	zBuffer.originalNum = y;
+	killZBuffer ();	
+	
 	if (! openFileFromNum (y)) return FALSE;
-	if (FGetC (bigDataFile) != 'S' && FGetC (bigDataFile) != 'z' && FGetC (bigDataFile) != 'b') 
-	{
+	
+	if (FGetC (bigDataFile) != 'a' || FGetC (bigDataFile) != 's' || FGetC (bigDataFile) != 'z' || FGetC (bigDataFile) != 'b') 
+	{ 
 		 KPrintF("Not a Z-buffer file");
 		 return FALSE;
 	}
 
-	switch (FGetC (bigDataFile)) {
-		case 0:
-		zBuffer.width = 640;
-		zBuffer.height = 480;
-		break;
-		
-		case 1:
-		zBuffer.width = get2bytes (bigDataFile);
-		zBuffer.height = get2bytes (bigDataFile);
-		break;
-		
-		default:
-		KPrintF("Extended Z-buffer format not supported in this version of the SLUDGE engine");
-		return FALSE;
-	}
-	if ((unsigned int) zBuffer.width != sceneWidth || (unsigned int) zBuffer.height != sceneHeight) {
-		char tmp[256];
-		sprintf (tmp, "Z-w: %d Z-h:%d w: %d, h:%d", zBuffer.width, zBuffer.height, sceneWidth, sceneHeight);
-		KPrintF("Z-buffer width and height don't match scene width and height", tmp);
-		return FALSE;
-	}
-		
-	zBuffer.numPanels = FGetC (bigDataFile);
-	for (y = 0; y < (unsigned int) zBuffer.numPanels; y ++) {
-		yPalette[y] = get2bytes (bigDataFile);
-	}
-	sortZPal (yPalette, sorted, zBuffer.numPanels);
-	for (y = 0; y < (unsigned int) zBuffer.numPanels; y ++) {
-		zBuffer.panel[y] = yPalette[sorted[y]];
-		sortback[sorted[y]] = y; 
-	}
-	
-	int picWidth = sceneWidth;
-	int picHeight = sceneHeight;
+	UWORD numelements = FGetC(bigDataFile);
 
-	zBuffer.tex = AllocVec(picHeight*picWidth,MEMF_ANY);
-	if (!zBuffer.tex) {
-		KPrintF("setZBuffer: Cannot allocate memory");
-		return FALSE;
-	}
+	UWORD size;
+	UWORD count;
 
-	for (y = 0; y < sceneHeight; y ++) {
-		for (x = 0; (unsigned int) x < sceneWidth; x ++) {
-			if (stillToGo == 0) {
-				n = FGetC (bigDataFile);
-				stillToGo = n >> 4;
-				if (stillToGo == 15) stillToGo = get2bytes (bigDataFile) + 16l;
-				else stillToGo ++;
-				n &= 15;
-			}
-			zBuffer.tex[y*picWidth + x] = sortback[n]*16;
-			stillToGo --;
+	zBuffer = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
+
+	struct zBufferData *currentitem;
+	currentitem = zBuffer;
+
+	while(numelements--)
+	{		
+		currentitem->width = get2bytes (bigDataFile);
+		currentitem->height = get2bytes (bigDataFile);
+
+		currentitem->topx = get2bytes (bigDataFile);
+		currentitem->topy = get2bytes (bigDataFile);
+		currentitem->yz = get2bytes (bigDataFile);
+
+		UWORD size = currentitem->width * currentitem->height / 8;
+		currentitem->bitplane = AllocVec( size, MEMF_CHIP);
+		count = FRead( bigDataFile, currentitem->bitplane, 1, size);				
+
+		if(numelements > 0) {
+			currentitem->nextPanel = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
+			currentitem = currentitem->nextPanel;
+		} else {
+			currentitem->nextPanel = NULL;
 		}
+		#ifdef EMULATOR  
+  			debug_register_bitmap(currentitem->bitplane, "zBuffer.bpl", currentitem->width, currentitem->height , 1, 0);
+		#endif  
+		
 	}
+
 
 	finishAccess ();
 	

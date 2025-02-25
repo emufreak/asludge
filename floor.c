@@ -7,21 +7,24 @@
 struct flor * currentFloor = NULL;
 
 BOOL closestPointOnLine (int * closestX, int * closestY, int x1, int y1, int x2, int y2, int xP, int yP) {
-	int xDiff = x2 - x1;
+ 	DOUBLE xDiff = x2 - x1;
 	int yDiff = y2 - y1;
 
-	double m = xDiff * (xP - x1) + yDiff * (yP - y1);
+	DOUBLE m = xDiff * (xP - x1) + yDiff * (yP - y1);
 	m /= (xDiff * xDiff) + (yDiff * yDiff);
 
-	if (m < 0) {
+	if (m < 0) {		
 		*closestX = x1;
 		*closestY = y1;
 	} else if (m > 1) {
 		*closestX = x2;
 		*closestY = y2;
 	} else {
-		*closestX = x1 + m * xDiff;
-		*closestY = y1 + m * yDiff;
+		DOUBLE tmp = m * xDiff; 
+		*closestX = (int) tmp;
+		*closestX += x1;
+		*closestY = m * yDiff;
+		*closestY += y1;
 		return TRUE;
 	}
 	return FALSE;

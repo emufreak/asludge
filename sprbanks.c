@@ -20,14 +20,14 @@ struct loadedSpriteBank * loadBankForAnim (int ID) {
 	// KPrintF("loadBankForAnim: No existing sprite bank with ID %d\n", ID);
 	if (returnMe) {
 		returnMe->ID = ID;
-		if (loadSpriteBank(ID, &returnMe->bank, FALSE)) {
+		if (loadSpriteBank(ID, &returnMe->bank)) {
 			returnMe->timesUsed = 1;
 			returnMe->next = allLoadedBanks;
 			allLoadedBanks = returnMe;
-			KPrintF("loadBankForAnim: New sprite bank created OK\n");
+			//KPrintF("loadBankForAnim: New sprite bank created OK\n");
 			return returnMe;
 		} else {
-			KPrintF("loadBankForAnim: I guess I couldn't load the sprites...\n");
+			//KPrintF("loadBankForAnim: I guess I couldn't load the sprites...\n");
 			FreeVec(returnMe);
 			return NULL;
 		}

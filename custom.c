@@ -20,6 +20,9 @@
 #include "custom.h"
 #include "moreio.h"
 #include "support/gcc8_c_support.h"
+#include "zbuffer.h"
+
+extern struct zBufferData *zBuffer;		
 
 extern unsigned int winWidth, winHeight;
 
@@ -235,6 +238,219 @@ void CstDrawBackdrop() {
     CstDisplayBackDrop();
     CstApplyBackDropCounter--;
   }    
+}
+
+__attribute__((optimize("Ofast"))) 
+UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD x, WORD y) 
+{
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+  //In Case nothing needs to be done return sprite mask without changes
+  UBYTE *returnvalue = AllocVec( sprite->width/8*sprite->height, MEMF_CHIP); 
+  UBYTE *tmpbuffer = AllocVec( (sprite->width/8+2)*sprite->height, MEMF_CHIP);               
+  WORD zbufferset = 0;
+
+  #ifdef EMULATOR
+    debug_register_bitmap(returnvalue, "SpriteMask", sprite->width, sprite->height, 1, 0);
+    debug_register_bitmap(tmpbuffer, "tmbpuffer", sprite->width+16, sprite->height, 1, 0);
+  #endif    
+
+  while(zbuffer) 
+  {              
+    WORD spritex1oncanvas = x;
+    UWORD spritex2oncanvas = spritex1oncanvas+sprite->width;
+    WORD spritey1oncanvas = y;
+    UWORD spritey2oncanvas = spritey1oncanvas + sprite->height;
+
+    WORD zbufferx1oncanvas = zbuffer->topx;
+    WORD zbufferx2oncanvas = zbufferx1oncanvas + zbuffer->width;
+
+    WORD zbuffery1oncanvas = zbuffer->topy;
+    WORD zbuffery2oncanvas = zbuffery1oncanvas + zbuffer->height;
+  
+    BOOL zbufferfromright = FALSE;
+    BOOL zbufferfromleft = FALSE;
+    BOOL zbufferfrombottom = FALSE;
+    BOOL zbufferfromtop = FALSE;
+  
+    //Sprite will be drawn behind the zBuffer. We need to do something
+    if(spritey2oncanvas < zbuffer->yz) 
+    {    
+      zbufferset = 1;
+
+      //sprite ------------x1+++++++++++++++++++x2-----------------*/
+      /*zbuffer-------------------x1++++++++++?????????------------*/      
+      if(spritex1oncanvas <= zbufferx1oncanvas && spritex2oncanvas > zbufferx1oncanvas)
+        zbufferfromright = TRUE;
+      //sprite -------------------------x1++++??????-------*/
+      /*zbuffer-------------------x1+++++++++++x2----------*/  
+      else if(spritex1oncanvas > zbufferx1oncanvas && spritex1oncanvas < zbufferx2oncanvas)
+        zbufferfromleft = TRUE;       
+
+      //Overlap on X-Axis. Now Check y-axis
+      if( zbufferfromleft || zbufferfromright)         
+      {
+        if(spritey1oncanvas <= zbuffery1oncanvas && spritey2oncanvas > zbuffery1oncanvas)
+          zbufferfrombottom = TRUE;
+
+        else if(spritey1oncanvas > zbuffery1oncanvas && spritey1oncanvas < zbuffery2oncanvas)
+          zbufferfromtop = TRUE;       
+      }
+
+      //Overlap on both Axis
+      if( (zbufferfromright || zbufferfromleft) && (zbufferfrombottom || zbufferfromtop))
+      {      
+
+        ULONG bltapt;
+
+
+        UWORD xdiff;
+        UWORD xdiffbyte;          
+        UWORD xdiffrest;
+        UWORD bytewidth, width, rest;
+        if(zbufferfromright)
+        {        
+          //Get Distance R
+          /*sprite  ------------x1++++++++++?????????-------------------------*/    
+          //zbuffer ------------------x1+++++++++++++++++++x2-----------------*/             
+          
+          xdiff = zbufferx1oncanvas - spritex1oncanvas;
+          xdiffbyte = (xdiff / 16) * 2;          
+          xdiffrest = (xdiff - xdiffbyte * 8);       
+          bytewidth = (sprite->width/16)*2 + 2;
+
+          if( zbufferx2oncanvas > spritex2oncanvas)    
+          {               
+            WaitBlit();  
+          
+            custom->bltafwm = 0xffff;
+            custom->bltalwm = 0xffff;          
+            custom->bltdpt = tmpbuffer;        
+            custom->bltcon1 = 0;               
+
+            if (xdiffrest) {
+              xdiffbyte += 2;                 
+      
+              bltapt = zbuffer->bitplane - xdiffbyte;          
+              custom->bltcon0 = xdiffrest * 4096 + 0x9f0;              
+              custom->bltamod = zbuffer->width/8 - bytewidth;
+              custom->bltdmod = 0;                                                            
+            }
+            else
+            {             
+              xdiffbyte += 2;    
+              bltapt = zbuffer->bitplane - xdiffbyte;          
+              custom->bltcon0 = 0x9f0;              
+              custom->bltamod = zbuffer->width/8 - bytewidth;
+              custom->bltdmod = 0;                                                            
+            }                                     
+          }            
+          else
+          {
+              KPrintF("Cstdrawzbuffer: Current version onl supports zbuffer size equal to screen size");
+              return FALSE;
+          }        
+        } 
+        else
+        //ZbufferFromLeft
+        {    
+          //Get Distance R
+          /*sprite  ------------x1++++++++++?????????-------------------------*/    
+          //zbuffer ------------------x1+++++++++++++++++++x2-----------------*/             
+          
+          xdiff = spritex1oncanvas - zbufferx1oncanvas;
+          xdiffbyte = (xdiff / 16) * 2;          
+          xdiffrest = (xdiff - xdiffbyte * 8);    
+
+                         
+          bytewidth = (sprite->width/16)*2;
+          if(sprite->height == 60) {
+            sprite->height = 60;
+          }
+          
+          custom->bltafwm = 0xffff;
+          custom->bltalwm = 0xffff;                      
+          custom->bltcon1 = 0;          
+
+          if (xdiffrest) {
+            bytewidth += 2; 
+            //xdiffbyte += -2;            
+            bltapt = zbuffer->bitplane + xdiffbyte;  
+            WaitBlit();   
+            custom->bltdpt = tmpbuffer;                
+            custom->bltcon0 = (16 - xdiffrest) * 4096 + 0x9f0;              
+            custom->bltamod = zbuffer->width/8 - bytewidth;
+            custom->bltdmod = 0;                                                            
+          }
+          else
+          {       
+            //xdiffbyte += -2;      
+            bltapt = zbuffer->bitplane + xdiffbyte;  
+            WaitBlit();         
+            custom->bltdpt = tmpbuffer + 2;       
+            custom->bltcon0 = 4096 + 0x9f0;              
+            custom->bltamod = zbuffer->width/8 - bytewidth;
+            custom->bltdmod = 2;                                                            
+          }                                     
+          
+
+        } 
+        
+        //Get Distance R
+        //zbuffer ------------x1+++++++++++++++++++x2-----------------*/
+        /*sprite--------------RRRRRRRRx1++++++++++?????????------------*/    
+        UWORD ydiff = spritey1oncanvas - zbuffery1oncanvas;
+
+        UWORD height;
+        if( zbuffery2oncanvas > spritey2oncanvas) 
+          height = sprite->height;
+        else
+          height = zbuffery2oncanvas - spritey1oncanvas;
+
+        custom->bltapt = bltapt + ydiff*zbuffer->width/8; 
+        UWORD bltsize =  height*64+bytewidth/2;          
+        custom->bltsize = height*64+bytewidth/2;
+       
+        WaitBlit();
+
+        custom->bltafwm = 0xffff;
+        custom->bltalwm = 0xffff;
+        custom->bltamod = 2;
+        custom->bltbmod = 0;
+        custom->bltdmod = 0;
+        custom->bltcon0 = 0xd0c; //Copy A to D
+        custom->bltcon1 = 0;        
+
+        custom->bltapt = (APTR) tmpbuffer + 2;
+        custom->bltbpt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
+        custom->bltdpt = (APTR) returnvalue;
+        custom->bltsize = (sprite->height<<6)+sprite->width/16;  
+
+      }
+    }
+    zbuffer = zbuffer->nextPanel;
+  }
+  FreeVec( tmpbuffer);
+  if(zbufferset == 0)
+  {
+    WaitBlit();
+
+    custom->bltafwm = 0xffff;
+    custom->bltalwm = 0xffff;
+    custom->bltamod = 0;
+    custom->bltbmod = 0;
+    custom->bltcmod = 0;
+    custom->bltdmod = 0;
+    custom->bltcon0 = 0x9f0; //Copy A to D
+    custom->bltcon1 = 0;        
+
+    custom->bltapt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
+    custom->bltdpt = (APTR) returnvalue;
+    custom->bltsize = (sprite->height<<6)+sprite->width/16;      
+
+  }
+
+  return returnvalue;
+
 }
 
 void CstFreeBuffer( ) {
@@ -631,8 +847,16 @@ void CstRestoreScreen()
   
 }
 
+__attribute__((optimize("Ofast"))) 
 void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD x, WORD y, UWORD destinationtype)
 {  
+  if( single->width == 320)
+  {
+    single->width = 320;
+  }
+
+  UBYTE *mask = CstDrawZBuffer( single, zBuffer, x, y);
+
   UWORD *destination = 0;
   switch(destinationtype)
   {
@@ -682,23 +906,40 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
   }
 
 
-  if( x < 0) { //Leftmost part outside screen
+  if( x < 0) 
+  { //Leftmost part outside screen
+
     if(x + single->width < 0) {
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
       return;
-
     }
     
-    extrawords = 1;
     cutwordssource = (x*-1)/16; 
-    cutmaskpixel = (x*-1)%16;     
+    cutmaskpixel = (x*-1)%16;   
+
+    extrawords = cutmaskpixel > 0 ? 1 : 0;
+    //extrawords = 1;
+    if( cutmaskpixel > 0)
+    {
+      extrawords = 1;
+      bltcon0 = 0xfca + ((16-cutmaskpixel) << 12);
+      bltcon1 = ((16-cutmaskpixel) << 12);
+      bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
+      bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
+    }
+    else
+    {
+      extrawords = 0;
+      bltcon0 = 0xfca;
+      bltcon1 = 0;
+      bltcpt = ((ULONG) destination) + ystartdst*winWidth/8;
+      bltdpt = ((ULONG) destination) + ystartdst*winWidth/8;   
+    }
+
     bltalwm = 0; //Last Word of this channel almost masked out
-    bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+cutwordssource*2+ystartsrc*single->width/8;
+    bltapt = ((ULONG) mask)+cutwordssource*2+ystartsrc*single->width/8;
     bltbpt = ((ULONG) single->data)+cutwordssource*2+ystartsrc*single->width/8;
-    bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
-    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
-    bltcon0 = 0xfca + ((16-cutmaskpixel) << 12);
-    bltcon1 = ((16-cutmaskpixel) << 12);
+    
     if( destinationtype == SCREEN)
     {      
       struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
@@ -729,14 +970,14 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     }
     extrawords = 0; //Shifted out part of source outside screen. No need to blit this
     cutwordssource = (x+single->width - winWidth)/16;
-    cutmaskpixel = 0;
-    bltalwm = 0xffff; //Last word contains source data to be blit
-    bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+ystartsrc*single->width/8;
+    cutmaskpixel = 0;    
+    bltapt = ((ULONG) mask)+ystartsrc*single->width/8;
     bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
-    bltcon0 = 0xfca + ((single->width%16) << 12);
-    bltcon1 = ((single->width%16) << 12);
+    bltcon0 = 0xfca + ((x%16) << 12);
+    bltcon1 = ((x%16) << 12);
+    bltalwm = 0xffff << (x%16); 
     if( destinationtype == SCREEN)
     {
       struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
@@ -763,7 +1004,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     cutwordssource = 0;
     cutmaskpixel = 0;
     bltalwm = 0; //Last Word of this channel almost masked out
-    bltapt = ((ULONG) single->data)+(single->width/8)*single->height*5+ystartsrc*single->width/8;
+    bltapt = ((ULONG) mask) +ystartsrc*single->width/8;
     bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
@@ -791,10 +1032,6 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
       *CstBackDropBufferApplyCursor++ = 0;
     }
   }
-
- /*if(person && person->samePosCount > 3) {
-    return;
-  }*/
 
   UWORD bltafwm = 0xffff >> cutmaskpixel;
   WORD bltamod = cutwordssource*2-(extrawords*2); //Jump to next line
@@ -828,6 +1065,8 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     bltdpt += bltcptplus;
     WaitBlit();
   }   
+
+  FreeVec(mask);
 }
 
 void CstSetCl(UWORD *copperlist)
