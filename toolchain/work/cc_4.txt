@@ -1,4 +1,0 @@
-﻿Objects (id: bounding-box centroid area mean-color):
-  0: 336x14+0+0 167.6,6.5 4654 gray(255)
-  67: 5x8+228+0 229.6,3.3 31 gray(0)
-  103: 4x5+44+1 45.4,2.9 19 gray(255)

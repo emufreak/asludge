@@ -29,7 +29,10 @@ for($i = 1; $i -le $spritenum; $i++) {
     $fullpathimage = "${path}\${filename}_${i}.png"
     $image = [System.Drawing.Image]::FromFile("$fullpathimage")    
 
-    $headeritem = [Byte[]] (0x00, $image.Width, 0x00, $image.Height, 0x00, $xhot, 0x00, $yhot)
+    $widthighbyte = $image.width -shr 8
+    $widthlowbyte = $image.width - $widthighbyte * 256
+
+    $headeritem = [Byte[]] ($widthighbyte, $widthlowbyte, 0x00, $image.Height, 0x00, $xhot, 0x00, $yhot)
     Add-Content -Encoding Byte -Path source.aduc -Value $headeritem 
 
     # Add Data

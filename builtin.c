@@ -383,7 +383,7 @@ builtIn(mixOverlay)
 builtIn(pasteImage)
 {
 	UNUSEDALL
-	KPrintF("pasteimage: Started\n");
+	//KPrintF("pasteimage: Started\n");
 	int x, y;
 	if (! getValueType(&y, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
@@ -394,7 +394,7 @@ builtIn(pasteImage)
 	if (pp == NULL) return BR_CONTINUE;
 
 	pasteCursor (x, y, pp);
-	KPrintF("pasteimage: Finished\n");
+	//KPrintF("pasteimage: Finished\n");
 	return BR_CONTINUE;	
 }
 

@@ -240,6 +240,7 @@ void CstDrawBackdrop() {
   }    
 }
 
+__attribute__((optimize("Ofast"))) 
 UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD x, WORD y) 
 {
   volatile struct Custom *custom = (struct Custom*)0xdff000;
@@ -424,9 +425,9 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
         custom->bltdpt = (APTR) returnvalue;
         custom->bltsize = (sprite->height<<6)+sprite->width/16;  
 
-        zbuffer = zbuffer->nextPanel;
       }
     }
+    zbuffer = zbuffer->nextPanel;
   }
   FreeVec( tmpbuffer);
   if(zbufferset == 0)
@@ -849,6 +850,10 @@ void CstRestoreScreen()
 __attribute__((optimize("Ofast"))) 
 void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD x, WORD y, UWORD destinationtype)
 {  
+  if( single->width == 320)
+  {
+    single->width = 320;
+  }
 
   UBYTE *mask = CstDrawZBuffer( single, zBuffer, x, y);
 
