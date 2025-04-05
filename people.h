@@ -95,6 +95,7 @@ int TF_abs (int a);
 int timeForAnim (struct personaAnimation * fram);
 void turnMeAngle (struct onScreenPerson * thisPerson, int direc);
 BOOL turnPersonToFace (int thisNum, int direc);
+void walkAllPeople();
 BOOL walkMe (struct onScreenPerson * thisPerson, BOOL move);
 void moveAndScale (struct onScreenPerson *me, FLOAT x, FLOAT y);
 

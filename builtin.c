@@ -680,7 +680,7 @@ builtIn(deleteAllFromStack)
 	trimStack (&fun -> stack);
 	trimStack (&fun -> stack);
 	return BR_CONTINUE;
-}
+} 
 
 builtIn(popFromStack)
 {
@@ -688,7 +688,7 @@ builtIn(popFromStack)
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		KPrintF ("Parameter isn't a stack.");
 		return BR_ERROR;
-	}
+	}	
 	if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
 		KPrintF ("The stack's empty.");
 		return BR_ERROR;

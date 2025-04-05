@@ -531,10 +531,8 @@ void newCostumeVariable (struct variable * thisVar, struct persona * i) {
 }
 
 void setVariable (struct variable *thisVar, enum variableType vT, int value) {
-	unlinkVar (thisVar);
-	thisVar->varType = vT;
-	thisVar->varData.intValue = value;
-}
+	unlinkVar (thisVar);	thisVar->varType = vT;
+	thisVar->varData.intValue = value;}
 
 struct variable * stackGetByIndex (struct variableStack * vS, unsigned int theIndex) {
     while (theIndex--) {

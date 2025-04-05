@@ -9,7 +9,7 @@
 #define CSTBPL4LOW 35*2+1
 #define CSTBPL5HIGH 36*2+1
 #define CSTBPL5LOW 37*2+1
-#define EMULATOR
+//#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -330,7 +330,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
             if (xdiffrest) {
               xdiffbyte += 2;                 
       
-              bltapt = zbuffer->bitplane - xdiffbyte;          
+              bltapt = (ULONG) zbuffer->bitplane - xdiffbyte;          
               custom->bltcon0 = xdiffrest * 4096 + 0x9f0;              
               custom->bltamod = zbuffer->width/8 - bytewidth;
               custom->bltdmod = 0;                                                            
@@ -338,7 +338,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
             else
             {             
               xdiffbyte += 2;    
-              bltapt = zbuffer->bitplane - xdiffbyte;          
+              bltapt = (ULONG) zbuffer->bitplane - xdiffbyte;          
               custom->bltcon0 = 0x9f0;              
               custom->bltamod = zbuffer->width/8 - bytewidth;
               custom->bltdmod = 0;                                                            
@@ -374,7 +374,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
           if (xdiffrest) {
             bytewidth += 2; 
             //xdiffbyte += -2;            
-            bltapt = zbuffer->bitplane + xdiffbyte;  
+            bltapt = (ULONG) zbuffer->bitplane + xdiffbyte;  
             WaitBlit();   
             custom->bltdpt = tmpbuffer;                
             custom->bltcon0 = (16 - xdiffrest) * 4096 + 0x9f0;              
@@ -384,7 +384,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
           else
           {       
             //xdiffbyte += -2;      
-            bltapt = zbuffer->bitplane + xdiffbyte;  
+            bltapt = (ULONG) zbuffer->bitplane + xdiffbyte;  
             WaitBlit();         
             custom->bltdpt = tmpbuffer + 2;       
             custom->bltcon0 = 4096 + 0x9f0;              
@@ -406,7 +406,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
         else
           height = zbuffery2oncanvas - spritey1oncanvas;
 
-        custom->bltapt = bltapt + ydiff*zbuffer->width/8; 
+        custom->bltapt = (APTR) bltapt + ydiff*zbuffer->width/8; 
         UWORD bltsize =  height*64+bytewidth/2;          
         custom->bltsize = height*64+bytewidth/2;
        

@@ -20,7 +20,7 @@ struct loadedSpriteBank * loadBankForAnim (int ID) {
 	// KPrintF("loadBankForAnim: No existing sprite bank with ID %d\n", ID);
 	if (returnMe) {
 		returnMe->ID = ID;
-		if (loadSpriteBank(ID, &returnMe->bank)) {
+		if (loadSpriteBank(ID, (struct spriteBank *) &returnMe->bank)) {
 			returnMe->timesUsed = 1;
 			returnMe->next = allLoadedBanks;
 			allLoadedBanks = returnMe;
@@ -33,3 +33,5 @@ struct loadedSpriteBank * loadBankForAnim (int ID) {
 		}
 	} else return NULL;
 }
+
+

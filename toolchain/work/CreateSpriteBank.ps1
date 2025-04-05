@@ -23,7 +23,7 @@ Copy-Item header.bin source.aduc
 
 # Attach Items
 Add-Type -AssemblyName System.Drawing
-for($i = 1; $i -le $spritenum; $i++) {
+for($i = 0; $i -lt $spritenum; $i++) {
     # Add Header for Item
     $path = Get-Location
     $fullpathimage = "${path}\${filename}_${i}.png"
