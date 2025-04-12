@@ -165,7 +165,7 @@ UWORD * CstCreateCopperlist( int width) {
 
 void CstDisplayBackDrop() 
 {
- volatile struct Custom *custom = (struct Custom*)0xdff000;  
+  volatile struct Custom *custom = (struct Custom*)0xdff000;  
 
   KPrintF("CstDisplayBackDrop: Started");
 
@@ -1236,10 +1236,11 @@ void CstUnfreeze() {
   *CstBackDropBufferApplyCursor++ = 0;
   *CstBackDropBufferApplyCursor++ = 0;
   
-  if( !CstBackDropBackup) {
+  if( CstBackDropBackup) {
+    KPrintF("CstUnfreeze: Free CstBackdropBackup");
     FreeVec( CstBackDropBackup);
   }
 
-  KPrintF("CstFreeze: Finished");
+  KPrintF("CstUnfreeze: Finished");
 
 }
