@@ -872,7 +872,8 @@ builtIn(pasteString)
     trimStack(&fun->stack);
     if (!getValueType(&x, SVT_INT,&fun->stack->thisVar)) return BR_ERROR;
     trimStack(&fun->stack);
-    if (x == IN_THE_CENTRE) x = (winWidth - stringWidth(newText)) >> 1;
+    if (x == IN_THE_CENTRE) 
+		x = (winWidth - stringWidth(newText)) >> 1;
     //fixFont(pastePalette); //Todo: Amigize this
     pasteStringToBackdrop(newText, x, y); 
     FreeVec(newText); 

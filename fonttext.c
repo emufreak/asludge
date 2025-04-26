@@ -91,10 +91,13 @@ int stringWidth (char * theText) {
 
 	if (! fontTableSize) return 0;
 
-	/*while (theText[a]) {
-        c = u8_nextchar(theText, &a);
-		xOff += theFont.sprites[fontInTable(c)].width + fontSpace;
-	}Todo: Amigize this*/
+	char *tmp = theText;
+	
+	while (*tmp) {
+        c = *tmp++;
+		xOff += theFont->bank.sprites[fontInTable(c)].width + fontSpace;
+	
+	}//Todo: Amigize this
 	
 	return xOff;
 }
