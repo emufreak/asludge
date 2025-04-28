@@ -749,6 +749,7 @@ void removeOneCharacter (int i) {
         *killPeople = p->next;
         removeObjectType(p->thisType);
         FreeVec(p);
+		
     }
 }
 

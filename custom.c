@@ -9,7 +9,9 @@
 #define CSTBPL4LOW 35*2+1
 #define CSTBPL5HIGH 36*2+1
 #define CSTBPL5LOW 37*2+1
-//#define EMULATOR
+#define CSTMAXWIDTHSPRITE 208
+#define CSTMAXHEIGHTSPRITE 200
+#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -43,6 +45,8 @@ UWORD *CstBackDropBufferApplyCursor;
 UWORD *CstClColor;
 UWORD *CstPalette;
 UWORD *CstClCursor;
+UBYTE *CstZBufferResult;
+UBYTE *CstZBufferWork;
 
 ULONG CstClSprites[] = { 0x001200000, 0x001220000,0x001240000,0x001260000, 0x001280000,                          
         0x0012a0000, 0x0012c0000, 0x0012e0000, 0x001300000, 0x001320000, 0x001340000,
@@ -245,13 +249,12 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
 {
   volatile struct Custom *custom = (struct Custom*)0xdff000;
   //In Case nothing needs to be done return sprite mask without changes
-  UBYTE *returnvalue = AllocVec( sprite->width/8*sprite->height, MEMF_CHIP); 
-  UBYTE *tmpbuffer = AllocVec( (sprite->width/8+2)*sprite->height, MEMF_CHIP);               
+       
   WORD zbufferset = 0;
 
   #ifdef EMULATOR
-    debug_register_bitmap(returnvalue, "SpriteMask", sprite->width, sprite->height, 1, 0);
-    debug_register_bitmap(tmpbuffer, "tmbpuffer", sprite->width+16, sprite->height, 1, 0);
+    debug_register_bitmap(CstZBufferResult, "SpriteMask", sprite->width, sprite->height, 1, 0);
+    debug_register_bitmap(CstZBufferWork, "tmbpuffer", sprite->width+16, sprite->height, 1, 0);
   #endif    
 
   while(zbuffer) 
@@ -324,7 +327,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
           
             custom->bltafwm = 0xffff;
             custom->bltalwm = 0xffff;          
-            custom->bltdpt = tmpbuffer;        
+            custom->bltdpt = CstZBufferWork;        
             custom->bltcon1 = 0;               
 
             if (xdiffrest) {
@@ -346,7 +349,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
           }            
           else
           {
-              KPrintF("Cstdrawzbuffer: Current version onl supports zbuffer size equal to screen size");
+              KPrintF("Cstdrawzbuffer: Current version only supports zbuffer size equal to screen size");
               return FALSE;
           }        
         } 
@@ -376,7 +379,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
             //xdiffbyte += -2;            
             bltapt = (ULONG) zbuffer->bitplane + xdiffbyte;  
             WaitBlit();   
-            custom->bltdpt = tmpbuffer;                
+            custom->bltdpt = CstZBufferWork;                
             custom->bltcon0 = (16 - xdiffrest) * 4096 + 0x9f0;              
             custom->bltamod = zbuffer->width/8 - bytewidth;
             custom->bltdmod = 0;                                                            
@@ -386,7 +389,7 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
             //xdiffbyte += -2;      
             bltapt = (ULONG) zbuffer->bitplane + xdiffbyte;  
             WaitBlit();         
-            custom->bltdpt = tmpbuffer + 2;       
+            custom->bltdpt = CstZBufferWork + 2;       
             custom->bltcon0 = 4096 + 0x9f0;              
             custom->bltamod = zbuffer->width/8 - bytewidth;
             custom->bltdmod = 2;                                                            
@@ -420,16 +423,16 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
         custom->bltcon0 = 0xd0c; //Copy A to D
         custom->bltcon1 = 0;        
 
-        custom->bltapt = (APTR) tmpbuffer + 2;
+        custom->bltapt = (APTR) CstZBufferWork + 2;
         custom->bltbpt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
-        custom->bltdpt = (APTR) returnvalue;
+        custom->bltdpt = (APTR) CstZBufferResult;
         custom->bltsize = (sprite->height<<6)+sprite->width/16;  
 
       }
     }
     zbuffer = zbuffer->nextPanel;
   }
-  FreeVec( tmpbuffer);
+  
   if(zbufferset == 0)
   {
     WaitBlit();
@@ -444,12 +447,12 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
     custom->bltcon1 = 0;        
 
     custom->bltapt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
-    custom->bltdpt = (APTR) returnvalue;
+    custom->bltdpt = (APTR) CstZBufferResult;
     custom->bltsize = (sprite->height<<6)+sprite->width/16;      
 
   }
 
-  return returnvalue;
+  return CstZBufferResult;
 
 }
 
@@ -1066,7 +1069,6 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     WaitBlit();
   }   
 
-  FreeVec(mask);
 }
 
 void CstSetCl(UWORD *copperlist)
@@ -1187,6 +1189,8 @@ BOOL CstReserveBackdrop(int width, int height) {
   CstDrawBuffer += width/4; //divide with 4 because pointer is ulong 
   CstViewBuffer += width/4; //divide with 4 because pointer is ulong
   
+  CstZBufferResult = AllocVec( CSTMAXWIDTHSPRITE/8*CSTMAXHEIGHTSPRITE,MEMF_CHIP);
+  CstZBufferWork = AllocVec( (CSTMAXWIDTHSPRITE/8+2)*CSTMAXHEIGHTSPRITE,MEMF_CHIP);
 
 #ifdef EMULATOR
  	debug_register_bitmap(CstBackDrop, "CstBackDrop.bpl", 320, 256, 5, 0);
