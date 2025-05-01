@@ -18,7 +18,7 @@ struct CleanupQueue
     struct CleanupQueue *next;
 };
 
-void CstBlankScreen( int width, int height);
+void CstBlankScreen( int x1, int y1, int x2, int y2);
 UWORD * CstCreateCopperlist( int width);
 void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata);
 void CstDrawBackdrop();

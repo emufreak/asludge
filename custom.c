@@ -67,22 +67,23 @@ ULONG CstClColorTemplate[] = {
     0x1b00000, 0x1b20000, 0x1b40000, 0x1b60000, 0x1b80000, 0x1ba0000, 0x1bc0000, 0x1be0000 
 };
 
-void CstBlankScreen( int width, int height) {
+void CstBlankScreen( int x1, int y1, int x2, int y2) {
 
   KPrintF("CstBlankScreen: started\n");
 
   if( !CstBackDrop) {
     KPrintF("CstBlankScreen: Backdrop empty nothing to do\n");
     return;
-  }
+  }  
 
   CstPaletteLoaded = 0;
 
   volatile struct Custom *custom = (struct Custom*)0xdff000;
 
-  width /= 16;
-
   WaitBlit();
+
+  UWORD width = (x2 - x1)/8;
+  UWORD height = (y2 - y1);
 
   //Both Buffers need to be done
   custom->bltafwm = 0xffff;
@@ -90,12 +91,14 @@ void CstBlankScreen( int width, int height) {
   custom->bltamod = 0;
   custom->bltbmod = 0;
   custom->bltcmod = 0;
-  custom->bltdmod = 0;
+  custom->bltdmod = 40 - width;
   custom->bltcon1 = 0;
   custom->bltcon0 = 0x0100;
   ULONG bltdpt = (ULONG) CstBackDrop;
-  UWORD bltsize = height*64+width;    
-  UWORD blitsize = width*height*2;
+  bltdpt += x1/8 + y1*40;
+
+  UWORD bltsize = height*64+width/2;    
+  UWORD blitsize = width*height;
 
   KPrintF("CstBlankScreen: Starting Blits\n");
 
