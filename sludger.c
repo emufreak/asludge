@@ -60,7 +60,7 @@ void abortFunction (struct loadedFunction * fun) {
 	while (fun -> stack) trimStack (&fun -> stack);
 	FreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
-	if( fun -> numLocals) {
+	if( fun -> numLocals > 0) {
 		FreeVec(fun -> localVars);
 	}
 
