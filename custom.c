@@ -11,7 +11,7 @@
 #define CSTBPL5LOW 37*2+1
 #define CSTMAXWIDTHSPRITE 208
 #define CSTMAXHEIGHTSPRITE 200
-#define EMULATOR
+//#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -107,7 +107,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
     custom->bltdpt = (APTR) bltdpt;
     custom->bltsize = bltsize;            
     WaitBlit();
-    bltdpt += blitsize;
+    bltdpt += 40*256;
   }
 
   KPrintF("CstBlankScreen: Finished Blits\n");

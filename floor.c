@@ -79,12 +79,14 @@ void noFloor () {
 }
 
 int inFloor (int x, int y) {
+	KPrintF("inFloor started\n");
 	int i, r = -1;
 
 	for (i = 0; i < currentFloor -> numPolygons; i ++)
 		if (pointInFloorPolygon (&currentFloor -> polygon[i], x, y))
 			r = i;
 
+	KPrintF("infloor finished\n");
 	return r;
 }
 

@@ -52,17 +52,23 @@ int specialSettings;
 
 
 void abortFunction (struct loadedFunction * fun) {
+	KPrintF("abortFunction %d started\n", &fun->originalNumber);
 	int a;
+
 
 	pauseFunction (fun);
 	while (fun -> stack) trimStack (&fun -> stack);
 	FreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
-	FreeVec(fun -> localVars);
+	if( fun -> numLocals) {
+		FreeVec(fun -> localVars);
+	}
+
 	unlinkVar (&fun -> reg);
 	if (fun -> calledBy) abortFunction (fun -> calledBy);
 	FreeVec(fun);
 	fun = NULL;
+	KPrintF("abortFunction finished\n");
 }
 
 int cancelAFunction (int funcNum, struct loadedFunction * myself, BOOL * killedMyself) {
@@ -512,6 +518,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 }
 
 void finishFunction (struct loadedFunction * fun) {
+	KPrintF("finishFunction %d started\n", &fun->originalNumber);
 	int a;
 
 	pauseFunction (fun);
@@ -860,7 +867,8 @@ BOOL runSludge () {
 			if (thisFunction -> timeLeft) {
 				if (thisFunction -> timeLeft < 0) {				
 					thisFunction -> timeLeft = 0;
-				} else if (! -- (thisFunction -> timeLeft)) {
+				} else if (
+					! -- (thisFunction -> timeLeft)) {
 				}
 			} else {
 				if (thisFunction -> isSpeech) {
@@ -920,12 +928,17 @@ BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const st
 }
 
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet) {
-		
+	
 	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
 	if(!newFunc) {
 		KPrintF("startNewFunction: Cannot allocate memory");
 		return 0;
 	}
+	if(funcNum == 145) {
+		KPrintF("startNewFunction: funcNum 145");
+	}
+
+
 	newFunc -> originalNumber = funcNum;
 
 	loadFunctionCode (newFunc);

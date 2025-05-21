@@ -391,11 +391,13 @@ void drawPeople () {
 
 
 struct onScreenPerson * findPerson (int v) {
+	KPrintF("findPerson started\n");
 	struct onScreenPerson * thisPerson = allPeople;
 	while (thisPerson) {
 		if (v == thisPerson -> thisType -> objectNum) break;
 		thisPerson = thisPerson -> next;
 	}
+	KPrintF("findPerson complete\n");
 	return thisPerson;
 }
 
@@ -434,6 +436,7 @@ BOOL forceWalkingPerson (int x, int y, int objNum, struct loadedFunction * func,
 }
 
 BOOL handleClosestPoint (int * setX, int * setY, int * setPoly) {
+	KPrintF("handleClosestPoint started\n");
 	int gotX = 320, gotY = 200, gotPoly = -1, i, j, xTest1, yTest1,
 		xTest2, yTest2, closestX, closestY, oldJ, currentDistance = 0xFFFFF,
 		thisDistance;
@@ -664,12 +667,21 @@ void makeSilent (struct onScreenPerson me) {
 }
 
 BOOL makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, int di) {
+	KPrintF("makeWalkingPerson started\n");
 	if (x == 0 && y == 0) return FALSE;
 	if (currentFloor -> numPolygons == 0) return FALSE;
 	struct onScreenPerson * moveMe = findPerson (objNum);
-	if (! moveMe) return FALSE;
 
-	if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
+	
+	if (! moveMe) {
+		KPrintF("makeWalkingPerson: Can't find person %d\n", objNum);
+		return FALSE;
+	} 
+
+
+	if (moveMe -> continueAfterWalking) {
+		abortFunction (moveMe -> continueAfterWalking);
+	}	
 	moveMe -> continueAfterWalking = NULL;
 	moveMe -> walking = TRUE;
 	moveMe -> directionWhenDoneWalking = di;
@@ -689,6 +701,7 @@ BOOL makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, 
 
 	doBorderStuff (moveMe);
 	if (walkMe (moveMe, FALSE) || moveMe -> spinning) {
+		KPrintF("makeWalkingPerson: continueAfterWalking set to %d\n", &objNum);
 		moveMe -> continueAfterWalking = func;
 		return TRUE;
 	} else {
