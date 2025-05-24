@@ -11,7 +11,7 @@
 #define CSTBPL5LOW 37*2+1
 #define CSTMAXWIDTHSPRITE 208
 #define CSTMAXHEIGHTSPRITE 200
-//#define EMULATOR
+#define EMULATOR
 
 #include <exec/types.h>
 #include <proto/dos.h>
@@ -79,6 +79,8 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   CstPaletteLoaded = 0;
 
   volatile struct Custom *custom = (struct Custom*)0xdff000;
+  //custom->color[0] = 0xf00;
+
 
   WaitBlit();
 
@@ -122,7 +124,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
 
   KPrintF("CstBlankScreen: end\n");
 
-
+  //custom->color[0] = 0x000;	
 }
 
 UWORD * CstCreateCopperlist( int width) {
@@ -524,6 +526,7 @@ void CstFreeze( ) {
 
 void CstLoadBackdrop( BPTR fp, int x, int y) {
 
+
 	KPrintF("CstLoadBackDrop: Loading of Background started");
 
   UWORD width = get2bytes(fp);
@@ -646,6 +649,9 @@ ULONG test = 0;
 
 void CstPasteChar( struct sprite *single, WORD x, WORD y)
 {  
+
+  volatile struct Custom *custom = (struct Custom*)0xdff000;	
+  //custom->color[0] = 0x0f0;
   UWORD *destination = 0;
   CstApplyBackDropCounter = 2;
   destination = (UWORD *) CstBackDrop;      
@@ -693,7 +699,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
   }
 
 
-  if( x < 0) { //Leftmost part outside screen
+   if( x < 0) { //Leftmost part outside screen
     if(x + single->width < 0) {
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
       return;
@@ -762,7 +768,6 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
   WORD bltcmod = winWidth/8-blitwidth*2-extrawords*2+cutwordssource*2;
   WORD bltdmod = winWidth/8-blitwidth*2-extrawords*2+cutwordssource*2;
 
-  volatile struct Custom *custom = (struct Custom*)0xdff000;
   WaitBlit();
 
   custom->bltafwm = bltafwm;
@@ -805,16 +810,16 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
       minterm = 0xb0a;
     }   
 
-    WaitBlit();    
- 
+    WaitBlit();     
   }   
+  //custom->color[0] = 0x000;
 }
 
 
 void CstRestoreScreen()
 {
   volatile struct Custom *custom = (struct Custom*)0xdff000;  
-
+  //custom->color[0] = 0xf00;
   //struct CleanupQueue *cursor  = CstCleanupQueueDrawBuffer;
   if(!CstCleanupQueueDrawBuffer || !CstDrawBuffer) {
     return;
@@ -850,7 +855,7 @@ void CstRestoreScreen()
     FreeVec(todelete);    
     todelete = NULL;
   }
-  
+  //custom->color[0] = 0x000;
 }
 
 __attribute__((optimize("Ofast"))) 

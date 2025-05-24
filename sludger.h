@@ -16,7 +16,7 @@ struct eventHandlers {
 	int rightMouseFunction;
 	int rightMouseUpFunction;
 	int moveMouseFunction;
-	int focusFunction;
+	struct loadedFunction *focusFunction;
 	int spaceFunction;
 };
 
@@ -60,10 +60,13 @@ void restartFunction (struct loadedFunction * fun);
 BOOL runSludge();
 BOOL initSludge (char *);
 void pauseFunction (struct loadedFunction * fun);
+struct loadedFunction *preloadNewFunctionNum (unsigned int funcNum);
 void saveHandlers (BPTR fp);
 void sludgeDisplay ();
 BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va);
+int startNewFunctionLoaded (struct loadedFunction * newFunc, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet);
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet);
 void unfreezeSubs ();
+void unloadFunction (struct loadedFunction * fun);
 
 #endif

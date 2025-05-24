@@ -1913,10 +1913,18 @@ builtIn (onRightMouseUp)
 builtIn (onFocusChange)
 {
 	UNUSEDALL
-	int functionNum;
+	int functionNum;	
+
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
 	{
-		currentEvents -> focusFunction = functionNum;
+		struct loadedFunction *oldfunc = currentEvents -> focusFunction;
+		currentEvents -> focusFunction = preloadNewFunctionNum(functionNum);		
+		if( oldfunc != NULL && oldfunc != currentEvents -> focusFunction )
+		{
+			unloadFunction(oldfunc);
+		}
+		
+
 		return BR_CONTINUE;
 	}
 	return BR_ERROR;

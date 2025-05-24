@@ -16,7 +16,7 @@
 #include <libraries/mathieeesp.h>
 #include "main_sludge.h"
 
-//#define EMULATOR
+#define EMULATOR
 
 //config
 

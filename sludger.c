@@ -519,22 +519,13 @@ BOOL continueFunction (struct loadedFunction * fun) {
 
 void finishFunction (struct loadedFunction * fun) {
 	KPrintF("finishFunction %d started\n", &fun->originalNumber);
-	int a;
 
 	pauseFunction (fun);
-	if (fun -> stack) 
-	{
-		KPrintF("finishfunction: error non empty stack");
-		return;
-	}
-	FreeVec( fun -> compiledLines);
-	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
-	if( fun->numLocals > 0) {
-		FreeVec(fun -> localVars);
-	}
-	unlinkVar (&fun -> reg);
-	FreeVec(fun);
-	fun = NULL;
+
+	//Keep function loaed in memory if it is the focus function
+	if( fun != currentEvents -> focusFunction) {	
+		unloadFunction (fun);
+	}	
 }
 
 void freezeSubs () {
@@ -576,7 +567,8 @@ BOOL handleInput () {
 			setVariable (&tempStack -> thisVar, SVT_INT, 0);
 		}
 		tempStack -> next = NULL;
-		if (! startNewFunctionNum (currentEvents -> focusFunction, 1, NULL, &tempStack, TRUE)) return FALSE;
+		
+		if (! startNewFunctionLoaded (currentEvents -> focusFunction, 1, NULL, &tempStack, TRUE)) return FALSE;
 	}
 	if (input.leftRelease && currentEvents -> leftMouseUpFunction)  {
 		if (! startNewFunctionNum (currentEvents -> leftMouseUpFunction, 0, NULL, noStack, TRUE)) return FALSE;
@@ -792,7 +784,7 @@ void loadHandlers (BPTR fp) {
 	currentEvents -> rightMouseFunction		= get2bytes (fp);
 	currentEvents -> rightMouseUpFunction	= get2bytes (fp);
 	currentEvents -> moveMouseFunction		= get2bytes (fp);
-	currentEvents -> focusFunction			= get2bytes (fp);
+	currentEvents -> focusFunction			= (struct loadedFunction *) get4bytes (fp); //Todo: Changed to pointer type. Check if this is correct.
 	currentEvents -> spaceFunction			= get2bytes (fp);
 }
 
@@ -850,6 +842,21 @@ void pauseFunction (struct loadedFunction * fun) {
 	}
 }
 
+struct loadedFunction *preloadNewFunctionNum (unsigned int funcNum) {
+	
+	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
+	if(!newFunc) {
+		KPrintF("startNewFunction: Cannot allocate memory");
+		return 0;
+	}
+
+	newFunc -> originalNumber = funcNum;
+
+	loadFunctionCode (newFunc);	
+
+	return newFunc;
+}
+
 void restartFunction (struct loadedFunction * fun) {
 	fun -> next = allRunningFunctions;
 	allRunningFunctions = fun;
@@ -903,7 +910,7 @@ void saveHandlers (BPTR fp) {
 	put2bytes (currentEvents -> rightMouseFunction,		fp);
 	put2bytes (currentEvents -> rightMouseUpFunction,	fp);
 	put2bytes (currentEvents -> moveMouseFunction,		fp);
-	put2bytes (currentEvents -> focusFunction,			fp);
+	put4bytes ((ULONG) currentEvents -> focusFunction,			fp); //Todo: Changed to pointer type. Check if this is correct.
 	put2bytes (currentEvents -> spaceFunction,			fp);
 }
 
@@ -927,22 +934,8 @@ BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const st
 	return copyVariable(va, &(vS->thisVar));
 }
 
-int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet) {
+int startNewFunctionLoaded (struct loadedFunction * newFunc, unsigned int numParamsExpected,struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet) {
 	
-	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
-	if(!newFunc) {
-		KPrintF("startNewFunction: Cannot allocate memory");
-		return 0;
-	}
-	if(funcNum == 145) {
-		KPrintF("startNewFunction: funcNum 145");
-	}
-
-
-	newFunc -> originalNumber = funcNum;
-
-	loadFunctionCode (newFunc);
-
 	if (newFunc -> numArgs != (int)numParamsExpected) {
 		KPrintF("Wrong number of parameters!");
 		return NULL; 
@@ -977,6 +970,49 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
 
 	restartFunction (newFunc);
 	return 1;
+}
+
+int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet) {
+	
+	volatile struct Custom *custom = (struct Custom*)0xdff000;
+	//custom->color[0] = 0x00f;	
+
+	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
+	if(!newFunc) {
+		KPrintF("startNewFunction: Cannot allocate memory");
+		return 0;
+	}
+	if(funcNum == 145) {
+		KPrintF("startNewFunction: funcNum 145");
+	}
+
+	newFunc -> originalNumber = funcNum;
+
+	loadFunctionCode (newFunc);	
+	//custom->color[0] = 0x000;	
+	return startNewFunctionLoaded (newFunc, numParamsExpected, calledBy, vStack, returnSommet);
+}
+
+void unloadFunction (struct loadedFunction * fun) {
+
+	int a;
+
+	//Keep function loaed in memory
+	if( fun == currentEvents -> focusFunction) {	
+		return;
+	}
+
+	if (fun -> stack) 
+	{
+		KPrintF("unloadfunction: error non empty stack");
+		return;
+	}
+	FreeVec( fun -> compiledLines);
+	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
+	if( fun->numLocals > 0) {
+		FreeVec(fun -> localVars);
+	}
+	unlinkVar (&fun -> reg);
 }
 
 void unfreezeSubs () {
