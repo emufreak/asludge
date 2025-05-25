@@ -120,7 +120,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   *CstBackDropBufferApplyCursor++ = winHeight;
   *CstBackDropBufferApplyCursor++ = 0;
   *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor++ = 0;
+  *CstBackDropBufferApplyCursor = 0;
 
   KPrintF("CstBlankScreen: end\n");
 
@@ -518,7 +518,7 @@ void CstFreeze( ) {
   *CstBackDropBufferApplyCursor++ = winHeight;
   *CstBackDropBufferApplyCursor++ = 0;
   *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor++ = 0;
+  *CstBackDropBufferApplyCursor = 0;
 
   KPrintF("CstFreeze: Finished");
 
@@ -639,7 +639,7 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   *CstBackDropBufferApplyCursor++ = winHeight;
   *CstBackDropBufferApplyCursor++ = 0;
   *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor++ = 0;
+  *CstBackDropBufferApplyCursor = 0;
 
   KPrintF("CstLoadBackDrop: Finished");
 
@@ -720,7 +720,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     *CstBackDropBufferApplyCursor++ = blitheight;
     *CstBackDropBufferApplyCursor++ = 0;
     *CstBackDropBufferApplyCursor++ = ystartdst;
-    *CstBackDropBufferApplyCursor++ = 0;
+    *CstBackDropBufferApplyCursor = 0;
 
   } else if(x + single->width > (int) winWidth) { //Rightmost part outside screen   
 
@@ -742,7 +742,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     *CstBackDropBufferApplyCursor++ = blitheight;
     *CstBackDropBufferApplyCursor++ = (x/16)*2;
     *CstBackDropBufferApplyCursor++ = ystartdst;
-    *CstBackDropBufferApplyCursor++ = 0;
+    *CstBackDropBufferApplyCursor = 0;
     
   } else { //Whole Sprite on Screen
 
@@ -759,7 +759,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     *CstBackDropBufferApplyCursor++ = blitheight;
     *CstBackDropBufferApplyCursor++ = (x/16)*2;
     *CstBackDropBufferApplyCursor++ = ystartdst;
-    *CstBackDropBufferApplyCursor++ = 0;
+    *CstBackDropBufferApplyCursor = 0;
     
   }
 
@@ -970,7 +970,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
       *CstBackDropBufferApplyCursor++ = blitheight;
       *CstBackDropBufferApplyCursor++ = 0;
       *CstBackDropBufferApplyCursor++ = ystartdst;
-      *CstBackDropBufferApplyCursor++ = 0;
+      *CstBackDropBufferApplyCursor = 0;
     }
   } else if(x + single->width > (int) winWidth) { //Rightmost part outside screen   
 
@@ -1007,7 +1007,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
       *CstBackDropBufferApplyCursor++ = blitheight;
       *CstBackDropBufferApplyCursor++ = (x/16)*2;
       *CstBackDropBufferApplyCursor++ = ystartdst;
-      *CstBackDropBufferApplyCursor++ = 0;
+      *CstBackDropBufferApplyCursor = 0;
     }
   } else { //Whole Sprite on Screen
 
@@ -1040,7 +1040,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
       *CstBackDropBufferApplyCursor++ = blitheight;
       *CstBackDropBufferApplyCursor++ = (x/16)*2;
       *CstBackDropBufferApplyCursor++ = ystartdst;
-      *CstBackDropBufferApplyCursor++ = 0;
+      *CstBackDropBufferApplyCursor = 0;
     }
   }
 
@@ -1246,7 +1246,7 @@ void CstUnfreeze() {
   *CstBackDropBufferApplyCursor++ = winHeight;
   *CstBackDropBufferApplyCursor++ = 0;
   *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor++ = 0;
+  *CstBackDropBufferApplyCursor = 0;
   
   if( CstBackDropBackup) {
     KPrintF("CstUnfreeze: Free CstBackdropBackup");
