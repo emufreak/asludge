@@ -566,8 +566,7 @@ BOOL handleInput () {
 		} else {
 			setVariable (&tempStack -> thisVar, SVT_INT, 0);
 		}
-		tempStack -> next = NULL;
-		
+		tempStack -> next = NULL;		
 		if (! startNewFunctionLoaded (currentEvents -> focusFunction, 1, NULL, &tempStack, TRUE)) return FALSE;
 	}
 	if (input.leftRelease && currentEvents -> leftMouseUpFunction)  {

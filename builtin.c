@@ -1918,7 +1918,11 @@ builtIn (onFocusChange)
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
 	{
 		struct loadedFunction *oldfunc = currentEvents -> focusFunction;
-		currentEvents -> focusFunction = preloadNewFunctionNum(functionNum);		
+		if( functionNum != NULL) 
+			currentEvents -> focusFunction = preloadNewFunctionNum(functionNum);		
+		else
+			currentEvents -> focusFunction = NULL;
+
 		if( oldfunc != NULL && oldfunc != currentEvents -> focusFunction )
 		{
 			unloadFunction(oldfunc);
