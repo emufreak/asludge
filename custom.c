@@ -192,6 +192,13 @@ void CstDisplayBackDrop()
 
   KPrintF("CstDisplayBackDrop: Started");
 
+  UWORD *colorpos = CstPalette;
+  UWORD *tmp = CstClColor;
+  for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
+    *tmp++;
+    *tmp++ = *colorpos++;
+  }
+
   CstBackDropBufferApplyCursor = CstBackDropBufferApplyStart;
   UWORD *cursor = CstBackDropBufferApplyStart;
   if(!*cursor || !CstDrawBuffer) {
@@ -225,13 +232,9 @@ void CstDisplayBackDrop()
       WaitBlit();
     }  
   }
-  UWORD *colorpos = CstPalette;
+
   
-  UWORD *tmp = CstClColor;
-  for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
-    *tmp++;
-    *tmp++ = *colorpos++;
-  }
+
 }
 
 void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata)
@@ -1041,28 +1044,35 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     bltapt = ((ULONG) mask)+cutwordssource*2+ystartsrc*single->width/8;
     bltbpt = ((ULONG) single->data)+cutwordssource*2+ystartsrc*single->width/8;
     
-    if( destinationtype == SCREEN)
-    {      
-      struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-      CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
-      CstCleanupQueueDrawBuffer->next = next;   
+    
+    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+    CstCleanupQueueDrawBuffer->next = next;   
 
-      CstCleanupQueueDrawBuffer->x = x;
-      CstCleanupQueueDrawBuffer->y = y;
-      CstCleanupQueueDrawBuffer->person = person;      
+    CstCleanupQueueDrawBuffer->x = x;
+    CstCleanupQueueDrawBuffer->y = y;
+    CstCleanupQueueDrawBuffer->person = person;      
 
-      CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords; //Width in X Bytes
-      CstCleanupQueueDrawBuffer->height = blitheight;
-      CstCleanupQueueDrawBuffer->startxinbytes = 0;
-      CstCleanupQueueDrawBuffer->starty = ystartdst;
-    } else {
-      *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource+extrawords;
-      *CstBackDropBufferApplyCursor++ = blitheight;
-      *CstBackDropBufferApplyCursor++ = 0;
-      *CstBackDropBufferApplyCursor++ = ystartdst;
-      *CstBackDropBufferApplyCursor = 0;
-    }
-  } else if(x + single->width > (int) winWidth) { //Rightmost part outside screen   
+    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords; //Width in X Bytes
+    CstCleanupQueueDrawBuffer->height = blitheight;
+    CstCleanupQueueDrawBuffer->startxinbytes = 0;
+    CstCleanupQueueDrawBuffer->starty = ystartdst;
+    if( destinationtype != SCREEN)
+    {
+      next = CstCleanupQueueViewBuffer;
+      CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+      CstCleanupQueueViewBuffer->next = next;
+      CstCleanupQueueViewBuffer->x = x;
+      CstCleanupQueueViewBuffer->y = y;
+      CstCleanupQueueViewBuffer->person = person;
+      CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource+extrawords; //Width in X Bytes
+      CstCleanupQueueViewBuffer->height = blitheight; 
+      CstCleanupQueueViewBuffer->startxinbytes = 0; 
+      CstCleanupQueueViewBuffer->starty = ystartdst;  
+    }           
+  } 
+  else if(x + single->width > (int) winWidth) 
+  { //Rightmost part outside screen   
 
     if(x - single->width > (int) winWidth)
     {    
@@ -1079,27 +1089,36 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     bltcon0 = 0xfca + ((x%16) << 12);
     bltcon1 = ((x%16) << 12);
     bltalwm = 0xffff << (x%16); 
-    if( destinationtype == SCREEN)
-    {
-      struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-      CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
-      CstCleanupQueueDrawBuffer->next = next;   
 
-      CstCleanupQueueDrawBuffer->x = x;
-      CstCleanupQueueDrawBuffer->y = y;
-      CstCleanupQueueDrawBuffer->person = person; 
-      CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource; //Width in X Bytes
-      CstCleanupQueueDrawBuffer->height =  blitheight; //Height
-      CstCleanupQueueDrawBuffer->startxinbytes =  (x/16)*2; //X Start in Bytes;
-      CstCleanupQueueDrawBuffer->starty = ystartdst;
-    } else {
-      *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource;
-      *CstBackDropBufferApplyCursor++ = blitheight;
-      *CstBackDropBufferApplyCursor++ = (x/16)*2;
-      *CstBackDropBufferApplyCursor++ = ystartdst;
-      *CstBackDropBufferApplyCursor = 0;
+    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+    CstCleanupQueueDrawBuffer->next = next;   
+
+    CstCleanupQueueDrawBuffer->x = x;
+    CstCleanupQueueDrawBuffer->y = y;
+    CstCleanupQueueDrawBuffer->person = person; 
+    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource; //Width in X Bytes
+    CstCleanupQueueDrawBuffer->height =  blitheight; //Height
+    CstCleanupQueueDrawBuffer->startxinbytes =  (x/16)*2; //X Start in Bytes;
+    CstCleanupQueueDrawBuffer->starty = ystartdst;
+
+    if( destinationtype != SCREEN)
+    {
+      next = CstCleanupQueueViewBuffer;
+      CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+      CstCleanupQueueViewBuffer->next = next;   
+
+      CstCleanupQueueViewBuffer->x = x;
+      CstCleanupQueueViewBuffer->y = y;
+      CstCleanupQueueViewBuffer->person = person; 
+      CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource;
+      CstCleanupQueueViewBuffer->height =  blitheight;
+      CstCleanupQueueViewBuffer->startxinbytes =  (x/16)*2; //X Start in Bytes;
+      CstCleanupQueueViewBuffer->starty = ystartdst; 
     }
-  } else { //Whole Sprite on Screen
+  } 
+  else 
+  { //Whole Sprite on Screen
 
     extrawords = 1;
     cutwordssource = 0;
@@ -1111,27 +1130,33 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltcon0 = 0xfca + ((x%16) << 12);
     bltcon1 = ((x%16) << 12);
-    if( destinationtype == SCREEN)
-    {
-      struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-      CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
-      CstCleanupQueueDrawBuffer->next = next;   
 
-      CstCleanupQueueDrawBuffer->x = x;
-      CstCleanupQueueDrawBuffer->y = y;
-      CstCleanupQueueDrawBuffer->person = person; 
-      CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords; 
-      CstCleanupQueueDrawBuffer->height =  blitheight; 
-      CstCleanupQueueDrawBuffer->startxinbytes =  (x/16)*2; 
-      CstCleanupQueueDrawBuffer->starty = ystartdst;
-    } else
+    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+    CstCleanupQueueDrawBuffer->next = next;   
+
+    CstCleanupQueueDrawBuffer->x = x;
+    CstCleanupQueueDrawBuffer->y = y;
+    CstCleanupQueueDrawBuffer->person = person; 
+    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords; 
+    CstCleanupQueueDrawBuffer->height =  blitheight; 
+    CstCleanupQueueDrawBuffer->startxinbytes =  (x/16)*2; 
+    CstCleanupQueueDrawBuffer->starty = ystartdst;
+
+    if( destinationtype != SCREEN)
     {
-      *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource+extrawords;
-      *CstBackDropBufferApplyCursor++ = blitheight;
-      *CstBackDropBufferApplyCursor++ = (x/16)*2;
-      *CstBackDropBufferApplyCursor++ = ystartdst;
-      *CstBackDropBufferApplyCursor = 0;
-    }
+      next = CstCleanupQueueViewBuffer;
+      CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+      CstCleanupQueueViewBuffer->next = next;   
+
+      CstCleanupQueueViewBuffer->x = x;
+      CstCleanupQueueViewBuffer->y = y;
+      CstCleanupQueueViewBuffer->person = person; 
+      CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource+extrawords; 
+      CstCleanupQueueViewBuffer->height =  blitheight; 
+      CstCleanupQueueViewBuffer->startxinbytes =  (x/16)*2; 
+      CstCleanupQueueViewBuffer->starty = ystartdst;
+    } 
   }
 
   UWORD bltafwm = 0xffff >> cutmaskpixel;
