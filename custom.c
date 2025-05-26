@@ -114,13 +114,27 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
 
   KPrintF("CstBlankScreen: Finished Blits\n");
 
-  CstApplyBackDropCounter = 2;
+  struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+  CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueDrawBuffer->next = next;
+  CstCleanupQueueDrawBuffer->x = x1;
+  CstCleanupQueueDrawBuffer->y = y1;
+  CstCleanupQueueDrawBuffer->person = NULL;
+  CstCleanupQueueDrawBuffer->widthinwords = width/16;
+  CstCleanupQueueDrawBuffer->height = height;
+  CstCleanupQueueDrawBuffer->startxinbytes = x1/8;;
+  CstCleanupQueueDrawBuffer->starty = y1;
 
-  *CstBackDropBufferApplyCursor++ = winWidth/16;
-  *CstBackDropBufferApplyCursor++ = winHeight;
-  *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor = 0;
+  next = CstCleanupQueueViewBuffer;
+  CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueViewBuffer->next = next;
+  CstCleanupQueueViewBuffer->x = x1;
+  CstCleanupQueueViewBuffer->y = y1;
+  CstCleanupQueueViewBuffer->person = NULL;
+  CstCleanupQueueViewBuffer->widthinwords = width/16;
+  CstCleanupQueueViewBuffer->height = height;
+  CstCleanupQueueViewBuffer->startxinbytes = x1/8;
+  CstCleanupQueueViewBuffer->starty = 0; 
 
   KPrintF("CstBlankScreen: end\n");
 
