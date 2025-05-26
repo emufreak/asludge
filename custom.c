@@ -615,7 +615,8 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   
   ULONG tmpbuffercursor = (ULONG) tmpbuffer;
   for(int i=0;i<5;i++) //Todo other number of bitplanes
-  {    
+  {   
+    WaitBlit(); 
     custom->bltapt = (APTR) tmpmask;
     custom->bltbpt = (APTR) tmpbuffercursor;
     custom->bltcpt = (APTR)backdropcursor;
@@ -633,13 +634,27 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   FreeVec(tmpbuffer);
   FreeVec(tmpmask);
 
-  CstApplyBackDropCounter = 2;
+  struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+  CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueDrawBuffer->next = next;
+  CstCleanupQueueDrawBuffer->x = 0;
+  CstCleanupQueueDrawBuffer->y = 0;
+  CstCleanupQueueDrawBuffer->person = NULL;
+  CstCleanupQueueDrawBuffer->widthinwords = winWidth/16;
+  CstCleanupQueueDrawBuffer->height = winHeight;
+  CstCleanupQueueDrawBuffer->startxinbytes = 0;
+  CstCleanupQueueDrawBuffer->starty = 0;
 
-  *CstBackDropBufferApplyCursor++ = winWidth/16;
-  *CstBackDropBufferApplyCursor++ = winHeight;
-  *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor = 0;
+  next = CstCleanupQueueViewBuffer;
+  CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueViewBuffer->next = next;
+  CstCleanupQueueViewBuffer->x = 0;
+  CstCleanupQueueViewBuffer->y = 0;
+  CstCleanupQueueViewBuffer->person = NULL;
+  CstCleanupQueueViewBuffer->widthinwords = winWidth/16;
+  CstCleanupQueueViewBuffer->height = winHeight;
+  CstCleanupQueueViewBuffer->startxinbytes = 0;
+  CstCleanupQueueViewBuffer->starty = 0; 
 
   KPrintF("CstLoadBackDrop: Finished");
 
@@ -834,7 +849,8 @@ void CstRestoreScreen()
   while(CstCleanupQueueDrawBuffer)
   {    
 
-    if( CstCleanupQueueDrawBuffer->person && CstCleanupQueueDrawBuffer->person->samePosCount < 3)
+    if( CstCleanupQueueDrawBuffer->person && CstCleanupQueueDrawBuffer->person->samePosCount < 3
+      || CstCleanupQueueDrawBuffer->person == NULL)
     {
       custom->bltamod = winWidth/8-CstCleanupQueueDrawBuffer->widthinwords*2;
       custom->bltdmod = winWidth/8-CstCleanupQueueDrawBuffer->widthinwords*2;
