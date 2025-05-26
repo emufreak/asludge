@@ -35,13 +35,10 @@ UWORD CstBackdropSizePlane;
 UWORD *CstBackDrop;
 UWORD *CstBackDropBackup;
 UWORD *CstCopperList;
-UWORD CstApplyBackDropCounter = 0; //Backdrop needs to be loaded twice. Once for every buffer in separate frames.
 ULONG *CstViewBuffer;
 ULONG *CstDrawBuffer;
 struct CleanupQueue *CstCleanupQueueViewBuffer = NULL;
 struct CleanupQueue *CstCleanupQueueDrawBuffer = NULL;
-UWORD *CstBackDropBufferApplyStart;
-UWORD *CstBackDropBufferApplyCursor;
 UWORD *CstClColor;
 UWORD *CstPalette;
 UWORD *CstClCursor;
@@ -186,56 +183,7 @@ UWORD * CstCreateCopperlist( int width) {
   return (UWORD *) retval;  
 }
 
-void CstDisplayBackDrop() 
-{
-  volatile struct Custom *custom = (struct Custom*)0xdff000;  
 
-  KPrintF("CstDisplayBackDrop: Started");
-
-  UWORD *colorpos = CstPalette;
-  UWORD *tmp = CstClColor;
-  for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
-    *tmp++;
-    *tmp++ = *colorpos++;
-  }
-
-  CstBackDropBufferApplyCursor = CstBackDropBufferApplyStart;
-  UWORD *cursor = CstBackDropBufferApplyStart;
-  if(!*cursor || !CstDrawBuffer) {
-    return;
-  } 
-
-  WaitBlit();
-  
-  custom->bltafwm = 0xffff;
-  custom->bltalwm = 0xffff;  
-  custom->bltcon0 = 0x9f0;
-  
-  while(*cursor)
-  {    
-    UWORD width = *cursor++;
-    UWORD height = *cursor++;
-    UWORD xpos = *cursor++;
-    UWORD ypos = *cursor++;
-
-    custom->bltamod = winWidth/8-width*2;
-    custom->bltdmod = winWidth/8-width*2;
-    ULONG bltapt = ((ULONG) CstBackDrop) + ypos*winWidth/8 + xpos;
-    ULONG bltdpt = ((ULONG) CstDrawBuffer) + ypos*winWidth/8 + xpos;
-    for(int i=0;i<5;i++) //ToDo other numbers of Bitplanes
-    {
-      custom->bltapt = (APTR) bltapt;
-      custom->bltdpt = (APTR) bltdpt;
-      custom->bltsize = (height << 6) + width;
-      bltapt += winWidth/8*winHeight;
-      bltdpt += winWidth/8*winHeight;
-      WaitBlit();
-    }  
-  }
-
-  
-
-}
 
 void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata)
 {
@@ -256,14 +204,6 @@ void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata)
   CstClCursor[1] = hiptr;
   CstClCursor[3] = loptr;
 
-}
-
-void CstDrawBackdrop() {  
-  if(CstApplyBackDropCounter > 0) 
-  {
-    CstDisplayBackDrop();
-    CstApplyBackDropCounter--;
-  }    
 }
 
 __attribute__((optimize("Ofast"))) 
@@ -699,7 +639,6 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
   volatile struct Custom *custom = (struct Custom*)0xdff000;	
   //custom->color[0] = 0x0f0;
   UWORD *destination = 0;
-  CstApplyBackDropCounter = 2;
   destination = (UWORD *) CstBackDrop;      
 
   UWORD extrawords; //When Input is shifted sometimes an extra word has to be written to cover the whole sprite
@@ -917,6 +856,13 @@ void CstRestoreScreen()
     return;
   } 
 
+  UWORD *colorpos = CstPalette;
+  UWORD *tmp = CstClColor;
+  for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
+    *tmp++;
+    *tmp++ = *colorpos++;
+  }
+
   WaitBlit();
   
   custom->bltafwm = 0xffff;
@@ -968,7 +914,6 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
       destination = (UWORD *) CstDrawBuffer;      
       break;
     case BACKDROP:      
-      CstApplyBackDropCounter = 2;
       destination = (UWORD *) CstBackDrop;      
       break;
   }
@@ -1291,16 +1236,6 @@ BOOL CstReserveBackdrop(int width, int height) {
   }
   KPrintF("CstReserveBackdrop: DrawBuffer reserved");
     
-  CstBackDropBufferApplyStart = AllocVec( 1000*5*2,MEMF_ANY);
-  if( !CstBackDropBufferApplyStart)
-  {    
-    KPrintF("CstReserveBackdrop: Cannot allocate memory for CstBackDropBufferApplyStart");
-    return FALSE;  
-  }
-  CstBackDropBufferApplyCursor = CstBackDropBufferApplyStart;
-  *CstBackDropBufferApplyStart = 0;
-
-  *CstBackDropBufferApplyStart = 0;
   CstViewBuffer = AllocVec(CstBackdropSize+width*2,MEMF_CHIP); //Some extra size for bob routine border area
   if( !CstViewBuffer)
   {    
