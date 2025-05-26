@@ -526,13 +526,27 @@ void CstFreeze( ) {
     *dst++ = *src++;
   }
 
-  CstApplyBackDropCounter = 2;
+  struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+  CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueDrawBuffer->next = next;
+  CstCleanupQueueDrawBuffer->x = 0;
+  CstCleanupQueueDrawBuffer->y = 0;
+  CstCleanupQueueDrawBuffer->person = NULL;
+  CstCleanupQueueDrawBuffer->widthinwords = winWidth/16;
+  CstCleanupQueueDrawBuffer->height = winHeight;
+  CstCleanupQueueDrawBuffer->startxinbytes = 0;
+  CstCleanupQueueDrawBuffer->starty = 0;
 
-  *CstBackDropBufferApplyCursor++ = winWidth/16;
-  *CstBackDropBufferApplyCursor++ = winHeight;
-  *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor = 0;
+  next = CstCleanupQueueViewBuffer;
+  CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueViewBuffer->next = next;
+  CstCleanupQueueViewBuffer->x = 0;
+  CstCleanupQueueViewBuffer->y = 0;
+  CstCleanupQueueViewBuffer->person = NULL;
+  CstCleanupQueueViewBuffer->widthinwords = winWidth/16;
+  CstCleanupQueueViewBuffer->height = winHeight;
+  CstCleanupQueueViewBuffer->startxinbytes = 0;
+  CstCleanupQueueViewBuffer->starty = 0; 
 
   KPrintF("CstFreeze: Finished");
 
@@ -745,12 +759,27 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
     bltcon0 = ((16-cutmaskpixel) << 12);
 
-    *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource+extrawords;
-    *CstBackDropBufferApplyCursor++ = blitheight;
-    *CstBackDropBufferApplyCursor++ = 0;
-    *CstBackDropBufferApplyCursor++ = ystartdst;
-    *CstBackDropBufferApplyCursor = 0;
+    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueDrawBuffer->next = next;
+    CstCleanupQueueDrawBuffer->x = 0;
+    CstCleanupQueueDrawBuffer->y = 0;
+    CstCleanupQueueDrawBuffer->person = NULL;
+    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
+    CstCleanupQueueDrawBuffer->height = blitheight;
+    CstCleanupQueueDrawBuffer->startxinbytes = 0;
+    CstCleanupQueueDrawBuffer->starty = ystartdst;
 
+    next = CstCleanupQueueViewBuffer;
+    CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueViewBuffer->next = next;
+    CstCleanupQueueViewBuffer->x = 0;
+    CstCleanupQueueViewBuffer->y = 0;
+    CstCleanupQueueViewBuffer->person = NULL;
+    CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
+    CstCleanupQueueViewBuffer->height = blitheight;
+    CstCleanupQueueViewBuffer->startxinbytes = 0;
+    CstCleanupQueueViewBuffer->starty = ystartdst; 
   } else if(x + single->width > (int) winWidth) { //Rightmost part outside screen   
 
     if(x - single->width > (int) winWidth)
@@ -767,12 +796,27 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltcon0 = ((single->width%16) << 12);    
     
-    *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource;
-    *CstBackDropBufferApplyCursor++ = blitheight;
-    *CstBackDropBufferApplyCursor++ = (x/16)*2;
-    *CstBackDropBufferApplyCursor++ = ystartdst;
-    *CstBackDropBufferApplyCursor = 0;
-    
+    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueDrawBuffer->next = next;
+    CstCleanupQueueDrawBuffer->x = x;
+    CstCleanupQueueDrawBuffer->y = ystartdst;
+    CstCleanupQueueDrawBuffer->person = NULL;
+    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource;
+    CstCleanupQueueDrawBuffer->height = blitheight;
+    CstCleanupQueueDrawBuffer->startxinbytes = (x/16)*2;
+    CstCleanupQueueDrawBuffer->starty = ystartdst;
+
+    next = CstCleanupQueueViewBuffer;
+    CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueViewBuffer->next = next;
+    CstCleanupQueueViewBuffer->x = x;
+    CstCleanupQueueViewBuffer->y = ystartdst;
+    CstCleanupQueueViewBuffer->person = NULL;
+    CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource;
+    CstCleanupQueueViewBuffer->height = blitheight;
+    CstCleanupQueueViewBuffer->startxinbytes = (x/16)*2;
+    CstCleanupQueueViewBuffer->starty = ystartdst;     
   } else { //Whole Sprite on Screen
 
     extrawords = 1;
@@ -784,11 +828,27 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltcon0 = ((x%16) << 12);
 
-    *CstBackDropBufferApplyCursor++ = single->width/16+cutwordssource+extrawords;
-    *CstBackDropBufferApplyCursor++ = blitheight;
-    *CstBackDropBufferApplyCursor++ = (x/16)*2;
-    *CstBackDropBufferApplyCursor++ = ystartdst;
-    *CstBackDropBufferApplyCursor = 0;
+    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueDrawBuffer->next = next;
+    CstCleanupQueueDrawBuffer->x = x;
+    CstCleanupQueueDrawBuffer->y = ystartdst;
+    CstCleanupQueueDrawBuffer->person = NULL;
+    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
+    CstCleanupQueueDrawBuffer->height = blitheight;
+    CstCleanupQueueDrawBuffer->startxinbytes = (x/16)*2;
+    CstCleanupQueueDrawBuffer->starty = ystartdst;
+
+    next = CstCleanupQueueViewBuffer;
+    CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueViewBuffer->next = next;
+    CstCleanupQueueViewBuffer->x = x;
+    CstCleanupQueueViewBuffer->y = ystartdst;
+    CstCleanupQueueViewBuffer->person = NULL;
+    CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
+    CstCleanupQueueViewBuffer->height = blitheight;
+    CstCleanupQueueViewBuffer->startxinbytes = (x/16)*2;
+    CstCleanupQueueViewBuffer->starty = ystartdst;    
     
   }
 
