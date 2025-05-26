@@ -1355,13 +1355,26 @@ void CstUnfreeze() {
     *dst++ = *src++;
   }
 
-  CstApplyBackDropCounter = 2;
-
-  *CstBackDropBufferApplyCursor++ = winWidth/16;
-  *CstBackDropBufferApplyCursor++ = winHeight;
-  *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor++ = 0;
-  *CstBackDropBufferApplyCursor = 0;
+  struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+  CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueDrawBuffer->next = next;
+  CstCleanupQueueDrawBuffer->x = 0;
+  CstCleanupQueueDrawBuffer->y = 0;
+  CstCleanupQueueDrawBuffer->person = NULL;
+  CstCleanupQueueDrawBuffer->widthinwords = winWidth/16;
+  CstCleanupQueueDrawBuffer->height = winHeight;
+  CstCleanupQueueDrawBuffer->startxinbytes = 0;
+  CstCleanupQueueDrawBuffer->starty = 0;
+  next = CstCleanupQueueViewBuffer;
+  CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueViewBuffer->next = next;
+  CstCleanupQueueViewBuffer->x = 0;
+  CstCleanupQueueViewBuffer->y = 0;
+  CstCleanupQueueViewBuffer->person = NULL;
+  CstCleanupQueueViewBuffer->widthinwords = winWidth/16;
+  CstCleanupQueueViewBuffer->height = winHeight;
+  CstCleanupQueueViewBuffer->startxinbytes = 0;
+  CstCleanupQueueViewBuffer->starty = 0;  
   
   if( CstBackDropBackup) {
     KPrintF("CstUnfreeze: Free CstBackdropBackup");
