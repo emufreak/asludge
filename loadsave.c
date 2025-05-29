@@ -93,13 +93,8 @@ struct loadedFunction * loadFunction (BPTR fp) {
 
 	// Reserve memory...
 
-	struct loadedFunction * buildFunc = AllocVec( sizeof( struct loadedFunction),MEMF_ANY);	
-	if (! buildFunc) {
-		KPrintF("loadFunction: Cannot allocate memory");
-		return NULL;
-	} 
-
-	// See what it was called by and load if we need to...
+	unsigned int originalNumber = get2bytes (fp);	
+	struct loadedFunction *buildFunc = loadFunctionCode (originalNumber);
 
 	buildFunc -> originalNumber = get2bytes (fp);
 	buildFunc -> calledBy = NULL;
@@ -115,7 +110,6 @@ struct loadedFunction * loadFunction (BPTR fp) {
 	buildFunc -> returnSomething = FGetC (fp);
 	buildFunc -> isSpeech = FGetC (fp);
 	loadVariable (&buildFunc -> reg, fp);
-	loadFunctionCode (buildFunc);
 
 	buildFunc -> stack = loadStack (fp, NULL);
 

@@ -735,11 +735,19 @@ void killSpeechTimers () {
 	killAllSpeech ();
 }
 
-BOOL loadFunctionCode (struct loadedFunction * newFunc) {
+struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 	unsigned int numLines, numLinesRead;
 	int a;
 
-	if (! openSubSlice (newFunc -> originalNumber)) return FALSE;
+	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
+	if(!newFunc) {
+		KPrintF("startNewFunction: Cannot allocate memory");
+		return 0;
+	}
+
+	newFunc -> originalNumber = originalNumber;
+
+	if (! openSubSlice (originalNumber)) return FALSE;
 	
 
 	newFunc-> unfreezable	= FGetC (bigDataFile);
@@ -774,7 +782,8 @@ BOOL loadFunctionCode (struct loadedFunction * newFunc) {
 	{
 		newFunc->numLocals = NULL;
 	}
-	return TRUE;
+	return newFunc;
+
 }
 
 void loadHandlers (BPTR fp) {
@@ -841,19 +850,9 @@ void pauseFunction (struct loadedFunction * fun) {
 	}
 }
 
-struct loadedFunction *preloadNewFunctionNum (unsigned int funcNum) {
-	
-	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
-	if(!newFunc) {
-		KPrintF("startNewFunction: Cannot allocate memory");
-		return 0;
-	}
+struct loadedFunction *preloadNewFunctionNum (unsigned int funcNum) {		
 
-	newFunc -> originalNumber = funcNum;
-
-	loadFunctionCode (newFunc);	
-
-	return newFunc;
+	return loadFunctionCode (funcNum);	
 }
 
 void restartFunction (struct loadedFunction * fun) {
@@ -975,18 +974,7 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, s
 	volatile struct Custom *custom = (struct Custom*)0xdff000;
 	//custom->color[0] = 0x00f;	
 
-	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
-	if(!newFunc) {
-		KPrintF("startNewFunction: Cannot allocate memory");
-		return 0;
-	}
-	if(funcNum == 145) {
-		KPrintF("startNewFunction: funcNum 145");
-	}
-
-	newFunc -> originalNumber = funcNum;
-
-	loadFunctionCode (newFunc);	
+	struct loadedFunction *newFunc = loadFunctionCode (funcNum);	
 	//custom->color[0] = 0x000;	
 	return startNewFunctionLoaded (newFunc, numParamsExpected, calledBy, vStack, returnSommet);
 }

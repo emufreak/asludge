@@ -10,6 +10,12 @@ typedef struct _FILETIME {
 	ULONG dwHighDateTime;
 } FILETIME;
 
+struct cachedFunction {
+	unsigned int				funcNum;
+	struct loadedFunction *		theFunction;
+	struct cachedFunction *		next;
+};
+
 struct eventHandlers {
 	int leftMouseFunction;
 	int leftMouseUpFunction;
@@ -53,7 +59,7 @@ void freezeSubs ();
 void finishFunction (struct loadedFunction * fun);
 BOOL handleInput ();
 void killSpeechTimers ();
-BOOL loadFunctionCode (struct loadedFunction * newFunc);
+struct loadedFunction *loadFunctionCode (unsigned int originalNumber);
 void loadHandlers (BPTR fp);
 BPTR openAndVerify (char * filename, char extra1, char extra2, const char * er, int *fileVersion);
 void restartFunction (struct loadedFunction * fun);
