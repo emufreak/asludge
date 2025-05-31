@@ -109,6 +109,7 @@ struct loadedFunction * loadFunction (BPTR fp) {
 	buildFunc -> cancelMe = FGetC (fp);
 	buildFunc -> returnSomething = FGetC (fp);
 	buildFunc -> isSpeech = FGetC (fp);
+	buildFunc -> unloaded = 0;
 	loadVariable (&buildFunc -> reg, fp);
 
 	buildFunc -> stack = loadStack (fp, NULL);

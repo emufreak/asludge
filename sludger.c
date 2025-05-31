@@ -20,6 +20,8 @@
 #include "variable.h"
 #include "version.h"
 
+#define CACHEFUNCTIONMAX 10
+
 extern int desiredfps;
 extern int dialogValue;
 extern struct screenRegion * overRegion;
@@ -28,6 +30,8 @@ extern struct personaAnimation * mouseCursorAnim;
 struct eventHandlers mainHandlers;
 
 char * * allBIFNames = NULL;
+struct cachedFunction *allCachedFunctions = NULL;
+struct cachedFunction *lastCachedFunction = NULL;
 char * * allResourceNames = NULL;
 unsigned char brightnessLevel = 255;
 struct loadedFunction * allRunningFunctions = NULL;
@@ -45,6 +49,7 @@ struct screenRegion * lastRegion = NULL;
 char * loadNow = NULL;
 struct variableStack ** noStack = NULL;
 int numBIFNames = 0;
+int numCachedFunctions = 0;
 int numGlobals;
 int numResourceNames = 0;
 int numUserFunc = 0;
@@ -58,16 +63,16 @@ void abortFunction (struct loadedFunction * fun) {
 
 	pauseFunction (fun);
 	while (fun -> stack) trimStack (&fun -> stack);
-	FreeVec( fun -> compiledLines);
+	//FreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	if( fun -> numLocals > 0) {
 		FreeVec(fun -> localVars);
 	}
 
 	unlinkVar (&fun -> reg);
-	if (fun -> calledBy) abortFunction (fun -> calledBy);
-	FreeVec(fun);
-	fun = NULL;
+	if (fun -> calledBy) abortFunction (fun -> calledBy);	
+	fun->unloaded = 1;
+
 	KPrintF("abortFunction finished\n");
 }
 
@@ -740,6 +745,7 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 	int a;
 
 	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
+	newFunc -> unloaded = 0;
 	if(!newFunc) {
 		KPrintF("startNewFunction: Cannot allocate memory");
 		return 0;
@@ -753,7 +759,8 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 	newFunc-> unfreezable	= FGetC (bigDataFile);
 	numLines				= get2bytes (bigDataFile);
 	newFunc -> numArgs		= get2bytes (bigDataFile);
-	newFunc -> numLocals	= get2bytes (bigDataFile);
+	newFunc -> numLocals	= get2bytes (bigDataFile);	
+
 	newFunc -> compiledLines = AllocVec( sizeof(struct lineOfCode) * numLines,MEMF_ANY);
 	if (! newFunc -> compiledLines) {
 		KPrintF("loadFunctionCode: cannot allocate memory");
@@ -782,6 +789,57 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 	{
 		newFunc->numLocals = NULL;
 	}
+
+	struct cachedFunction  *next = allCachedFunctions;
+	allCachedFunctions = AllocVec(sizeof(struct cachedFunction),MEMF_ANY);
+	allCachedFunctions -> prev = NULL;
+	if (! allCachedFunctions) {
+		KPrintF("loadFunctionCode: cannot allocate memory for cached function");
+		return NULL;
+	}
+	if( !next) {
+		lastCachedFunction = allCachedFunctions;
+	} 	
+
+	if(next) next->prev = allCachedFunctions;
+	
+	allCachedFunctions->next = next;
+	allCachedFunctions->theFunction = newFunc;
+	allCachedFunctions->funcNum = originalNumber;
+
+	if( numCachedFunctions >= CACHEFUNCTIONMAX) 
+	{
+		struct cachedFunction *huntanddestroy = lastCachedFunction;
+		while (huntanddestroy) 
+		{
+			if (huntanddestroy->theFunction->unloaded == 1) 
+			{
+				huntanddestroy->prev->next = huntanddestroy->next;				
+				if (huntanddestroy == lastCachedFunction) {
+					lastCachedFunction = huntanddestroy->prev;
+				}
+				else
+				{
+					huntanddestroy->next->prev = huntanddestroy->prev;
+				}
+				break;
+			}
+			
+			huntanddestroy = huntanddestroy->prev;
+		}		
+
+		if( huntanddestroy)
+		{
+			FreeVec(huntanddestroy->theFunction->compiledLines);
+			FreeVec(huntanddestroy->theFunction);
+			FreeVec(huntanddestroy);
+		} else 
+		{
+			KPrintF("loadFunctionCode: Function is still in use\n");
+		}
+	}				
+	else numCachedFunctions++;
+	
 	return newFunc;
 
 }
@@ -857,6 +915,7 @@ struct loadedFunction *preloadNewFunctionNum (unsigned int funcNum) {
 
 void restartFunction (struct loadedFunction * fun) {
 	fun -> next = allRunningFunctions;
+	fun -> unloaded = 0;
 	allRunningFunctions = fun;
 }
 
@@ -993,12 +1052,14 @@ void unloadFunction (struct loadedFunction * fun) {
 		KPrintF("unloadfunction: error non empty stack");
 		return;
 	}
-	FreeVec( fun -> compiledLines);
+	
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	if( fun->numLocals > 0) {
 		FreeVec(fun -> localVars);
 	}
 	unlinkVar (&fun -> reg);
+	fun->unloaded = 1;
+
 }
 
 void unfreezeSubs () {

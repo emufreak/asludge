@@ -14,6 +14,7 @@ struct cachedFunction {
 	unsigned int				funcNum;
 	struct loadedFunction *		theFunction;
 	struct cachedFunction *		next;
+	struct cachedFunction *		prev;
 };
 
 struct eventHandlers {
@@ -43,6 +44,7 @@ struct loadedFunction {
 	struct loadedFunction *		next;
 	BOOL						returnSomething, isSpeech, unfreezable, cancelMe;
 	unsigned char				freezerLevel;
+	unsigned int				unloaded;
 };
 
 struct inputType {
