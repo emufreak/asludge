@@ -10,6 +10,7 @@ struct zBufferData {
 	struct zBufferData *nextPanel;
 };
 
+void addZBufferLayer (int x, int y, int width, int height, int yz);
 void killZBuffer();
 BOOL setZBuffer (unsigned int y);
 void sortZPal (int *oldpal, int *newpal, int size);

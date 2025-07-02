@@ -1,5 +1,6 @@
 #include "zbuffer.h"
 #include "backdrop.h"
+#include "custom.h"
 #include "fileset.h"
 #include "graphics.h"
 #include "moreio.h"
@@ -10,12 +11,31 @@
 
 struct zBufferData *zBuffer;
 
+void addZBufferLayer (int x, int y, int width, int height, int yz) {
+
+	struct zBufferData *createthis = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
+	createthis->width = sceneWidth;
+	createthis->height = sceneHeight;
+	createthis->topx = 0;
+	createthis->topy = 0;
+	createthis->yz = yz;
+	createthis->nextPanel = zBuffer;
+
+	zBuffer = createthis;
+
+	UWORD size = sceneWidth * sceneHeight / 8;	
+	createthis->bitplane = AllocVec( size, MEMF_CHIP);
+	CstCreateZBufferLayer (createthis->bitplane, x, y, width, height);
+
+}
+
 void killZBuffer () {
 	struct zBufferData *zbuffercursor =  zBuffer;
 
 	while(zbuffercursor) {
 		struct zBufferData *deleteme = zbuffercursor;
 		zbuffercursor = zbuffercursor->nextPanel;
+		FreeVec(deleteme->bitplane);
 		FreeVec(deleteme);
 	}
 	zBuffer = NULL;

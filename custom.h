@@ -20,6 +20,7 @@ struct CleanupQueue
 
 void CstBlankScreen( int x1, int y1, int x2, int y2);
 UWORD * CstCreateCopperlist( int width);
+void CstCreateZBufferLayer (BYTE *zbufferdata, UWORD x, UWORD y, UWORD width, UWORD height);
 void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata);
 void CstDrawBackdrop();
 void CstFreeBuffer();

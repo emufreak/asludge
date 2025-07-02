@@ -183,7 +183,43 @@ UWORD * CstCreateCopperlist( int width) {
   return (UWORD *) retval;  
 }
 
+void CstCreateZBufferLayer (BYTE *zbufferdata, UWORD x, UWORD y, UWORD width, UWORD height)
+{
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
 
+  #ifdef EMULATOR
+    debug_register_bitmap(zbufferdata, "extrazbufferlayer", 320, 250, 1, 0);
+  #endif    
+
+  WaitBlit();
+  custom->bltafwm = 0xffff;
+  custom->bltalwm = 0xffff;
+  custom->bltdmod = 0;  
+  custom->bltcon0 =  0x1f0;
+  custom->bltcon1 = 0x0;
+  custom->bltdpt = zbufferdata;
+  custom->bltadat = 0;
+  custom->bltsize = 256 * 64 + 20;
+
+  WaitBlit();
+  UWORD bltxoffset = (x / 16)*2;
+  UWORD bltshift = x % 16;
+  UWORD bltafwm = 0xffff >> bltshift;
+  UWORD bltalwm = ~bltafwm; 
+
+  UWORD bltwidth = width / 16;
+  if(bltalwm != 0) bltwidth += 1; 
+
+  custom->bltafwm = bltafwm;
+  custom->bltalwm = bltalwm;
+  custom->bltdmod = 40 - bltwidth*2;  
+  custom->bltcon0 =  0x1f0;
+  custom->bltcon1 = 0x0;
+  custom->bltdpt = zbufferdata + (y * 40) + bltxoffset;
+  custom->bltadat = 0xffff;;
+  custom->bltsize = height * 64 + bltwidth;
+
+}
 
 void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata)
 {
@@ -240,8 +276,6 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
     //Sprite will be drawn behind the zBuffer. We need to do something
     if(spritey2oncanvas < zbuffer->yz) 
     {    
-      zbufferset = 1;
-
       //sprite ------------x1+++++++++++++++++++x2-----------------*/
       /*zbuffer-------------------x1++++++++++?????????------------*/      
       if(spritex1oncanvas <= zbufferx1oncanvas && spritex2oncanvas > zbufferx1oncanvas)
@@ -266,8 +300,6 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
       {      
 
         ULONG bltapt;
-
-
         UWORD xdiff;
         UWORD xdiffbyte;          
         UWORD xdiffrest;
@@ -386,10 +418,16 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
         custom->bltcon1 = 0;        
 
         custom->bltapt = (APTR) CstZBufferWork + 2;
-        custom->bltbpt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
+
+        if (zbufferset == 0) {
+          custom->bltbpt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
+        }
+        else {
+          custom->bltbpt = (APTR) CstZBufferResult;
+        }
         custom->bltdpt = (APTR) CstZBufferResult;
         custom->bltsize = (sprite->height<<6)+sprite->width/16;  
-
+        zbufferset = 1;
       }
     }
     zbuffer = zbuffer->nextPanel;

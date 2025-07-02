@@ -5,17 +5,21 @@
 #include "csludge.h"
 #include "variable.h"
 
+//#define DISABLEFUNCTIONCACHE
+
 typedef struct _FILETIME {
 	ULONG dwLowDateTime;
 	ULONG dwHighDateTime;
 } FILETIME;
 
+#ifndef DISABLEFUNCTIONCACHE
 struct cachedFunction {
 	unsigned int				funcNum;
 	struct loadedFunction *		theFunction;
 	struct cachedFunction *		next;
 	struct cachedFunction *		prev;
 };
+#endif
 
 struct eventHandlers {
 	int leftMouseFunction;

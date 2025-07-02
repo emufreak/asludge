@@ -30,8 +30,11 @@ extern struct personaAnimation * mouseCursorAnim;
 struct eventHandlers mainHandlers;
 
 char * * allBIFNames = NULL;
+#ifndef DISABLEFUNCTIONCACHE
 struct cachedFunction *allCachedFunctions = NULL;
 struct cachedFunction *lastCachedFunction = NULL;
+int numCachedFunctions = 0;
+#endif
 char * * allResourceNames = NULL;
 unsigned char brightnessLevel = 255;
 struct loadedFunction * allRunningFunctions = NULL;
@@ -49,7 +52,6 @@ struct screenRegion * lastRegion = NULL;
 char * loadNow = NULL;
 struct variableStack ** noStack = NULL;
 int numBIFNames = 0;
-int numCachedFunctions = 0;
 int numGlobals;
 int numResourceNames = 0;
 int numUserFunc = 0;
@@ -128,8 +130,10 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			if (fun -> calledBy) {
 				struct loadedFunction * returnTo = fun -> calledBy;
 				if (fun -> returnSomething) copyVariable (&fun -> reg, &returnTo -> reg);
+				int tmptimeleft = fun -> timeLeft;
 				finishFunction (fun);
 				fun = returnTo;
+				fun -> timeLeft += tmptimeleft;
 				restartFunction (fun);
 			} else {
 				finishFunction (fun);
@@ -523,7 +527,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 }
 
 void finishFunction (struct loadedFunction * fun) {
-	KPrintF("finishFunction %d started\n", &fun->originalNumber);
+	//KPrintF("finishFunction started\n");
 
 	pauseFunction (fun);
 
@@ -531,6 +535,7 @@ void finishFunction (struct loadedFunction * fun) {
 	if( fun != currentEvents -> focusFunction) {	
 		unloadFunction (fun);
 	}	
+	//KPrintF("finishFunction finished\n");
 }
 
 void freezeSubs () {
@@ -580,8 +585,12 @@ BOOL handleInput () {
 	if (input.rightRelease && currentEvents -> rightMouseUpFunction) {
 		if (! startNewFunctionNum (currentEvents -> rightMouseUpFunction, 0, NULL, noStack, TRUE)) return FALSE;
 	}
-	if (input.leftClick && currentEvents -> leftMouseFunction)
+	if (input.leftClick && currentEvents -> leftMouseFunction) {
+		int test[1];
+		test[0] = currentEvents -> leftMouseFunction;
+		KPrintF("handleinput: Onleftmousefunction: %ld will be run\n", test[0]);
 		if (! startNewFunctionNum (currentEvents -> leftMouseFunction, 0, NULL, noStack, TRUE)) return FALSE;
+	}		
 	if (input.rightClick && currentEvents -> rightMouseFunction) {
 		if (! startNewFunctionNum (currentEvents -> rightMouseFunction, 0, NULL, noStack, TRUE)) return FALSE;
 	}
@@ -742,38 +751,80 @@ void killSpeechTimers () {
 
 struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 	unsigned int numLines, numLinesRead;
+	struct loadedFunction * newFunc = NULL;
 	int a;
 
-	struct loadedFunction * newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
-	newFunc -> unloaded = 0;
-	if(!newFunc) {
-		KPrintF("startNewFunction: Cannot allocate memory");
-		return 0;
-	}
+#ifndef DISABLEFUNCTIONCACHE
+	struct cachedFunction * current = allCachedFunctions;
+	while( current) {
+		if (current->theFunction->originalNumber == originalNumber)
+		{
+			if( current->theFunction->unloaded == 1)
+			{ 
+				newFunc = current->theFunction;	
+				KPrintF("loadFunctionCode: Found in Cache\n");
+				break;
+			}									
+		}
+		current = current->next;
+	}			
 
-	newFunc -> originalNumber = originalNumber;
-
-	if (! openSubSlice (originalNumber)) return FALSE;
+	if( !newFunc)
+	{		
+		KPrintF("loadFunctionCode: Function not in cache. Loading new function\n");
+		numCachedFunctions++;
+#endif		
+		newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
 	
+		if(!newFunc) {
+			KPrintF("loadFunctionCode: Cannot allocate memory");
+			return 0;
+		}
 
-	newFunc-> unfreezable	= FGetC (bigDataFile);
-	numLines				= get2bytes (bigDataFile);
-	newFunc -> numArgs		= get2bytes (bigDataFile);
-	newFunc -> numLocals	= get2bytes (bigDataFile);	
+		newFunc -> originalNumber = originalNumber;
 
-	newFunc -> compiledLines = AllocVec( sizeof(struct lineOfCode) * numLines,MEMF_ANY);
-	if (! newFunc -> compiledLines) {
-		KPrintF("loadFunctionCode: cannot allocate memory");
-		return FALSE;
-	}
+		if (! openSubSlice (originalNumber)) return FALSE;
+		
 
-	for (numLinesRead = 0; numLinesRead < numLines; numLinesRead ++) {
-		newFunc -> compiledLines[numLinesRead].theCommand = (enum sludgeCommand) FGetC(bigDataFile);
-		newFunc -> compiledLines[numLinesRead].param = get2bytes (bigDataFile);
-	}
+		newFunc-> unfreezable	= FGetC (bigDataFile);
+		numLines				= get2bytes (bigDataFile);
+		newFunc -> numArgs		= get2bytes (bigDataFile);
+		newFunc -> numLocals	= get2bytes (bigDataFile);	
 
-	finishAccess ();
+		newFunc -> compiledLines = AllocVec( sizeof(struct lineOfCode) * numLines,MEMF_ANY);
+		if (! newFunc -> compiledLines) {
+			KPrintF("loadFunctionCode: cannot allocate memory");
+			return FALSE;
+		}
+		
+		for (numLinesRead = 0; numLinesRead < numLines; numLinesRead ++) {
+			newFunc -> compiledLines[numLinesRead].theCommand = (enum sludgeCommand) FGetC(bigDataFile);
+			newFunc -> compiledLines[numLinesRead].param = get2bytes (bigDataFile);
+		}
+		finishAccess ();
 
+#ifndef DISABLEFUNCTIONCACHE		
+		struct cachedFunction  *next = allCachedFunctions;
+		allCachedFunctions = AllocVec(sizeof(struct cachedFunction),MEMF_ANY);
+		allCachedFunctions -> prev = NULL;
+		if (! allCachedFunctions) {
+			KPrintF("loadFunctionCode: cannot allocate memory for cached function");
+			return NULL;
+		}
+		if( !next) {
+			lastCachedFunction = allCachedFunctions;
+		} 	
+
+		if(next) next->prev = allCachedFunctions;
+		
+		allCachedFunctions->next = next;
+		allCachedFunctions->theFunction = newFunc;
+		allCachedFunctions->funcNum = originalNumber;
+
+	}	
+
+	newFunc -> unloaded = 0;	
+#endif
 	// Now we need to reserve memory for the local variables
 	if(newFunc->numLocals > 0) {
 		newFunc -> localVars = AllocVec( sizeof(struct variable) * newFunc->numLocals,MEMF_ANY);
@@ -788,25 +839,9 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 	} else
 	{
 		newFunc->numLocals = NULL;
-	}
+	}	
 
-	struct cachedFunction  *next = allCachedFunctions;
-	allCachedFunctions = AllocVec(sizeof(struct cachedFunction),MEMF_ANY);
-	allCachedFunctions -> prev = NULL;
-	if (! allCachedFunctions) {
-		KPrintF("loadFunctionCode: cannot allocate memory for cached function");
-		return NULL;
-	}
-	if( !next) {
-		lastCachedFunction = allCachedFunctions;
-	} 	
-
-	if(next) next->prev = allCachedFunctions;
-	
-	allCachedFunctions->next = next;
-	allCachedFunctions->theFunction = newFunc;
-	allCachedFunctions->funcNum = originalNumber;
-
+#ifndef DISABLEFUNCTIONCACHE
 	if( numCachedFunctions >= CACHEFUNCTIONMAX) 
 	{
 		struct cachedFunction *huntanddestroy = lastCachedFunction;
@@ -814,14 +849,30 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 		{
 			if (huntanddestroy->theFunction->unloaded == 1) 
 			{
-				huntanddestroy->prev->next = huntanddestroy->next;				
+				if( huntanddestroy->prev)
+					huntanddestroy->prev->next = huntanddestroy->next;							
+				else
+				{
+					allCachedFunctions = huntanddestroy->next;
+					if( allCachedFunctions)
+						allCachedFunctions->prev = NULL;
+				}
+
 				if (huntanddestroy == lastCachedFunction) {
-					lastCachedFunction = huntanddestroy->prev;
+					if( huntanddestroy->prev)
+						lastCachedFunction = huntanddestroy->prev;
+					else
+					{
+						lastCachedFunction = NULL;
+						KPrintF("loadFunctionCode: Last cached function is NULL\n");
+					}
 				}
 				else
 				{
-					huntanddestroy->next->prev = huntanddestroy->prev;
-				}
+					if( huntanddestroy->next)
+						huntanddestroy->next->prev = huntanddestroy->prev;																
+				}				
+
 				break;
 			}
 			
@@ -830,6 +881,7 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 
 		if( huntanddestroy)
 		{
+			numCachedFunctions--;
 			FreeVec(huntanddestroy->theFunction->compiledLines);
 			FreeVec(huntanddestroy->theFunction);
 			FreeVec(huntanddestroy);
@@ -837,8 +889,8 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 		{
 			KPrintF("loadFunctionCode: Function is still in use\n");
 		}
-	}				
-	else numCachedFunctions++;
+	}	
+#endif					
 	
 	return newFunc;
 
@@ -900,6 +952,9 @@ void pauseFunction (struct loadedFunction * fun) {
 	struct loadedFunction * * huntAndDestroy = & allRunningFunctions;
 	while (* huntAndDestroy) {
 		if (fun == * huntAndDestroy) {
+			int test[1];
+			test[0] = fun -> originalNumber;
+			KPrintF("Function %ld removed from running functions\n", test[0]);
 			(* huntAndDestroy) = (* huntAndDestroy) -> next;
 			fun->next = NULL;
 		} else {
@@ -914,6 +969,12 @@ struct loadedFunction *preloadNewFunctionNum (unsigned int funcNum) {
 }
 
 void restartFunction (struct loadedFunction * fun) {
+
+	int test[1];
+	test[0] = fun -> originalNumber;
+
+	KPrintF("Function %ld restarted\n", test[0]);
+
 	fun -> next = allRunningFunctions;
 	fun -> unloaded = 0;
 	allRunningFunctions = fun;
@@ -931,8 +992,10 @@ BOOL runSludge () {
 			if (thisFunction -> timeLeft) {
 				if (thisFunction -> timeLeft < 0) {				
 					thisFunction -> timeLeft = 0;
-				} else if (
-					! -- (thisFunction -> timeLeft)) {
+				} 
+				else {
+					thisFunction -> timeLeft--;
+					break;
 				}
 			} else {
 				if (thisFunction -> isSpeech) {
