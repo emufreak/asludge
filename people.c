@@ -43,7 +43,8 @@ int TF_abs (int a) {
 
 
 BOOL addPerson(int x, int y, int objNum, struct persona *p) {
-    struct onScreenPerson *newPerson = AllocVec(sizeof(struct onScreenPerson), MEMF_ANY);
+	
+	struct onScreenPerson *newPerson = AllocVec(sizeof(struct onScreenPerson), MEMF_ANY);
     if (!newPerson) return FALSE;
 
     // EASY STUFF

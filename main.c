@@ -80,6 +80,8 @@ void TakeSystem() {
 	SystemDMA=custom->dmaconr;
 	ActiView=GfxBase->ActiView; //store current view
 
+	custom->intena=0x7fff;
+	custom->intena=0x8018;
 	KPrintF("TakeSystem: LoadView\n");
 	LoadView(0);
 	KPrintF("TakeSystem: WaitTof\n");
@@ -275,6 +277,7 @@ int main(int argc, char *argv[]) {
 		KPrintF("p61Init failed!\n");
 #endif
 	warpmode(0);*/
+
 
 	KPrintF("Taking System\n");
 	TakeSystem();

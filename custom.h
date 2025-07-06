@@ -33,3 +33,5 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
 void CstSetCl(UWORD *copperlist);
 void CstSwapBuffer();
 void CstUnfreeze();
+void CstInitVBlankHandler();
+void CstVBlankHandler();

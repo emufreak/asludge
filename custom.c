@@ -13,11 +13,13 @@
 #define CSTMAXHEIGHTSPRITE 200
 #define EMULATOR
 
+#include <exec/execbase.h>
 #include <exec/types.h>
 #include <proto/dos.h>
 #include <proto/exec.h>
 #include <proto/graphics.h>
 #include <hardware/custom.h>
+#include <hardware/intbits.h>
 
 #include "custom.h"
 #include "moreio.h"
@@ -29,6 +31,7 @@ extern struct zBufferData *zBuffer;
 extern unsigned int winWidth, winHeight;
 
 UWORD textPaletteIndex = 0;
+struct Interrupt *CstVbint;
 UWORD CstPaletteLoaded = 0;
 UWORD CstBackdropSize;
 UWORD CstBackdropSizePlane;
@@ -40,10 +43,12 @@ ULONG *CstDrawBuffer;
 struct CleanupQueue *CstCleanupQueueViewBuffer = NULL;
 struct CleanupQueue *CstCleanupQueueDrawBuffer = NULL;
 UWORD *CstClColor;
+UWORD CstFrameCounter = 0;
 UWORD *CstPalette;
 UWORD *CstClCursor;
 UBYTE *CstZBufferResult;
 UBYTE *CstZBufferWork;
+
 
 ULONG CstClSprites[] = { 0x001200000, 0x001220000,0x001240000,0x001260000, 0x001280000,                          
         0x0012a0000, 0x0012c0000, 0x0012e0000, 0x001300000, 0x001320000, 0x001340000,
@@ -178,6 +183,10 @@ UWORD * CstCreateCopperlist( int width) {
     *cw++ = 0x10a;
     *cw++ = tmp;     
   }
+
+  *cl++ = 0xffdffffe;
+  *cl++ = 0x2d01ff00;
+  *cl++ = 0x9c8010;
 
   *cl++ = 0xfffffffe;
   return (UWORD *) retval;  
@@ -532,6 +541,20 @@ void CstFreeze( ) {
   KPrintF("CstFreeze: Finished");
 
 }  
+
+void CstInitVBlankHandler( ) {
+  if ((CstVbint = AllocMem(sizeof(struct Interrupt),    
+                         MEMF_PUBLIC|MEMF_CLEAR))) {
+    CstVbint->is_Node.ln_Type = NT_INTERRUPT;       
+    CstVbint->is_Node.ln_Pri = -60;
+    CstVbint->is_Node.ln_Name = "VertB-Example";
+    CstVbint->is_Data = NULL;
+    CstVbint->is_Code = CstVBlankHandler;
+  }
+
+  AddIntServer( INTB_COPER, CstVbint); 
+
+}
 
 void CstLoadBackdrop( BPTR fp, int x, int y) {
 
@@ -1357,3 +1380,17 @@ void CstUnfreeze() {
   KPrintF("CstUnfreeze: Finished");
 
 }
+
+void CstVBlankHandler()
+{
+  volatile struct Custom *custom = (struct Custom*)0xdff000;    
+  KPrintF("CstVBlankHandler: VBlank Handler Started");
+
+
+  custom->intreq = 1 << INTB_COPER;
+  custom->intreq = 1 << INTB_COPER;
+  //p61Music();
+  CstFrameCounter++;
+}
+
+

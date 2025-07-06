@@ -72,6 +72,7 @@ void makeLanguageTable (BPTR table)
 void readIniFile (char * filename) {
 	char * langName = getPrefsFilename (copyString (filename));
 
+	langName = joinStrings ("/", langName);
 	BPTR fp = Open(langName,MODE_OLDFILE);	
 
 	gameSettings.languageID = 0;

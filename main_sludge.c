@@ -7,6 +7,7 @@
 #include "custom_input.h"
 #include "fileset.h"
 #include "floor.h"
+#include "language.h"
 #include "support/gcc8_c_support.h"
 #include "main_sludge.h"
 #include "objtypes.h"
@@ -24,11 +25,11 @@
 #define MAX_PATH        1024          // maximum size of a path name
 int realWinWidth = 640, realWinHeight = 480;
 
+extern struct settingsStruct gameSettings;
 extern FLOAT cameraZoom;
-
 extern int specialSettings;
-
 extern struct variableStack ** noStack;
+extern UWORD CstFrameCounter;
 
 int dialogValue = 0;
 
@@ -39,6 +40,8 @@ int weAreDoneSoQuit;
 
 int main_sludge(int argc, char *argv[])
 {
+	CstInitVBlankHandler();
+
 	/* Dimensions of our window. */
 	//AMIGA TODO: Maybe remove as there will be no windowed mode
     winWidth = 320;
@@ -135,6 +138,9 @@ int main_sludge(int argc, char *argv[])
 
 	volatile struct Custom *custom = (struct Custom*)0xdff000;
 	weAreDoneSoQuit = 0;
+	//WaitVbl();
+	CstFrameCounter = 0;
+
 	while ( !weAreDoneSoQuit ) {	
 		//custom->color[0] = 0xf00;			
 		sludgeDisplay ();
@@ -142,7 +148,11 @@ int main_sludge(int argc, char *argv[])
 		walkAllPeople();
 		handleInput();
 		//custom->color[0] = 0x000;			
-		WaitVbl();
+		//WaitVbl();
+		while( CstFrameCounter < gameSettings.refreshRate)
+		{		
+		}
+		CstFrameCounter = 0;
 	}	
 	//Amiga Cleanup
 	FreeVec(sludgeFile);
