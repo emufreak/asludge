@@ -15,9 +15,9 @@
 #include <proto/mathieeesingtrans.h>
 #include <libraries/mathieeesp.h>
 #include "main_sludge.h"
-
 #define EMULATOR
 
+UWORD FrameCounter = 0; 
 //config
 
 struct ExecBase *SysBase;
@@ -71,39 +71,29 @@ __attribute__((always_inline)) inline void WaitBlt() {
 }
 
 void TakeSystem() {
-	KPrintF("TakeSystem: Run Forbid\n");
 	Forbid();
 	//Save current interrupts and DMA settings so we can restore them upon exit. 
-	KPrintF("TakeSystem: Saving Registers\n");
 	SystemADKCON=custom->adkconr;
 	SystemInts=custom->intenar;
 	SystemDMA=custom->dmaconr;
 	ActiView=GfxBase->ActiView; //store current view
 
-	custom->intena=0x7fff;
-	custom->intena=0x8018;
-	KPrintF("TakeSystem: LoadView\n");
 	LoadView(0);
-	KPrintF("TakeSystem: WaitTof\n");
 	WaitTOF();
 	WaitTOF();
 
-	KPrintF("TakeSystem: WaitVBL\n");
 	WaitVbl();
 	WaitVbl();
 
-	KPrintF("TakeSystem: Doing Blitter Stuff\n");
 	OwnBlitter();
 	WaitBlit();	
-	Disable();
+	//Disable();
 	
-	//custom->intena=0x7fff;//disable all interrupts
-	//custom->intreq=0x7fff;//Clear any interrupts that were pending
+	/*custom->intena=0x7fff;//disable all interrupts
+	custom->intreq=0x7fff;//Clear any interrupts that were pending*/
 	
-	KPrintF("TakeSystem: Clear DMA\n");
 	custom->dmacon=0x7fff;//Clear all DMA channels
 
-	KPrintF("TakeSystem: Set all colors to black\n");
 	//set all colors black
 	for(int a=0;a<32;a++)
 		custom->color[a]=0;
@@ -111,16 +101,15 @@ void TakeSystem() {
 	WaitVbl();
 	WaitVbl();
 
-	KPrintF("TakeSystem: Save System interrupts\n");
 	VBR=GetVBR();
-	SystemIrq=GetInterruptHandler(); //store interrupt register*/
+	SystemIrq=GetInterruptHandler(); //store interrupt register
 }
 
 void FreeSystem() { 
 	WaitVbl();
 	WaitBlit();
-	custom->intena=0x7fff;//disable all interrupts
-	custom->intreq=0x7fff;//Clear any interrupts that were pending
+	/*custom->intena=0x7fff;//disable all interrupts
+	custom->intreq=0x7fff;//Clear any interrupts that were pending*/
 	custom->dmacon=0x7fff;//Clear all DMA channels
 
 	//restore interrupts
@@ -138,7 +127,7 @@ void FreeSystem() {
 
 	WaitBlit();	
 	DisownBlitter();
-	Enable();
+	//Enable();
 
 	LoadView(ActiView);
 	WaitTOF();
@@ -225,6 +214,22 @@ static void Wait11() { WaitLine(0x11); }
 static void Wait12() { WaitLine(0x12); }
 static void Wait13() { WaitLine(0x13); }
 
+static const UWORD dummyCopper[] = {
+	0xFFDF,0xFFFE,
+	0x2D01,0xFF00, 
+	0x9C,0x8010,  
+    0xFFFF,  /* WAIT opcode with vertical=255 (max) */
+    0xFFFE   /* horizontal=254 → impossible combination → halt */
+};
+
+void interruptHandler() {
+	FrameCounter++;	
+	__asm  volatile ("move.l #0,%d0");
+	
+}
+
+struct Interrupt *vbInt;
+
 int main(int argc, char *argv[]) {
 
 	//int *bp = 0x200;
@@ -262,8 +267,7 @@ int main(int argc, char *argv[]) {
 
 	MathIeeeDoubBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeedoubbas.library",0);
 	if( !MathIeeeDoubBasBase) 
-		Exit(0);
-	
+		Exit(0);		
 
 	KPrintF(" debugger from Amiga Test 035!\n");
 
@@ -283,11 +287,45 @@ int main(int argc, char *argv[]) {
 	TakeSystem();
 	KPrintF("System Taken\n");
 
-	custom->dmacon = 0x87ff;
 	WaitVbl();
 
+	USHORT* copper1 = (USHORT*)AllocMem(1024, MEMF_CHIP);
+	USHORT* copPtr = copper1;	
+
+	*copPtr++ = 0xffdf;
+	*copPtr++ = 0xfffe;
+	*copPtr++ = 0x2d01,
+	*copPtr++ = 0xff00; 
+	*copPtr++ = 0x9c; 
+	*copPtr++ = 0x8010; 
+	*copPtr++ = 0xffff;
+	*copPtr++ = 0xfffe; // end copper list
+
+	custom->cop1lc = (ULONG)copper1;
+
+	custom->dmacon = 0x87ff;	
+
+    ULONG counter = 0;
+    ULONG endcount;
+                                                       /* Allocate memory for  */
+    if (vbInt = AllocMem(sizeof(struct Interrupt),     /* interrupt node. */
+                         MEMF_PUBLIC|MEMF_CLEAR))
+    {
+        vbInt->is_Node.ln_Type = NT_INTERRUPT;         /* Initialize the node. */
+        vbInt->is_Node.ln_Pri = -60;
+        vbInt->is_Node.ln_Name = "VertB-Asludge";
+        vbInt->is_Data = (APTR)&counter;
+        vbInt->is_Code = interruptHandler;
+	}
+	
+	AddIntServer( INTB_COPER, vbInt);
+
+
 	KPrintF("Starting main_sludge\n");
+	
 	main_sludge(argc, argv);	
+
+
 
 #ifdef MUSIC
 	p61End();

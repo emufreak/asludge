@@ -29,7 +29,7 @@ extern struct settingsStruct gameSettings;
 extern FLOAT cameraZoom;
 extern int specialSettings;
 extern struct variableStack ** noStack;
-extern UWORD CstFrameCounter;
+extern UWORD FrameCounter;
 
 int dialogValue = 0;
 
@@ -40,7 +40,6 @@ int weAreDoneSoQuit;
 
 int main_sludge(int argc, char *argv[])
 {
-	CstInitVBlankHandler();
 
 	/* Dimensions of our window. */
 	//AMIGA TODO: Maybe remove as there will be no windowed mode
@@ -76,7 +75,6 @@ int main_sludge(int argc, char *argv[])
 		printCmdlineUsage();
 		return 0;
 	}*/
-	KPrintF("Game file not found.\n");
 	if (! fileExists(sludgeFile) ) {	
 		Write(Output(), (APTR)"Game file not found.\n", 21);
 		KPrintF("Game file not found.\n");
@@ -139,7 +137,7 @@ int main_sludge(int argc, char *argv[])
 	volatile struct Custom *custom = (struct Custom*)0xdff000;
 	weAreDoneSoQuit = 0;
 	//WaitVbl();
-	CstFrameCounter = 0;
+	FrameCounter = 0;
 
 	while ( !weAreDoneSoQuit ) {	
 		//custom->color[0] = 0xf00;			
@@ -149,13 +147,13 @@ int main_sludge(int argc, char *argv[])
 		handleInput();
 		//custom->color[0] = 0x000;			
 		//WaitVbl();
-		while( CstFrameCounter < gameSettings.refreshRate)
+		while( FrameCounter < gameSettings.refreshRate)
 		{		
 		}
-		CstFrameCounter = 0;
+		FrameCounter = 0;
 	}	
 	//Amiga Cleanup
-	FreeVec(sludgeFile);
+	//FreeVec(sludgeFile);
 }
 
 void setGameFilePath (char * f) {
