@@ -165,7 +165,7 @@ int main_sludge(int argc, char *argv[])
 		FrameCounter = 0;
 	}	
 	//Amiga Cleanup
-	//FreeVec(sludgeFile);
+	FreeVec(sludgeFile);
 }
 
 void setGameFilePath (char * f) {
