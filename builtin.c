@@ -2990,7 +2990,7 @@ enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunctio
 		}
 	}
 
-	KPrintF("Unknown / unimplemented built-in function.");
+	KPrintF("Unknown / mented built-in function.");
 	return BR_ERROR;
 }
 

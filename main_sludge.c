@@ -150,6 +150,18 @@ int main_sludge(int argc, char *argv[])
 		while( FrameCounter < gameSettings.refreshRate)
 		{		
 		}
+		if( FrameCounter > gameSettings.refreshRate)
+		{
+			KPrintF("Framerate too slow\n");
+		}
+		volatile ULONG vpos=*(volatile ULONG*)0xDFF004;
+		vpos&=0x1ff00;
+		while(vpos<(300<<8)) {
+			vpos=*(volatile ULONG*)0xDFF004;
+			vpos&=0x1ff00;			
+			KPrintF("Waiting for Frame to finish\n");
+		}
+
 		FrameCounter = 0;
 	}	
 	//Amiga Cleanup
