@@ -134,6 +134,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				finishFunction (fun);
 				fun = returnTo;
 				fun -> timeLeft += tmptimeleft;
+				KPrintF("Starting restartfuncion on SLU_RETURN\n");
 				restartFunction (fun);
 			} else {
 				finishFunction (fun);
@@ -531,10 +532,7 @@ void finishFunction (struct loadedFunction * fun) {
 
 	pauseFunction (fun);
 
-	//Keep function loaed in memory if it is the focus function
-	if( fun != currentEvents -> focusFunction) {	
-		unloadFunction (fun);
-	}	
+	unloadFunction (fun);
 	//KPrintF("finishFunction finished\n");
 }
 
@@ -577,7 +575,7 @@ BOOL handleInput () {
 			setVariable (&tempStack -> thisVar, SVT_INT, 0);
 		}
 		tempStack -> next = NULL;		
-		if (! startNewFunctionLoaded (currentEvents -> focusFunction, 1, NULL, &tempStack, TRUE)) return FALSE;
+		if (! startNewFunctionNum (currentEvents -> focusFunction, 1, NULL, &tempStack, TRUE)) return FALSE;		
 	}
 	if (input.leftRelease && currentEvents -> leftMouseUpFunction)  {
 		if (! startNewFunctionNum (currentEvents -> leftMouseUpFunction, 0, NULL, noStack, TRUE)) return FALSE;
@@ -902,7 +900,7 @@ void loadHandlers (BPTR fp) {
 	currentEvents -> rightMouseFunction		= get2bytes (fp);
 	currentEvents -> rightMouseUpFunction	= get2bytes (fp);
 	currentEvents -> moveMouseFunction		= get2bytes (fp);
-	currentEvents -> focusFunction			= (struct loadedFunction *) get4bytes (fp); //Todo: Changed to pointer type. Check if this is correct.
+	currentEvents -> focusFunction			= get2bytes (fp);
 	currentEvents -> spaceFunction			= get2bytes (fp);
 }
 
@@ -1030,16 +1028,16 @@ void saveHandlers (BPTR fp) {
 	put2bytes (currentEvents -> rightMouseFunction,		fp);
 	put2bytes (currentEvents -> rightMouseUpFunction,	fp);
 	put2bytes (currentEvents -> moveMouseFunction,		fp);
-	put4bytes ((ULONG) currentEvents -> focusFunction,			fp); //Todo: Changed to pointer type. Check if this is correct.
+	put2bytes (currentEvents -> focusFunction,			fp);
 	put2bytes (currentEvents -> spaceFunction,			fp);
 }
 
 void sludgeDisplay () {					
   	volatile struct Custom *custom = (struct Custom*)0xdff000;
+	CstSwapBuffer();
 	displayCursor();
 	CstRestoreScreen();
 	drawPeople();
-	CstSwapBuffer();
 }
 
 BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va) {
@@ -1055,6 +1053,7 @@ BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const st
 
 int startNewFunctionLoaded (struct loadedFunction * newFunc, unsigned int numParamsExpected,struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet) {
 	
+	KPrintF("startNewFunctionLoaded: Starting function\n");
 	if (newFunc -> numArgs != (int)numParamsExpected) {
 		KPrintF("Wrong number of parameters!");
 		return NULL; 
@@ -1105,11 +1104,6 @@ void unloadFunction (struct loadedFunction * fun) {
 
 	int a;
 
-	//Keep function loaed in memory
-	if( fun == currentEvents -> focusFunction) {	
-		return;
-	}
-
 	if (fun -> stack) 
 	{
 		KPrintF("unloadfunction: error non empty stack");
@@ -1122,6 +1116,8 @@ void unloadFunction (struct loadedFunction * fun) {
 	}
 	unlinkVar (&fun -> reg);
 	fun->unloaded = 1;
+
+
 
 }
 

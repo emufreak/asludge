@@ -2030,22 +2030,10 @@ builtIn (onFocusChange)
 {
 	KPrintF("running onFocusChange\n");
 	UNUSEDALL
-	int functionNum;	
-
+	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
 	{
-		struct loadedFunction *oldfunc = currentEvents -> focusFunction;
-		if( functionNum != NULL) 
-			currentEvents -> focusFunction = preloadNewFunctionNum(functionNum);		
-		else
-			currentEvents -> focusFunction = NULL;
-
-		if( oldfunc != NULL && oldfunc != currentEvents -> focusFunction )
-		{
-			unloadFunction(oldfunc);
-		}
-		
-
+		currentEvents -> focusFunction = functionNum;
 		return BR_CONTINUE;
 	}
 	return BR_ERROR;

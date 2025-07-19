@@ -156,10 +156,20 @@ int main_sludge(int argc, char *argv[])
 		}
 		volatile ULONG vpos=*(volatile ULONG*)0xDFF004;
 		vpos&=0x1ff00;
-		while(vpos<(300<<8)) {
+		/*if(vpos<(300<<8) || vpos>(301<<8)) {
+			KPrintF("Waiting for VBlank\n");
+			int test[1];
+			test[0] = AvailMem(MEMF_PUBLIC);
+			KPrintF("Other Mem available: %ld\n", test[0]);
+			test[0] = AvailMem(MEMF_CHIP);
+			KPrintF("Chip Mem available: %ld\n", test[0]);
+			test[0] = AvailMem(MEMF_LARGEST);
+			KPrintF("Largest Mem Block available: %ld\n", test[0]);
+		} */
+		while(vpos<(300<<8) || vpos>(301<<8)) {
 			vpos=*(volatile ULONG*)0xDFF004;
 			vpos&=0x1ff00;			
-			KPrintF("Waiting for Frame to finish\n");
+
 		}
 
 		FrameCounter = 0;

@@ -27,7 +27,7 @@ struct eventHandlers {
 	int rightMouseFunction;
 	int rightMouseUpFunction;
 	int moveMouseFunction;
-	struct loadedFunction *focusFunction;
+	int focusFunction;
 	int spaceFunction;
 };
 

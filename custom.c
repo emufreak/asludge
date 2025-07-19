@@ -122,7 +122,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   CstCleanupQueueDrawBuffer->x = x1;
   CstCleanupQueueDrawBuffer->y = y1;
   CstCleanupQueueDrawBuffer->person = NULL;
-  CstCleanupQueueDrawBuffer->widthinwords = width/16;
+  CstCleanupQueueDrawBuffer->widthinwords = width/2;
   CstCleanupQueueDrawBuffer->height = height;
   CstCleanupQueueDrawBuffer->startxinbytes = x1/8;;
   CstCleanupQueueDrawBuffer->starty = y1;
@@ -133,10 +133,10 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   CstCleanupQueueViewBuffer->x = x1;
   CstCleanupQueueViewBuffer->y = y1;
   CstCleanupQueueViewBuffer->person = NULL;
-  CstCleanupQueueViewBuffer->widthinwords = width/16;
+  CstCleanupQueueViewBuffer->widthinwords = width/2;
   CstCleanupQueueViewBuffer->height = height;
   CstCleanupQueueViewBuffer->startxinbytes = x1/8;
-  CstCleanupQueueViewBuffer->starty = 0; 
+  CstCleanupQueueViewBuffer->starty = y1; 
 
   KPrintF("CstBlankScreen: end\n");
 
@@ -933,9 +933,9 @@ void CstRestoreScreen()
   while(CstCleanupQueueDrawBuffer)
   {    
 
-    if( CstCleanupQueueDrawBuffer->person && CstCleanupQueueDrawBuffer->person->samePosCount < 3
+    /*if( CstCleanupQueueDrawBuffer->person && CstCleanupQueueDrawBuffer->person->samePosCount < 3
       || CstCleanupQueueDrawBuffer->person == NULL)
-    {
+    {*/
       custom->bltamod = winWidth/8-CstCleanupQueueDrawBuffer->widthinwords*2;
       custom->bltdmod = winWidth/8-CstCleanupQueueDrawBuffer->widthinwords*2;
       ULONG bltapt = ((ULONG) CstBackDrop) + CstCleanupQueueDrawBuffer->starty*winWidth/8 + CstCleanupQueueDrawBuffer->startxinbytes;
@@ -949,7 +949,7 @@ void CstRestoreScreen()
         bltdpt += winWidth/8*winHeight;
         WaitBlit();
       }
-    }
+    //}
     struct CleanupQueue *todelete = CstCleanupQueueDrawBuffer;
     CstCleanupQueueDrawBuffer = CstCleanupQueueDrawBuffer->next;  
     FreeVec(todelete);    
