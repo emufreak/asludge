@@ -482,7 +482,7 @@ void CstFreeBuffer( ) {
 
 void CstFreeze( ) {
 
-	KPrintF("CstFreeze: Freezing Background Started");  
+	//KPrintF("CstFreeze: Freezing Background Started");  
 
   UWORD size = winWidth/8*winHeight*5;
 
@@ -538,7 +538,7 @@ void CstFreeze( ) {
   CstCleanupQueueViewBuffer->startxinbytes = 0;
   CstCleanupQueueViewBuffer->starty = 0; 
 
-  KPrintF("CstFreeze: Finished");
+  //KPrintF("CstFreeze: Finished");
 
 }  
 
@@ -1333,7 +1333,7 @@ BOOL CstReserveBackdrop(int width, int height) {
 }
 
 void CstUnfreeze() {
-	KPrintF("CstUnfreeze: Unfreezing Background Started");  
+	//KPrintF("CstUnfreeze: Unfreezing Background Started");  
 
   UWORD size = winWidth/8*winHeight*5;
 
@@ -1373,11 +1373,11 @@ void CstUnfreeze() {
   CstCleanupQueueViewBuffer->starty = 0;  
   
   if( CstBackDropBackup) {
-    KPrintF("CstUnfreeze: Free CstBackdropBackup");
+    //KPrintF("CstUnfreeze: Free CstBackdropBackup");
     FreeVec( CstBackDropBackup);
   }
 
-  KPrintF("CstUnfreeze: Finished");
+  //KPrintF("CstUnfreeze: Finished");
 
 }
 

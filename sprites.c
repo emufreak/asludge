@@ -50,7 +50,7 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 
 BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 
-	KPrintF("loadSpriteBank: Starting\n");
+	//KPrintF("loadSpriteBank: Starting\n");
 
 	int i, tex_num, total, picwidth, picheight, howmany = 0, startIndex = 0;
 	int *totalwidth, *maxheight;
@@ -123,7 +123,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 
 	finishAccess ();
 
-	KPrintF("loadSpriteBank: Complete\n");
+	//KPrintF("loadSpriteBank: Complete\n");
 	return TRUE;
 }
 

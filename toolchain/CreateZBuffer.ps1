@@ -5,27 +5,6 @@
 
 # Function to add 2-byte integer to the byte stream
 
-function Add-ByteInt {
-    param (
-        [int]$value,
-        [ref]$byteStream
-    )
-    # Convert integer to 2 bytes and add to byte stream
-    $bytes = [BitConverter]::GetBytes([int16]$value)    
-    Add-Content -Encoding Byte -Path $outputBinaryFile -Value $bytes[0]
-}
-
-function Add-TwoByteInt {
-    param (
-        [int]$value,
-        [ref]$byteStream
-    )
-    # Convert integer to 2 bytes and add to byte stream
-    $bytes = [BitConverter]::GetBytes([int16]$value)
-    Add-Content -Encoding Byte -Path $outputBinaryFile -Value $bytes[1] 
-    Add-Content -Encoding Byte -Path $outputBinaryFile -Value $bytes[0]
-}
-
 $counter = 0
 # Write the final byte stream to a binary file
 $outputBinaryFile = "output_binary_file.bin"
@@ -80,3 +59,24 @@ Get-ChildItem -Path . -Filter "$inputFileName*.png" | ForEach-Object -Process {
 }
 
 Write-Host "Binary file $outputBinaryFile created successfully."
+
+function Add-ByteInt {
+    param (
+        [int]$value,
+        [ref]$byteStream
+    )
+    # Convert integer to 2 bytes and add to byte stream
+    $bytes = [BitConverter]::GetBytes([int16]$value)    
+    Add-Content -Encoding Byte -Path $outputBinaryFile -Value $bytes[0]
+}
+
+function Add-TwoByteInt {
+    param (
+        [int]$value,
+        [ref]$byteStream
+    )
+    # Convert integer to 2 bytes and add to byte stream
+    $bytes = [BitConverter]::GetBytes([int16]$value)
+    Add-Content -Encoding Byte -Path $outputBinaryFile -Value $bytes[1] 
+    Add-Content -Encoding Byte -Path $outputBinaryFile -Value $bytes[0]
+}

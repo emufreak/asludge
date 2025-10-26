@@ -155,7 +155,8 @@ int main_sludge(int argc, char *argv[])
 			KPrintF("Framerate too slow\n");
 		}
 		volatile ULONG vpos=*(volatile ULONG*)0xDFF004;
-		vpos&=0x1ff00;
+		vpos&=0x1ff00;		
+		
 		/*if(vpos<(300<<8) || vpos>(301<<8)) {
 			KPrintF("Waiting for VBlank\n");
 			int test[1];
@@ -169,7 +170,6 @@ int main_sludge(int argc, char *argv[])
 		while(vpos<(300<<8) || vpos>(301<<8)) {
 			vpos=*(volatile ULONG*)0xDFF004;
 			vpos&=0x1ff00;			
-
 		}
 
 		FrameCounter = 0;

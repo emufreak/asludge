@@ -115,7 +115,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 		return TRUE;
 	}
 
-	while (keepLooping) {
+ 	while (keepLooping) {
 		advanceNow = TRUE;
 		param = fun -> compiledLines[fun -> runThisLine].param;
 		com = fun -> compiledLines[fun -> runThisLine].theCommand;
@@ -134,7 +134,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 				finishFunction (fun);
 				fun = returnTo;
 				fun -> timeLeft += tmptimeleft;
-				KPrintF("Starting restartfuncion on SLU_RETURN\n");
+				//KPrintF("Starting restartfuncion on SLU_RETURN\n");
 				restartFunction (fun);
 			} else {
 				finishFunction (fun);
@@ -531,7 +531,6 @@ void finishFunction (struct loadedFunction * fun) {
 	//KPrintF("finishFunction started\n");
 
 	pauseFunction (fun);
-
 	unloadFunction (fun);
 	//KPrintF("finishFunction finished\n");
 }
@@ -760,7 +759,7 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 			if( current->theFunction->unloaded == 1)
 			{ 
 				newFunc = current->theFunction;	
-				KPrintF("loadFunctionCode: Found in Cache\n");
+				//KPrintF("loadFunctionCode: Found in Cache\n");
 				break;
 			}									
 		}
@@ -769,7 +768,7 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 
 	if( !newFunc)
 	{		
-		KPrintF("loadFunctionCode: Function not in cache. Loading new function\n");
+		//KPrintF("loadFunctionCode: Function not in cache. Loading new function\n");
 		numCachedFunctions++;
 #endif		
 		newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
@@ -885,7 +884,7 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 			FreeVec(huntanddestroy);
 		} else 
 		{
-			KPrintF("loadFunctionCode: Function is still in use\n");
+			//KPrintF("loadFunctionCode: Function is still in use\n");
 		}
 	}	
 #endif					
@@ -952,7 +951,7 @@ void pauseFunction (struct loadedFunction * fun) {
 		if (fun == * huntAndDestroy) {
 			int test[1];
 			test[0] = fun -> originalNumber;
-			KPrintF("Function %ld removed from running functions\n", test[0]);
+			//KPrintF("Function %ld removed from running functions\n", test[0]);
 			(* huntAndDestroy) = (* huntAndDestroy) -> next;
 			fun->next = NULL;
 		} else {
@@ -971,7 +970,7 @@ void restartFunction (struct loadedFunction * fun) {
 	int test[1];
 	test[0] = fun -> originalNumber;
 
-	KPrintF("Function %ld restarted\n", test[0]);
+	//KPrintF("Function %ld restarted\n", test[0]);
 
 	fun -> next = allRunningFunctions;
 	fun -> unloaded = 0;
@@ -993,6 +992,7 @@ BOOL runSludge () {
 				} 
 				else {
 					thisFunction -> timeLeft--;
+					KPrintF("Counting down timeleft\n");
 					break;
 				}
 			} else {
@@ -1053,7 +1053,7 @@ BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const st
 
 int startNewFunctionLoaded (struct loadedFunction * newFunc, unsigned int numParamsExpected,struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet) {
 	
-	KPrintF("startNewFunctionLoaded: Starting function\n");
+	//KPrintF("startNewFunctionLoaded: Starting function\n");
 	if (newFunc -> numArgs != (int)numParamsExpected) {
 		KPrintF("Wrong number of parameters!");
 		return NULL; 

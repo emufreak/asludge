@@ -83,7 +83,8 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	2,											// setCharacterAngleOffset
 	2, 5,										// setCharacterTransparency, setCharacterColourise
 	1,											// zoomCamera
-	1, 0, 0, 5									// playMovie, stopMovie, pauseMovie, addZBufferLayer
+	1, 0, 0,									// playMovie, stopMovie, pauseMovie,
+	5, 1										// addZBufferLayer, printConsole
 };
 
 #pragma mark -
@@ -164,34 +165,34 @@ builtIn(think)
 
 builtIn(freeze)
 {
-	KPrintF("running freeze\n");
+	//KPrintF("running freeze\n");
 	UNUSEDALL
 	freeze ();
-	freezeSubs (); 
+	freezeSubs ();
 	fun -> freezerLevel = 0;
 	return BR_CONTINUE;
 }
 
 builtIn(unfreeze)
 {
-	KPrintF("running unfreeze\n");
+	//KPrintF("running unfreeze\n");
 	UNUSEDALL
 	unfreeze ();
-	unfreezeSubs (); 
+	unfreezeSubs ();
 	return BR_CONTINUE;
 }
 
 builtIn(howFrozen)
 {
-	//KPrintF("running howfrozen\n");
+	////KPrintF("running howfrozen\n");
 	UNUSEDALL
 	setVariable (&fun -> reg, SVT_INT, howFrozen ());
-	return BR_CONTINUE; 
+	return BR_CONTINUE;
 }
 
 builtIn(setCursor)
 {
-	KPrintF("running setCursor\n");
+	//KPrintF("running setCursor\n");
 	UNUSEDALL
 	struct personaAnimation * aa = getAnimationFromVar (&(fun -> stack -> thisVar));
 	pickAnimCursor (aa);
@@ -201,7 +202,7 @@ builtIn(setCursor)
 
 builtIn(getMouseX)
 {
-	KPrintF("running getMouseX\n");
+	//KPrintF("running getMouseX\n");
 	UNUSEDALL
 	setVariable (&fun -> reg, SVT_INT, input.mouseX + cameraX);
 	return BR_CONTINUE;
@@ -209,7 +210,7 @@ builtIn(getMouseX)
 
 builtIn(getMouseY)
 {
-	KPrintF("running getMouseY\n");
+	//KPrintF("running getMouseY\n");
 	UNUSEDALL
 	setVariable (&fun -> reg, SVT_INT, input.mouseY + cameraY);
 	return BR_CONTINUE;
@@ -217,7 +218,7 @@ builtIn(getMouseY)
 
 builtIn(getMouseScreenX)
 {
-	KPrintF("running getMouseScreenX\n");
+	//KPrintF("running getMouseScreenX\n");
 	UNUSEDALL
 	setVariable (&fun -> reg, SVT_INT, input.mouseX*cameraZoom);
 	return BR_CONTINUE;
@@ -225,7 +226,7 @@ builtIn(getMouseScreenX)
 
 builtIn(getMouseScreenY)
 {
-	KPrintF("running getMouseScreenY\n");
+	//KPrintF("running getMouseScreenY\n");
 	UNUSEDALL
 	setVariable (&fun -> reg, SVT_INT, input.mouseY*cameraZoom);
 	return BR_CONTINUE;
@@ -233,7 +234,7 @@ builtIn(getMouseScreenY)
 
 builtIn(getStatusText)
 {
-	KPrintF("running getStatusText\n");
+	//KPrintF("running getStatusText\n");
 	UNUSEDALL
 	makeTextVar (&fun -> reg, statusBarText ());
 	return BR_CONTINUE;
@@ -241,7 +242,7 @@ builtIn(getStatusText)
 
 builtIn(getMatchingFiles)
 {
-	KPrintF("running getMatchingFiles\n");
+	//KPrintF("running getMatchingFiles\n");
 	UNUSEDALL
 	char * newText = getTextFromAnyVar (&(fun -> stack -> thisVar));
 	if (! newText) return BR_ERROR;
@@ -263,7 +264,7 @@ builtIn(getMatchingFiles)
 
 builtIn(saveGame)
 {
-	KPrintF("running saveGame\n");
+	//KPrintF("running saveGame\n");
     UNUSEDALL
 
     /*if (frozenStuff) {
@@ -287,7 +288,7 @@ builtIn(saveGame)
 
 builtIn(fileExists)
 {
-	KPrintF("running fileExists\n");
+	//KPrintF("running fileExists\n");
     UNUSEDALL
     loadNow = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
@@ -295,8 +296,8 @@ builtIn(fileExists)
     FreeVec(loadNow);
     if (failSecurityCheck(aaaaa)) return BR_ERROR;
     BPTR fp = Open(aaaaa, MODE_OLDFILE);
-    if (!fp) {        
-        KPrintF("Can't get current directory.\n");      
+    if (!fp) {
+        KPrintF("Can't get current directory.\n");
     }
     // Return value
     setVariable(&fun->reg, SVT_INT, (fp != NULL));
@@ -308,7 +309,7 @@ builtIn(fileExists)
 
 builtIn(loadGame)
 {
-	KPrintF("running loadGame\n");
+	//KPrintF("running loadGame\n");
     UNUSEDALL
     char *aaaaa = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
@@ -336,7 +337,7 @@ builtIn(loadGame)
 
 builtIn(blankScreen)
 {
-	KPrintF("running blankScreen\n");
+	//KPrintF("running blankScreen\n");
 	UNUSEDALL
 	blankScreen (0, 0, sceneWidth, sceneHeight);
 	return BR_CONTINUE;
@@ -344,7 +345,7 @@ builtIn(blankScreen)
 
 builtIn(blankArea)
 {
-	KPrintF("running blankArea\n");
+	//KPrintF("running blankArea\n");
 	UNUSEDALL
 	int x1, y1, x2, y2;
 	if (! getValueType (&y2, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
@@ -361,7 +362,7 @@ builtIn(blankArea)
 
 builtIn(darkBackground)
 {
-	KPrintF("running darkBackground\n");
+	//KPrintF("running darkBackground\n");
 	UNUSEDALL
 	darkScreen ();
 	return BR_CONTINUE;
@@ -369,7 +370,7 @@ builtIn(darkBackground)
 
 builtIn(addOverlay)
 {
-	KPrintF("running addOverlay\n");
+	//KPrintF("running addOverlay\n");
 	UNUSEDALL
 	int fileNumber, xPos, yPos;
 	if (! getValueType(&yPos, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -385,7 +386,7 @@ builtIn(addOverlay)
 //addZBufferLayer( xPos, yPos, width, height )
 builtIn(addZBufferLayer)
 {
-	KPrintF("running addZBufferLayer\n");
+	//KPrintF("running addZBufferLayer\n");
 	UNUSEDALL
 	int xpos, ypos, width, height, yz;
 	if (! getValueType(&yz, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -393,18 +394,28 @@ builtIn(addZBufferLayer)
 	if (! getValueType(&height, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
 	if (! getValueType(&width, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (&fun -> stack);	
+	trimStack (&fun -> stack);
 	if (! getValueType(&ypos, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (&fun -> stack);	
+	trimStack (&fun -> stack);
 	if (! getValueType(&xpos, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (&fun -> stack);	
+	trimStack (&fun -> stack);
 	addZBufferLayer( xpos, ypos, width, height, yz);
 	return BR_CONTINUE;
 }
 
+builtIn(printConsole)
+{
+    UNUSEDALL
+    char *newText = getTextFromAnyVar(&(fun->stack->thisVar));
+    trimStack(&fun->stack);
+    KPrintF("%s\n", newText);
+    FreeVec(newText);
+    return BR_CONTINUE;
+}
+
 builtIn(mixOverlay)
 {
-	KPrintF("running mixOverlay\n");
+	//KPrintF("running mixOverlay\n");
 	UNUSEDALL
 	int fileNumber, xPos, yPos;
 	if (! getValueType(&yPos, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -419,7 +430,7 @@ builtIn(mixOverlay)
 
 builtIn(pasteImage)
 {
-	KPrintF("running pasteImage\n");
+	//KPrintF("running pasteImage\n");
 	UNUSEDALL
 	//KPrintF("pasteimage: Started\n");
 	int x, y;
@@ -433,7 +444,7 @@ builtIn(pasteImage)
 
 	pasteCursor (x, y, pp);
 	//KPrintF("pasteimage: Finished\n");
-	return BR_CONTINUE;	
+	return BR_CONTINUE;
 }
 
 #pragma mark -
@@ -441,7 +452,7 @@ builtIn(pasteImage)
 
 builtIn(setSceneDimensions)
 {
-	KPrintF("running setSceneDimensions\n");
+	//KPrintF("running setSceneDimensions\n");
 	UNUSEDALL
 	int x, y;
 	if (! getValueType(&y, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -458,7 +469,7 @@ builtIn(setSceneDimensions)
 
 builtIn(aimCamera)
 {
-	KPrintF("running aimCamera\n");
+	//KPrintF("running aimCamera\n");
 	UNUSEDALL
 	if (! getValueType(&cameraY, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
@@ -478,7 +489,7 @@ builtIn(aimCamera)
 
 builtIn(zoomCamera)
 {
-	KPrintF("running zoomCamera\n");
+	//KPrintF("running zoomCamera\n");
 	UNUSEDALL
 	int z;
 	if (! getValueType(&z, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -505,7 +516,7 @@ builtIn(zoomCamera)
 
 builtIn(pickOne)
 {
-	KPrintF("running pickOne\n");
+	//KPrintF("running pickOne\n");
 	UNUSEDALL
 	if (! numParams) {
 		KPrintF ("Built-in function should have at least 1 parameter");
@@ -523,7 +534,7 @@ builtIn(pickOne)
 
 builtIn(substring)
 {
-	KPrintF("running substring\n");
+	//KPrintF("running substring\n");
     UNUSEDALL
     char *wholeString;
     char *newString;
@@ -537,7 +548,7 @@ builtIn(substring)
     trimStack(&fun->stack);
     wholeString = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
-    
+
     if (strlen(wholeString) < (ULONG) start + length) {
         length = strlen(wholeString) - start;
         if (strlen(wholeString) < (ULONG) start) {
@@ -547,7 +558,7 @@ builtIn(substring)
     if (length < 0) {
         length = 0;
     }
-    
+
     int startoffset = start;
     int endoffset = start + length;
 
@@ -555,10 +566,10 @@ builtIn(substring)
     if (!newString) {
         return BR_ERROR;
     }
-    
+
     memcpy(newString, wholeString + startoffset, endoffset - startoffset);
     newString[endoffset - startoffset] = 0;
-    
+
     makeTextVar(&fun->reg, newString);
     FreeVec(newString);
     return BR_CONTINUE;
@@ -566,7 +577,7 @@ builtIn(substring)
 
 builtIn(stringLength)
 {
-	KPrintF("running stringLength\n");
+	//KPrintF("running stringLength\n");
 	UNUSEDALL
 	char * newText = getTextFromAnyVar (&(fun -> stack -> thisVar));
 	trimStack (&fun -> stack);
@@ -577,7 +588,7 @@ builtIn(stringLength)
 
 builtIn(newStack)
 {
-	KPrintF("running newStack\n");
+	//KPrintF("running newStack\n");
     UNUSEDALL
     unlinkVar(&fun->reg);
 
@@ -588,7 +599,7 @@ builtIn(newStack)
     fun->reg.varData.theStack->first = NULL;
     fun->reg.varData.theStack->last = NULL;
     fun->reg.varData.theStack->timesUsed = 1;
-    
+
     while (numParams--) {
         if (!addVarToStack(&fun->stack->thisVar, &fun->reg.varData.theStack->first)) return BR_ERROR;
         if (fun->reg.varData.theStack->last == NULL) {
@@ -604,7 +615,7 @@ builtIn(newStack)
 
 builtIn(stackSize)
 {
-	KPrintF("running stackSize\n");
+	//KPrintF("running stackSize\n");
 	UNUSEDALL
 	switch (fun -> stack -> thisVar.varType) {
 		case SVT_STACK:
@@ -628,7 +639,7 @@ builtIn(stackSize)
 
 builtIn(copyStack)
 {
-	KPrintF("running copyStack\n");
+	//KPrintF("running copyStack\n");
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		KPrintF ("Parameter isn't a stack.");
@@ -642,7 +653,7 @@ builtIn(copyStack)
 
 builtIn(pushToStack)
 {
-	KPrintF("running pushToStack\n");
+	//KPrintF("running pushToStack\n");
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
 		KPrintF("Parameter isn't a stack");
@@ -662,7 +673,7 @@ builtIn(pushToStack)
 
 builtIn(enqueue)
 {
-	KPrintF("running enqueue\n");
+	//KPrintF("running enqueue\n");
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
 		KPrintF ("Parameter isn't a stack");
@@ -691,7 +702,7 @@ builtIn(enqueue)
 
 builtIn(deleteFromStack)
 {
-	KPrintF("running deleteFromStack\n");
+	//KPrintF("running deleteFromStack\n");
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
 		KPrintF ("Parameter isn't a stack.");
@@ -713,7 +724,7 @@ builtIn(deleteFromStack)
 
 builtIn(deleteAllFromStack)
 {
-	KPrintF("running deleteAllFromStack\n");
+	//KPrintF("running deleteAllFromStack\n");
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
 		KPrintF ("Parameter isn't a stack.");
@@ -731,16 +742,16 @@ builtIn(deleteAllFromStack)
 	trimStack (&fun -> stack);
 	trimStack (&fun -> stack);
 	return BR_CONTINUE;
-} 
+}
 
 builtIn(popFromStack)
 {
-	KPrintF("running popFromStack\n");
+	//KPrintF("running popFromStack\n");
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		KPrintF ("Parameter isn't a stack.");
 		return BR_ERROR;
-	}	
+	}
 	if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
 		KPrintF ("The stack's empty.");
 		return BR_ERROR;
@@ -755,7 +766,7 @@ builtIn(popFromStack)
 
 builtIn(peekStart)
 {
-	KPrintF("running peekStart\n");
+	//KPrintF("running peekStart\n");
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		KPrintF ("Parameter isn't a stack.");
@@ -774,7 +785,7 @@ builtIn(peekStart)
 
 builtIn(peekEnd)
 {
-	KPrintF("running peekEnd\n");
+	//KPrintF("running peekEnd\n");
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		KPrintF ("Parameter isn't a stack.");
@@ -793,7 +804,7 @@ builtIn(peekEnd)
 
 builtIn(random)
 {
-	KPrintF("running random\n");
+	//KPrintF("running random\n");
 	UNUSEDALL
 	int num;
 
@@ -808,7 +819,7 @@ builtIn(random)
 
 builtIn (setStatusColour)
 {
-	KPrintF("running setStatusColour\n");
+	//KPrintF("running setStatusColour\n");
 	UNUSEDALL
 	/*int red, green, blue;
 
@@ -821,7 +832,7 @@ builtIn (setStatusColour)
 
 builtIn (setLitStatusColour)
 {
-	KPrintF("running setLitStatusColour\n");
+	//KPrintF("running setLitStatusColour\n");
 	UNUSEDALL
 	/*int red, green, blue;
 
@@ -834,7 +845,7 @@ builtIn (setLitStatusColour)
 
 builtIn (setPasteColour)
 {
-	KPrintF("running setPasteColour\n");
+	//KPrintF("running setPasteColour\n");
 	UNUSEDALL
 	int index;
 
@@ -859,7 +870,7 @@ builtIn (setPasteColour)
 
 builtIn (setBlankColour)
 {
-	KPrintF("running setBlankColour\n");
+	//KPrintF("running setBlankColour\n");
 	UNUSEDALL
 	/*int red, green, blue;
 
@@ -873,7 +884,7 @@ builtIn (setBlankColour)
 
 builtIn (setBurnColour)
 {
-	KPrintF("running setBurnColour\n");
+	//KPrintF("running setBurnColour\n");
 	UNUSEDALL
 	/*int red, green, blue;
 
@@ -890,7 +901,7 @@ builtIn (setBurnColour)
 
 builtIn(setFont)
 {
-	KPrintF("running setFont\n");
+	//KPrintF("running setFont\n");
     UNUSEDALL
     int fileNumber, newHeight;
     if (!getValueType(&newHeight, SVT_INT,&fun->stack->thisVar)) return BR_ERROR;
@@ -912,21 +923,21 @@ builtIn(setFont)
 
 builtIn(inFont)
 {
-	KPrintF("running inFont\n");
+	//KPrintF("running inFont\n");
 	UNUSEDALL
 	char * newText = getTextFromAnyVar (&(fun -> stack -> thisVar));
 	if (! newText) return BR_ERROR;
 	trimStack (&fun -> stack);
 
 	// Return value
-	
+
 	setVariable (&fun -> reg, SVT_INT, isInFont(newText));
 	return BR_CONTINUE;
 }
 
 builtIn(pasteString)
 {
-	KPrintF("running pasteString\n");
+	//KPrintF("running pasteString\n");
     UNUSEDALL
     char *newText = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
@@ -935,17 +946,17 @@ builtIn(pasteString)
     trimStack(&fun->stack);
     if (!getValueType(&x, SVT_INT,&fun->stack->thisVar)) return BR_ERROR;
     trimStack(&fun->stack);
-    if (x == IN_THE_CENTRE) 
+    if (x == IN_THE_CENTRE)
 		x = (winWidth - stringWidth(newText)) >> 1;
     //fixFont(pastePalette); //Todo: Amigize this
-    pasteStringToBackdrop(newText, x, y); 
-    FreeVec(newText); 
+    pasteStringToBackdrop(newText, x, y);
+    FreeVec(newText);
     return BR_CONTINUE;
 }
 
 builtIn(anim)
 {
-	KPrintF("running anim\n");
+	//KPrintF("running anim\n");
 	UNUSEDALL
 	if (numParams < 2) {
 		KPrintF("Built-in function anim() must have at least 2 parameters.");
@@ -973,7 +984,7 @@ builtIn(anim)
 
 builtIn(costume)
 {
-	KPrintF("running costume\n");
+	//KPrintF("running costume\n");
     UNUSEDALL
     struct persona * newPersona = AllocVec(sizeof(struct persona), MEMF_ANY);
     if (!newPersona) return BR_ERROR;
@@ -997,7 +1008,7 @@ builtIn(costume)
 
 builtIn(launch)
 {
-	KPrintF("running launch\n");
+	//KPrintF("running launch\n");
     UNUSEDALL
     char * newTextA = getTextFromAnyVar(&(fun->stack->thisVar));
     if (!newTextA) return BR_ERROR;
@@ -1046,7 +1057,7 @@ builtIn(pause)
 
 builtIn(completeTimers)
 {
-	KPrintF("running completeTimers\n");
+	//KPrintF("running completeTimers\n");
 	UNUSEDALL
 	completeTimers();
 	return BR_CONTINUE;
@@ -1054,7 +1065,7 @@ builtIn(completeTimers)
 
 builtIn(callEvent)
 {
-	KPrintF("running callEvent\n");
+	//KPrintF("running callEvent\n");
 	UNUSEDALL
 	int obj1, obj2;
 	if (! getValueType(&obj2, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1078,7 +1089,7 @@ BOOL reallyWantToQuit = FALSE;
 
 builtIn(quitGame)
 {
-	KPrintF("running quitGame\n");
+	//KPrintF("running quitGame\n");
 	UNUSEDALL
 	reallyWantToQuit = TRUE;
 	//quit_event.type=SDL_QUIT; Todo: Amigize
@@ -1092,7 +1103,7 @@ builtIn(quitGame)
 
 // The old movie functions are deprecated and does nothing.
 builtIn(_rem_movieStart)
-{	
+{
 	UNUSEDALL
 	trimStack (&fun -> stack);
 	KPrintF("Movie Stuff not supported on Amiga");
@@ -1119,16 +1130,16 @@ builtIn (playMovie)
 {
 	UNUSEDALL
 	/*int fileNumber, r;
-		
+
 	if (movieIsPlaying) return BR_PAUSE;
-	
+
 	if (! getValueType(&fileNumber, SVT_FILE,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
-	
+
 	r = playMovie(fileNumber);
-	
+
 	setVariable (&fun -> reg, SVT_INT, r);
-	
+
 	if (r && (! fun->next)) {
 		restartFunction (fun);
 		return BR_ALREADY_GONE;
@@ -1141,9 +1152,9 @@ builtIn (stopMovie)
 {
 	UNUSEDALL
 	/*int r;
-	
+
 	r = stopMovie();
-	
+
 	setVariable (&fun -> reg, SVT_INT, 0);*/
 	KPrintF("Movie Stuff not supported on Amiga");
 	return BR_CONTINUE;
@@ -1153,9 +1164,9 @@ builtIn (pauseMovie)
 {
 	UNUSEDALL
 	/*int r;
-	
+
 	r = pauseMovie();
-	
+
 	setVariable (&fun -> reg, SVT_INT, 0);*/
 	KPrintF("Movie Stuff not supported on Amiga");
 	return BR_CONTINUE;
@@ -1331,7 +1342,7 @@ builtIn(setSoundLoopPoints)
 
 builtIn(setFloor)
 {
-	KPrintF("running setFloor\n");
+	//KPrintF("running setFloor\n");
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType == SVT_FILE) {
 		int v;
@@ -1347,7 +1358,7 @@ builtIn(setFloor)
 
 builtIn(showFloor)
 {
-	KPrintF("running showFloor\n");
+	//KPrintF("running showFloor\n");
 	UNUSEDALL
 	drawFloor ();
 	return BR_CONTINUE;
@@ -1355,7 +1366,7 @@ builtIn(showFloor)
 
 builtIn(setZBuffer)
 {
-	KPrintF("running setZBuffer\n");
+	//KPrintF("running setZBuffer\n");
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType == SVT_FILE) {
 		int v;
@@ -1371,7 +1382,7 @@ builtIn(setZBuffer)
 
 builtIn(setLightMap)
 {
-	KPrintF("running setLightMap\n");
+	//KPrintF("running setLightMap\n");
 	UNUSEDALL
 	/*switch (numParams) {
 		case 2:
@@ -1408,7 +1419,7 @@ builtIn(setLightMap)
 
 builtIn(setSpeechMode)
 {
-	KPrintF("running setSpeechMode\n");
+	//KPrintF("running setSpeechMode\n");
 	UNUSEDALL
 	if (! getValueType(&speechMode, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
@@ -1421,7 +1432,7 @@ builtIn(setSpeechMode)
 
 builtIn(somethingSpeaking)
 {
-	KPrintF("running somethingSpeaking\n");
+	//KPrintF("running somethingSpeaking\n");
 	UNUSEDALL
 	int i = isThereAnySpeechGoingOn ();
 	if (i == -1) {
@@ -1434,7 +1445,7 @@ builtIn(somethingSpeaking)
 
 builtIn(skipSpeech)
 {
-	KPrintF("running skipSpeech\n");
+	//KPrintF("running skipSpeech\n");
 	UNUSEDALL
 	killSpeechTimers ();
 	return BR_CONTINUE;
@@ -1442,7 +1453,7 @@ builtIn(skipSpeech)
 
 builtIn(getOverObject)
 {
-	KPrintF("running getOverObject\n");
+	//KPrintF("running getOverObject\n");
 	UNUSEDALL
 	if (overRegion)
 		// Return value
@@ -1455,7 +1466,7 @@ builtIn(getOverObject)
 
 builtIn(rename)
 {
-	KPrintF("running rename\n");
+	//KPrintF("running rename\n");
 	UNUSEDALL
 	char * newText = getTextFromAnyVar(&(fun->stack->thisVar));
 	int objT;
@@ -1471,7 +1482,7 @@ builtIn(rename)
 
 builtIn (getObjectX)
 {
-	KPrintF("running getObjectX\n");
+	//KPrintF("running getObjectX\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1493,7 +1504,7 @@ builtIn (getObjectX)
 
 builtIn (getObjectY)
 {
-	KPrintF("running getObjectY\n");
+	//KPrintF("running getObjectY\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1516,7 +1527,7 @@ builtIn (getObjectY)
 
 builtIn(addScreenRegion)
 {
-	KPrintF("running addScreenRegion\n");
+	//KPrintF("running addScreenRegion\n");
 	UNUSEDALL
 	int sX, sY, x1, y1, x2, y2, di, objectNumber;
 	if (! getValueType(&di, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1542,7 +1553,7 @@ builtIn(addScreenRegion)
 
 builtIn(removeScreenRegion)
 {
-	KPrintF("running removeScreenRegion\n");
+	//KPrintF("running removeScreenRegion\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1553,7 +1564,7 @@ builtIn(removeScreenRegion)
 
 builtIn(showBoxes)
 {
-	KPrintF("running showBoxes\n");
+	//KPrintF("running showBoxes\n");
 	UNUSEDALL
 	showBoxes ();
 	return BR_CONTINUE;
@@ -1561,7 +1572,7 @@ builtIn(showBoxes)
 
 builtIn(removeAllScreenRegions)
 {
-	KPrintF("running removeAllScreenRegions\n");
+	//KPrintF("running removeAllScreenRegions\n");
 	UNUSEDALL
 	killAllRegions ();
 	return BR_CONTINUE;
@@ -1569,7 +1580,7 @@ builtIn(removeAllScreenRegions)
 
 builtIn(addCharacter)
 {
-	KPrintF("running addCharacter\n");
+	//KPrintF("running addCharacter\n");
 	UNUSEDALL
 	struct persona * p;
 	int x, y, objectNumber;
@@ -1590,7 +1601,7 @@ builtIn(addCharacter)
 
 builtIn(hideCharacter)
 {
-	KPrintF("running hideCharacter\n");
+	//KPrintF("running hideCharacter\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1601,7 +1612,7 @@ builtIn(hideCharacter)
 
 builtIn(showCharacter)
 {
-	KPrintF("running showCharacter\n");
+	//KPrintF("running showCharacter\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1612,7 +1623,7 @@ builtIn(showCharacter)
 
 builtIn(removeAllCharacters)
 {
-	KPrintF("running removeAllCharacters\n");
+	//KPrintF("running removeAllCharacters\n");
 	UNUSEDALL
 	killSpeechTimers ();
 	killMostPeople ();
@@ -1621,7 +1632,7 @@ builtIn(removeAllCharacters)
 
 builtIn(setCharacterDrawMode)
 {
-	KPrintF("running setCharacterDrawMode\n");
+	//KPrintF("running setCharacterDrawMode\n");
 	UNUSEDALL
 	int obj, di;
 	if (! getValueType(&di, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1634,7 +1645,7 @@ builtIn(setCharacterDrawMode)
 
 builtIn(setCharacterTransparency)
 {
-	KPrintF("running setCharacterTransparency\n");
+	//KPrintF("running setCharacterTransparency\n");
 	UNUSEDALL
 	KPrintF("setCharacterTransparency: Not implemented on Amiga");
 	return BR_CONTINUE;
@@ -1642,7 +1653,7 @@ builtIn(setCharacterTransparency)
 
 builtIn(setCharacterColourise)
 {
-	KPrintF("running setCharacterColourise\n");
+	//KPrintF("running setCharacterColourise\n");
 	UNUSEDALL
 	KPrintF("setCharacterColourise: Currently not implemented on Amiga");
 	/*int obj, r, g, b, mix;
@@ -1662,7 +1673,7 @@ builtIn(setCharacterColourise)
 
 builtIn(setScale)
 {
-	KPrintF("running setScale\n");
+	//KPrintF("running setScale\n");
 	UNUSEDALL
 	int val1, val2;
 	if (! getValueType(&val2, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1675,7 +1686,7 @@ builtIn(setScale)
 
 builtIn(stopCharacter)
 {
-	KPrintF("running stopCharacter\n");
+	//KPrintF("running stopCharacter\n");
 	UNUSEDALL
 	int obj;
 	if (! getValueType(&obj, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1688,7 +1699,7 @@ builtIn(stopCharacter)
 
 builtIn(pasteCharacter)
 {
-	KPrintF("running pasteCharacter\n");
+	//KPrintF("running pasteCharacter\n");
 	UNUSEDALL
 	/*int obj;
 	if (! getValueType(&obj, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1716,7 +1727,7 @@ builtIn(pasteCharacter)
 
 builtIn(animate)
 {
-	KPrintF("running animate\n");
+	//KPrintF("running animate\n");
 	UNUSEDALL
 	int obj;
 	struct personaAnimation * pp = getAnimationFromVar (&(fun -> stack -> thisVar));
@@ -1731,7 +1742,7 @@ builtIn(animate)
 
 builtIn(setCostume)
 {
-	KPrintF("running setCostume\n");
+	//KPrintF("running setCostume\n");
 	UNUSEDALL
 	int obj;
 	struct persona * pp = getCostumeFromVar(&(fun -> stack -> thisVar));
@@ -1745,7 +1756,7 @@ builtIn(setCostume)
 
 builtIn(floatCharacter)
 {
-	KPrintF("running floatCharacter\n");
+	//KPrintF("running floatCharacter\n");
 	UNUSEDALL
 	int obj, di;
 	if (! getValueType(&di, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1758,7 +1769,7 @@ builtIn(floatCharacter)
 
 builtIn(setCharacterWalkSpeed)
 {
-	KPrintF("running setCharacterWalkSpeed\n");
+	//KPrintF("running setCharacterWalkSpeed\n");
 	UNUSEDALL
 	int obj, di;
 	if (! getValueType(&di, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1771,7 +1782,7 @@ builtIn(setCharacterWalkSpeed)
 
 builtIn(turnCharacter)
 {
-	KPrintF("running turnCharacter\n");
+	//KPrintF("running turnCharacter\n");
 	UNUSEDALL
 	int obj, di;
 	if (! getValueType(&di, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1784,7 +1795,7 @@ builtIn(turnCharacter)
 
 builtIn(setCharacterExtra)
 {
-	KPrintF("running setCharacterExtra\n");
+	//KPrintF("running setCharacterExtra\n");
 	UNUSEDALL
 	int obj, di;
 	if (! getValueType(&di, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1796,8 +1807,8 @@ builtIn(setCharacterExtra)
 }
 
 builtIn(removeCharacter)
-{	
-	KPrintF("running removeCharacter\n");
+{
+	//KPrintF("running removeCharacter\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1865,28 +1876,28 @@ static enum builtReturn moveChr(int numParams, struct loadedFunction * fun, BOOL
 
 builtIn(moveCharacter)
 {
-	KPrintF("running moveCharacter\n");
+	//KPrintF("running moveCharacter\n");
 	UNUSEDALL
 	return moveChr(numParams, fun, FALSE, FALSE);
 }
 
 builtIn(forceCharacter)
 {
-	KPrintF("running forceCharacter\n");
+	//KPrintF("running forceCharacter\n");
 	UNUSEDALL
 	return moveChr(numParams, fun, TRUE, FALSE);
 }
 
 builtIn(jumpCharacter)
 {
-	KPrintF("running jumpCharacter\n");
+	//KPrintF("running jumpCharacter\n");
 	UNUSEDALL
 	return moveChr(numParams, fun, FALSE, TRUE);
 }
 
 builtIn(clearStatus)
 {
-	KPrintF("running clearStatus\n");
+	//KPrintF("running clearStatus\n");
 	UNUSEDALL
 	clearStatusBar ();
 	return BR_CONTINUE;
@@ -1894,7 +1905,7 @@ builtIn(clearStatus)
 
 builtIn(removeLastStatus)
 {
-	KPrintF("running removeLastStatus\n");
+	//KPrintF("running removeLastStatus\n");
 	UNUSEDALL
 	killLastStatus ();
 	return BR_CONTINUE;
@@ -1902,7 +1913,7 @@ builtIn(removeLastStatus)
 
 builtIn(addStatus)
 {
-	KPrintF("running addStatus\n");
+	//KPrintF("running addStatus\n");
 	UNUSEDALL
 	addStatusBar ();
 	return BR_CONTINUE;
@@ -1910,7 +1921,7 @@ builtIn(addStatus)
 
 builtIn(statusText)
 {
-	KPrintF("running statusText\n");
+	//KPrintF("running statusText\n");
 	UNUSEDALL
 	char * newText = getTextFromAnyVar(&(fun->stack->thisVar));
 	if (!newText) return BR_ERROR;
@@ -1922,7 +1933,7 @@ builtIn(statusText)
 
 builtIn(lightStatus)
 {
-	KPrintF("running lightStatus\n");
+	//KPrintF("running lightStatus\n");
 	UNUSEDALL
 	int val;
 	if (! getValueType(&val, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1933,7 +1944,7 @@ builtIn(lightStatus)
 
 builtIn(positionStatus)
 {
-	KPrintF("running positionStatus\n");
+	//KPrintF("running positionStatus\n");
 	UNUSEDALL
 	int x, y;
 	if (! getValueType(&y, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1946,7 +1957,7 @@ builtIn(positionStatus)
 
 builtIn(alignStatus)
 {
-	KPrintF("running alignStatus\n");
+	//KPrintF("running alignStatus\n");
 	UNUSEDALL
 	int val;
 	if (! getValueType(&val, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -1976,7 +1987,7 @@ static BOOL getFuncNumForCallback(int numParams, struct loadedFunction * fun, in
 
 builtIn (onLeftMouse)
 {
-	KPrintF("running onLeftMouse\n");
+	//KPrintF("running onLeftMouse\n");
 	UNUSEDALL
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
@@ -1989,7 +2000,7 @@ builtIn (onLeftMouse)
 
 builtIn (onLeftMouseUp)
 {
-	KPrintF("running onLeftMouseUp\n");
+	//KPrintF("running onLeftMouseUp\n");
 	UNUSEDALL
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
@@ -2002,7 +2013,7 @@ builtIn (onLeftMouseUp)
 
 builtIn (onRightMouse)
 {
-	KPrintF("running onRightMouse\n");
+	//KPrintF("running onRightMouse\n");
 	UNUSEDALL
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
@@ -2015,7 +2026,7 @@ builtIn (onRightMouse)
 
 builtIn (onRightMouseUp)
 {
-	KPrintF("running onRightMouseUp\n");
+	//KPrintF("running onRightMouseUp\n");
 	UNUSEDALL
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
@@ -2028,7 +2039,7 @@ builtIn (onRightMouseUp)
 
 builtIn (onFocusChange)
 {
-	KPrintF("running onFocusChange\n");
+	//KPrintF("running onFocusChange\n");
 	UNUSEDALL
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
@@ -2041,7 +2052,7 @@ builtIn (onFocusChange)
 
 builtIn (onMoveMouse)
 {
-	KPrintF("running onMoveMouse\n");
+	//KPrintF("running onMoveMouse\n");
 	UNUSEDALL
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
@@ -2054,7 +2065,7 @@ builtIn (onMoveMouse)
 
 builtIn (onKeyboard)
 {
-	KPrintF("running onKeyboard\n");
+	//KPrintF("running onKeyboard\n");
 	UNUSEDALL
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
@@ -2067,7 +2078,7 @@ builtIn (onKeyboard)
 
 builtIn (spawnSub)
 {
-	KPrintF("running spawnSub\n");
+	//KPrintF("running spawnSub\n");
 	UNUSEDALL
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
@@ -2080,7 +2091,7 @@ builtIn (spawnSub)
 
 builtIn (cancelSub)
 {
-	KPrintF("running cancelSub\n");
+	//KPrintF("running cancelSub\n");
 	UNUSEDALL
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, &functionNum))
@@ -2098,7 +2109,7 @@ builtIn (cancelSub)
 
 builtIn(stringWidth)
 {
-	KPrintF("running stringWidth\n");
+	//KPrintF("running stringWidth\n");
 	UNUSEDALL
 	char * theText = getTextFromAnyVar(&(fun->stack->thisVar));
 	if (!theText) return BR_ERROR;
@@ -2112,7 +2123,7 @@ builtIn(stringWidth)
 
 builtIn(hardScroll)
 {
-	KPrintF("running hardScroll\n");
+	//KPrintF("running hardScroll\n");
 	UNUSEDALL
 	int v;
 	if (! getValueType(&v, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2124,7 +2135,7 @@ builtIn(hardScroll)
 
 builtIn(isScreenRegion)
 {
-	KPrintF("running isScreenRegion\n");
+	//KPrintF("running isScreenRegion\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2135,7 +2146,7 @@ builtIn(isScreenRegion)
 
 builtIn(setSpeechSpeed)
 {
-	KPrintF("running setSpeechSpeed\n");
+	//KPrintF("running setSpeechSpeed\n");
 	UNUSEDALL
 	int number;
 	if (! getValueType(&number, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2147,7 +2158,7 @@ builtIn(setSpeechSpeed)
 
 builtIn(setFontSpacing)
 {
-	KPrintF("running setFontSpacing\n");
+	//KPrintF("running setFontSpacing\n");
 	UNUSEDALL
 	int fontSpaceI;
 	if (! getValueType(&fontSpaceI, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2159,7 +2170,7 @@ builtIn(setFontSpacing)
 
 builtIn(transitionLevel)
 {
-	KPrintF("running transitionLevel\n");
+	//KPrintF("running transitionLevel\n");
 	UNUSEDALL
 	int number;
 	if (! getValueType(&number, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2178,7 +2189,7 @@ builtIn(transitionLevel)
 
 builtIn(captureAllKeys)
 {
-	KPrintF("running captureAllKeys\n");
+	//KPrintF("running captureAllKeys\n");
 	UNUSEDALL
 	captureAllKeys = getBoolean(&(fun -> stack -> thisVar));
 	trimStack (&fun -> stack);
@@ -2189,7 +2200,7 @@ builtIn(captureAllKeys)
 
 builtIn(spinCharacter)
 {
-	KPrintF("running spinCharacter\n");
+	//KPrintF("running spinCharacter\n");
 	UNUSEDALL
 	int number, objectNumber;
 	if (! getValueType(&number, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2212,7 +2223,7 @@ builtIn(spinCharacter)
 
 builtIn(getCharacterDirection)
 {
-	KPrintF("running getCharacterDirection\n");
+	//KPrintF("running getCharacterDirection\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2228,7 +2239,7 @@ builtIn(getCharacterDirection)
 
 builtIn(isCharacter)
 {
-	KPrintF("running isCharacter\n");
+	//KPrintF("running isCharacter\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2240,7 +2251,7 @@ builtIn(isCharacter)
 
 builtIn(normalCharacter)
 {
-	KPrintF("running normalCharacter\n");
+	//KPrintF("running normalCharacter\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2258,7 +2269,7 @@ builtIn(normalCharacter)
 
 builtIn(isMoving)
 {
-	KPrintF("running isMoving\n");
+	//KPrintF("running isMoving\n");
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2275,7 +2286,7 @@ builtIn(isMoving)
 
 builtIn(fetchEvent)
 {
-	KPrintF("running fetchEvent\n");
+	//KPrintF("running fetchEvent\n");
 	UNUSEDALL
 	int obj1, obj2;
 	if (! getValueType(&obj2, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2296,7 +2307,7 @@ builtIn(fetchEvent)
 
 builtIn(deleteFile)
 {
-	KPrintF("running deleteFile\n");
+	//KPrintF("running deleteFile\n");
     UNUSEDALL
 
     char *namNormal = getTextFromAnyVar(&(fun->stack->thisVar));
@@ -2312,7 +2323,7 @@ builtIn(deleteFile)
 
 builtIn(renameFile)
 {
-	KPrintF("running renameFile\n");
+	//KPrintF("running renameFile\n");
 	UNUSEDALL
 	char * temp;
 
@@ -2337,7 +2348,7 @@ builtIn(renameFile)
 
 builtIn(cacheSound)
 {
-	KPrintF("running cacheSound\n");
+	//KPrintF("running cacheSound\n");
 	UNUSEDALL
 	int fileNumber;
 	if (! getValueType(&fileNumber, SVT_FILE,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2348,7 +2359,7 @@ builtIn(cacheSound)
 
 builtIn(burnString)
 {
-	KPrintF("running burnString\n");
+	//KPrintF("running burnString\n");
 	UNUSEDALL
 	/*char * newText = getTextFromAnyVar(&(fun -> stack -> thisVar));
 	trimStack (&fun -> stack);
@@ -2367,7 +2378,7 @@ builtIn(burnString)
 
 builtIn(setCharacterSpinSpeed)
 {
-	KPrintF("running setCharacterSpinSpeed\n");
+	//KPrintF("running setCharacterSpinSpeed\n");
 	UNUSEDALL
 	int speed, who;
 	if (! getValueType(&speed, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2388,7 +2399,7 @@ builtIn(setCharacterSpinSpeed)
 
 builtIn(setCharacterAngleOffset)
 {
-	KPrintF("running setCharacterAngleOffset\n");
+	//KPrintF("running setCharacterAngleOffset\n");
 	UNUSEDALL
 	int angle, who;
 	if (! getValueType(&angle, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2410,7 +2421,7 @@ builtIn(setCharacterAngleOffset)
 
 builtIn(transitionMode)
 {
-	KPrintF("running transitionMode\n");
+	//KPrintF("running transitionMode\n");
 	UNUSEDALL
 	int n;
 	if (! getValueType(&n, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2446,7 +2457,7 @@ builtIn(getSoundCache)
 
 builtIn(saveCustomData)
 {
-	KPrintF("running saveCustomData\n");
+	//KPrintF("running saveCustomData\n");
 	UNUSEDALL
 	// saveCustomData (thisStack, fileName);
 	char * fileNameB = getTextFromAnyVar(&(fun->stack->thisVar));
@@ -2470,7 +2481,7 @@ builtIn(saveCustomData)
 
 builtIn(loadCustomData)
 {
-	KPrintF("running loadCustomData\n");
+	//KPrintF("running loadCustomData\n");
 	UNUSEDALL
 
 	char * newTextA = getTextFromAnyVar(&(fun->stack->thisVar));
@@ -2496,7 +2507,7 @@ builtIn(loadCustomData)
 
 builtIn(setCustomEncoding)
 {
-	KPrintF("running setCustomEncoding\n");
+	//KPrintF("running setCustomEncoding\n");
 	UNUSEDALL
 	int n;
 	if (! getValueType(&n, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
@@ -2603,7 +2614,7 @@ builtIn(getCharacterScale)
 
 	struct onScreenPerson * pers = findPerson (objectNumber);
 	if (pers) {
-		setVariable (&fun -> reg, SVT_INT, pers -> scale * (FLOAT) 100); 
+		setVariable (&fun -> reg, SVT_INT, pers -> scale * (FLOAT) 100);
 	} else {
 		setVariable (&fun -> reg, SVT_INT, 0);
 	}
@@ -2846,8 +2857,8 @@ FUNC (TRUE, rename)
 FUNC (TRUE, stackSize)
 FUNC (TRUE, pasteString)
 FUNC (TRUE, startMusic)
-FUNC (TRUE, setDefaultMusicVolume)	
-FUNC (TRUE, setMusicVolume)	
+FUNC (TRUE, setDefaultMusicVolume)
+FUNC (TRUE, setMusicVolume)
 FUNC (TRUE, stopMusic)
 FUNC (TRUE, stopSound)
 FUNC (TRUE, setFont)
@@ -2949,6 +2960,7 @@ FUNC (TRUE, playMovie)
 FUNC (TRUE, stopMovie)
 FUNC (TRUE, pauseMovie)
 FUNC (TRUE, addZBufferLayer)
+FUNC (TRUE, printConsole)
 };
 #undef FUNC
 
@@ -2981,4 +2993,3 @@ enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunctio
 	KPrintF("Unknown / mented built-in function.");
 	return BR_ERROR;
 }
-

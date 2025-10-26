@@ -25,7 +25,7 @@ struct frozenStuffStruct * frozenStuff = NULL;
 
 
 BOOL freeze () {
-	KPrintF("calling freeze()\n");
+	//KPrintF("calling freeze()\n");
 
 	struct frozenStuffStruct * newFreezer = (struct frozenStuffStruct *) AllocVec(sizeof(struct frozenStuffStruct), MEMF_ANY);
 	if (!newFreezer) return FALSE;
