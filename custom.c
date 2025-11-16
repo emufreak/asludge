@@ -583,6 +583,7 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
     if(CstPalette) {
       FreeVec(CstPalette);
+      CstPalette = NULL;
     }
 
     CstPalette = AllocVec(32*2,MEMF_ANY); //ToDo other number of bitplanes
@@ -671,6 +672,9 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
   FreeVec(tmpbuffer);
   FreeVec(tmpmask);
+
+  tmpbuffer = NULL;
+  tmpmask = NULL;
 
   struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
   CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
