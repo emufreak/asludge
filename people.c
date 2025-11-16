@@ -43,7 +43,7 @@ int TF_abs (int a) {
 
 
 BOOL addPerson(int x, int y, int objNum, struct persona *p) {
-	
+
 	struct onScreenPerson *newPerson = AllocVec(sizeof(struct onScreenPerson), MEMF_ANY);
     if (!newPerson) return FALSE;
 
@@ -135,7 +135,7 @@ void cleanupPeople() {
 	struct personaAnimation * myAnim = NULL;
 	overRegion = NULL;
 
-	while (thisPerson) {		
+	while (thisPerson) {
 		thisPerson = thisPerson->next;
 	}
 }
@@ -224,13 +224,13 @@ void deleteAnim (struct personaAnimation * orig) {
 	if(orig->theSprites)
 	{
 		int timesused = --orig->theSprites->timesUsed;
-		
+
 		if(!timesused)
 		{
 			forgetSpriteBank( orig->theSprites);
 		}
-	}			
-	
+	}
+
 	if (orig)
 	{
 		if (orig -> numFrames) {
@@ -238,8 +238,8 @@ void deleteAnim (struct personaAnimation * orig) {
 		}
 		FreeVec(orig);
 		orig = NULL;
-	}	
-	
+	}
+
 }
 
 BOOL doBorderStuff (struct onScreenPerson * moveMe) {
@@ -498,6 +498,7 @@ void jumpPerson (int x, int y, int objNum) {
 
 
 void killAllPeople () {
+    KPrintF("killAllPeople started\n");
 	struct onScreenPerson * killPeople;
 	while (allPeople) {
 		if (allPeople -> continueAfterWalking) abortFunction (allPeople -> continueAfterWalking);
@@ -507,6 +508,7 @@ void killAllPeople () {
 		removeObjectType (killPeople -> thisType);
 		FreeVec(killPeople);
 	}
+    KPrintF("killAllPeople finished\n");
 }
 
 void killMostPeople() {
@@ -546,8 +548,8 @@ BOOL loadAnim (struct personaAnimation * p, BPTR fp) {
 
 		for (a = 0; a < p -> numFrames; a ++) {
 			p -> frames[a].frameNum = get4bytes (fp);
-			p -> frames[a].howMany = get4bytes (fp);			
-			p -> frames[a].noise = get4bytes (fp);			
+			p -> frames[a].howMany = get4bytes (fp);
+			p -> frames[a].noise = get4bytes (fp);
 		}
 	} else {
 		p -> theSprites = NULL;
@@ -638,17 +640,17 @@ BOOL loadPeople (BPTR fp) {
 			me -> continueAfterWalking = NULL;
 		}
 		me -> direction = get2bytes(fp);
-		me -> angle = get2bytes(fp);	
-		me -> angleOffset = get2bytes(fp);	
+		me -> angle = get2bytes(fp);
+		me -> angleOffset = get2bytes(fp);
 		me -> wantAngle = get2bytes(fp);
 		me -> directionWhenDoneWalking = getSigned(fp);
 		me -> inPoly = getSigned(fp);
-		me -> walkToPoly = getSigned(fp);		
+		me -> walkToPoly = getSigned(fp);
 		me -> r = FGetC (fp);
 		me -> g = FGetC (fp);
 		me -> b = FGetC (fp);
 		me -> colourmix = FGetC (fp);
-		me -> transparency = FGetC (fp);		
+		me -> transparency = FGetC (fp);
 		me -> thisType = loadObjectRef (fp);
 		// aaLoad
 		FGetC (fp);
@@ -673,16 +675,16 @@ BOOL makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, 
 	if (currentFloor -> numPolygons == 0) return FALSE;
 	struct onScreenPerson * moveMe = findPerson (objNum);
 
-	
+
 	if (! moveMe) {
 		KPrintF("makeWalkingPerson: Can't find person %d\n", objNum);
 		return FALSE;
-	} 
+	}
 
 
 	if (moveMe -> continueAfterWalking) {
 		abortFunction (moveMe -> continueAfterWalking);
-	}	
+	}
 	moveMe -> continueAfterWalking = NULL;
 	moveMe -> walking = TRUE;
 	moveMe -> directionWhenDoneWalking = di;
@@ -716,8 +718,8 @@ struct personaAnimation * makeNullAnim () {
 	struct personaAnimation * newAnim	= AllocVec(sizeof(struct personaAnimation),MEMF_ANY);
     if(newAnim == 0) {
      	KPrintF("makeNullAnim: Can't reserve Memory\n");
-        return NULL;    
-    }  
+        return NULL;
+    }
 
 	newAnim -> theSprites		= NULL;
 	newAnim -> numFrames		= 0;
@@ -734,7 +736,7 @@ void moveAndScale (struct onScreenPerson *me, FLOAT x, FLOAT y) {
 }
 
 void removeOneCharacter (int i) {
-    struct onScreenPerson * p = findPerson(i);	
+    struct onScreenPerson * p = findPerson(i);
 
     if (p) {
 
@@ -763,7 +765,7 @@ void removeOneCharacter (int i) {
         *killPeople = p->next;
         removeObjectType(p->thisType);
         FreeVec(p);
-		
+
     }
 }
 
@@ -858,7 +860,7 @@ BOOL savePeople (BPTR fp) {
 		FPutC (fp, me -> b);
 		FPutC (fp, me -> colourmix);
 		FPutC (fp, me -> transparency);
-		
+
 		saveObjectRef (me -> thisType, fp);
 
 		me = me -> next;
@@ -866,15 +868,15 @@ BOOL savePeople (BPTR fp) {
 	return TRUE;
 }
 
-void setBankFile (struct personaAnimation * newP, struct loadedSpriteBank * sB) { 
-	newP -> theSprites = sB; 
+void setBankFile (struct personaAnimation * newP, struct loadedSpriteBank * sB) {
+	newP -> theSprites = sB;
 }
 
 
 void setDrawMode (int h, int ob) {
 	struct onScreenPerson * moveMe = findPerson (ob);
 	if (! moveMe) return;
-		
+
 	setMyDrawMode (moveMe, h);
 }
 

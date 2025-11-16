@@ -33,10 +33,10 @@ BOOL freeze () {
 	CstFreeze();
 
 	// Grab a copy of the current scene
-	//ToDo: Amiga Graphics handling here	
+	//ToDo: Amiga Graphics handling here
 
 	int picWidth = sceneWidth;
-	int picHeight = sceneHeight;	
+	int picHeight = sceneHeight;
 
 
 
@@ -57,7 +57,7 @@ BOOL freeze () {
 	allPeople = NULL;
 
 	struct statusStuff * newStatusStuff = (struct statusStuff *) AllocVec(sizeof(struct statusStuff), MEMF_ANY);
-	if (!newStatusStuff) return FALSE;	
+	if (!newStatusStuff) return FALSE;
 
 	newFreezer -> allScreenRegions = allScreenRegions;
 	allScreenRegions = NULL;
@@ -96,9 +96,13 @@ int howFrozen () {
 }
 
 void unfreeze () {
+    KPrintF("calling unfreeze()\n");
 	struct frozenStuffStruct * killMe = frozenStuff;
 
-	if (! frozenStuff) return;
+	if (! frozenStuff) {
+        KPrintF("unfreeze: No frozen stuff to unfreeze\n");
+        return;
+    }
 
 	CstUnfreeze();
 
@@ -118,17 +122,20 @@ void unfreeze () {
 
 	killAllRegions ();
 	allScreenRegions = frozenStuff -> allScreenRegions;
-	
-	deleteAnim (mouseCursorAnim);  
-	mouseCursorAnim = frozenStuff -> mouseCursorAnim;
-	mouseCursorFrameNum = frozenStuff -> mouseCursorFrameNum;	
 
+    KPrintF("unfreeze: Restoring mouse cursor animation\n");
+	deleteAnim (mouseCursorAnim);
+	mouseCursorAnim = frozenStuff -> mouseCursorAnim;
+	mouseCursorFrameNum = frozenStuff -> mouseCursorFrameNum;
+
+    KPrintF("unfreeze: Restoring z-buffer\n");
 	killZBuffer ();
 	zBuffer = frozenStuff->zBuffer;
 
 	if (currentEvents) FreeVec(currentEvents);
 	currentEvents = frozenStuff -> currentEvents;
 
+    KPrintF("unfreeze: Restoring speech\n");
 	killAllSpeech ();
 	if (speech) FreeVec(speech);
 	speech = frozenStuff -> speech;
@@ -136,7 +143,7 @@ void unfreeze () {
 	frozenStuff = frozenStuff -> next;
 
 	overRegion = NULL;
+    KPrintF("unfreeze: Freeing frozenStuff\n");
 	if (killMe) FreeVec(killMe);
 	killMe = NULL;
 }
-

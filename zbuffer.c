@@ -7,7 +7,7 @@
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 
-#define EMULATOR
+//#define EMULATOR
 
 struct zBufferData *zBuffer;
 
@@ -23,7 +23,7 @@ void addZBufferLayer (int x, int y, int width, int height, int yz) {
 
 	zBuffer = createthis;
 
-	UWORD size = sceneWidth * sceneHeight / 8;	
+	UWORD size = sceneWidth * sceneHeight / 8;
 	createthis->bitplane = AllocVec( size, MEMF_CHIP);
 	CstCreateZBufferLayer (createthis->bitplane, x, y, width, height);
 
@@ -46,12 +46,12 @@ BOOL setZBuffer (unsigned int y) {
 	ULONG stillToGo = 0;
 	int yPalette[16], sorted[16], sortback[16];
 
-	killZBuffer ();	
-	
+	killZBuffer ();
+
 	if (! openFileFromNum (y)) return FALSE;
-	
-	if (FGetC (bigDataFile) != 'a' || FGetC (bigDataFile) != 's' || FGetC (bigDataFile) != 'z' || FGetC (bigDataFile) != 'b') 
-	{ 
+
+	if (FGetC (bigDataFile) != 'a' || FGetC (bigDataFile) != 's' || FGetC (bigDataFile) != 'z' || FGetC (bigDataFile) != 'b')
+	{
 		 KPrintF("Not a Z-buffer file");
 		 return FALSE;
 	}
@@ -67,7 +67,7 @@ BOOL setZBuffer (unsigned int y) {
 	currentitem = zBuffer;
 
 	while(numelements--)
-	{		
+	{
 		currentitem->width = get2bytes (bigDataFile);
 		currentitem->height = get2bytes (bigDataFile);
 
@@ -77,7 +77,7 @@ BOOL setZBuffer (unsigned int y) {
 
 		UWORD size = currentitem->width * currentitem->height / 8;
 		currentitem->bitplane = AllocVec( size, MEMF_CHIP);
-		count = FRead( bigDataFile, currentitem->bitplane, 1, size);				
+		count = FRead( bigDataFile, currentitem->bitplane, 1, size);
 
 		if(numelements > 0) {
 			currentitem->nextPanel = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
@@ -85,15 +85,15 @@ BOOL setZBuffer (unsigned int y) {
 		} else {
 			currentitem->nextPanel = NULL;
 		}
-		#ifdef EMULATOR  
+		#ifdef EMULATOR
   			debug_register_bitmap(currentitem->bitplane, "zBuffer.bpl", currentitem->width, currentitem->height , 1, 0);
-		#endif  
-		
+		#endif
+
 	}
 
 
 	finishAccess ();
-	
+
 	return TRUE;
 }
 
@@ -104,8 +104,8 @@ void sortZPal (int *oldpal, int *newpal, int size) {
 		newpal[i] = i;
 	}
 
-	if (size < 2) return;		
-		
+	if (size < 2) return;
+
 	for (i = 1; i < size; i ++) {
 		if (oldpal[newpal[i]] < oldpal[newpal[i-1]]) {
 			tmp = newpal[i];

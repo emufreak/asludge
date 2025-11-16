@@ -5,6 +5,7 @@
 #include "objtypes.h"
 #include "sludger.h"
 #include "region.h"
+#include "support/gcc8_c_support.h"
 
 extern struct inputType input;
 extern int cameraX, cameraY;
@@ -60,6 +61,8 @@ struct screenRegion * getRegionForObject (int obj) {
 
 void killAllRegions () {
 	struct screenRegion * killRegion;
+    KPrintF("killAllRegions started\n");
+
 	while (allScreenRegions) {
 		killRegion = allScreenRegions;
 		allScreenRegions = allScreenRegions -> next;
@@ -67,6 +70,7 @@ void killAllRegions () {
 		FreeVec(killRegion);
 	}
 	overRegion = NULL;
+    KPrintF("killAllRegions finished\n");
 }
 
 void loadRegions (BPTR fp) {

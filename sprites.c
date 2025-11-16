@@ -15,25 +15,25 @@ extern struct inputType input;
 
 
 void forgetSpriteBank (struct loadedSpriteBank * forgetme)
-{			
+{
 	struct spriteBank *spritebanktoforget = &forgetme->bank;
-	
+
 	for (int i = 0; i < spritebanktoforget->total; i++) {
-		struct sprite *cursprite = &spritebanktoforget->sprites[i];		
-		if(cursprite->data) {		
-			FreeVec(cursprite->data);			
-		}		
+		struct sprite *cursprite = &spritebanktoforget->sprites[i];
+		if(cursprite->data) {
+			FreeVec(cursprite->data);
+		}
 	}
 
-	FreeVec(spritebanktoforget->sprites);	
-	
-	
+	FreeVec(spritebanktoforget->sprites);
+
+
 	struct loadedSpriteBank *precedingbank = allLoadedBanks;
-	
-	while(precedingbank->next->ID != forgetme->ID && precedingbank != NULL)
+
+	while(precedingbank != NULL && precedingbank->next->ID != forgetme->ID)
 	{
 		precedingbank = precedingbank->next;
-	}	
+	}
 
 	if(precedingbank)
 	{
@@ -45,7 +45,7 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 		//Forget first element in the chain
 		allLoadedBanks = allLoadedBanks->next;
 		FreeVec( forgetme);
-	}	
+	}
 }
 
 BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
@@ -81,8 +81,8 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 
 	loadhere->total = total;
 	loadhere->sprites = AllocVec(sizeof(struct sprite) * total, MEMF_ANY);
-	if (!loadhere->sprites) return FALSE;	
-	
+	if (!loadhere->sprites) return FALSE;
+
 	startIndex = 1;
 
 	for (i = 0; i < total; i++) {
@@ -94,8 +94,8 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 		loadhere->sprites[i].yhot = get2bytes(bigDataFile);
 
 		UWORD size;
-		
-		switch( loadhere->type) 
+
+		switch( loadhere->type)
 		{
 			case 1: //Sprite
 				size = 4*loadhere->sprites[i].height+8;
@@ -127,10 +127,10 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 	return TRUE;
 }
 
-BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror) 
+BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror)
 {
 	WORD x =  thisPerson->x - single->xhot;
-	WORD y =  thisPerson->y - single->yhot;			
+	WORD y =  thisPerson->y - single->yhot;
 
 	if( x < 0)
 	{
@@ -146,7 +146,7 @@ BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOO
 			x1 = x - (int)(mirror ? single->width - single->xhot : single->xhot+1);
 		else
 			x1 = x - (int)(mirror ? single->width - (single->xhot+1) : single->xhot);
-		
+
 		y1 = y - (single->yhot - thisPerson->floaty);
 		x2 = x1 + single->width;
 		y2 = y1 + single->height;
@@ -157,7 +157,7 @@ BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOO
 			x1 = x - (int)(mirror ? single->width - single->xhot : single->xhot+1);
 		else
 			x1 = x - (int)(mirror ? single->width - (single->xhot+1) : single->xhot);
-		
+
 		y1 = y - (single->yhot - thisPerson->floaty);
 		x2 = x1 + single->width;
 		y2 = y1 + single->height;

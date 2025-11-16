@@ -175,7 +175,7 @@ builtIn(freeze)
 
 builtIn(unfreeze)
 {
-	//KPrintF("running unfreeze\n");
+	KPrintF("running unfreeze\n");
 	UNUSEDALL
 	unfreeze ();
 	unfreezeSubs ();

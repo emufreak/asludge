@@ -15,9 +15,9 @@
 #include <proto/mathieeesingtrans.h>
 #include <libraries/mathieeesp.h>
 #include "main_sludge.h"
-#define EMULATOR
+//#define EMULATOR
 
-UWORD FrameCounter = 0; 
+UWORD FrameCounter = 0;
 //config
 
 struct ExecBase *SysBase;
@@ -35,14 +35,14 @@ static UWORD SystemDMA;
 static UWORD SystemADKCON;
 static volatile APTR VBR=0;
 static APTR SystemIrq;
- 
+
 struct View *ActiView;
 
 static APTR GetVBR(void) {
 	APTR vbr = 0;
 	UWORD getvbr[] = { 0x4e7a, 0x0801, 0x4e73 }; // MOVEC.L VBR,D0 RTE
 
-	if (SysBase->AttnFlags & AFF_68010) 
+	if (SysBase->AttnFlags & AFF_68010)
 		vbr = (APTR)Supervisor((ULONG (*)())getvbr);
 
 	return vbr;
@@ -72,7 +72,7 @@ __attribute__((always_inline)) inline void WaitBlt() {
 
 void TakeSystem() {
 	Forbid();
-	//Save current interrupts and DMA settings so we can restore them upon exit. 
+	//Save current interrupts and DMA settings so we can restore them upon exit.
 	SystemADKCON=custom->adkconr;
 	SystemInts=custom->intenar;
 	SystemDMA=custom->dmaconr;
@@ -86,12 +86,12 @@ void TakeSystem() {
 	WaitVbl();
 
 	OwnBlitter();
-	WaitBlit();	
+	WaitBlit();
 	//Disable();
-	
+
 	/*custom->intena=0x7fff;//disable all interrupts
 	custom->intreq=0x7fff;//Clear any interrupts that were pending*/
-	
+
 	custom->dmacon=0x7fff;//Clear all DMA channels
 
 	//set all colors black
@@ -105,7 +105,7 @@ void TakeSystem() {
 	SystemIrq=GetInterruptHandler(); //store interrupt register
 }
 
-void FreeSystem() { 
+void FreeSystem() {
 	WaitVbl();
 	WaitBlit();
 	/*custom->intena=0x7fff;//disable all interrupts
@@ -125,7 +125,7 @@ void FreeSystem() {
 	custom->dmacon=SystemDMA|0x8000;
 	custom->adkcon=SystemADKCON|0x8000;
 
-	WaitBlit();	
+	WaitBlit();
 	DisownBlitter();
 	//Enable();
 
@@ -136,13 +136,13 @@ void FreeSystem() {
 	Permit();
 }
 
-__attribute__((always_inline)) inline short MouseLeft(){return !((*(volatile UBYTE*)0xbfe001)&64);}	
+__attribute__((always_inline)) inline short MouseLeft(){return !((*(volatile UBYTE*)0xbfe001)&64);}
 __attribute__((always_inline)) inline short MouseRight(){return !((*(volatile UWORD*)0xdff016)&(1<<10));}
 
 #ifdef MUSIC
 	// Demo - Module Player - ThePlayer 6.1a: https://www.pouet.net/prod.php?which=19922
 	// The Player® 6.1A: Copyright © 1992-95 Jarno Paananen
-	// P61.testmod - Module by Skylord/Sector 7 
+	// P61.testmod - Module by Skylord/Sector 7
 	INCBIN(player, "player610.6.no_cia.bin")
 	INCBIN_CHIP(module, "testmod.p61")
 
@@ -216,31 +216,32 @@ static void Wait13() { WaitLine(0x13); }
 
 static const UWORD dummyCopper[] = {
 	0xFFDF,0xFFFE,
-	0x2D01,0xFF00, 
-	0x9C,0x8010,  
+	0x2D01,0xFF00,
+	0x9C,0x8010,
     0xFFFF,  /* WAIT opcode with vertical=255 (max) */
     0xFFFE   /* horizontal=254 → impossible combination → halt */
 };
 
 void interruptHandler() {
-	FrameCounter++;	
+	FrameCounter++;
+    // KPrintF("VB Interrupt started\n");
 	__asm  volatile ("move.l #0,%d0");
-	
+
 }
 
 struct Interrupt *vbInt;
 
 int main(int argc, char *argv[]) {
 
-	//int *bp = 0x200;
-  	//*bp = 0;
+	int *bp = (int *)0x200;
+  	*bp = 0;
 
 	for(int i=0;i<1000;i++) {
 
 	}
 
 	SysBase = *((struct ExecBase**)4UL);
-	custom = (struct Custom*)0xdff000;	
+	custom = (struct Custom*)0xdff000;
 
 
 	// We will use the graphics library only to locate and restore the system copper list once we are through.
@@ -253,25 +254,25 @@ int main(int argc, char *argv[]) {
 	if (!DOSBase)
 		Exit(0);
 
-	MathIeeeSingBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingbas.library", 0);	
+	MathIeeeSingBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingbas.library", 0);
 	if (!MathIeeeSingBasBase)
-		Exit(0);	
+		Exit(0);
 
-	MathIeeeSingTransBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingtrans.library",0);													
+	MathIeeeSingTransBase = (struct MathIEEEBase *) OpenLibrary("mathieeesingtrans.library",0);
 	if (!MathIeeeSingTransBase)
 		Exit(0);
 
 	MathIeeeDoubTransBase =  (struct MathIEEEBase *) OpenLibrary("mathieeedoubtrans.library",0);
-	if (!MathIeeeDoubTransBase)		
+	if (!MathIeeeDoubTransBase)
 		Exit(0);
 
 	MathIeeeDoubBasBase = (struct MathIEEEBase *) OpenLibrary("mathieeedoubbas.library",0);
-	if( !MathIeeeDoubBasBase) 
-		Exit(0);		
+	if( !MathIeeeDoubBasBase)
+		Exit(0);
 
-	KPrintF(" debugger from Amiga Test 035!\n");
+	KPrintF(" debugger from Amiga Test 037!\n");
 
-	Write(Output(), (APTR)"Hello console Test 035!\n", 25);
+	Write(Output(), (APTR)"Hello console Test 037!\n", 25);
 	Delay(50);
 
 	/*warpmode(1);
@@ -290,20 +291,20 @@ int main(int argc, char *argv[]) {
 	WaitVbl();
 
 	USHORT* copper1 = (USHORT*)AllocMem(1024, MEMF_CHIP);
-	USHORT* copPtr = copper1;	
+	USHORT* copPtr = copper1;
 
 	*copPtr++ = 0xffdf;
 	*copPtr++ = 0xfffe;
 	*copPtr++ = 0x2d01,
-	*copPtr++ = 0xff00; 
-	*copPtr++ = 0x9c; 
-	*copPtr++ = 0x8010; 
+	*copPtr++ = 0xff00;
+	*copPtr++ = 0x9c;
+	*copPtr++ = 0x8010;
 	*copPtr++ = 0xffff;
 	*copPtr++ = 0xfffe; // end copper list
 
 	custom->cop1lc = (ULONG)copper1;
 
-	custom->dmacon = 0x87ff;	
+	custom->dmacon = 0x87ff;
 
     ULONG counter = 0;
     ULONG endcount;
@@ -317,13 +318,13 @@ int main(int argc, char *argv[]) {
         vbInt->is_Data = (APTR)&counter;
         vbInt->is_Code = interruptHandler;
 	}
-	
+
 	AddIntServer( INTB_COPER, vbInt);
 
 
 	KPrintF("Starting main_sludge\n");
-	
-	main_sludge(argc, argv);	
+
+	main_sludge(argc, argv);
 
 
 

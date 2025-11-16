@@ -30,14 +30,14 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
 
 	if( fontOrderString) FreeVec(fontOrderString);
 	fontOrderString = copyString(charOrder);
-	if( theFont) forgetSpriteBank(theFont);	
+	if( theFont) forgetSpriteBank(theFont);
 	theFont = NULL;
 
 	loadedFontNum = filenum;
 
 	fontTableSize = 0;
 	char *tmp = charOrder;
-	while (*tmp) {        
+	while (*tmp) {
 		if (*tmp > (UBYTE) fontTableSize) fontTableSize = *tmp;
 		*tmp++;
 	}
@@ -57,7 +57,7 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
 		fontTable[*tmp++] = i;
 		i++;
 	}
-	
+
 	theFont = loadBankForAnim(filenum);
 	if (!theFont) {
 		KPrintF("loadFont: Can't load font");
@@ -75,8 +75,9 @@ void pasteStringToBackdrop(char *theText, int xOff, int y) {
 
     xOff += fontSpace >> 1;
 	char *tmp = theText;
-    while (*tmp) {        
+    while (*tmp) {
         mySprite = &theFont->bank.sprites[fontInTable( (UBYTE) *tmp)];
+        KPrintF("pasteStringToBackdrop: Pasting character %s\n", tmp);
         CstPasteChar( mySprite, xOff - mySprite->xhot, y - mySprite->yhot);
         xOff += mySprite->width + fontSpace;
 		tmp++;
@@ -92,13 +93,12 @@ int stringWidth (char * theText) {
 	if (! fontTableSize) return 0;
 
 	char *tmp = theText;
-	
+
 	while (*tmp) {
         c = *tmp++;
 		xOff += theFont->bank.sprites[fontInTable(c)].width + fontSpace;
-	
+
 	}//Todo: Amigize this
-	
+
 	return xOff;
 }
-
