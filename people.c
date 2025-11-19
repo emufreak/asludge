@@ -1,5 +1,6 @@
 #include <proto/exec.h>
 
+#include "custom.h"
 #include "floor.h"
 #include "loadsave.h"
 #include "moreio.h"
@@ -44,7 +45,7 @@ int TF_abs (int a) {
 
 BOOL addPerson(int x, int y, int objNum, struct persona *p) {
 
-	struct onScreenPerson *newPerson = AllocVec(sizeof(struct onScreenPerson), MEMF_ANY);
+	struct onScreenPerson *newPerson = CstAllocVec(sizeof(struct onScreenPerson), MEMF_ANY);
     if (!newPerson) return FALSE;
 
     // EASY STUFF
@@ -145,7 +146,7 @@ struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 	int num = orig -> numFrames;
 
 
-	struct personaAnimation * newAnim	= AllocVec(sizeof( struct personaAnimation), MEMF_ANY);
+	struct personaAnimation * newAnim	= CstAllocVec(sizeof( struct personaAnimation), MEMF_ANY);
 	if (!(newAnim)) {
 		KPrintF("copyAnim: Cannot allocate memory");
 		return NULL;
@@ -160,7 +161,7 @@ struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 
 		// Argh! Frames! We need a whole NEW array of animFrame structures...
 
-		newAnim->frames = AllocVec(sizeof(struct animFrame) * num, MEMF_ANY);
+		newAnim->frames = CstAllocVec(sizeof(struct animFrame) * num, MEMF_ANY);
 		if (!newAnim->frames) {
 			KPrintF("copyAnim: Cannot allocate memory");
 			return NULL;
@@ -180,14 +181,14 @@ struct personaAnimation * copyAnim (struct personaAnimation * orig) {
 
 
 struct personaAnimation * createPersonaAnim (int num, struct variableStack **stacky) {
-	struct personaAnimation * newP = AllocVec( sizeof(struct personaAnimation), MEMF_ANY);
+	struct personaAnimation * newP = CstAllocVec( sizeof(struct personaAnimation), MEMF_ANY);
 	if( !newP) {
 		KPrintF("createPersonaAnim: Cannot allocate memory");
 		return NULL;
 	}
 
 	newP -> numFrames = num;
-	newP -> frames = AllocVec( sizeof( struct animFrame) * num,MEMF_ANY);
+	newP -> frames = CstAllocVec( sizeof( struct animFrame) * num,MEMF_ANY);
 	if( !newP->frames) {
 		KPrintF("createPersonaAnim: Cannot allocate memory");
 		return NULL;
@@ -234,9 +235,9 @@ void deleteAnim (struct personaAnimation * orig) {
 	if (orig)
 	{
 		if (orig -> numFrames) {
-			FreeVec( orig->frames);
+			CstFreeVec( orig->frames);
 		}
-		FreeVec(orig);
+		CstFreeVec(orig);
 		orig = NULL;
 	}
 
@@ -506,7 +507,7 @@ void killAllPeople () {
 		killPeople = allPeople;
 		allPeople = allPeople -> next;
 		removeObjectType (killPeople -> thisType);
-		FreeVec(killPeople);
+		CstFreeVec(killPeople);
 	}
     KPrintF("killAllPeople finished\n");
 }
@@ -528,7 +529,7 @@ void killMostPeople() {
             if (killPeople->continueAfterWalking) abortFunction(killPeople->continueAfterWalking);
             killPeople->continueAfterWalking = NULL;
             removeObjectType(killPeople->thisType);
-            FreeVec(killPeople);
+            CstFreeVec(killPeople);
         }
     }
 }
@@ -539,7 +540,7 @@ BOOL loadAnim (struct personaAnimation * p, BPTR fp) {
 
 	if (p -> numFrames) {
 		int a = get4bytes (fp);
-		p -> frames = AllocVec( sizeof(struct animFrame) * p -> numFrames,MEMF_ANY);
+		p -> frames = CstAllocVec( sizeof(struct animFrame) * p -> numFrames,MEMF_ANY);
 		if( !p->frames) {
 			KPrintF("loadAnim: Cannot allocate memory");
 			return FALSE;
@@ -561,13 +562,13 @@ BOOL loadAnim (struct personaAnimation * p, BPTR fp) {
 BOOL loadCostume (struct persona * cossy, BPTR fp) {
 	int a;
 	cossy -> numDirections = get2bytes (fp);
-	cossy -> animation = AllocVec(sizeof( struct personaAnimation) * cossy -> numDirections * 3,MEMF_ANY);
+	cossy -> animation = CstAllocVec(sizeof( struct personaAnimation) * cossy -> numDirections * 3,MEMF_ANY);
 	if (!(cossy -> animation)) {
 		KPrintF("loadcostume: Cannot allocate memory");
 		return FALSE;
 	}
 	for (a = 0; a < cossy -> numDirections * 3; a ++) {
-		cossy -> animation[a] = AllocVec( sizeof( struct personaAnimation), MEMF_ANY);
+		cossy -> animation[a] = CstAllocVec( sizeof( struct personaAnimation), MEMF_ANY);
 		if (!(cossy -> animation[a])) {
 			KPrintF("loadcostume: Cannot allocate memory");
 			return FALSE;
@@ -591,19 +592,19 @@ BOOL loadPeople (BPTR fp) {
 
 	allPeople = NULL;
 	for (a = 0; a < countPeople; a ++) {
-		me = AllocVec( sizeof( struct onScreenPerson), MEMF_ANY);
+		me = CstAllocVec( sizeof( struct onScreenPerson), MEMF_ANY);
 		if (!me) {
 			KPrintF("loadPeople: Cannot allocate memory");
 			return FALSE;
 		}
 
-		me -> myPersona = AllocVec( sizeof( struct persona), MEMF_ANY);
+		me -> myPersona = CstAllocVec( sizeof( struct persona), MEMF_ANY);
 		if (!(me -> myPersona)) {
 			KPrintF("loadPeople: Cannot allocate memory");
 			return FALSE;
 		}
 
-		me -> myAnim = AllocVec( sizeof( struct personaAnimation), MEMF_ANY);
+		me -> myAnim = CstAllocVec( sizeof( struct personaAnimation), MEMF_ANY);
 		if (!(me -> myAnim)) {
 			KPrintF("loadPeople: Cannot allocate memory");
 			return FALSE;
@@ -715,7 +716,7 @@ BOOL makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, 
 
 struct personaAnimation * makeNullAnim () {
 
-	struct personaAnimation * newAnim	= AllocVec(sizeof(struct personaAnimation),MEMF_ANY);
+	struct personaAnimation * newAnim	= CstAllocVec(sizeof(struct personaAnimation),MEMF_ANY);
     if(newAnim == 0) {
      	KPrintF("makeNullAnim: Can't reserve Memory\n");
         return NULL;
@@ -764,7 +765,7 @@ void removeOneCharacter (int i) {
 
         *killPeople = p->next;
         removeObjectType(p->thisType);
-        FreeVec(p);
+        CstFreeVec(p);
 
     }
 }

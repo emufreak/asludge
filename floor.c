@@ -1,3 +1,4 @@
+#include "custom.h"
 #include "floor.h"
 #include "fileset.h"
 #include "moreio.h"
@@ -13,14 +14,14 @@ BOOL closestPointOnLine (int * closestX, int * closestY, int x1, int y1, int x2,
 	DOUBLE m = xDiff * (xP - x1) + yDiff * (yP - y1);
 	m /= (xDiff * xDiff) + (yDiff * yDiff);
 
-	if (m < 0) {		
+	if (m < 0) {
 		*closestX = x1;
 		*closestY = y1;
 	} else if (m > 1) {
 		*closestX = x2;
 		*closestY = y2;
 	} else {
-		DOUBLE tmp = m * xDiff; 
+		DOUBLE tmp = m * xDiff;
 		*closestX = (int) tmp;
 		*closestX += x1;
 		*closestY = m * yDiff;
@@ -91,7 +92,7 @@ int inFloor (int x, int y) {
 }
 
 BOOL initFloor () {
-	currentFloor = AllocVec(sizeof(struct flor), MEMF_ANY);
+	currentFloor = CstAllocVec(sizeof(struct flor), MEMF_ANY);
 
     if(currentFloor == 0) {
         KPrintF("initFloor: Could not initialize Mem");
@@ -104,14 +105,14 @@ BOOL initFloor () {
 
 void killFloor () {
 	for (int i = 0; i < currentFloor -> numPolygons; i ++) {
-		FreeVec(currentFloor -> polygon[i].vertexID);
-		FreeVec(currentFloor -> matrix[i]);
+		CstFreeVec(currentFloor -> polygon[i].vertexID);
+		CstFreeVec(currentFloor -> matrix[i]);
 	}
-	FreeVec(currentFloor -> polygon);
+	CstFreeVec(currentFloor -> polygon);
 	currentFloor -> polygon = NULL;
-	FreeVec(currentFloor -> vertex);
+	CstFreeVec(currentFloor -> vertex);
 	currentFloor -> vertex = NULL;
-	FreeVec(currentFloor -> matrix);
+	CstFreeVec(currentFloor -> matrix);
 	currentFloor -> matrix = NULL;
 }
 
@@ -162,7 +163,7 @@ BOOL setFloor (int fileNum) {
 
 	currentFloor -> originalNum = fileNum;
 	currentFloor -> numPolygons = FGetC (bigDataFile);
-	currentFloor -> polygon = AllocVec(  sizeof( struct floorPolygon) * currentFloor -> numPolygons, MEMF_ANY);
+	currentFloor -> polygon = CstAllocVec(  sizeof( struct floorPolygon) * currentFloor -> numPolygons, MEMF_ANY);
 	if (!(currentFloor -> polygon)) {
 		KPrintF("setFloor: Cannot allocate memory");
 		return FALSE;
@@ -175,7 +176,7 @@ BOOL setFloor (int fileNum) {
 		// Find out how many vertex IDs there are and reserve memory
 
 		currentFloor -> polygon[i].numVertices = FGetC (bigDataFile);
-		currentFloor -> polygon[i].vertexID = AllocVec(sizeof (int) * currentFloor -> polygon[i].numVertices, MEMF_ANY);
+		currentFloor -> polygon[i].vertexID = CstAllocVec(sizeof (int) * currentFloor -> polygon[i].numVertices, MEMF_ANY);
 		if (!(currentFloor -> polygon[i].vertexID)) {
 			KPrintF("setFloor: Cannot allocate memory");
 			return FALSE;
@@ -191,7 +192,7 @@ BOOL setFloor (int fileNum) {
 	// Find out how many vertices there are and reserve memory
 
 	i = get2bytes (bigDataFile);
-	currentFloor -> vertex = AllocVec( sizeof(struct POINT)*i,MEMF_ANY);
+	currentFloor -> vertex = CstAllocVec( sizeof(struct POINT)*i,MEMF_ANY);
 
 	if (!(currentFloor -> vertex)) {
 		KPrintF("setFloor: Cannot allocate memory");
@@ -207,8 +208,8 @@ BOOL setFloor (int fileNum) {
 
 	// Now build the movement martix
 
-	currentFloor -> matrix = AllocVec( sizeof(int) * currentFloor -> numPolygons, MEMF_ANY);
-	int * * distanceMatrix = AllocVec( sizeof(int) * currentFloor -> numPolygons, MEMF_ANY);
+	currentFloor -> matrix = CstAllocVec( sizeof(int) * currentFloor -> numPolygons, MEMF_ANY);
+	int * * distanceMatrix = CstAllocVec( sizeof(int) * currentFloor -> numPolygons, MEMF_ANY);
 
 
 	if (!(currentFloor -> matrix)) {
@@ -217,9 +218,9 @@ BOOL setFloor (int fileNum) {
 	}
 
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-		currentFloor -> matrix[i] = AllocVec( sizeof(int) * currentFloor -> numPolygons,MEMF_ANY);
-		distanceMatrix        [i] = AllocVec( sizeof(int) * currentFloor -> numPolygons,MEMF_ANY);
-		if (!(currentFloor -> matrix[i])) { 
+		currentFloor -> matrix[i] = CstAllocVec( sizeof(int) * currentFloor -> numPolygons,MEMF_ANY);
+		distanceMatrix        [i] = CstAllocVec( sizeof(int) * currentFloor -> numPolygons,MEMF_ANY);
+		if (!(currentFloor -> matrix[i])) {
 			KPrintF("setFloor: Cannot allocate memory");
 			return FALSE;
 		}
@@ -273,11 +274,11 @@ BOOL setFloor (int fileNum) {
 	} while (madeChange);
 
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
-		FreeVec(distanceMatrix [i]);
+		CstFreeVec(distanceMatrix [i]);
 	}
 
-	FreeVec(distanceMatrix);
-	distanceMatrix = NULL;	
+	CstFreeVec(distanceMatrix);
+	distanceMatrix = NULL;
 
 	return TRUE;
 }

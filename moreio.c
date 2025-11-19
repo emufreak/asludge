@@ -1,6 +1,7 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 
+#include "custom.h"
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 #include "moreio.h"
@@ -8,7 +9,7 @@
 BOOL allowAnyFilename = TRUE;
 
 char * copyString(const char * c) {
-    char * r = (char *)AllocVec(strlen(c) + 1, MEMF_ANY);
+    char * r = (char *)CstAllocVec(strlen(c) + 1, MEMF_ANY);
     if (!r) return NULL;
     strcpy(r, c);
     return r;
@@ -16,7 +17,7 @@ char * copyString(const char * c) {
 
 char * decodeFilename(char * nameIn) {
 	if (allowAnyFilename) {
-		char * newName = (char *)AllocVec(strlen(nameIn) + 1, MEMF_ANY);
+		char * newName = (char *)CstAllocVec(strlen(nameIn) + 1, MEMF_ANY);
 		if (!newName) return NULL;
 
 		int i = 0;
@@ -52,7 +53,7 @@ char * decodeFilename(char * nameIn) {
 char * encodeFilename (char * nameIn) {
 	if (! nameIn) return NULL;
 	if (allowAnyFilename) {
-		char * newName = AllocVec( strlen(nameIn)*2+1,MEMF_ANY);
+		char * newName = CstAllocVec( strlen(nameIn)*2+1,MEMF_ANY);
 		if(newName == 0) {
 			KPrintF( "encodefilename: Could not allocate Memory");
 			return NULL;
@@ -128,7 +129,7 @@ ULONG get4bytes (BPTR fp) {
 
 FLOAT getFloat (BPTR fp) {
 	FLOAT f;
-	LONG blocks_read = FRead( fp, &f, sizeof (FLOAT), 1 ); 
+	LONG blocks_read = FRead( fp, &f, sizeof (FLOAT), 1 );
 	if (blocks_read != 1) {
 		KPrintF("Reading error in getFloat.\n");
 	}
@@ -182,7 +183,7 @@ char * readString (BPTR fp) {
 
 	int a, len = get2bytes (fp);
 	//debugOut ("MOREIO: readString - len %i\n", len);
-	char * s = AllocVec(len+1,MEMF_ANY);
+	char * s = CstAllocVec(len+1,MEMF_ANY);
 	if(s == 0) return NULL;
 	for (a = 0; a < len; a ++) {
 		s[a] = (char) (FGetC (fp) - 1);
@@ -195,10 +196,10 @@ char * readString (BPTR fp) {
 short shortSwap( short s )
 {
 	unsigned char b1, b2;
-	
+
 	b1 = s & 255;
 	b2 = (s >> 8) & 255;
-	
+
 	return (b1 << 8) + b2;
 }
 

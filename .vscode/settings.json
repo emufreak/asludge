@@ -36,6 +36,8 @@
         "types.h": "c",
         "custom.h": "c",
         "region.h": "c",
-        "sprbanks.h": "c"
+        "sprbanks.h": "c",
+        "main_sludge.h": "c",
+        "mathieeesp.h": "c"
     }
 }

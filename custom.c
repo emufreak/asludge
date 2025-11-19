@@ -69,6 +69,67 @@ ULONG CstClColorTemplate[] = {
     0x1b00000, 0x1b20000, 0x1b40000, 0x1b60000, 0x1b80000, 0x1ba0000, 0x1bc0000, 0x1be0000
 };
 
+APTR CstAllocVec( ULONG bytesize, ULONG requirements ) {
+    UBYTE *retval = AllocVec( bytesize+8, requirements );
+
+    if(retval == 0x590F4) {
+        KPrintF("CstCstAllocVec: Allocated memory at 525F0\n", retval);
+    }
+    if( retval == 0) {
+        KPrintF("CstCstAllocVec: Allocation of ram failed. Reboot recommended\n", 40);
+        Exit(1);
+    }
+    *retval++ = 0xde;
+    *retval++ = 0xad;
+    *retval++ = 0xbe;
+    *retval++ = 0xef;
+
+    UBYTE *endmarker = retval + bytesize;
+    *endmarker++ = 0xbe;
+    *endmarker++ = 0xef;
+    *endmarker++ = 0xde;
+    *endmarker++ = 0xad;
+
+
+    return retval;
+}
+
+void CstFreeVec( APTR memptr ) {
+    if( memptr == 0) {
+        KPrintF("CstFreeVec: Attempt to free NULL pointer\n", 36);
+        return;
+    }
+
+    UBYTE *startmarker = memptr - 4;
+    UBYTE *cursor = startmarker;
+    UBYTE *endmarker = startmarker;
+    ULONG *lengthdump;
+    ULONG length = 0;
+    if( *startmarker != 0xde || *(startmarker+1) != 0xad || *(startmarker+2) != 0xbe || *(startmarker+3) != 0xef) {
+        KPrintF("CstFreeVec: Memory corruption detected\n");
+    } else {
+        *cursor++ = 0x12;
+        *cursor++ = 0x34;
+        *cursor++ = 0x56;
+        *cursor++ = 0x78;
+
+        lengthdump = (ULONG *) endmarker - 1;
+        length = *lengthdump - 4;
+        endmarker += length - 4;
+        if( *endmarker != 0xbe || *(endmarker+1) != 0xef || *(endmarker+2) != 0xde || *(endmarker+3) != 0xad) {
+            KPrintF("CstFreeVec: Memory corruption detected\n", 52);
+        } else {
+            *endmarker++ = 0x87;
+            *endmarker++ = 0x65;
+            *endmarker++ = 0x43;
+            *endmarker++ = 0x21;
+        }
+    }
+
+    FreeVec( startmarker );
+}
+
+
 void CstBlankScreen( int x1, int y1, int x2, int y2) {
 
   KPrintF("CstBlankScreen: started\n");
@@ -117,7 +178,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   KPrintF("CstBlankScreen: Finished Blits\n");
 
   struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-  CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
   CstCleanupQueueDrawBuffer->next = next;
   CstCleanupQueueDrawBuffer->x = x1;
   CstCleanupQueueDrawBuffer->y = y1;
@@ -128,7 +189,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   CstCleanupQueueDrawBuffer->starty = y1;
 
   next = CstCleanupQueueViewBuffer;
-  CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
   CstCleanupQueueViewBuffer->next = next;
   CstCleanupQueueViewBuffer->x = x1;
   CstCleanupQueueViewBuffer->y = y1;
@@ -466,11 +527,11 @@ UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD 
 }
 
 void CstFreeBuffer( ) {
-  if( CstDrawBuffer) FreeVec(CstDrawBuffer);
-  if( CstViewBuffer) FreeVec(CstViewBuffer);
-  if( CstCopperList) FreeVec(CstCopperList);
-  if( CstBackDrop) FreeVec(CstBackDrop);
-  if( CstBackDropBackup) FreeVec(CstBackDropBackup);
+  if( CstDrawBuffer) CstFreeVec(CstDrawBuffer);
+  if( CstViewBuffer) CstFreeVec(CstViewBuffer);
+  if( CstCopperList) CstFreeVec(CstCopperList);
+  if( CstBackDrop) CstFreeVec(CstBackDrop);
+  if( CstBackDropBackup) CstFreeVec(CstBackDropBackup);
   CstDrawBuffer = NULL;
   CstViewBuffer = NULL;
   CstCopperList = NULL;
@@ -483,7 +544,7 @@ void CstFreeBuffer( ) {
 
 void CstFreeze( ) {
 
-	//KPrintF("CstFreeze: Freezing Background Started");
+  KPrintF("CstFreeze: Freezing Background Started");
 
   UWORD size = winWidth/8*winHeight*5;
 
@@ -491,7 +552,7 @@ void CstFreeze( ) {
   volatile struct Custom *custom = (struct Custom*)0xdff000;
 
   //Backup Existing Backdrop to save location
-  CstBackDropBackup = AllocVec(size, MEMF_ANY);
+  CstBackDropBackup = CstAllocVec(size, MEMF_ANY);
   if( !CstBackDropBackup)
   {
     KPrintF("CstFreeze: Cannot allocate Memory for CstBackDropBackup");
@@ -523,7 +584,7 @@ void CstFreeze( ) {
   }
 
   struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-  CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
   CstCleanupQueueDrawBuffer->next = next;
   CstCleanupQueueDrawBuffer->x = 0;
   CstCleanupQueueDrawBuffer->y = 0;
@@ -534,7 +595,7 @@ void CstFreeze( ) {
   CstCleanupQueueDrawBuffer->starty = 0;
 
   next = CstCleanupQueueViewBuffer;
-  CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
   CstCleanupQueueViewBuffer->next = next;
   CstCleanupQueueViewBuffer->x = 0;
   CstCleanupQueueViewBuffer->y = 0;
@@ -582,11 +643,11 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
     UWORD reg = 0x180;
 
     if(CstPalette) {
-      FreeVec(CstPalette);
+      CstFreeVec(CstPalette);
       CstPalette = NULL;
     }
 
-    CstPalette = AllocVec(32*2,MEMF_ANY); //ToDo other number of bitplanes
+    CstPalette = CstAllocVec(32*2,MEMF_ANY); //ToDo other number of bitplanes
     CstPaletteLoaded = 1;
     UWORD *tmp = CstPalette;
     for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
@@ -602,12 +663,12 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   }
 
   //Load Picture From Disk
-  UWORD *tmpbuffer = AllocVec(size, MEMF_CHIP); //Todo other number of bitplanes
+  UWORD *tmpbuffer = CstAllocVec(size, MEMF_CHIP); //Todo other number of bitplanes
   if( !tmpbuffer)
   {
     KPrintF("CstLoadBackDrop: Cannot allocate Memory for tmpbuffer");
   }
-  UWORD *tmpmask = AllocVec(sizeplane, MEMF_CHIP);
+  UWORD *tmpmask = CstAllocVec(sizeplane, MEMF_CHIP);
   if( !tmpmask)
   {
     KPrintF("CstLoadBackDrop: Cannot allocate Memory for tmpmask");
@@ -670,14 +731,14 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
  	KPrintF("CstLoadBackDrop: Freeing Memory");
 
 
-  FreeVec(tmpbuffer);
-  FreeVec(tmpmask);
+  CstFreeVec(tmpbuffer);
+  CstFreeVec(tmpmask);
 
   tmpbuffer = NULL;
   tmpmask = NULL;
 
   struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-  CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
   CstCleanupQueueDrawBuffer->next = next;
   CstCleanupQueueDrawBuffer->x = 0;
   CstCleanupQueueDrawBuffer->y = 0;
@@ -688,7 +749,7 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
   CstCleanupQueueDrawBuffer->starty = 0;
 
   next = CstCleanupQueueViewBuffer;
-  CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
   CstCleanupQueueViewBuffer->next = next;
   CstCleanupQueueViewBuffer->x = 0;
   CstCleanupQueueViewBuffer->y = 0;
@@ -778,7 +839,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltcon0 = ((16-cutmaskpixel) << 12);
 
     struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
     CstCleanupQueueDrawBuffer->next = next;
     CstCleanupQueueDrawBuffer->x = 0;
     CstCleanupQueueDrawBuffer->y = 0;
@@ -789,7 +850,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     CstCleanupQueueDrawBuffer->starty = ystartdst;
 
     next = CstCleanupQueueViewBuffer;
-    CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
     CstCleanupQueueViewBuffer->next = next;
     CstCleanupQueueViewBuffer->x = 0;
     CstCleanupQueueViewBuffer->y = 0;
@@ -815,7 +876,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltcon0 = ((single->width%16) << 12);
 
     struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
     CstCleanupQueueDrawBuffer->next = next;
     CstCleanupQueueDrawBuffer->x = x;
     CstCleanupQueueDrawBuffer->y = ystartdst;
@@ -826,7 +887,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     CstCleanupQueueDrawBuffer->starty = ystartdst;
 
     next = CstCleanupQueueViewBuffer;
-    CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
     CstCleanupQueueViewBuffer->next = next;
     CstCleanupQueueViewBuffer->x = x;
     CstCleanupQueueViewBuffer->y = ystartdst;
@@ -847,7 +908,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltcon0 = ((x%16) << 12);
 
     struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
     CstCleanupQueueDrawBuffer->next = next;
     CstCleanupQueueDrawBuffer->x = x;
     CstCleanupQueueDrawBuffer->y = ystartdst;
@@ -858,7 +919,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     CstCleanupQueueDrawBuffer->starty = ystartdst;
 
     next = CstCleanupQueueViewBuffer;
-    CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+    CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
     CstCleanupQueueViewBuffer->next = next;
     CstCleanupQueueViewBuffer->x = x;
     CstCleanupQueueViewBuffer->y = ystartdst;
@@ -967,7 +1028,7 @@ void CstRestoreScreen()
     //}
     struct CleanupQueue *todelete = CstCleanupQueueDrawBuffer;
     CstCleanupQueueDrawBuffer = CstCleanupQueueDrawBuffer->next;
-    FreeVec(todelete);
+    CstFreeVec(todelete);
     todelete = NULL;
   }
   //custom->color[0] = 0x000;
@@ -1067,7 +1128,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
 
 
     struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
     CstCleanupQueueDrawBuffer->next = next;
 
     CstCleanupQueueDrawBuffer->x = x;
@@ -1081,7 +1142,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     if( destinationtype != SCREEN)
     {
       next = CstCleanupQueueViewBuffer;
-      CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+      CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
       CstCleanupQueueViewBuffer->next = next;
       CstCleanupQueueViewBuffer->x = x;
       CstCleanupQueueViewBuffer->y = y;
@@ -1112,7 +1173,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     bltalwm = 0xffff << (x%16);
 
     struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
     CstCleanupQueueDrawBuffer->next = next;
 
     CstCleanupQueueDrawBuffer->x = x;
@@ -1126,7 +1187,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     if( destinationtype != SCREEN)
     {
       next = CstCleanupQueueViewBuffer;
-      CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+      CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
       CstCleanupQueueViewBuffer->next = next;
 
       CstCleanupQueueViewBuffer->x = x;
@@ -1153,7 +1214,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     bltcon1 = ((x%16) << 12);
 
     struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
     CstCleanupQueueDrawBuffer->next = next;
 
     CstCleanupQueueDrawBuffer->x = x;
@@ -1167,7 +1228,7 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
     if( destinationtype != SCREEN)
     {
       next = CstCleanupQueueViewBuffer;
-      CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
+      CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
       CstCleanupQueueViewBuffer->next = next;
 
       CstCleanupQueueViewBuffer->x = x;
@@ -1289,7 +1350,7 @@ BOOL CstReserveBackdrop(int width, int height) {
   CstBackdropSize = CstBackdropSizePlane * 5; //Todo: Support other Bitplane Modes;
 
 
-  CstBackDrop = AllocVec(CstBackdropSize,MEMF_CHIP);
+  CstBackDrop = CstAllocVec(CstBackdropSize,MEMF_CHIP);
   if( !CstBackDrop)
   {
     KPrintF("CstReserveBackdrop: Cannot allocate memory for Backdrop");
@@ -1304,7 +1365,7 @@ BOOL CstReserveBackdrop(int width, int height) {
     *cursor++ = 0;
   }
 
-  CstDrawBuffer = AllocVec(CstBackdropSize+width*2,MEMF_CHIP); //Some extra size for bob routine border area
+  CstDrawBuffer = CstAllocVec(CstBackdropSize+width*2,MEMF_CHIP); //Some extra size for bob routine border area
   if( !CstDrawBuffer)
   {
     KPrintF("CstReserveBackdrop: Cannot allocate memory for DrawBuffer");
@@ -1312,7 +1373,7 @@ BOOL CstReserveBackdrop(int width, int height) {
   }
   KPrintF("CstReserveBackdrop: DrawBuffer reserved");
 
-  CstViewBuffer = AllocVec(CstBackdropSize+width*2,MEMF_CHIP); //Some extra size for bob routine border area
+  CstViewBuffer = CstAllocVec(CstBackdropSize+width*2,MEMF_CHIP); //Some extra size for bob routine border area
   if( !CstViewBuffer)
   {
     KPrintF("CstReserveBackdrop: Cannot allocate memory for ViewBuffer");
@@ -1323,8 +1384,8 @@ BOOL CstReserveBackdrop(int width, int height) {
   CstDrawBuffer += width/4; //divide with 4 because pointer is ulong
   CstViewBuffer += width/4; //divide with 4 because pointer is ulong
 
-  CstZBufferResult = AllocVec( CSTMAXWIDTHSPRITE/8*CSTMAXHEIGHTSPRITE,MEMF_CHIP);
-  CstZBufferWork = AllocVec( (CSTMAXWIDTHSPRITE/8+2)*CSTMAXHEIGHTSPRITE,MEMF_CHIP);
+  CstZBufferResult = CstAllocVec( CSTMAXWIDTHSPRITE/8*CSTMAXHEIGHTSPRITE,MEMF_CHIP);
+  CstZBufferWork = CstAllocVec( (CSTMAXWIDTHSPRITE/8+2)*CSTMAXHEIGHTSPRITE,MEMF_CHIP);
 
 #ifdef EMULATOR
   debug_register_bitmap(CstBackDrop, "CstBackDrop.bpl", 320, 256, 5, 0);
@@ -1359,7 +1420,7 @@ void CstUnfreeze() {
   debug_register_bitmap(CstBackDropBackup, "BackDropBackup", winWidth, winHeight, 5, 0);
 #endif
 
-  /*if(!CstBackDrop) {
+  if(!CstBackDrop) {
     KPrintF("CstUnfreeze: No Backdrop found, this should not happen!");
     return;
   }
@@ -1381,7 +1442,7 @@ void CstUnfreeze() {
 
   struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
   KPrintF("CstUnfreeze: Allocating memory to CstCleanupQueueDrawBuffer\n");
-  CstCleanupQueueDrawBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
   if(!CstCleanupQueueDrawBuffer) {
     KPrintF("CstUnfreeze: Cannot allocate CleanupQueueDrawBuffer");
     return;
@@ -1397,7 +1458,7 @@ void CstUnfreeze() {
   CstCleanupQueueDrawBuffer->starty = 0;
   next = CstCleanupQueueViewBuffer;
   KPrintF("CstUnfreeze: Allocating memory to CstCleanupQueueViewBuffer\n");
-  CstCleanupQueueViewBuffer = AllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
   if(!CstCleanupQueueViewBuffer) {
     KPrintF("CstUnfreeze: Cannot allocate CstCleanupQueueViewBuffer");
     return;
@@ -1418,12 +1479,12 @@ void CstUnfreeze() {
   CstCleanupQueueViewBuffer->startxinbytes = 0;
   KPrintF("CstUnfreeze: Setting CstCleanupQueueViewBuffer starty property\n");
   CstCleanupQueueViewBuffer->starty = 0;
-  KPrintF("CstUnfreeze: Freeing backdrop\n");*/
+  KPrintF("CstUnfreeze: Freeing backdrop\n");
 
-  /*if( CstBackDropBackup) {
+  if( CstBackDropBackup) {
     KPrintF("CstUnfreeze: Free CstBackdropBackup");
-    FreeVec( CstBackDropBackup);
-  }*/
+    CstFreeVec( CstBackDropBackup);
+  }
 
   KPrintF("CstUnfreeze: Finished\n");
 

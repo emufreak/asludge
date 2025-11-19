@@ -1,22 +1,23 @@
 #include <proto/exec.h>
 
+#include "custom.h"
 #include "sprbanks.h"
 #include "support/gcc8_c_support.h"
 
 struct loadedSpriteBank * allLoadedBanks = NULL;
 
 struct loadedSpriteBank * loadBankForAnim (int ID) {
-	// KPrintF("loadBankForAnim: Looking for sprite bank with ID %d\n", ID);	
+	// KPrintF("loadBankForAnim: Looking for sprite bank with ID %d\n", ID);
 	struct loadedSpriteBank * returnMe = allLoadedBanks;
 	while (returnMe) {
 		if (returnMe->ID == ID) {
 			// KPrintF("loadBankForAnim: Found existing sprite bank with ID %d\n", returnMe->ID);
 			returnMe->timesUsed++;
-			return returnMe;			
-		}		
+			return returnMe;
+		}
 		returnMe = returnMe->next;
 	}
-	returnMe = AllocVec(sizeof(struct loadedSpriteBank), MEMF_ANY);
+	returnMe = CstAllocVec(sizeof(struct loadedSpriteBank), MEMF_ANY);
 	// KPrintF("loadBankForAnim: No existing sprite bank with ID %d\n", ID);
 	if (returnMe) {
 		returnMe->ID = ID;
@@ -28,10 +29,8 @@ struct loadedSpriteBank * loadBankForAnim (int ID) {
 			return returnMe;
 		} else {
 			//KPrintF("loadBankForAnim: I guess I couldn't load the sprites...\n");
-			FreeVec(returnMe);
+			CstFreeVec(returnMe);
 			return NULL;
 		}
 	} else return NULL;
 }
-
-

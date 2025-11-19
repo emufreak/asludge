@@ -28,7 +28,7 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
 	unsigned int a = 0;
 	ULONG c;
 
-	if( fontOrderString) FreeVec(fontOrderString);
+	if( fontOrderString) CstFreeVec(fontOrderString);
 	fontOrderString = copyString(charOrder);
 	if( theFont) forgetSpriteBank(theFont);
 	theFont = NULL;
@@ -43,8 +43,8 @@ BOOL loadFont (int filenum, char * charOrder, int h) {
 	}
 	fontTableSize++;
 
-	if( fontTable) FreeVec(fontTable);
-	fontTable = AllocVec(sizeof(ULONG) * fontTableSize, MEMF_ANY);
+	if( fontTable) CstFreeVec(fontTable);
+	fontTable = CstAllocVec(sizeof(ULONG) * fontTableSize, MEMF_ANY);
 	if (!fontTable) return FALSE;
 
 	for (a = 0;  a < fontTableSize; a++) {
@@ -77,7 +77,7 @@ void pasteStringToBackdrop(char *theText, int xOff, int y) {
 	char *tmp = theText;
     while (*tmp) {
         mySprite = &theFont->bank.sprites[fontInTable( (UBYTE) *tmp)];
-        KPrintF("pasteStringToBackdrop: Pasting character %s\n", tmp);
+        // KPrintF("pasteStringToBackdrop: Pasting character %s\n", tmp);
         CstPasteChar( mySprite, xOff - mySprite->xhot, y - mySprite->yhot);
         xOff += mySprite->width + fontSpace;
 		tmp++;

@@ -1,6 +1,7 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 #include "backdrop.h"
+#include "custom.h"
 #include "moreio.h"
 #include "objtypes.h"
 #include "sludger.h"
@@ -16,7 +17,7 @@ struct screenRegion * overRegion = NULL;
 
 
 BOOL addScreenRegion(int x1, int y1, int x2, int y2, int sX, int sY, int di, int objectNum) {
-    struct screenRegion *newRegion = AllocVec(sizeof(struct screenRegion), MEMF_ANY);
+    struct screenRegion *newRegion = CstAllocVec(sizeof(struct screenRegion), MEMF_ANY);
     if (!newRegion) return FALSE;
     newRegion->di = di;
     newRegion->x1 = x1;
@@ -67,7 +68,7 @@ void killAllRegions () {
 		killRegion = allScreenRegions;
 		allScreenRegions = allScreenRegions -> next;
 		removeObjectType (killRegion -> thisType);
-		FreeVec(killRegion);
+		CstFreeVec(killRegion);
 	}
 	overRegion = NULL;
     KPrintF("killAllRegions finished\n");
@@ -80,7 +81,7 @@ void loadRegions (BPTR fp) {
 	struct screenRegion * * pointy = & allScreenRegions;
 
 	while (numRegions --) {
-		newRegion = AllocVec( sizeof(struct screenRegion),MEMF_ANY);
+		newRegion = CstAllocVec( sizeof(struct screenRegion),MEMF_ANY);
 		* pointy = newRegion;
 		pointy = & (newRegion -> next);
 
@@ -106,7 +107,7 @@ void removeScreenRegion (int objectNum) {
             *huntRegion = killMe->next;
             removeObjectType(killMe->thisType);
             if (killMe == overRegion) overRegion = NULL;
-            FreeVec(killMe);
+            CstFreeVec(killMe);
             killMe = NULL;
         } else {
             huntRegion = &((*huntRegion)->next);

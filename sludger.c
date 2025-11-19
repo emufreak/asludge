@@ -65,14 +65,14 @@ void abortFunction (struct loadedFunction * fun) {
 
 	pauseFunction (fun);
 	while (fun -> stack) trimStack (&fun -> stack);
-	//FreeVec( fun -> compiledLines);
+	//CstFreeVec( fun -> compiledLines);
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	if( fun -> numLocals > 0) {
-		FreeVec(fun -> localVars);
+		CstFreeVec(fun -> localVars);
 	}
 
 	unlinkVar (&fun -> reg);
-	if (fun -> calledBy) abortFunction (fun -> calledBy);	
+	if (fun -> calledBy) abortFunction (fun -> calledBy);
 	fun->unloaded = 1;
 
 	KPrintF("abortFunction finished\n");
@@ -146,7 +146,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 			case SLU_CALLIT:
 			switch (fun -> reg.varType) {
 				case SVT_FUNC:
-				pauseFunction (fun);		
+				pauseFunction (fun);
 				if (! startNewFunctionNum (fun -> reg.varData.intValue, param, fun, &fun -> stack,TRUE)) return FALSE;
 				fun = allRunningFunctions;
 				advanceNow = FALSE;		// So we don't do anything else with "fun"
@@ -180,7 +180,7 @@ BOOL continueFunction (struct loadedFunction * fun) {
 						{
 							int i = fun -> reg.varData.intValue;
 							setVariable (&fun -> reg, SVT_INT, 1);
-							pauseFunction (fun);							
+							pauseFunction (fun);
 							if (! startNewFunctionNum (i, 0, fun, noStack, FALSE)) return FALSE;
 							fun = allRunningFunctions;
 							advanceNow = FALSE;		// So we don't do anything else with "fun"
@@ -549,7 +549,7 @@ void freezeSubs () {
 }
 
 BOOL handleInput () {
-	//Amiga Todo: import more from orig code and adjust 
+	//Amiga Todo: import more from orig code and adjust
 
 	if (! overRegion) getOverRegion ();
 
@@ -561,20 +561,20 @@ BOOL handleInput () {
 	input.justMoved = FALSE;
 
 	if (lastRegion != overRegion && currentEvents -> focusFunction) {
-		struct variableStack * tempStack = AllocVec( sizeof(struct variableStack), MEMF_ANY);
+		struct variableStack * tempStack = CstAllocVec( sizeof(struct variableStack), MEMF_ANY);
 		if(!tempStack) {
 			KPrintF("handleInput: Cannot allocate memory for variablestack");
 			return FALSE;
 		}
-		
+
 		initVarNew (tempStack -> thisVar);
 		if (overRegion) {
 			setVariable (&tempStack -> thisVar, SVT_OBJTYPE, overRegion -> thisType -> objectNum);
 		} else {
 			setVariable (&tempStack -> thisVar, SVT_INT, 0);
 		}
-		tempStack -> next = NULL;		
-		if (! startNewFunctionNum (currentEvents -> focusFunction, 1, NULL, &tempStack, TRUE)) return FALSE;		
+		tempStack -> next = NULL;
+		if (! startNewFunctionNum (currentEvents -> focusFunction, 1, NULL, &tempStack, TRUE)) return FALSE;
 	}
 	if (input.leftRelease && currentEvents -> leftMouseUpFunction)  {
 		if (! startNewFunctionNum (currentEvents -> leftMouseUpFunction, 0, NULL, noStack, TRUE)) return FALSE;
@@ -587,7 +587,7 @@ BOOL handleInput () {
 		test[0] = currentEvents -> leftMouseFunction;
 		KPrintF("handleinput: Onleftmousefunction: %ld will be run\n", test[0]);
 		if (! startNewFunctionNum (currentEvents -> leftMouseFunction, 0, NULL, noStack, TRUE)) return FALSE;
-	}		
+	}
 	if (input.rightClick && currentEvents -> rightMouseFunction) {
 		if (! startNewFunctionNum (currentEvents -> rightMouseFunction, 0, NULL, noStack, TRUE)) return FALSE;
 	}
@@ -605,13 +605,13 @@ BOOL initSludge (char * filename) {
 	if (! fp) return FALSE;
 	if (FGetC (fp)) {
 		numBIFNames = get2bytes (fp);
-		allBIFNames = AllocVec(numBIFNames,MEMF_ANY);
+		allBIFNames = CstAllocVec(numBIFNames,MEMF_ANY);
 		if(allBIFNames == 0) return FALSE;
 		for (int fn = 0; fn < numBIFNames; fn ++) {
 			allBIFNames[fn] = (char *) readString (fp);
 		}
 		numUserFunc = get2bytes (fp);
-		allUserFunc = AllocVec(numUserFunc,MEMF_ANY);
+		allUserFunc = CstAllocVec(numUserFunc,MEMF_ANY);
 		if( allUserFunc == 0) return FALSE;
 
 		for (int fn = 0; fn < numUserFunc; fn ++) {
@@ -619,7 +619,7 @@ BOOL initSludge (char * filename) {
 		}
 		if (gameVersion >= VERSION(1,3)) {
 			numResourceNames = get2bytes (fp);
-			allResourceNames = AllocVec(sizeof(char *) * numResourceNames,MEMF_ANY);
+			allResourceNames = CstAllocVec(sizeof(char *) * numResourceNames,MEMF_ANY);
 			if(allResourceNames == 0) return FALSE;
 
 			for (int fn = 0; fn < numResourceNames; fn ++) {
@@ -637,9 +637,9 @@ BOOL initSludge (char * filename) {
 	desiredfps = 1000/FGetC (fp);
 
 	readString(fp); //Need to keep reading to stay on track. But the comented line below looks wrong.
-	//FreeVec(readString (fp));
+	//CstFreeVec(readString (fp));
 
-	ULONG blocks_read = FRead( fp, &fileTime, sizeof (FILETIME), 1 ); 
+	ULONG blocks_read = FRead( fp, &fileTime, sizeof (FILETIME), 1 );
 	if (blocks_read != 1) {
 		KPrintF("Reading error in initSludge.\n");
 	}
@@ -663,7 +663,7 @@ BOOL initSludge (char * filename) {
 	if (strcmp (checker, "okSoFar")) {
 		return FALSE;
 	}
-	FreeVec( checker);
+	CstFreeVec( checker);
 	checker = NULL;
 
     unsigned char customIconLogo = FGetC (fp);
@@ -677,19 +677,19 @@ BOOL initSludge (char * filename) {
 
 	numGlobals = get2bytes (fp);
 
-	globalVars = AllocVec( sizeof(struct variable) * numGlobals,MEMF_ANY);
+	globalVars = CstAllocVec( sizeof(struct variable) * numGlobals,MEMF_ANY);
 	if(globalVars == 0 && numGlobals > 0) {
 		KPrintF("initsludge: Cannot allocate memory for globalvars\n");
 		return FALSE;
-	}		 
+	}
 	for (a = 0; a < numGlobals; a ++) initVarNew (globalVars[a]);
 
 	setFileIndices (fp, gameSettings.numLanguages, 0);
 
-	char * gameNameOrig = getNumberedString(1);	
+	char * gameNameOrig = getNumberedString(1);
 	char * gameName = encodeFilename (gameNameOrig);
 
-	FreeVec(gameNameOrig);
+	CstFreeVec(gameNameOrig);
 
 	BPTR lock = CreateDir( gameName );
 	if(lock == 0) {
@@ -703,7 +703,7 @@ BOOL initSludge (char * filename) {
 		return FALSE;
 	}
 
-	FreeVec(gameName);
+	CstFreeVec(gameName);
 
 	readIniFile (filename);
 
@@ -717,14 +717,14 @@ BOOL initSludge (char * filename) {
 		lock = CreateDir( dataFolder );
 		if(lock == 0) {
 			//Directory does already exist
-			lock = Lock(dataFolder, ACCESS_READ);		
+			lock = Lock(dataFolder, ACCESS_READ);
 		}
 
 
 		if (!CurrentDir(lock)) {
 			(Output(), (APTR)"initsludge:This game's data folder is inaccessible!\n", 52);
 		}
-		FreeVec(dataFolder);
+		CstFreeVec(dataFolder);
 	}
 
  	positionStatus (10, winHeight - 15);
@@ -757,22 +757,22 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 		if (current->theFunction->originalNumber == originalNumber)
 		{
 			if( current->theFunction->unloaded == 1)
-			{ 
-				newFunc = current->theFunction;	
+			{
+				newFunc = current->theFunction;
 				//KPrintF("loadFunctionCode: Found in Cache\n");
 				break;
-			}									
+			}
 		}
 		current = current->next;
-	}			
+	}
 
 	if( !newFunc)
-	{		
+	{
 		//KPrintF("loadFunctionCode: Function not in cache. Loading new function\n");
 		numCachedFunctions++;
-#endif		
-		newFunc = AllocVec(sizeof(struct loadedFunction),MEMF_ANY);
-	
+#endif
+		newFunc = CstAllocVec(sizeof(struct loadedFunction),MEMF_ANY);
+
 		if(!newFunc) {
 			KPrintF("loadFunctionCode: Cannot allocate memory");
 			return 0;
@@ -781,28 +781,28 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 		newFunc -> originalNumber = originalNumber;
 
 		if (! openSubSlice (originalNumber)) return FALSE;
-		
+
 
 		newFunc-> unfreezable	= FGetC (bigDataFile);
 		numLines				= get2bytes (bigDataFile);
 		newFunc -> numArgs		= get2bytes (bigDataFile);
-		newFunc -> numLocals	= get2bytes (bigDataFile);	
+		newFunc -> numLocals	= get2bytes (bigDataFile);
 
-		newFunc -> compiledLines = AllocVec( sizeof(struct lineOfCode) * numLines,MEMF_ANY);
+		newFunc -> compiledLines = CstAllocVec( sizeof(struct lineOfCode) * numLines,MEMF_ANY);
 		if (! newFunc -> compiledLines) {
 			KPrintF("loadFunctionCode: cannot allocate memory");
 			return FALSE;
 		}
-		
+
 		for (numLinesRead = 0; numLinesRead < numLines; numLinesRead ++) {
 			newFunc -> compiledLines[numLinesRead].theCommand = (enum sludgeCommand) FGetC(bigDataFile);
 			newFunc -> compiledLines[numLinesRead].param = get2bytes (bigDataFile);
 		}
 		finishAccess ();
 
-#ifndef DISABLEFUNCTIONCACHE		
+#ifndef DISABLEFUNCTIONCACHE
 		struct cachedFunction  *next = allCachedFunctions;
-		allCachedFunctions = AllocVec(sizeof(struct cachedFunction),MEMF_ANY);
+		allCachedFunctions = CstAllocVec(sizeof(struct cachedFunction),MEMF_ANY);
 		allCachedFunctions -> prev = NULL;
 		if (! allCachedFunctions) {
 			KPrintF("loadFunctionCode: cannot allocate memory for cached function");
@@ -810,21 +810,21 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 		}
 		if( !next) {
 			lastCachedFunction = allCachedFunctions;
-		} 	
+		}
 
 		if(next) next->prev = allCachedFunctions;
-		
+
 		allCachedFunctions->next = next;
 		allCachedFunctions->theFunction = newFunc;
 		allCachedFunctions->funcNum = originalNumber;
 
-	}	
+	}
 
-	newFunc -> unloaded = 0;	
+	newFunc -> unloaded = 0;
 #endif
 	// Now we need to reserve memory for the local variables
 	if(newFunc->numLocals > 0) {
-		newFunc -> localVars = AllocVec( sizeof(struct variable) * newFunc->numLocals,MEMF_ANY);
+		newFunc -> localVars = CstAllocVec( sizeof(struct variable) * newFunc->numLocals,MEMF_ANY);
 		if (!newFunc -> localVars) {
 			KPrintF("loadFunctionCode: cannot allocate memory");
 			return FALSE;
@@ -836,18 +836,18 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 	} else
 	{
 		newFunc->numLocals = NULL;
-	}	
+	}
 
 #ifndef DISABLEFUNCTIONCACHE
-	if( numCachedFunctions >= CACHEFUNCTIONMAX) 
+	if( numCachedFunctions >= CACHEFUNCTIONMAX)
 	{
 		struct cachedFunction *huntanddestroy = lastCachedFunction;
-		while (huntanddestroy) 
+		while (huntanddestroy)
 		{
-			if (huntanddestroy->theFunction->unloaded == 1) 
+			if (huntanddestroy->theFunction->unloaded == 1)
 			{
 				if( huntanddestroy->prev)
-					huntanddestroy->prev->next = huntanddestroy->next;							
+					huntanddestroy->prev->next = huntanddestroy->next;
 				else
 				{
 					allCachedFunctions = huntanddestroy->next;
@@ -867,28 +867,28 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 				else
 				{
 					if( huntanddestroy->next)
-						huntanddestroy->next->prev = huntanddestroy->prev;																
-				}				
+						huntanddestroy->next->prev = huntanddestroy->prev;
+				}
 
 				break;
 			}
-			
+
 			huntanddestroy = huntanddestroy->prev;
-		}		
+		}
 
 		if( huntanddestroy)
 		{
 			numCachedFunctions--;
-			FreeVec(huntanddestroy->theFunction->compiledLines);
-			FreeVec(huntanddestroy->theFunction);
-			FreeVec(huntanddestroy);
-		} else 
+			CstFreeVec(huntanddestroy->theFunction->compiledLines);
+			CstFreeVec(huntanddestroy->theFunction);
+			CstFreeVec(huntanddestroy);
+		} else
 		{
 			//KPrintF("loadFunctionCode: Function is still in use\n");
 		}
-	}	
-#endif					
-	
+	}
+#endif
+
 	return newFunc;
 
 }
@@ -960,9 +960,9 @@ void pauseFunction (struct loadedFunction * fun) {
 	}
 }
 
-struct loadedFunction *preloadNewFunctionNum (unsigned int funcNum) {		
+struct loadedFunction *preloadNewFunctionNum (unsigned int funcNum) {
 
-	return loadFunctionCode (funcNum);	
+	return loadFunctionCode (funcNum);
 }
 
 void restartFunction (struct loadedFunction * fun) {
@@ -978,7 +978,7 @@ void restartFunction (struct loadedFunction * fun) {
 }
 
 BOOL runSludge () {
-	
+
 	struct loadedFunction * thisFunction = allRunningFunctions;
 	struct loadedFunction * nextFunction;
 
@@ -987,9 +987,9 @@ BOOL runSludge () {
 
 		if (! thisFunction -> freezerLevel) {
 			if (thisFunction -> timeLeft) {
-				if (thisFunction -> timeLeft < 0) {				
+				if (thisFunction -> timeLeft < 0) {
 					thisFunction -> timeLeft = 0;
-				} 
+				}
 				else {
 					thisFunction -> timeLeft--;
 					KPrintF("Counting down timeleft\n");
@@ -1015,7 +1015,7 @@ BOOL runSludge () {
 		} else {
 			if (! loadGame (loadNow)) return FALSE;
 		}
-		FreeVec(loadNow);
+		CstFreeVec(loadNow);
 		loadNow = NULL;
 	}
 
@@ -1032,7 +1032,7 @@ void saveHandlers (BPTR fp) {
 	put2bytes (currentEvents -> spaceFunction,			fp);
 }
 
-void sludgeDisplay () {					
+void sludgeDisplay () {
   	volatile struct Custom *custom = (struct Custom*)0xdff000;
 	CstSwapBuffer();
 	displayCursor();
@@ -1052,17 +1052,17 @@ BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const st
 }
 
 int startNewFunctionLoaded (struct loadedFunction * newFunc, unsigned int numParamsExpected,struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet) {
-	
+
 	//KPrintF("startNewFunctionLoaded: Starting function\n");
 	if (newFunc -> numArgs != (int)numParamsExpected) {
 		KPrintF("Wrong number of parameters!");
-		return NULL; 
+		return NULL;
 	}
 	if (newFunc -> numArgs > newFunc -> numLocals)  {
 		KPrintF ("More arguments than local variable space!");
-		return NULL; 
+		return NULL;
 	}
-	
+
 	// Now, lets copy the parameters from the calling function's stack...
 
 	while (numParamsExpected) {
@@ -1091,12 +1091,12 @@ int startNewFunctionLoaded (struct loadedFunction * newFunc, unsigned int numPar
 }
 
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, struct loadedFunction * calledBy, struct variableStack ** vStack, BOOL returnSommet) {
-	
-	volatile struct Custom *custom = (struct Custom*)0xdff000;
-	//custom->color[0] = 0x00f;	
 
-	struct loadedFunction *newFunc = loadFunctionCode (funcNum);	
-	//custom->color[0] = 0x000;	
+	volatile struct Custom *custom = (struct Custom*)0xdff000;
+	//custom->color[0] = 0x00f;
+
+	struct loadedFunction *newFunc = loadFunctionCode (funcNum);
+	//custom->color[0] = 0x000;
 	return startNewFunctionLoaded (newFunc, numParamsExpected, calledBy, vStack, returnSommet);
 }
 
@@ -1104,15 +1104,15 @@ void unloadFunction (struct loadedFunction * fun) {
 
 	int a;
 
-	if (fun -> stack) 
+	if (fun -> stack)
 	{
 		KPrintF("unloadfunction: error non empty stack");
 		return;
 	}
-	
+
 	for (a = 0; a < fun -> numLocals; a ++) unlinkVar (&(fun -> localVars[a]));
 	if( fun->numLocals > 0) {
-		FreeVec(fun -> localVars);
+		CstFreeVec(fun -> localVars);
 	}
 	unlinkVar (&fun -> reg);
 	fun->unloaded = 1;

@@ -77,8 +77,8 @@ void killParallax () {
 
 		// Now kill the image
 		deleteTextures (1, &k->textureName);
-		if( k->texture) FreeVec(k->texture);
-		if( k) FreeVec(k);
+		if( k->texture) CstFreeVec(k->texture);
+		if( k) CstFreeVec(k);
 		k = NULL;
 	}
 }
@@ -90,10 +90,10 @@ void loadBackDrop (int fileNum, int x, int y) {
 	}
 	CstLoadBackdrop( bigDataFile, x, y);
 	finishAccess ();
-	
+
 }
 
-BOOL loadHSI (BPTR fp, int x, int y, BOOL reserve) 
+BOOL loadHSI (BPTR fp, int x, int y, BOOL reserve)
 {
 
 	unsigned int t1, t2, n;
@@ -114,7 +114,7 @@ BOOL loadHSI (BPTR fp, int x, int y, BOOL reserve)
 
 	if (bytes_read != 8) {
 		KPrintF("Reading error in loadHSI.\n");
-	}	
+	}
 
     if ( tmp[0] == 0x89 && tmp[1] == 0x50 && tmp[2] == 0x4E && tmp[3] == 0x47 && tmp[4] == 0x0D && tmp[5] == 0x0A && tmp[6] == 0x1A && tmp[7] == 0x0A ) {
 		// PNG not supported
@@ -131,9 +131,9 @@ BOOL loadHSI (BPTR fp, int x, int y, BOOL reserve)
 
 	if (x < 0 || x + realPicWidth > sceneWidth || y < 0 || y + realPicHeight > sceneHeight) {
 		return FALSE;
-	}		
+	}
 
-	
+
 	for (t2 = 0; t2 < realPicHeight; t2 ++) {
 		t1 = 0;
 		while (t1 < realPicWidth) {
@@ -162,18 +162,18 @@ BOOL loadHSI (BPTR fp, int x, int y, BOOL reserve)
 		}
 	}
 
-	
+
 	backdropExists = TRUE;
 	return TRUE;
 }
 
 BOOL loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY) {
-	KPrintF("loadParallax: Not implemented yet."); //Amiga Todo: Amigize this	
+	KPrintF("loadParallax: Not implemented yet."); //Amiga Todo: Amigize this
 
 }
 
 void mixBackDrop (int fileNum, int x, int y) {
-	KPrintF("mixBackdrop: Amiga Graphics Display not implemented yet."); //Todo: Amigize this	
+	KPrintF("mixBackdrop: Amiga Graphics Display not implemented yet."); //Todo: Amigize this
 }
 
 void nosnapshot () {
@@ -181,10 +181,10 @@ void nosnapshot () {
 	snapshotTextureName = 0;
 }
 
-BOOL reserveBackdrop () {	
+BOOL reserveBackdrop () {
 	cameraX = 0;
 	cameraY = 0;
-	
+
 	return CstReserveBackdrop(sceneWidth, sceneHeight);
 }
 
@@ -196,7 +196,7 @@ BOOL resizeBackdrop (int x, int y) {
 	sceneHeight = y;
 	KPrintF("resizeBackdrop: Reserving new Backdrop");
 	return reserveBackdrop();
-	KPrintF("resizeBackdrop: Backdrop reserved");	
+	KPrintF("resizeBackdrop: Backdrop reserved");
 }
 
 BOOL restoreSnapshot (BPTR fp) {

@@ -1,6 +1,7 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 
+#include "custom.h"
 #include "language.h"
 #include "moreio.h"
 #include "stringy.h"
@@ -42,19 +43,19 @@ char * getPrefsFilename (char * filename) {
 
 	char * joined = joinStrings (f, ".ini");
 
-	FreeVec(filename);
+	CstFreeVec(filename);
 	filename = NULL;
 	return joined;
 }
 
 void makeLanguageTable (BPTR table)
 {
-	languageTable = AllocVec(gameSettings.numLanguages + 1,MEMF_ANY);
+	languageTable = CstAllocVec(sizeof(int)*(gameSettings.numLanguages + 1),MEMF_ANY);
     if( languageTable == 0) {
         KPrintF("makeLanguageTable: Cannot Alloc Mem for languageTable");
     }
 
-	languageName = AllocVec(gameSettings.numLanguages + 1,MEMF_ANY);
+	languageName = CstAllocVec(sizeof(int)*(gameSettings.numLanguages + 1),MEMF_ANY);
 	if( languageName == 0) {
         KPrintF("makeLanguageName: Cannot Alloc Mem for languageName");
     }
@@ -73,7 +74,7 @@ void readIniFile (char * filename) {
 	char * langName = getPrefsFilename (copyString (filename));
 
 	langName = joinStrings ("/", langName);
-	BPTR fp = Open(langName,MODE_OLDFILE);	
+	BPTR fp = Open(langName,MODE_OLDFILE);
 
 	gameSettings.languageID = 0;
 	gameSettings.userFullScreen = TRUE; //Always fullscreen on AMIGA
@@ -83,7 +84,7 @@ void readIniFile (char * filename) {
 	gameSettings.noStartWindow = FALSE;
 	gameSettings.debugMode = FALSE;
 
-	FreeVec(langName);
+	CstFreeVec(langName);
 	langName = NULL;
 
 	if (fp) {

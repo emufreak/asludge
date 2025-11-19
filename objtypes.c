@@ -1,6 +1,7 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 
+#include "custom.h"
 #include "objtypes.h"
 #include "fileset.h"
 #include "moreio.h"
@@ -40,14 +41,14 @@ BOOL initObjectTypes () {
 
 struct objectType * loadObjectRef (BPTR fp) {
 	struct objectType * r = loadObjectType (get2bytes (fp));
-	FreeVec(r -> screenName);
+	CstFreeVec(r -> screenName);
 	r -> screenName = readString (fp);
 	return r;
 }
 
 struct objectType * loadObjectType (int i) {
     int a, nameNum;
-    struct objectType * newType = AllocVec(sizeof(struct objectType), MEMF_ANY);
+    struct objectType * newType = CstAllocVec(sizeof(struct objectType), MEMF_ANY);
 
     if (newType) {
         if (openObjectSlice(i)) {
@@ -67,7 +68,7 @@ struct objectType * loadObjectType (int i) {
             newType->flags = get2bytes(bigDataFile);
 
             newType->numCom = get2bytes(bigDataFile);
-            newType->allCombis = (newType->numCom) ? AllocVec(sizeof(struct combination) * newType->numCom, MEMF_ANY) : NULL;
+            newType->allCombis = (newType->numCom) ? CstAllocVec(sizeof(struct combination) * newType->numCom, MEMF_ANY) : NULL;
 
             for (a = 0; a < newType->numCom; a++) {
                 newType->allCombis[a].withObj = get2bytes(bigDataFile);
@@ -95,9 +96,9 @@ void removeObjectType (struct objectType * oT) {
 //			fclose (debuggy2);
 
 			* huntRegion = oT -> next;
-			FreeVec(oT -> allCombis);
-			FreeVec(oT -> screenName);
-			FreeVec(oT);
+			CstFreeVec(oT -> allCombis);
+			CstFreeVec(oT -> screenName);
+			CstFreeVec(oT);
 			return;
 		} else {
 			huntRegion = & ((* huntRegion) -> next);
