@@ -2,6 +2,7 @@
 #include <exec/types.h>
 #include <proto/dos.h>
 
+#include "custom.h"
 #include "savedata.h"
 #include "moreio.h"
 #include "stringy.h"
@@ -47,7 +48,7 @@ BOOL fileToStack(char *filename, struct stackHandler *sH) {
             KPrintF(LOAD_ERROR "The current file encoding setting does not match the encoding setting used when this file was created:", filename);
             return FALSE;
         }
-        FreeVec(checker);
+        CstFreeVec(checker);
         checker = NULL;
     }
 
@@ -63,7 +64,7 @@ BOOL fileToStack(char *filename, struct stackHandler *sH) {
                 case 0: {
                     char *g = readStringEncoded(fp);
                     makeTextVar(&stringVar, g);
-                    FreeVec(g);
+                    CstFreeVec(g);
                 }
                 break;
 
@@ -102,7 +103,7 @@ BOOL fileToStack(char *filename, struct stackHandler *sH) {
 
 char *readStringEncoded(BPTR fp) {
     int a, len = get2bytes(fp);
-    char *s = AllocVec(len + 1, MEMF_ANY);
+    char *s = CstAllocVec(len + 1, MEMF_ANY);
     if (!s) return NULL;
     for (a = 0; a < len; a++) {
         s[a] = (char)(FGetC(fp) ^ encode1);
@@ -136,7 +137,7 @@ char *readTextPlain(BPTR fp) {
         return NULL;
     } else {
         Seek(fp, startPos, OFFSET_BEGINNING);
-        reply = AllocVec(stringSize + 1, MEMF_ANY);
+        reply = CstAllocVec(stringSize + 1, MEMF_ANY);
         if (reply == NULL) return NULL;
         int bytesRead = FRead(fp, reply, 1, stringSize);
         if (bytesRead != stringSize) {
@@ -198,7 +199,7 @@ BOOL stackToFile (char * filename, const struct variable * from) {
             char * makeSureItsText = getTextFromAnyVar(&hereWeAre->thisVar);
             if (makeSureItsText == NULL) break;
             FPrintf(fp, "%s\n", *makeSureItsText);
-            FreeVec(makeSureItsText);
+            CstFreeVec(makeSureItsText);
         }
 
         hereWeAre = hereWeAre->next;

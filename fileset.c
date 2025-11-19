@@ -13,7 +13,7 @@ BOOL sliceBusy = TRUE;
 ULONG startOfDataIndex, startOfTextIndex,
 			  startOfSubIndex, startOfObjectIndex;
 
-// Converts a string from Windows CP-1252 to UTF-8. 
+// Converts a string from Windows CP-1252 to UTF-8.
 // This is needed for old games.
 char * convertString(char * s) {
 	return NULL;
@@ -26,7 +26,7 @@ void finishAccess () {
 char * getNumberedString (int value) {
 
 	if (sliceBusy) {
-		Write(Output(), (APTR)"getNumberedString: Can't read from data file. I'm already reading something\n", 76);        
+		Write(Output(), (APTR)"getNumberedString: Can't read from data file. I'm already reading something\n", 76);
 		return NULL;
 	}
 
@@ -34,8 +34,8 @@ char * getNumberedString (int value) {
 	value = get4bytes (bigDataFile);
 	Seek (bigDataFile, value, OFFSET_BEGINING);
 
-	char * s = readString (bigDataFile);    
-	
+	char * s = readString (bigDataFile);
+
 	return s;
 }
 
@@ -47,7 +47,7 @@ unsigned int openFileFromNum (int num) {
 		return 0;
 	}
 
-	Seek( bigDataFile,  startOfDataIndex + (num << 2), OFFSET_BEGINING);	
+	Seek( bigDataFile,  startOfDataIndex + (num << 2), OFFSET_BEGINING);
 	Seek( bigDataFile, get4bytes (bigDataFile), OFFSET_CURRENT);
 //	fprintf (dbug, "Jumping to %li (for data) \n", ftell (bigDataFile));
 	sliceBusy = TRUE;
@@ -112,7 +112,7 @@ void setFileIndices (BPTR fp, unsigned int numLanguages, unsigned int skipBefore
 	// STRINGS
 	int skipAfter = numLanguages - skipBefore;
 	while (skipBefore) {
-        Seek(fp, get4bytes(fp),OFFSET_BEGINING);		
+        Seek(fp, get4bytes(fp),OFFSET_BEGINING);
 		skipBefore --;
 	}
 	startOfTextIndex = Seek( fp, 0, OFFSET_CURRENT) + 4;

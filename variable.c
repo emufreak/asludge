@@ -1,7 +1,7 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 
-
+#include "custom.h"
 #include "variable.h"
 #include "fileset.h"
 #include "loadsave.h"
@@ -21,11 +21,11 @@ const char * typeName[] = {"undefined", "number", "user function", "string",
 
 
 BOOL addVarToStack(const struct variable * va, struct variableStack ** thisStack) {
-    struct variableStack * newStack = (struct variableStack *)AllocVec(sizeof(struct variableStack), MEMF_ANY);
+    struct variableStack * newStack = (struct variableStack *)CstAllocVec(sizeof(struct variableStack), MEMF_ANY);
     if (!newStack) return FALSE;
 
     if (!copyMain(va, &newStack->thisVar)) {
-        FreeVec(newStack);
+        CstFreeVec(newStack);
         return FALSE;
     }
 
@@ -35,7 +35,7 @@ BOOL addVarToStack(const struct variable * va, struct variableStack ** thisStack
 }
 
 BOOL addVarToStackQuick(struct variable *va, struct variableStack **thisStack) {
-    struct variableStack *newStack = AllocVec(sizeof(struct variableStack), MEMF_ANY);
+    struct variableStack *newStack = CstAllocVec(sizeof(struct variableStack), MEMF_ANY);
     if (!newStack) return FALSE;
 
 //    if (!copyMain(va, &newStack->thisVar)) return FALSE;
@@ -58,12 +58,12 @@ void addVariablesInSecond(struct variable * var1, struct variable * var2) {
 		unlinkVar(var2);
 		var2->varData.theString = joinStrings(string1, string2);
 		var2->varType = SVT_STRING;
-		FreeVec(string1);
-		FreeVec(string2);
+		CstFreeVec(string1);
+		CstFreeVec(string2);
 	}
 }
 
-void compareVariablesInSecond (const struct variable *var1, struct variable *var2) {	
+void compareVariablesInSecond (const struct variable *var1, struct variable *var2) {
 	setVariable (var2, SVT_INT, compareVars (*var1, *var2));
 }
 
@@ -102,7 +102,7 @@ int compareVars (const struct variable var1, const struct variable var2) {
 
 BOOL copyStack (const struct variable * from, struct variable * to) {
 	to->varType = SVT_STACK;
-	to->varData.theStack = (struct stackHandler *)AllocVec(sizeof(struct stackHandler), MEMF_ANY);
+	to->varData.theStack = (struct stackHandler *)CstAllocVec(sizeof(struct stackHandler), MEMF_ANY);
 	if (!to->varData.theStack) return FALSE;
 	to->varData.theStack->first = NULL;
 	to->varData.theStack->last = NULL;
@@ -130,7 +130,7 @@ int deleteVarFromStack (const struct variable * va, struct variableStack ** this
             killMe = *huntVar;
             *huntVar = killMe->next;
             unlinkVar(&killMe->thisVar);
-            FreeVec(killMe);
+            CstFreeVec(killMe);
             if (!allOfEm) return 1;
             reply++;
         } else {
@@ -152,10 +152,10 @@ struct persona * getCostumeFromVar(struct variable *thisVar) {
 
     switch (thisVar->varType) {
         case SVT_ANIM:
-            p = AllocVec(sizeof(struct persona), MEMF_ANY);
+            p = CstAllocVec(sizeof(struct persona), MEMF_ANY);
             if (!p) return NULL;
             p->numDirections = 1;
-            p->animation = AllocVec(3 * sizeof(struct personaAnimation *), MEMF_ANY);
+            p->animation = CstAllocVec(3 * sizeof(struct personaAnimation *), MEMF_ANY);
             if (!p->animation) return NULL;
 
             for (int iii = 0; iii < 3; iii++) {
@@ -184,7 +184,7 @@ BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
 	BPTR dirLock = Lock(".", ACCESS_READ);
 	if (!dirLock) return FALSE;
 
-	struct FileInfoBlock *fib = (struct FileInfoBlock *)AllocVec(sizeof(struct FileInfoBlock), MEMF_CLEAR);
+	struct FileInfoBlock *fib = (struct FileInfoBlock *)CstAllocVec(sizeof(struct FileInfoBlock), MEMF_CLEAR);
 	if (!fib) {
 		UnLock(dirLock);
 		return FALSE;
@@ -197,7 +197,7 @@ BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
 				fib->fib_FileName[strlen(fib->fib_FileName) - strlen(ext)] = 0;
 				char * decoded = decodeFilename(fib->fib_FileName);
 				makeTextVar(&newName, decoded);
-				FreeVec(decoded);
+				CstFreeVec(decoded);
 				if (!addVarToStack(&newName, &sH->first)) goto cleanup;
 				if (sH->last == NULL) sH->last = sH->first;
 			}
@@ -206,9 +206,9 @@ BOOL getSavedGamesStack(struct stackHandler * sH, char * ext) {
 	}
 
 cleanup:
-	FreeVec(fib);
+	CstFreeVec(fib);
 	UnLock(dirLock);
-	FreeVec(pattern);
+	CstFreeVec(pattern);
 	return result;
 }
 
@@ -252,7 +252,7 @@ BOOL loadVariable (struct variable * to, BPTR fp) {
 		return TRUE;
 
 		case SVT_COSTUME:
-		to -> varData.costumeHandler = AllocVec(sizeof(struct persona), MEMF_ANY);
+		to -> varData.costumeHandler = CstAllocVec(sizeof(struct persona), MEMF_ANY);
 		if (!(to -> varData.costumeHandler)) {
 			KPrintF("loadvariable: Cannot allocate memory");
 			return FALSE;
@@ -261,7 +261,7 @@ BOOL loadVariable (struct variable * to, BPTR fp) {
 		return TRUE;
 
 		case SVT_ANIM:
-		to -> varData.animHandler = AllocVec( sizeof( struct personaAnimation),MEMF_ANY);
+		to -> varData.animHandler = CstAllocVec( sizeof( struct personaAnimation),MEMF_ANY);
 		if (!(to -> varData.animHandler)) {
 			KPrintF("loadvariable: Cannot allocate memory");
 			return FALSE;
@@ -296,12 +296,12 @@ BOOL makeFastArraySize (struct variable *to, int size) {
     if (size < 0) {
 		KPrintF("makeFastArraySize: Can't create a fast array with a negative number of elements!");
 		return FALSE;
-	}		
+	}
     unlinkVar(to);
     to->varType = SVT_FASTARRAY;
-    to->varData.fastArray = AllocVec(sizeof(struct fastArrayHandler), MEMF_ANY);
+    to->varData.fastArray = CstAllocVec(sizeof(struct fastArrayHandler), MEMF_ANY);
     if (!to->varData.fastArray) return FALSE;
-    to->varData.fastArray->fastVariables = AllocVec(size * sizeof(struct variable), MEMF_ANY);
+    to->varData.fastArray->fastVariables = CstAllocVec(size * sizeof(struct variable), MEMF_ANY);
     if (!to->varData.fastArray->fastVariables) return FALSE;
     for (int i = 0; i < size; i++) {
         to->varData.fastArray->fastVariables[i].varType = SVT_NULL;
@@ -321,7 +321,7 @@ void unlinkVar (struct variable *thisVar) {
 
 	switch (thisVar->varType) {
 		case SVT_STRING:
-        FreeVec(thisVar->varData.theString);
+        CstFreeVec(thisVar->varData.theString);
 		thisVar->varData.theString = NULL;
 		break;
 
@@ -329,7 +329,7 @@ void unlinkVar (struct variable *thisVar) {
 		thisVar->varData.theStack -> timesUsed --;
 		if (thisVar->varData.theStack -> timesUsed <= 0) {
 			while (thisVar->varData.theStack -> first) trimStack (&thisVar->varData.theStack -> first);
-			FreeVec(thisVar->varData.theStack);
+			CstFreeVec(thisVar->varData.theStack);
 			thisVar->varData.theStack = NULL;
 		}
 
@@ -340,8 +340,8 @@ void unlinkVar (struct variable *thisVar) {
 		case SVT_FASTARRAY:
 		thisVar->varData.fastArray -> timesUsed --;
 		if (thisVar->varData.theStack -> timesUsed <= 0) {
-            FreeVec( thisVar->varData.fastArray -> fastVariables);
-			FreeVec(thisVar->varData.fastArray);
+            CstFreeVec( thisVar->varData.fastArray -> fastVariables);
+			CstFreeVec(thisVar->varData.fastArray);
 			thisVar->varData.fastArray = NULL;
 		}
 		break;
@@ -451,13 +451,13 @@ char * getTextFromAnyVar (const struct variable *from) {
 			for (int i = 0; i < from->varData.fastArray -> size; i ++) {
 				builder2 = joinStrings (builder, " ");
 				if (! builder2) return NULL;
-				FreeVec(builder);
+				CstFreeVec(builder);
 				grabText = getTextFromAnyVar (&from->varData.fastArray -> fastVariables[i]);
 				builder = joinStrings (builder2, grabText);
 				if (! builder) return NULL;
-				FreeVec(grabText);
+				CstFreeVec(grabText);
 				grabText = NULL;
-				FreeVec(builder2);
+				CstFreeVec(builder2);
 				builder2 = NULL;
 			}
 			return builder;
@@ -474,13 +474,13 @@ char * getTextFromAnyVar (const struct variable *from) {
 			while (stacky) {
 				builder2 = joinStrings (builder, " ");
 				if (! builder2) return NULL;
-				FreeVec(builder);
+				CstFreeVec(builder);
 				grabText = getTextFromAnyVar (&stacky -> thisVar);
 				builder = joinStrings (builder2, grabText);
 				if (! builder) return NULL;
-				FreeVec(grabText);
+				CstFreeVec(grabText);
 				grabText = NULL;
-				FreeVec(builder2);
+				CstFreeVec(builder2);
 				builder2 = NULL;
 				stacky = stacky -> next;
 			}
@@ -489,7 +489,7 @@ char * getTextFromAnyVar (const struct variable *from) {
 
 		case SVT_INT:
 		{
-			char * buff = AllocVec(10, MEMF_ANY);
+			char * buff = CstAllocVec(10, MEMF_ANY);
 			if (! buff) {
 				KPrintF("getTextFromAnyVar: Cannot allocate Memory");
 				return NULL;
@@ -573,5 +573,5 @@ void trimStack (struct variableStack ** stack) {
 
 	// When calling this, we've ALWAYS checked that stack != NULL
 	unlinkVar (&(killMe -> thisVar));
-	FreeVec(killMe);
+	CstFreeVec(killMe);
 }

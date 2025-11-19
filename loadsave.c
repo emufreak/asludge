@@ -1,6 +1,7 @@
 #include <proto/dos.h>
 
 #include "backdrop.h"
+#include "custom.h"
 #include "errors.h"
 #include "fileset.h"
 #include "floor.h"
@@ -25,14 +26,14 @@
 extern struct loadedFunction * allRunningFunctions;		// In sludger.cpp
 extern BOOL allowAnyFilename;
 extern unsigned char brightnessLevel;					// "	"	"
-extern int cameraX, cameraY;	
+extern int cameraX, cameraY;
 extern FLOAT cameraZoom;
 extern BOOL captureAllKeys;
 extern struct flor * currentFloor;						// In floor.cpp
 extern unsigned char fadeMode;							// In transition.cpp
 extern FILETIME fileTime;								// In sludger.cpp
 extern short fontSpace;									// in fonttext.cpp
-extern char * fontOrderString;							// "	"	" 
+extern char * fontOrderString;							// "	"	"
 extern struct variable * globalVars;					// In sludger.cpp
 extern int languageNum;
 extern int lightMapNumber;								// In backdrop.cpp
@@ -64,7 +65,7 @@ void clearStackLib () {
 	while (stackLib) {
 		k = stackLib;
 		stackLib = stackLib -> next;
-		FreeVec(k);
+		CstFreeVec(k);
 	}
 	stackLibTotal = 0;
 }
@@ -93,7 +94,7 @@ struct loadedFunction * loadFunction (BPTR fp) {
 
 	// Reserve memory...
 
-	unsigned int originalNumber = get2bytes (fp);	
+	unsigned int originalNumber = get2bytes (fp);
 	struct loadedFunction *buildFunc = loadFunctionCode (originalNumber);
 
 	buildFunc -> originalNumber = get2bytes (fp);
@@ -132,7 +133,7 @@ BOOL loadGame (char * fname) {
 	if (fp == NULL) return FALSE;
 
 	unsigned int bytes_read = Read( fp, &savedGameTime, sizeof (FILETIME));
-	
+
 	if (bytes_read != sizeof (FILETIME)) {
 		KPrintF("Reading error in loadGame.\n");
 	}
@@ -140,7 +141,7 @@ BOOL loadGame (char * fname) {
 	if (savedGameTime.dwLowDateTime != fileTime.dwLowDateTime ||
 		savedGameTime.dwHighDateTime != fileTime.dwHighDateTime) {
 		KPrintF("loadgame:", ERROR_GAME_LOAD_WRONG, fname);
-		return FALSE; 
+		return FALSE;
 	}
 
 	// DON'T ADD ANYTHING NEW BEFORE THIS POINT!
@@ -154,12 +155,12 @@ BOOL loadGame (char * fname) {
 	char * charOrder;
 	if (fontLoaded) {
 		fontNum = get2bytes (fp);
-		fontHeight = get2bytes (fp);		
-		charOrder = readString(fp);		
+		fontHeight = get2bytes (fp);
+		charOrder = readString(fp);
 	}
 	//loadFont (fontNum, charOrder, fontHeight); Amiga Todo: Implement Graphics stuff
-	FreeVec(charOrder);
-	
+	CstFreeVec(charOrder);
+
 	fontSpace = getSigned (fp);
 
 	killAllPeople ();
@@ -175,13 +176,13 @@ BOOL loadGame (char * fname) {
 	loadHandlers (fp);
 	loadRegions (fp);
 
-	mouseCursorAnim = AllocVec( sizeof( struct personaAnimation), MEMF_ANY);
+	mouseCursorAnim = CstAllocVec( sizeof( struct personaAnimation), MEMF_ANY);
 	if (! mouseCursorAnim) {
 		KPrintF("loadGame: Cannot allocate memory");
 		return FALSE;
 	if (! loadAnim (mouseCursorAnim, fp)) {
 		KPrintF("loadGame: Cannot load anim");
-		return FALSE;		
+		return FALSE;
 	}
 	mouseCursorFrameNum = get2bytes (fp);
 
@@ -271,7 +272,7 @@ void saveFunction (struct loadedFunction * fun, BPTR fp) {
 	saveVariable (&fun -> reg, fp);
 
 	if (fun -> freezerLevel) {
-		KPrintF(ERROR_GAME_SAVE_FROZEN);		
+		KPrintF(ERROR_GAME_SAVE_FROZEN);
 	}
 	saveStack (fun -> stack, fp);
 	for (a = 0; a < fun -> numLocals; a ++) {
@@ -355,7 +356,7 @@ BOOL saveGame (char * fname) {
 	/*if (zBuffer.tex) {
 		FPutC (fp, 1);
 		put2bytes (zBuffer.originalNum, fp);
-	} else FPutC (fp,0);*/ 
+	} else FPutC (fp,0);*/
 
 	FPutC (fp, speechMode);
 	FPutC (fadeMode, fp);
@@ -382,7 +383,7 @@ struct variableStack * loadStack (BPTR fp, struct variableStack ** last) {
 	struct variableStack * * changeMe = & first;
 
 	for (a = 0; a < elements; a ++) {
-		struct variableStack * nS = AllocVec(sizeof( struct variableStack),MEMF_ANY);
+		struct variableStack * nS = CstAllocVec(sizeof( struct variableStack),MEMF_ANY);
 		if (!(nS)) {
 			KPrintF("Cannot allocate memory for stackhandler");
 			return NULL;
@@ -410,7 +411,7 @@ struct stackHandler * loadStackRef (BPTR fp) {
 
 		// Load the new stack
 
-		nsh = AllocVec( sizeof( struct stackHandler),MEMF_ANY);
+		nsh = CstAllocVec( sizeof( struct stackHandler),MEMF_ANY);
 		if (!nsh) {
 			KPrintF("Cannot allocate memory for stackhandler");
 			return NULL;
@@ -420,7 +421,7 @@ struct stackHandler * loadStackRef (BPTR fp) {
 		nsh -> timesUsed = 1;
 		// Add it to the library of loaded stacks
 
-		struct stackLibrary * s = AllocVec(sizeof( struct stackLibrary),MEMF_ANY);
+		struct stackLibrary * s = CstAllocVec(sizeof( struct stackLibrary),MEMF_ANY);
 		if (!s) {
 			KPrintF("Cannot allocate memory for stackhandler");
 			return NULL;
@@ -470,7 +471,7 @@ BOOL saveStackRef (struct stackHandler * vs, BPTR fp) {
 	}
 	FPutC (fp, 0);
 	saveStack (vs -> first, fp);
-	s = AllocVec( sizeof(struct stackLibrary), MEMF_ANY);
+	s = CstAllocVec( sizeof(struct stackLibrary), MEMF_ANY);
 	stackLibTotal ++;
 	if (! s) {
 		KPrintF("saveStackRef: Cannot allocate memory");
@@ -516,7 +517,7 @@ BOOL saveVariable (struct variable * from, BPTR fp)
 		KPrintF("Can't save variables of this type:",
 					(from->varType < SVT_NUM_TYPES) ?
 						typeName[from->varType] :
-						"bad ID");						
+						"bad ID");
 	}
 	return TRUE;
 }

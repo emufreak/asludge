@@ -6,6 +6,8 @@
 #include "support/gcc8_c_support.h"
 #include "freeze.h"
 
+extern UWORD FrameCounter;
+
 extern struct zBufferData *zBuffer;  // In zbuffer.cpp
 extern struct onScreenPerson * allPeople;
 extern struct screenRegion * allScreenRegions;
@@ -27,13 +29,10 @@ struct frozenStuffStruct * frozenStuff = NULL;
 BOOL freeze () {
 	//KPrintF("calling freeze()\n");
 
-	struct frozenStuffStruct * newFreezer = (struct frozenStuffStruct *) AllocVec(sizeof(struct frozenStuffStruct), MEMF_ANY);
+	struct frozenStuffStruct * newFreezer = (struct frozenStuffStruct *) CstAllocVec(sizeof(struct frozenStuffStruct), MEMF_ANY);
 	if (!newFreezer) return FALSE;
 
 	CstFreeze();
-
-	// Grab a copy of the current scene
-	//ToDo: Amiga Graphics handling here
 
 	int picWidth = sceneWidth;
 	int picHeight = sceneHeight;
@@ -56,7 +55,7 @@ BOOL freeze () {
 	newFreezer -> allPeople = allPeople;
 	allPeople = NULL;
 
-	struct statusStuff * newStatusStuff = (struct statusStuff *) AllocVec(sizeof(struct statusStuff), MEMF_ANY);
+	struct statusStuff * newStatusStuff = (struct statusStuff *) CstAllocVec(sizeof(struct statusStuff), MEMF_ANY);
 	if (!newStatusStuff) return FALSE;
 
 	newFreezer -> allScreenRegions = allScreenRegions;
@@ -75,7 +74,7 @@ BOOL freeze () {
 	initSpeech ();
 
 	newFreezer -> currentEvents = currentEvents;
-	currentEvents = (struct eventHandlers *) AllocVec(sizeof(struct eventHandlers), MEMF_ANY);
+	currentEvents = (struct eventHandlers *) CstAllocVec(sizeof(struct eventHandlers), MEMF_ANY);
 	if (!currentEvents) return FALSE;
 	memset ( currentEvents, 0, sizeof(struct eventHandlers));
 
@@ -97,6 +96,9 @@ int howFrozen () {
 
 void unfreeze () {
     KPrintF("calling unfreeze()\n");
+        long dump;
+    __asm volatile("lea.l 0(%%pc),%0" : "=a"(dump));
+
 	struct frozenStuffStruct * killMe = frozenStuff;
 
 	if (! frozenStuff) {
@@ -111,8 +113,8 @@ void unfreeze () {
 
 	cameraX = frozenStuff -> cameraX;
 	cameraY = frozenStuff -> cameraY;
-	input.mouseX = (int)(input.mouseX * cameraZoom);
-	input.mouseY = (int)(input.mouseY * cameraZoom);
+	input.mouseX = (int)(input.mouseX);
+	input.mouseY = input.mouseY * cameraZoom;
 	cameraZoom = frozenStuff -> cameraZoom;
 	input.mouseX = (int)(input.mouseX / cameraZoom);
 	input.mouseY = (int)(input.mouseY / cameraZoom);
@@ -123,27 +125,23 @@ void unfreeze () {
 	killAllRegions ();
 	allScreenRegions = frozenStuff -> allScreenRegions;
 
-    KPrintF("unfreeze: Restoring mouse cursor animation\n");
 	deleteAnim (mouseCursorAnim);
 	mouseCursorAnim = frozenStuff -> mouseCursorAnim;
 	mouseCursorFrameNum = frozenStuff -> mouseCursorFrameNum;
 
-    KPrintF("unfreeze: Restoring z-buffer\n");
 	killZBuffer ();
 	zBuffer = frozenStuff->zBuffer;
 
-	if (currentEvents) FreeVec(currentEvents);
+	if (currentEvents) CstFreeVec(currentEvents);
 	currentEvents = frozenStuff -> currentEvents;
 
-    KPrintF("unfreeze: Restoring speech\n");
 	killAllSpeech ();
-	if (speech) FreeVec(speech);
+	if (speech) CstFreeVec(speech);
 	speech = frozenStuff -> speech;
 
 	frozenStuff = frozenStuff -> next;
 
 	overRegion = NULL;
-    KPrintF("unfreeze: Freeing frozenStuff\n");
-	if (killMe) FreeVec(killMe);
+	if (killMe) CstFreeVec(killMe);
 	killMe = NULL;
 }

@@ -1,6 +1,7 @@
 #include <proto/dos.h>
 
 #include "backdrop.h"
+#include "custom.h"
 #include "fonttext.h"
 #include "moreio.h"
 #include "objtypes.h"
@@ -27,7 +28,7 @@ void addSpeechLine (char * theLine, int x, int *offset) {
 	int halfWidth = (stringWidth (theLine) >> 1)/cameraZoom;
 	int xx1 = x - (halfWidth);
 	int xx2 = x + (halfWidth);
-	struct speechLine * newLine = AllocVec(sizeof(struct speechLine),MEMF_ANY);
+	struct speechLine * newLine = CstAllocVec(sizeof(struct speechLine),MEMF_ANY);
 
 	newLine -> next = speech -> allSpeech;
 	newLine -> textLine = copyString (theLine);
@@ -42,7 +43,7 @@ void addSpeechLine (char * theLine, int x, int *offset) {
 
 
 void initSpeech () {
-	speech = AllocVec(sizeof(struct speechStruct), MEMF_ANY);
+	speech = CstAllocVec(sizeof(struct speechStruct), MEMF_ANY);
 	if (speech) {
 		speech -> currentTalker = NULL;
 		speech -> allSpeech = NULL;
@@ -68,14 +69,14 @@ void killAllSpeech () {
 		makeSilent (* (speech -> currentTalker));
 		speech -> currentTalker = NULL;
 	}
-	
+
 	struct speechLine * killMe;
-	
+
 	while (speech -> allSpeech) {
 		killMe = speech -> allSpeech;
 		speech -> allSpeech = speech -> allSpeech -> next;
-		FreeVec(killMe -> textLine);
-		FreeVec(killMe);
+		CstFreeVec(killMe -> textLine);
+		CstFreeVec(killMe);
 	}
 }
 
@@ -84,7 +85,7 @@ BOOL loadSpeech (struct speechStruct * sS, BPTR fp) {
 	killAllSpeech ();
 
 	speechSpeed = getFloat (fp);
-	
+
 	// Read y co-ordinate
 	sS -> speechY = get2bytes (fp);
 
@@ -96,14 +97,14 @@ BOOL loadSpeech (struct speechStruct * sS, BPTR fp) {
 	} else {
 		sS -> currentTalker = NULL;
 	}
-		
+
 	// Read what's being said
 	struct speechLine * * viewLine = & sS -> allSpeech;
 	struct speechLine * newOne;
 	speech -> lastFile = -1;
 	while (FGetC (fp)) {
-		newOne = AllocVec( sizeof(struct speechLine),MEMF_ANY);
-		if (!newOne) { 
+		newOne = CstAllocVec( sizeof(struct speechLine),MEMF_ANY);
+		if (!newOne) {
 			KPrintF("loadSpeech: Cannot allocate memory");
 			return FALSE;
 		}
@@ -123,21 +124,21 @@ void makeTalker (struct onScreenPerson *me) {
 
 void saveSpeech (struct speechStruct * sS, BPTR fp) {
 	struct speechLine * viewLine = sS -> allSpeech;
-	
+
 	putFloat (speechSpeed, fp);
-	
+
 		// Write y co-ordinate
 		put2bytes (sS -> speechY, fp);
-		
+
 		// Write which character's talking
-		put2bytes (sS -> lookWhosTalking, fp);		
+		put2bytes (sS -> lookWhosTalking, fp);
 		if (sS -> currentTalker) {
 			FPutC (fp, 1);
 			put2bytes (sS->currentTalker->thisType->objectNum, fp);
 		} else {
 			FPutC (fp, 0);
 		}
-		
+
 		// Write what's being said
 		while (viewLine) {
 			FPutC (fp, 1);

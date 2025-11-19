@@ -233,16 +233,12 @@ struct Interrupt *vbInt;
 
 int main(int argc, char *argv[]) {
 
-	int *bp = (int *)0x200;
-  	*bp = 0;
-
 	for(int i=0;i<1000;i++) {
 
 	}
 
-	SysBase = *((struct ExecBase**)4UL);
+    SysBase = *((struct ExecBase**)4UL);
 	custom = (struct Custom*)0xdff000;
-
 
 	// We will use the graphics library only to locate and restore the system copper list once we are through.
 	GfxBase = (struct GfxBase *)OpenLibrary((CONST_STRPTR)"graphics.library",0);
@@ -270,10 +266,11 @@ int main(int argc, char *argv[]) {
 	if( !MathIeeeDoubBasBase)
 		Exit(0);
 
-	KPrintF(" debugger from Amiga Test 037!\n");
+	KPrintF(" debugger from Amiga Test 045!\n");
 
-	Write(Output(), (APTR)"Hello console Test 037!\n", 25);
+	Write(Output(), (APTR)"Hello console Test 045!\n", 25);
 	Delay(50);
+
 
 	/*warpmode(1);
 	// TODO: precalc stuff here
@@ -320,7 +317,6 @@ int main(int argc, char *argv[]) {
 	}
 
 	AddIntServer( INTB_COPER, vbInt);
-
 
 	KPrintF("Starting main_sludge\n");
 

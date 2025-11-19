@@ -1,5 +1,6 @@
 #include <proto/exec.h>
 
+#include "custom.h"
 #include "tga.h"
 #include "moreio.h"
 #include "support/gcc8_c_support.h"
@@ -24,7 +25,7 @@ void tgaHeaderRead(BPTR file, TGAHeader *header)
    header->bpc= FGetC(file);
 
    //read picture id but ignore
-   for(int i=0;i<header->identsize;i++) 
+   for(int i=0;i<header->identsize;i++)
    {
     FGetC(file);
    }
@@ -35,7 +36,7 @@ int tgaLoad(BPTR file, unsigned int **buf, int *sizex, int *sizey)
    TGAHeader      info;
    int            i,j;
    unsigned int   pal[256];
-   unsigned char* data;   
+   unsigned char* data;
 
    tgaHeaderRead(file, &info);
 
@@ -43,7 +44,7 @@ int tgaLoad(BPTR file, unsigned int **buf, int *sizex, int *sizey)
    //printf("load tga: %s (%dx%dx%d) pal:%d\n", name, info.width, info.height, info.bpp, info.cmaplength);
 
 
-   data=(unsigned char*)AllocVec((int)info.width*(int)info.height*4,MEMF_ANY);
+   data=(unsigned char*)CstAllocVec((int)info.width*(int)info.height*4,MEMF_ANY);
 
    // get palette data
    if (info.imagetype==1) // indexed colors
@@ -53,7 +54,7 @@ int tgaLoad(BPTR file, unsigned int **buf, int *sizex, int *sizey)
       switch (info.cmapformat)
       {
          case 32: tgaLoadPal32(file, pal, info.cmaplength); break;
-         default: 
+         default:
             KPrintF("tgaLoad: Cannot load Palette: Incompatible Palette format");
             break;
       }
@@ -80,8 +81,8 @@ int tgaLoad(BPTR file, unsigned int **buf, int *sizex, int *sizey)
 
       switch(info.bpp)
       {
-         case 8:  tgaLoadScanline8(file, dst, info.width, pal); break;        
-         default: 
+         case 8:  tgaLoadScanline8(file, dst, info.width, pal); break;
+         default:
             KPrintF("tgaLoad: Cannot load Picture: Incompatible bitdepth");
             break;
       }
@@ -107,8 +108,8 @@ int tgaLoad8(BPTR file, void **buffer, int *width, int *height, unsigned int *pa
 
    //return 1;
 
-	//printf(" tga load: %s\n", filename);   
-      
+	//printf(" tga load: %s\n", filename);
+
    tgaHeaderRead(file, &info);
 
    rle= info.imagetype >> 3 & 1;
@@ -147,7 +148,7 @@ int tgaLoad8(BPTR file, void **buffer, int *width, int *height, unsigned int *pa
       unsigned char *dst;
       int pitch;
 
-      data= (unsigned char*)AllocVec((int)info.width*(int)info.height,MEMF_ANY);
+      data= (unsigned char*)CstAllocVec((int)info.width*(int)info.height,MEMF_ANY);
 
       if (info.bpc & 0x20)  // top -> down
       {
@@ -190,7 +191,7 @@ int tgaLoad8(BPTR file, void **buffer, int *width, int *height, unsigned int *pa
             len= count;
             if (len > scan) len= scan;
 
-            if (col>=0)               
+            if (col>=0)
                memset(dst, col, len);
             else
                FRead( file, dst, 1, len);
@@ -245,8 +246,8 @@ void tgaLoadPal32(BPTR file, unsigned int *dst, int size)
       {
          b= *src++ >> 4;
          g= *src++ >> 4;
-         r= *src++ >> 4;  
-         *src++; //Skip Transparency       
+         r= *src++ >> 4;
+         *src++; //Skip Transparency
          *dst++= (b<<8)+(g<<4)+(r);
       } while (--size);
    }
@@ -256,10 +257,10 @@ void tgaLoadPalette(BPTR file, unsigned int *pal, int format, int size)
 {
    switch (format)
    {
-      case 32: 
-         tgaLoadPal32(file, pal, size);          
+      case 32:
+         tgaLoadPal32(file, pal, size);
          break;
-      default: 
+      default:
          KPrintF("tgaLoadPalette: Only colors with palette BBGGRRTT supported");
          break;
    }

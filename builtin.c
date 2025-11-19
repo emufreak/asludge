@@ -4,6 +4,7 @@
 #include "backdrop.h"
 #include "builtin.h"
 #include "cursors.h"
+#include "custom.h"
 #include "floor.h"
 #include "fonttext.h"
 #include "freeze.h"
@@ -142,7 +143,7 @@ static enum builtReturn sayCore (int numParams, struct loadedFunction * fun, BOO
 			fun -> timeLeft = p;
 			//debugOut ("BUILTIN: sayCore: %s (%i)\n", newText, p);
 			fun -> isSpeech = TRUE;
-			FreeVec(newText);
+			CstFreeVec(newText);
 			newText = NULL;
 			return BR_KEEP_AND_PAUSE;
 	}
@@ -251,13 +252,13 @@ builtIn(getMatchingFiles)
 
 	// Return value
 	fun -> reg.varType = SVT_STACK;
-	fun -> reg.varData.theStack = AllocVec(sizeof( struct stackHandler),MEMF_ANY);
+	fun -> reg.varData.theStack = CstAllocVec(sizeof( struct stackHandler),MEMF_ANY);
 	if (!(&fun -> reg.varData.theStack)) return BR_ERROR;
 	fun -> reg.varData.theStack -> first = NULL;
 	fun -> reg.varData.theStack -> last = NULL;
 	fun -> reg.varData.theStack -> timesUsed = 1;
 	if (! getSavedGamesStack (fun -> reg.varData.theStack, newText)) return BR_ERROR;
-	FreeVec(newText);
+	CstFreeVec(newText);
 	newText = NULL;
 	return BR_CONTINUE;
 }
@@ -275,11 +276,11 @@ builtIn(saveGame)
     trimStack(&fun->stack);
 
     char *aaaaa = encodeFilename(loadNow);
-    FreeVec(loadNow);
+    CstFreeVec(loadNow);
     if (failSecurityCheck(aaaaa)) return BR_ERROR; // Won't fail if encoded, how cool is that? OK, not very.
 
     loadNow = joinStrings(":", aaaaa);
-    FreeVec(aaaaa);
+    CstFreeVec(aaaaa);
 
     setVariable(&fun->reg, SVT_INT, 0);
     saverFunc = fun;
@@ -293,7 +294,7 @@ builtIn(fileExists)
     loadNow = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
     char *aaaaa = encodeFilename(loadNow);
-    FreeVec(loadNow);
+    CstFreeVec(loadNow);
     if (failSecurityCheck(aaaaa)) return BR_ERROR;
     BPTR fp = Open(aaaaa, MODE_OLDFILE);
     if (!fp) {
@@ -302,7 +303,7 @@ builtIn(fileExists)
     // Return value
     setVariable(&fun->reg, SVT_INT, (fp != NULL));
     if (fp) Close(fp);
-    FreeVec(aaaaa);
+    CstFreeVec(aaaaa);
     loadNow = NULL;
     return BR_CONTINUE;
 }
@@ -314,7 +315,7 @@ builtIn(loadGame)
     char *aaaaa = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
     loadNow = encodeFilename(aaaaa);
-    FreeVec(aaaaa);
+    CstFreeVec(aaaaa);
 
     /*if (frozenStuff) {
         fatal("Can't load a saved game while the engine is frozen");
@@ -326,7 +327,7 @@ builtIn(loadGame)
         Close(fp);
         return BR_KEEP_AND_PAUSE;
     }
-    FreeVec(loadNow);
+    CstFreeVec(loadNow);
     loadNow = NULL;
     return BR_CONTINUE;
 }
@@ -409,7 +410,7 @@ builtIn(printConsole)
     char *newText = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
     KPrintF("%s\n", newText);
-    FreeVec(newText);
+    CstFreeVec(newText);
     return BR_CONTINUE;
 }
 
@@ -562,7 +563,7 @@ builtIn(substring)
     int startoffset = start;
     int endoffset = start + length;
 
-    newString = AllocVec(endoffset - startoffset + 1, MEMF_ANY);
+    newString = CstAllocVec(endoffset - startoffset + 1, MEMF_ANY);
     if (!newString) {
         return BR_ERROR;
     }
@@ -571,7 +572,7 @@ builtIn(substring)
     newString[endoffset - startoffset] = 0;
 
     makeTextVar(&fun->reg, newString);
-    FreeVec(newString);
+    CstFreeVec(newString);
     return BR_CONTINUE;
 }
 
@@ -582,7 +583,7 @@ builtIn(stringLength)
 	char * newText = getTextFromAnyVar (&(fun -> stack -> thisVar));
 	trimStack (&fun -> stack);
 	setVariable (&fun -> reg, SVT_INT, strlen(newText));
-	FreeVec(newText);
+	CstFreeVec(newText);
 	return BR_CONTINUE;
 }
 
@@ -594,7 +595,7 @@ builtIn(newStack)
 
     // Return value
     fun->reg.varType = SVT_STACK;
-    fun->reg.varData.theStack = AllocVec(sizeof(struct stackHandler), MEMF_ANY);
+    fun->reg.varData.theStack = CstAllocVec(sizeof(struct stackHandler), MEMF_ANY);
     if (!fun->reg.varData.theStack) return BR_ERROR;
     fun->reg.varData.theStack->first = NULL;
     fun->reg.varData.theStack->last = NULL;
@@ -916,7 +917,7 @@ builtIn(setFont)
     trimStack(&fun->stack);
     if (!loadFont(fileNumber, newText, newHeight)) return BR_ERROR;
     //              KPrintF("  Done!\n");
-    FreeVec(newText);
+    CstFreeVec(newText);
 
     return BR_CONTINUE;
 }
@@ -950,7 +951,7 @@ builtIn(pasteString)
 		x = (winWidth - stringWidth(newText)) >> 1;
     //fixFont(pastePalette); //Todo: Amigize this
     pasteStringToBackdrop(newText, x, y);
-    FreeVec(newText);
+    CstFreeVec(newText);
     return BR_CONTINUE;
 }
 
@@ -986,7 +987,7 @@ builtIn(costume)
 {
 	//KPrintF("running costume\n");
     UNUSEDALL
-    struct persona * newPersona = AllocVec(sizeof(struct persona), MEMF_ANY);
+    struct persona * newPersona = CstAllocVec(sizeof(struct persona), MEMF_ANY);
     if (!newPersona) return BR_ERROR;
     newPersona->numDirections = numParams / 3;
     if (numParams == 0 || newPersona->numDirections * 3 != numParams) {
@@ -994,7 +995,7 @@ builtIn(costume)
         return BR_ERROR;
     }
     int iii;
-    newPersona->animation = AllocVec(sizeof(struct personaAnimation *) * numParams, MEMF_ANY);
+    newPersona->animation = CstAllocVec(sizeof(struct personaAnimation *) * numParams, MEMF_ANY);
     if (!newPersona->animation) return BR_ERROR;
     for (iii = numParams - 1; iii >= 0; iii--) {
         newPersona->animation[iii] = getAnimationFromVar(&(fun->stack->thisVar));
@@ -1029,10 +1030,10 @@ builtIn(launch)
         gameDir = joinStrings(gamePath, "/");
 
         launchMe = joinStrings(gameDir, newText);
-        FreeVec(newText);
+        CstFreeVec(newText);
         if (!launchMe) return BR_ERROR;
     }
-    FreeVec(newTextA);
+    CstFreeVec(newTextA);
     setGraphicsWindow(FALSE);
     setVariable(&fun->reg, SVT_INT, 1);
     launchResult = &fun->reg;
@@ -1266,7 +1267,7 @@ builtIn(loopSound)
 				KPrintF("Illegal parameter given built-in function loopSound().");
 				return BR_ERROR;
 			}
-			s = AllocVec(sizeof(struct soundList), MEMF_ANY);
+			s = CstAllocVec(sizeof(struct soundList), MEMF_ANY);
 			if (!s) return BR_ERROR;
 
 			s->next = old;
@@ -1475,7 +1476,7 @@ builtIn(rename)
 	if (!getValueType(&objT, SVT_OBJTYPE, &fun->stack->thisVar)) return BR_ERROR;
 	trimStack(&fun->stack);
 	struct objectType * o = findObjectType(objT);
-	FreeVec(o->screenName);
+	CstFreeVec(o->screenName);
 	o->screenName = newText;
 	return BR_CONTINUE;
 }
@@ -1927,7 +1928,7 @@ builtIn(statusText)
 	if (!newText) return BR_ERROR;
 	trimStack(&fun->stack);
 	setStatusBar(newText);
-	FreeVec(newText);
+	CstFreeVec(newText);
 	return BR_CONTINUE;
 }
 
@@ -2117,7 +2118,7 @@ builtIn(stringWidth)
 
 	// Return value
 	setVariable(&fun->reg, SVT_INT, stringWidth(theText));
-	FreeVec(theText);
+	CstFreeVec(theText);
 	return BR_CONTINUE;
 }
 
@@ -2313,10 +2314,10 @@ builtIn(deleteFile)
     char *namNormal = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
     char *nam = encodeFilename(namNormal);
-    FreeVec(namNormal);
+    CstFreeVec(namNormal);
     if (failSecurityCheck(nam)) return BR_ERROR;
     setVariable(&fun->reg, SVT_INT, DeleteFile(nam));
-    FreeVec(nam);
+    CstFreeVec(nam);
 
     return BR_CONTINUE;
 }
@@ -2331,17 +2332,17 @@ builtIn(renameFile)
 	char * newnam = encodeFilename(temp);
 	trimStack(&fun->stack);
 	if (failSecurityCheck(newnam)) return BR_ERROR;
-	FreeVec(temp);
+	CstFreeVec(temp);
 
 	temp = getTextFromAnyVar(&(fun->stack->thisVar));
 	char * nam = encodeFilename(temp);
 	trimStack(&fun->stack);
 	if (failSecurityCheck(nam)) return BR_ERROR;
-	FreeVec(temp);
+	CstFreeVec(temp);
 
 	setVariable(&fun->reg, SVT_INT, Rename(nam, newnam));
-	FreeVec(nam);
-	FreeVec(newnam);
+	CstFreeVec(nam);
+	CstFreeVec(newnam);
 
 	return BR_CONTINUE;
 }
@@ -2464,7 +2465,7 @@ builtIn(saveCustomData)
 	if (!fileNameB) return BR_ERROR;
 
 	char * fileName = encodeFilename(fileNameB);
-	FreeVec(fileNameB);
+	CstFreeVec(fileNameB);
 
 	if (failSecurityCheck(fileName)) return BR_ERROR;
 	trimStack(&fun->stack);
@@ -2475,7 +2476,7 @@ builtIn(saveCustomData)
 	}
 	if (!stackToFile(fileName, &fun->stack->thisVar)) return BR_ERROR;
 	trimStack(&fun->stack);
-	FreeVec(fileName);
+	CstFreeVec(fileName);
 	return BR_CONTINUE;
 }
 
@@ -2488,20 +2489,20 @@ builtIn(loadCustomData)
 	if (!newTextA) return BR_ERROR;
 
 	char * newText = encodeFilename(newTextA);
-	FreeVec(newTextA);
+	CstFreeVec(newTextA);
 
 	if (failSecurityCheck(newText)) return BR_ERROR;
 	trimStack(&fun->stack);
 
 	unlinkVar(&fun->reg);
 	fun->reg.varType = SVT_STACK;
-	fun->reg.varData.theStack = AllocVec(sizeof(struct stackHandler), MEMF_ANY);
+	fun->reg.varData.theStack = CstAllocVec(sizeof(struct stackHandler), MEMF_ANY);
 	if (!fun->reg.varData.theStack) return BR_ERROR;
 	fun->reg.varData.theStack->first = NULL;
 	fun->reg.varData.theStack->last = NULL;
 	fun->reg.varData.theStack->timesUsed = 1;
 	if (!fileToStack(newText, fun->reg.varData.theStack)) return BR_ERROR;
-	FreeVec(newText);
+	CstFreeVec(newText);
 	return BR_CONTINUE;
 }
 

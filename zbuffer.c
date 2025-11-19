@@ -13,7 +13,7 @@ struct zBufferData *zBuffer;
 
 void addZBufferLayer (int x, int y, int width, int height, int yz) {
 
-	struct zBufferData *createthis = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
+	struct zBufferData *createthis = CstAllocVec(sizeof(struct zBufferData), MEMF_ANY);
 	createthis->width = sceneWidth;
 	createthis->height = sceneHeight;
 	createthis->topx = 0;
@@ -24,7 +24,7 @@ void addZBufferLayer (int x, int y, int width, int height, int yz) {
 	zBuffer = createthis;
 
 	UWORD size = sceneWidth * sceneHeight / 8;
-	createthis->bitplane = AllocVec( size, MEMF_CHIP);
+	createthis->bitplane = CstAllocVec( size, MEMF_CHIP);
 	CstCreateZBufferLayer (createthis->bitplane, x, y, width, height);
 
 }
@@ -35,8 +35,8 @@ void killZBuffer () {
 	while(zbuffercursor) {
 		struct zBufferData *deleteme = zbuffercursor;
 		zbuffercursor = zbuffercursor->nextPanel;
-		FreeVec(deleteme->bitplane);
-		FreeVec(deleteme);
+		CstFreeVec(deleteme->bitplane);
+		CstFreeVec(deleteme);
 	}
 	zBuffer = NULL;
 }
@@ -61,7 +61,7 @@ BOOL setZBuffer (unsigned int y) {
 	UWORD size;
 	UWORD count;
 
-	zBuffer = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
+	zBuffer = CstAllocVec(sizeof(struct zBufferData), MEMF_ANY);
 
 	struct zBufferData *currentitem;
 	currentitem = zBuffer;
@@ -76,11 +76,11 @@ BOOL setZBuffer (unsigned int y) {
 		currentitem->yz = get2bytes (bigDataFile);
 
 		UWORD size = currentitem->width * currentitem->height / 8;
-		currentitem->bitplane = AllocVec( size, MEMF_CHIP);
+		currentitem->bitplane = CstAllocVec( size, MEMF_CHIP);
 		count = FRead( bigDataFile, currentitem->bitplane, 1, size);
 
 		if(numelements > 0) {
-			currentitem->nextPanel = AllocVec(sizeof(struct zBufferData), MEMF_ANY);
+			currentitem->nextPanel = CstAllocVec(sizeof(struct zBufferData), MEMF_ANY);
 			currentitem = currentitem->nextPanel;
 		} else {
 			currentitem->nextPanel = NULL;

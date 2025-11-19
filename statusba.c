@@ -2,6 +2,7 @@
 #include <proto/dos.h>
 
 #include "allfiles.h"
+#include "custom.h"
 #include "graphics.h"
 #include "moreio.h"
 #include "statusba.h"
@@ -12,7 +13,7 @@ struct statusStuff mainStatus;
 struct statusStuff * nowStatus = & mainStatus;
 
 void addStatusBar () {
-	struct statusBar * newStat = AllocVec(sizeof(struct statusBar), MEMF_ANY);
+	struct statusBar * newStat = CstAllocVec(sizeof(struct statusBar), MEMF_ANY);
 	if (!newStat) {
 		newStat -> next = nowStatus -> firstStatusBar;
 		newStat -> text = copyString ("");
@@ -27,8 +28,8 @@ void clearStatusBar () {
 	while (stat) {
 		kill = stat;
 		stat = stat -> next;
-		FreeVec(kill -> text);
-		FreeVec(kill);
+		CstFreeVec(kill -> text);
+		CstFreeVec(kill);
 	}
 	nowStatus -> firstStatusBar = NULL;
 }
@@ -47,8 +48,8 @@ void killLastStatus () {
 	if (nowStatus -> firstStatusBar) {
 		struct statusBar * kill = nowStatus -> firstStatusBar;
 		nowStatus -> firstStatusBar = kill -> next;
-		FreeVec(kill -> text);
-		FreeVec(kill);
+		CstFreeVec(kill -> text);
+		CstFreeVec(kill);
 	}
 }
 
@@ -74,8 +75,8 @@ BOOL loadStatusBars (BPTR fp) {
 	struct statusBar * * viewLine = & (nowStatus -> firstStatusBar);
 	struct statusBar * newOne;
 	while (FGetC (fp)) {
-		newOne = AllocVec( sizeof( struct statusBar),MEMF_ANY);
-		if (!newOne) { 
+		newOne = CstAllocVec( sizeof( struct statusBar),MEMF_ANY);
+		if (!newOne) {
 			KPrintF("loadStatusBars: Cannot allocate memory");
 			return FALSE;
 		}
@@ -123,7 +124,7 @@ void setLitStatus (int i) {
 
 void setStatusBar (char * txt) {
 	if (nowStatus -> firstStatusBar) {
-		FreeVec(nowStatus -> firstStatusBar -> text);
+		CstFreeVec(nowStatus -> firstStatusBar -> text);
 		nowStatus -> firstStatusBar -> text = copyString (txt);
 	}
 }

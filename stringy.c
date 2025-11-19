@@ -1,5 +1,6 @@
 #include <proto/exec.h>
 #include <string.h>
+#include "custom.h"
 #include "support/gcc8_c_support.h"
 
 #ifndef va_start
@@ -19,20 +20,20 @@ int strcmp(const char* s1, const char* s2)
     return *(const unsigned char*)s1 - *(const unsigned char*)s2;
 }
 
-long unsigned int strlen (const char *s) 
-{  
+long unsigned int strlen (const char *s)
+{
 	long unsigned int i = 0;
-	while(s[i]) i++; 
+	while(s[i]) i++;
 	return(i);
 }
 
-char *strcpy(char *t, const char *s) 
+char *strcpy(char *t, const char *s)
 {
 	while(*t++ = *s++);
 }
 
 char * joinStrings (const char * s1, const char * s2) {
-	char * newString = AllocVec(strlen (s1) + strlen (s2) + 1, MEMF_ANY); 
+	char * newString = CstAllocVec(strlen (s1) + strlen (s2) + 1, MEMF_ANY);
 	char * t = newString;
 
 	while(*t++ = *s1++);

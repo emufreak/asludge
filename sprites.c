@@ -21,11 +21,11 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 	for (int i = 0; i < spritebanktoforget->total; i++) {
 		struct sprite *cursprite = &spritebanktoforget->sprites[i];
 		if(cursprite->data) {
-			FreeVec(cursprite->data);
+			CstFreeVec(cursprite->data);
 		}
 	}
 
-	FreeVec(spritebanktoforget->sprites);
+	CstFreeVec(spritebanktoforget->sprites);
 
 
 	struct loadedSpriteBank *precedingbank = allLoadedBanks;
@@ -39,12 +39,12 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 	{
 		//Forget element in the middle of the chain or the last one
 		precedingbank->next = forgetme->next;
-		FreeVec( forgetme);
+		CstFreeVec( forgetme);
 	} else
 	{
 		//Forget first element in the chain
 		allLoadedBanks = allLoadedBanks->next;
-		FreeVec( forgetme);
+		CstFreeVec( forgetme);
 	}
 }
 
@@ -80,7 +80,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 	}
 
 	loadhere->total = total;
-	loadhere->sprites = AllocVec(sizeof(struct sprite) * total, MEMF_ANY);
+	loadhere->sprites = CstAllocVec(sizeof(struct sprite) * total, MEMF_ANY);
 	if (!loadhere->sprites) return FALSE;
 
 	startIndex = 1;
@@ -113,7 +113,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 				break;
 		}
 
-		loadhere->sprites[i].data = AllocVec(sizeof(UWORD) * size, MEMF_CHIP);
+		loadhere->sprites[i].data = CstAllocVec(sizeof(UWORD) * size, MEMF_CHIP);
 		UWORD count = FRead(bigDataFile, loadhere->sprites[i].data, 2, size / 2);
 		if (!count) {
 			KPrintF("loadSpriteBank: Cannot read sprite Data from File\n");

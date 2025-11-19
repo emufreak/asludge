@@ -1,4 +1,5 @@
 #include <proto/exec.h>
+#include "custom.h"
 #include "graphics.h"
 #include "support/gcc8_c_support.h"
 
@@ -18,7 +19,7 @@ void deleteTextures(unsigned int n,  unsigned int * textures)
 			if (list->name == textures[i]) {
 				found = TRUE;
 				firstTexture = list->next;
-				FreeVec(list);
+				CstFreeVec(list);
 				continue;
 			}
 
@@ -27,7 +28,7 @@ void deleteTextures(unsigned int n,  unsigned int * textures)
 					found = TRUE;
 					struct textureList *deleteMe = list->next;
 					list->next = list->next->next;
-					FreeVec(deleteMe);
+					CstFreeVec(deleteMe);
 					break;
 				}
 				list = list->next;
