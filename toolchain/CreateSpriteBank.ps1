@@ -27,9 +27,17 @@ for($i = 1; $i -le $spritenum; $i++) {
     # Add Header for Item
     $path = Get-Location
     $fullpathimage = "${path}\${filename}_${i}.png"
-    $image = [System.Drawing.Image]::FromFile("$fullpathimage")    
+    $image = [System.Drawing.Image]::FromFile("$fullpathimage")
+    $headerwidth = $image.Width
 
-    $headeritem = [Byte[]] (0x00, $image.Width, 0x00, $image.Height, 0x00, $xhot, 0x00, $yhot)
+    if($type -eq 'font') {
+        $lastColumn = magick $fullpathimage -crop 1x${image.Height}+$($image.Width - 1)+0 txt:-
+        if($lastColumn -match 'gray\(255\)|graya\(255|srgb\(255,255,255\)|srgba\(255,255,255|rgb\(255,255,255\)|rgba\(255,255,255') {
+            $headerwidth += 1
+        }
+    }
+
+    $headeritem = [Byte[]] (0x00, $headerwidth, 0x00, $image.Height, 0x00, $xhot, 0x00, $yhot)
     Add-Content -Encoding Byte -Path source.aduc -Value $headeritem 
 
     # Add Data
@@ -95,5 +103,4 @@ Copy-Item target.aduc "${filename}.aduc"
 Remove-Item .\header.bin
 Remove-Item target.aduc
 Remove-Item source.aduc
-
 
