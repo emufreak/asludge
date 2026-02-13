@@ -71,9 +71,16 @@ for($i = 1; $i -le $spritenum; $i++) {
                 cp $fullpathimage tmp.png
             }
 
-            .\amigeconv.exe --format bitplane --depth 1 tmp.png "${filename}_${i}.BPL"
+            $pixel = magick $fullpathimage -format "%[pixel:p{0,0}]" info:
+            if($pixel -eq "graya(255,1)") {
+                .\amigeconv.exe -f bitplane -m inverted tmp.png "${filename}_${i}.BPL"
+            }
+            else
+            {
+                .\amigeconv.exe --format bitplane --depth 1 tmp.png "${filename}_${i}.BPL"
+            }            
             Get-Content -Encoding Byte -Path source.aduc, "${filename}_${i}.BPL" | Set-Content -Encoding Byte target.aduc
-            Remove-Item "${filename}${i}.BPL"
+            Remove-Item "${filename}_${i}.BPL"
             Remove-Item tmp.png
         }
     }    
