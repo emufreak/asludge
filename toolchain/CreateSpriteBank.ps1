@@ -3,8 +3,24 @@
     [int]$xhot = 0,
     [int]$yhot = 0,
     [ValidateSet('mouse','bob', 'font')]
-    [string]$type = "bob"
+    [string]$type = "bob",
+    [switch]$highcolor
 )
+
+function Add-FullBitplane {
+    param(
+        [string]$path,
+        [int]$width,
+        [int]$height
+    )
+
+    $wordsPerRow = [int]($width / 16)
+    $planeBytes = [byte[]]::new($wordsPerRow * $height * 2)
+    for($idx = 0; $idx -lt $planeBytes.Length; $idx++) {
+        $planeBytes[$idx] = 0xFF
+    }
+    Add-Content -Encoding Byte -Path $path -Value $planeBytes
+}
 
 switch -Exact ($type)
 {
@@ -61,8 +77,17 @@ for($i = 1; $i -le $spritenum; $i++) {
                 return 1;
             }
 
-            .\amigeconv.exe --format bitplane --depth 5 $fullpathimage "${filename}_${i}.BPL"
-            .\amigeconv.exe --format bitplane --depth 5 --mask inverted --controlword $fullpathimage "${filename}_${i}_mask.BPL"
+            if($highcolor) {
+                .\amigeconv.exe --format bitplane --depth 4 $fullpathimage "${filename}_${i}.BPL"
+                .\amigeconv.exe --format bitplane --depth 4 --mask inverted --controlword $fullpathimage "${filename}_${i}_mask.BPL"
+                Add-FullBitplane -path "${filename}_${i}.BPL" -width $image.Width -height $image.Height
+            }
+            else
+            {
+                .\amigeconv.exe --format bitplane --depth 5 $fullpathimage "${filename}_${i}.BPL"
+                .\amigeconv.exe --format bitplane --depth 5 --mask inverted --controlword $fullpathimage "${filename}_${i}_mask.BPL"
+            }
+
             [byte[]](Get-Content "${filename}_${i}_mask.BPL" -Encoding Byte | ForEach {$_ -bxor 0xFF })| Set-Content "${filename}_${i}_mask2.BPL" -Encoding Byte
             Get-Content -Encoding Byte -Path "${filename}_${i}.BPL", "${filename}_${i}_mask2.BPL" | Set-Content -Encoding Byte "${filename}_${i}_final.BPL"
             Get-Content -Encoding Byte -Path source.aduc, "${filename}_${i}_final.BPL" | Set-Content -Encoding Byte target.aduc
