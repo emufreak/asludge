@@ -22,6 +22,8 @@
 
 #define CACHEFUNCTIONMAX 10
 
+extern int varfadeIn;
+extern int varfadeOut;
 extern int desiredfps;
 extern int dialogValue;
 extern struct screenRegion * overRegion;
@@ -57,11 +59,9 @@ int numResourceNames = 0;
 int numUserFunc = 0;
 int specialSettings;
 
-
 void abortFunction (struct loadedFunction * fun) {
 	KPrintF("abortFunction %d started\n", &fun->originalNumber);
 	int a;
-
 
 	pauseFunction (fun);
 	while (fun -> stack) trimStack (&fun -> stack);
@@ -1035,6 +1035,8 @@ void saveHandlers (BPTR fp) {
 void sludgeDisplay () {
   	volatile struct Custom *custom = (struct Custom*)0xdff000;
 	CstSwapBuffer();
+    if( varfadeOut) CstFadeOut();
+    if( varfadeIn) CstFadeIn();
 	displayCursor();
 	CstRestoreScreen();
 	drawPeople();

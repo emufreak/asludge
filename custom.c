@@ -26,13 +26,17 @@
 #include "support/gcc8_c_support.h"
 #include "zbuffer.h"
 
+extern int varfadeOut;
+extern int varfadeIn;
+extern int numColorsAdapt;
 extern struct zBufferData *zBuffer;
-
 extern unsigned int winWidth, winHeight;
 
+
+UWORD CsttargetColorR, CsttargetColorG, CsttargetColorB;
 UWORD textPaletteIndex = 0;
 struct Interrupt *CstVbint;
-UWORD CstPaletteLoaded = 0;
+UWORD CstLoadPalette = 0;
 UWORD CstBackdropSize;
 UWORD CstBackdropSizePlane;
 UWORD *CstBackDrop;
@@ -68,6 +72,78 @@ ULONG CstClColorTemplate[] = {
     0x1a00000, 0x1a20000, 0x1a40000, 0x1a60000, 0x1a80000, 0x1aa0000, 0x1ac0000, 0x1ae0000,
     0x1b00000, 0x1b20000, 0x1b40000, 0x1b60000, 0x1b80000, 0x1ba0000, 0x1bc0000, 0x1be0000
 };
+
+void CstFadeOut() {
+    volatile struct Custom *custom = (struct Custom*)0xdff000;
+    UWORD *cl = CstClColor+1;
+
+    int changed = 0;
+    for(int i=0; i<numColorsAdapt; i++)
+    {
+        UWORD r = (*cl & 0xf00) >> 8;
+        UWORD g = (*cl & 0xf0) >> 4;
+        UWORD b = (*cl & 0xf);
+
+        if( r != CsttargetColorR || g != CsttargetColorG || b != CsttargetColorB)
+        {
+            changed = 1;
+
+            if(r > CsttargetColorR) r--;
+            else if(r < CsttargetColorR) r++;
+            if(g > CsttargetColorG) g--;
+            else if(g < CsttargetColorG) g++;
+            if(b > CsttargetColorB) b--;
+            else if(b < CsttargetColorB) b++;
+
+            *cl = (r << 8) + (g << 4) + b;
+        }
+        cl += 2;
+    }
+
+    if(changed == 0) {
+        varfadeOut = 0;
+    }
+}
+
+void CstFadeIn() {
+    volatile struct Custom *custom = (struct Custom*)0xdff000;
+    UWORD *cl = CstClColor+1;
+    UWORD *targetcolor = CstPalette;
+
+    int changed = 0;
+
+    for(int i=0; i<numColorsAdapt; i++)
+    {
+        UWORD r = (*cl & 0xf00) >> 8;
+        UWORD g = (*cl & 0xf0) >> 4;
+        UWORD b = (*cl & 0xf);
+
+        UWORD tr = (*targetcolor & 0xf00) >> 8;
+        UWORD tg = (*targetcolor & 0xf0) >> 4;
+        UWORD tb = (*targetcolor & 0xf);
+
+        if( r != tr || g != tg || b != tb)
+        {
+            changed = 1;
+
+            if(r > tr) r--;
+            else if(r < tr) r++;
+            if(g > tg) g--;
+            else if(g < tg) g++;
+            if(b > tb) b--;
+            else if(b < tb) b++;
+
+            *cl = (r << 8) + (g << 4) + b;
+        }
+        cl += 2;
+        targetcolor++;
+    }
+
+    if(changed == 0) {
+        varfadeIn = 0;
+    }
+}
+
 
 APTR CstAllocVec( ULONG bytesize, ULONG requirements ) {
     UBYTE *retval = AllocVec( bytesize+8, requirements );
@@ -139,7 +215,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
     return;
   }
 
-  CstPaletteLoaded = 0;
+  //CstLoadPalette = 0;
 
   volatile struct Custom *custom = (struct Custom*)0xdff000;
   //custom->color[0] = 0xf00;
@@ -628,39 +704,31 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
 	KPrintF("CstLoadBackDrop: Loading of Background started");
 
-  UWORD width = get2bytes(fp);
-  UWORD height = get2bytes(fp);
+    UWORD width = get2bytes(fp);
+    UWORD height = get2bytes(fp);
 
-  UWORD widthbyteslayer = width/8;
-  UWORD widthwordslayer = widthbyteslayer/2;
-  UWORD widthbytesbackdrop = winWidth / 8;
-  UWORD sizeplane =  widthbyteslayer*height;
-  UWORD size = sizeplane * 5; //Todo other number of bitplanes
+    UWORD widthbyteslayer = width/8;
+    UWORD widthwordslayer = widthbyteslayer/2;
+    UWORD widthbytesbackdrop = winWidth / 8;
+    UWORD sizeplane =  widthbyteslayer*height;
+    UWORD size = sizeplane * 5; //Todo other number of bitplanes
 
   //Load Palette to Copper
-  if( CstPaletteLoaded == 0)
-  {
+
     UWORD reg = 0x180;
 
     if(CstPalette) {
-      CstFreeVec(CstPalette);
-      CstPalette = NULL;
+        CstFreeVec(CstPalette);
+        CstPalette = NULL;
     }
 
     CstPalette = CstAllocVec(32*2,MEMF_ANY); //ToDo other number of bitplanes
-    CstPaletteLoaded = 1;
+    CstLoadPalette = 1;
     UWORD *tmp = CstPalette;
     for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
-      *tmp++ = get2bytes(fp);
+        *tmp++ = get2bytes(fp);
     }
-  }
-  else
-  //There's already a palette loaded for this background. Do not load palette
-  {
-    for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
-      get2bytes(fp);
-    }
-  }
+
 
   //Load Picture From Disk
   UWORD *tmpbuffer = CstAllocVec(size, MEMF_CHIP); //Todo other number of bitplanes
@@ -995,9 +1063,13 @@ void CstRestoreScreen()
 
   UWORD *colorpos = CstPalette;
   UWORD *tmp = CstClColor;
-  for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
-    *tmp++;
-    *tmp++ = *colorpos++;
+  if( CstLoadPalette)
+  {
+    for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
+        *tmp++;
+        *tmp++ = *colorpos++;
+    }
+    CstLoadPalette = 0;
   }
 
   WaitBlit();
@@ -1291,7 +1363,6 @@ void CstSwapBuffer( ) {
   struct CleanupQueue *tmp2 = CstCleanupQueueViewBuffer;
   CstCleanupQueueViewBuffer = CstCleanupQueueDrawBuffer;
   CstCleanupQueueDrawBuffer = tmp2;
-
 
   UWORD *copword = CstCopperList;
   ULONG ptr = (ULONG) CstViewBuffer;

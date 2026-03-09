@@ -44,7 +44,6 @@ extern FLOAT speechSpeed;
 extern UWORD textPaletteIndex;
 extern struct screenRegion * overRegion;
 
-
 typedef enum builtReturn (* builtInSludgeFunc) (int numParams, struct loadedFunction * fun);
 
 extern struct Library *MathBase;
@@ -54,7 +53,13 @@ char * launchMe = NULL;
 struct variable * launchResult = NULL;
 struct loadedFunction * saverFunc;
 
+int varfadeOut = 0;
+int varfadeIn = 0;
+int numColorsAdapt = 0;
 int speechMode = 0;
+int targetColorR = 0;
+int targetColorG = 0;
+int targetColorB = 0;
 
 struct builtInFunctionData
 {
@@ -85,7 +90,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	2, 5,										// setCharacterTransparency, setCharacterColourise
 	1,											// zoomCamera
 	1, 0, 0,									// playMovie, stopMovie, pauseMovie,
-	5, 1										// addZBufferLayer, printConsole
+	5, 1, 4, 1									// addZBufferLayer, printConsole, fadeOut, fadeIn
 };
 
 #pragma mark -
@@ -2790,6 +2795,34 @@ builtIn(doBackgroundEffect)
 	return BR_CONTINUE;
 }
 
+builtIn(fadeOut)
+{
+    UNUSEDALL
+    if (! getValueType(&targetColorB, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
+    trimStack (&fun -> stack);
+    if (! getValueType(&targetColorG, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (&fun -> stack);
+    if (! getValueType(&targetColorR, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (&fun -> stack);
+    if (! getValueType(&numColorsAdapt, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (&fun -> stack);
+
+    varfadeOut = 1;
+
+    return BR_CONTINUE;
+}
+
+builtIn(fadeIn)
+{
+    UNUSEDALL
+    if (! getValueType(&numColorsAdapt, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
+    trimStack (&fun -> stack);
+
+    varfadeIn = 1;
+
+    return BR_CONTINUE;
+}
+
 #define FUNC(special,name)		{builtIn_ ## name},
 static struct builtInFunctionData builtInFunctionArray[] =
 {
@@ -2962,6 +2995,8 @@ FUNC (TRUE, stopMovie)
 FUNC (TRUE, pauseMovie)
 FUNC (TRUE, addZBufferLayer)
 FUNC (TRUE, printConsole)
+FUNC (TRUE, fadeOut)
+FUNC (TRUE, fadeIn)
 };
 #undef FUNC
 
