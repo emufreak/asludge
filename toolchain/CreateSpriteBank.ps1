@@ -1,7 +1,7 @@
 ﻿param (
     [string]$filename,
     [int]$xhot = 0,
-    [int]$yhot = 0,    
+    [int]$yhot = 0,
     [ValidateSet('mouse','bob', 'font')]
     [string]$type = "bob"
 )
@@ -38,37 +38,37 @@ for($i = 1; $i -le $spritenum; $i++) {
     }
 
     $headeritem = [Byte[]] (0x00, $headerwidth, 0x00, $image.Height, 0x00, $xhot, 0x00, $yhot)
-    Add-Content -Encoding Byte -Path source.aduc -Value $headeritem 
+    Add-Content -Encoding Byte -Path source.aduc -Value $headeritem
 
     # Add Data
     switch -Exact ($type)
     {
-        'mouse' 
-        { 
+        'mouse'
+        {
             if($image.Width % 16 -ne 0) {
                 Write-Error "Sprite must be a multiple of 16 pixel wide"
                 return 1;
             }
-            .\amigeconv.exe --format sprite --depth 2 --width 16 --controlword $fullpathimage "${filename}_${i}.SPR"        
+            .\amigeconv.exe --format sprite --depth 2 --width 16 --controlword $fullpathimage "${filename}_${i}.SPR"
 
             Get-Content -Encoding Byte -Path source.aduc, "${filename}_${i}.SPR" | Set-Content -Encoding Byte target.aduc
             Remove-Item "${filename}_${i}.SPR"
         }
-        'bob' 
-        { 
+        'bob'
+        {
             if($image.Width % 16 -ne 0) {
                 Write-Error "Bob must be a multiple of 16 pixel wide"
                 return 1;
             }
-                
-            .\amigeconv.exe --format bitplane --depth 5 --width 16 $fullpathimage "${filename}_${i}.BPL"        
-            .\amigeconv.exe --format bitplane --depth 5 --width 16 --mask inverted --controlword $fullpathimage "${filename}_${i}_mask.BPL"        
+
+            .\amigeconv.exe --format bitplane --depth 5 $fullpathimage "${filename}_${i}.BPL"
+            .\amigeconv.exe --format bitplane --depth 5 --mask inverted --controlword $fullpathimage "${filename}_${i}_mask.BPL"
             [byte[]](Get-Content "${filename}_${i}_mask.BPL" -Encoding Byte | ForEach {$_ -bxor 0xFF })| Set-Content "${filename}_${i}_mask2.BPL" -Encoding Byte
             Get-Content -Encoding Byte -Path "${filename}_${i}.BPL", "${filename}_${i}_mask2.BPL" | Set-Content -Encoding Byte "${filename}_${i}_final.BPL"
             Get-Content -Encoding Byte -Path source.aduc, "${filename}_${i}_final.BPL" | Set-Content -Encoding Byte target.aduc
-            Remove-Item "${filename}_${i}*.BPL" 
+            Remove-Item "${filename}_${i}*.BPL"
         }
-        'font' 
+        'font'
         {
             if($image.Width % 16 -ne 0) {
                 $newwidth = [math]::floor(($image.Width / 16) + 1) * 16
@@ -86,16 +86,16 @@ for($i = 1; $i -le $spritenum; $i++) {
             else
             {
                 .\amigeconv.exe --format bitplane --depth 1 tmp.png "${filename}_${i}.BPL"
-            }            
+            }
             Get-Content -Encoding Byte -Path source.aduc, "${filename}_${i}.BPL" | Set-Content -Encoding Byte target.aduc
             Remove-Item "${filename}_${i}.BPL"
             Remove-Item tmp.png
         }
-    }    
+    }
 
     # Prepare and Cleanup
     Copy-Item target.aduc source.aduc
-    
+
 }
 
 Copy-Item target.aduc "${filename}.aduc"
@@ -103,4 +103,3 @@ Copy-Item target.aduc "${filename}.aduc"
 Remove-Item .\header.bin
 Remove-Item target.aduc
 Remove-Item source.aduc
-
