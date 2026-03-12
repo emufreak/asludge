@@ -1,4 +1,4 @@
-# Sample AGENTS.md file
+# Instructions for Claude
 
 ## General
 -This is C Code for the Commodore Amiga
