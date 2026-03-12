@@ -39,5 +39,6 @@
         "sprbanks.h": "c",
         "main_sludge.h": "c",
         "mathieeesp.h": "c"
-    }
+    },
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }
