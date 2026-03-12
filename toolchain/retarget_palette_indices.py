@@ -7,6 +7,7 @@ palette where entries 1-16 are cyan (0x00ffff) and entries 17-32 are:
 ff5555,00aaaa,aaaaaa,55ff55,55ffff,ffff55,5555ff,ff5500
 
 Then it remaps the input image to that palette using ImageMagick.
+Compatible with ImageMagick v6.9 (identify/convert binaries) and v7 (magick).
 """
 
 from __future__ import annotations
@@ -39,32 +40,59 @@ TARGET_17_TO_32 = [
 ]
 
 
+class IMCommands:
+    def __init__(self, identify: list[str], convert: list[str]) -> None:
+        self.identify = identify
+        self.convert = convert
+
+
 def run(cmd: list[str]) -> str:
     completed = subprocess.run(cmd, check=True, text=True, capture_output=True)
     return completed.stdout.strip()
 
 
-def ensure_palettized(magick: str, input_png: Path) -> None:
-    img_type = run([magick, "identify", "-format", "%[type]", str(input_png)])
+def resolve_commands(imagemagick: str | None) -> IMCommands:
+    """Resolve ImageMagick command style.
+
+    - v7: magick identify/convert
+    - v6: identify/convert binaries
+    """
+    if imagemagick:
+        if shutil.which(imagemagick) is None:
+            raise ValueError(f"ImageMagick binary '{imagemagick}' was not found in PATH.")
+        return IMCommands([imagemagick, "identify"], [imagemagick, "convert"])
+
+    if shutil.which("magick"):
+        return IMCommands(["magick", "identify"], ["magick", "convert"])
+
+    if shutil.which("identify") and shutil.which("convert"):
+        return IMCommands(["identify"], ["convert"])
+
+    raise ValueError(
+        "ImageMagick not found. Install v7 ('magick') or v6 tools ('identify' + 'convert')."
+    )
+
+
+def ensure_palettized(commands: IMCommands, input_png: Path) -> None:
+    img_type = run(commands.identify + ["-format", "%[type]", str(input_png)])
     if "Palette" not in img_type:
         raise ValueError(
             f"Input must be palettized PNG, but identify reported type '{img_type}'."
         )
 
 
-def build_palette_image(magick: str, palette_path: Path) -> None:
+def build_palette_image(commands: IMCommands, palette_path: Path) -> None:
     colors = [CYAN] * 16 + TARGET_17_TO_32
 
-    cmd: list[str] = [magick]
+    cmd = commands.convert.copy()
     for color in colors:
-        cmd.extend(["xc:" + color])
+        cmd.append("xc:" + color)
     cmd.extend(["+append", "-depth", "8", "PNG8:" + str(palette_path)])
     subprocess.run(cmd, check=True)
 
 
-def remap_image(magick: str, input_png: Path, palette_png: Path, output_png: Path) -> None:
-    cmd = [
-        magick,
+def remap_image(commands: IMCommands, input_png: Path, palette_png: Path, output_png: Path) -> None:
+    cmd = commands.convert + [
         str(input_png),
         "-dither",
         "None",
@@ -86,9 +114,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("input_png", type=Path, help="Input palettized PNG")
     parser.add_argument("output_png", type=Path, help="Output PNG path")
     parser.add_argument(
-        "--magick",
-        default="magick",
-        help="ImageMagick executable (default: magick)",
+        "--imagemagick",
+        default=None,
+        help="ImageMagick launcher binary (typically 'magick'). If omitted, auto-detect v7 or v6 commands.",
     )
     return parser.parse_args()
 
@@ -96,21 +124,18 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
 
-    if shutil.which(args.magick) is None:
-        print(f"Error: ImageMagick binary '{args.magick}' was not found in PATH.", file=sys.stderr)
-        return 2
-
     if not args.input_png.exists():
         print(f"Error: input file not found: {args.input_png}", file=sys.stderr)
         return 2
 
     try:
-        ensure_palettized(args.magick, args.input_png)
+        commands = resolve_commands(args.imagemagick)
+        ensure_palettized(commands, args.input_png)
         args.output_png.parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory() as tmpdir:
             palette_path = Path(tmpdir) / "palette32.png"
-            build_palette_image(args.magick, palette_path)
-            remap_image(args.magick, args.input_png, palette_path, args.output_png)
+            build_palette_image(commands, palette_path)
+            remap_image(commands, args.input_png, palette_path, args.output_png)
     except subprocess.CalledProcessError as exc:
         print(exc.stderr or str(exc), file=sys.stderr)
         return exc.returncode or 1
