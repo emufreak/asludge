@@ -20,7 +20,7 @@ void drawVerticalLine (unsigned int x, unsigned int y1, unsigned int y2);
 void hardScroll (int distance);
 void killBackDrop ();
 void killParallax ();
-void loadBackDrop (int fileNum, int x, int y);
+void loadBackDrop (int fileNum, int x, int y, int loadPalette);
 BOOL loadHSI (BPTR fp, int x, int y, BOOL reserve);
 BOOL loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY);
 void mixBackDrop (int fileNum, int x, int y);

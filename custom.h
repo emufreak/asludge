@@ -29,7 +29,7 @@ void CstFadeOut();
 void CstFreeBuffer();
 void CstFreeVec( APTR memptr);
 void CstFreeze();
-void CstLoadBackdrop( BPTR fp, int x, int y);
+void CstLoadBackdrop( BPTR fp, int x, int y, int loadpalette);
 void CstPasteChar( struct sprite *single, WORD x, WORD y);
 BOOL CstReserveBackdrop(int width, int height);
 void CstRestoreScreen();

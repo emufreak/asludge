@@ -699,7 +699,7 @@ void CstInitVBlankHandler( ) {
 
 }
 
-void CstLoadBackdrop( BPTR fp, int x, int y) {
+void CstLoadBackdrop( BPTR fp, int x, int y, int loadpalette) {
 
 
 	KPrintF("CstLoadBackDrop: Loading of Background started");
@@ -717,16 +717,26 @@ void CstLoadBackdrop( BPTR fp, int x, int y) {
 
     UWORD reg = 0x180;
 
-    if(CstPalette) {
-        CstFreeVec(CstPalette);
-        CstPalette = NULL;
-    }
+    if(loadpalette)
+    {
+        if(CstPalette) {
+            CstFreeVec(CstPalette);
+            CstPalette = NULL;
+        }
 
-    CstPalette = CstAllocVec(32*2,MEMF_ANY); //ToDo other number of bitplanes
-    CstLoadPalette = 1;
-    UWORD *tmp = CstPalette;
-    for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
-        *tmp++ = get2bytes(fp);
+        CstPalette = CstAllocVec(32*2,MEMF_ANY); //ToDo other number of bitplanes
+        CstLoadPalette = 1;
+        UWORD *tmp = CstPalette;
+        for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
+            *tmp++ = get2bytes(fp);
+        }
+    }
+    else
+    {
+        for(int i=0;i<32;i++)
+        {
+            get2bytes(fp); //Skip Palette Data in Stream
+        }
     }
 
 

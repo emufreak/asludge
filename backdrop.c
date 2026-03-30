@@ -83,12 +83,12 @@ void killParallax () {
 	}
 }
 
-void loadBackDrop (int fileNum, int x, int y) {
+void loadBackDrop (int fileNum, int x, int y, int loadPalette) {
 	if (! openFileFromNum (fileNum)) {
 		KPrintF("Can't load overlay image");
 		return;
 	}
-	CstLoadBackdrop( bigDataFile, x, y);
+	CstLoadBackdrop( bigDataFile, x, y, loadPalette);
 	finishAccess ();
 
 }

@@ -67,7 +67,7 @@ struct builtInFunctionData
 };
 
 
-int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEMOUSE
+int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 4, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEMOUSE
 	-1, 0, 0, -1, -1, 1, 1, 1, 1, 4, 1, 1, 2, 1,// FOCUS -> REMOVEREGION
 	2, 2, 0, 0, 2,								// ANIMATE -> SETSCALE
 	-1, 2, 1, 0, 0, 0, 1, 0, 3, 				// new/push/pop stack, status stuff
@@ -378,14 +378,16 @@ builtIn(addOverlay)
 {
 	//KPrintF("running addOverlay\n");
 	UNUSEDALL
-	int fileNumber, xPos, yPos;
+	int fileNumber, xPos, yPos, loadPalette;
+    if (! getValueType(&loadPalette, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
+    trimStack (&fun -> stack);
 	if (! getValueType(&yPos, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
 	if (! getValueType(&xPos, SVT_INT,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
 	if (! getValueType(&fileNumber, SVT_FILE,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
-	loadBackDrop (fileNumber, xPos, yPos);
+	loadBackDrop (fileNumber, xPos, yPos, loadPalette);
 	return BR_CONTINUE;
 }
 
