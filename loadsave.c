@@ -133,15 +133,10 @@ BOOL loadGame (char * fname) {
 	if (fp == NULL) return FALSE;
 
 	unsigned int bytes_read = Read( fp, &savedGameTime, sizeof (FILETIME));
+    Flush( fp);
 
 	if (bytes_read != sizeof (FILETIME)) {
 		KPrintF("Reading error in loadGame.\n");
-	}
-
-	if (savedGameTime.dwLowDateTime != fileTime.dwLowDateTime ||
-		savedGameTime.dwHighDateTime != fileTime.dwHighDateTime) {
-		KPrintF("loadgame:", ERROR_GAME_LOAD_WRONG, fname);
-		return FALSE;
 	}
 
 	// DON'T ADD ANYTHING NEW BEFORE THIS POINT!
@@ -290,13 +285,15 @@ BOOL saveGame (char * fname) {
 	}
 
 	Write( fp, &"SLUDSA", 6);
+    Flush( fp);
 	FPutC (fp, 0);
 	FPutC (fp, 0);
 	FPutC (fp, MAJOR_VERSION);
 	FPutC (fp, MINOR_VERSION);
+    Flush( fp);
 
 	Write ( fp, &fileTime, sizeof(FILETIME));
-
+    Flush( fp);
 	// DON'T ADD ANYTHING NEW BEFORE THIS POINT!
 
 	FPutC (fp, allowAnyFilename);
@@ -359,7 +356,7 @@ BOOL saveGame (char * fname) {
 	} else FPutC (fp,0);*/
 
 	FPutC (fp, speechMode);
-	FPutC (fadeMode, fp);
+	FPutC (fp, fadeMode);
 	saveSpeech (speech, fp);
 	saveStatusBars (fp);
 	saveSounds (fp);

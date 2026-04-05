@@ -61,6 +61,8 @@ int targetColorR = 0;
 int targetColorG = 0;
 int targetColorB = 0;
 
+extern frozenStuffStruct * frozenStuff;
+
 struct builtInFunctionData
 {
 	builtInSludgeFunc func;
@@ -270,12 +272,12 @@ builtIn(getMatchingFiles)
 
 builtIn(saveGame)
 {
-	//KPrintF("running saveGame\n");
+	KPrintF("running saveGame\n");
     UNUSEDALL
 
-    /*if (frozenStuff) {
-        fatal ("Can't save game state while the engine is frozen");
-    }*/
+    if (frozenStuff) {
+        KPrintF("Can't save game state while the engine is frozen\n");
+    }
 
     loadNow = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);

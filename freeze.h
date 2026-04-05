@@ -10,7 +10,7 @@
 struct frozenStuffStruct {
 	struct onScreenPerson * allPeople;
 	struct screenRegion * allScreenRegions;
-	int zPanels;	
+	int zPanels;
 	int lightMapNumber, zBufferNumber;
 	struct speechStruct * speech;
 	struct statusStuff * frozenStatus;
@@ -20,8 +20,10 @@ struct frozenStuffStruct {
 	int cameraX, cameraY, sceneWidth, sceneHeight;
 	float cameraZoom;
 	struct zBufferData *zBuffer;
-	struct frozenStuffStruct * next;	
+	struct frozenStuffStruct * next;
 };
+
+typedef struct frozenStuffStruct frozenStuffStruct;
 
 BOOL freeze();
 void unfreeze ();

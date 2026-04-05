@@ -171,12 +171,16 @@ void put4bytes (ULONG i, BPTR fp) {
 
 void putFloat (FLOAT f, BPTR fp) {
 	f = FLOATSwap(f);
+    Flush( fp);
 	Write( fp, &f, sizeof (FLOAT));
+    Flush( fp);
 }
 
 void putSigned (short f, BPTR fp) {
 	f = shortSwap(f);
+    Flush( fp);
 	Write(fp, &f, sizeof(short));
+    Flush( fp);
 }
 
 char * readString (BPTR fp) {
