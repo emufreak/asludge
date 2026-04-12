@@ -5,6 +5,7 @@
 #include "errors.h"
 #include "fileset.h"
 #include "floor.h"
+#include "fonttext.h"
 #include "language.h"
 #include "moreio.h"
 #include "loadsave.h"
@@ -47,6 +48,7 @@ extern struct speechStruct * speech;					// In talk.cpp
 extern int speechMode;									// "	"	"
 extern char * typeName[];								// In variable.cpp
 extern struct zBufferData *zBuffer;						// In zbuffer.cpp
+extern int zBufferNr;									// In zbuffer.cpp
 
 //----------------------------------------------------------------------
 // Globals (so we know what's saved already and what's a reference
@@ -132,10 +134,9 @@ BOOL loadGame (char * fname) {
 	fp = openAndVerify (fname, 'S', 'A', ERROR_GAME_LOAD_NO, &ssgVersion);
 	if (fp == NULL) return FALSE;
 
-	unsigned int bytes_read = Read( fp, &savedGameTime, sizeof (FILETIME));
-    Flush( fp);
+	LONG bytes_read = FRead( fp, &savedGameTime, sizeof (FILETIME), 1);
 
-	if (bytes_read != sizeof (FILETIME)) {
+	if (bytes_read != 1) {
 		KPrintF("Reading error in loadGame.\n");
 	}
 
@@ -153,7 +154,7 @@ BOOL loadGame (char * fname) {
 		fontHeight = get2bytes (fp);
 		charOrder = readString(fp);
 	}
-	//loadFont (fontNum, charOrder, fontHeight); Amiga Todo: Implement Graphics stuff
+	loadFont (fontNum, charOrder, fontHeight);
 	CstFreeVec(charOrder);
 
 	fontSpace = getSigned (fp);
@@ -175,11 +176,15 @@ BOOL loadGame (char * fname) {
 	if (! mouseCursorAnim) {
 		KPrintF("loadGame: Cannot allocate memory");
 		return FALSE;
+    }
+
 	if (! loadAnim (mouseCursorAnim, fp)) {
 		KPrintF("loadGame: Cannot load anim");
 		return FALSE;
 	}
 	mouseCursorFrameNum = get2bytes (fp);
+
+    KPrintF("loadGame: Loading functions\n");
 
 	struct loadedFunction * rFunc;
 	struct loadedFunction * * buildList = &allRunningFunctions;
@@ -193,28 +198,33 @@ BOOL loadGame (char * fname) {
 		buildList = & (rFunc -> next);
 	}
 
+    KPrintF("loadGame: Loading global variables\n");
 	for (a = 0; a < numGlobals; a ++) {
 		unlinkVar (&globalVars[a]);
 		loadVariable (& globalVars[a], fp);
 	}
 
+    KPrintF("loadGame: Loading people\n");
 	loadPeople (fp);
 
-
+    KPrintF("loadGame: Loading floor\n");
 	if (FGetC (fp)) {
 		if (! setFloor (get2bytes (fp))) return FALSE;
 	} else setFloorNull ();
 
+    KPrintF("loadGame: Loading zbuffer\n");
 	if (FGetC (fp)) {
 		if (! setZBuffer (get2bytes (fp))) return FALSE;
 	}
 
+    KPrintF("loadGame: Loading speech, status bars and sounds\n");
 	speechMode = FGetC (fp);
 	fadeMode = FGetC (fp);
 	loadSpeech (speech, fp);
 	loadStatusBars (fp);
 	loadSounds (fp);
 
+    KPrintF("loadGame: Loading save encoding\n");
 	saveEncoding = get2bytes (fp);
 
 
@@ -227,13 +237,12 @@ BOOL loadGame (char * fname) {
 		//if (! loadParallax (im, fx, fy)) return FALSE; Todo Amigize this?
 	}
 
-		int selectedLanguage = FGetC (fp);
-		if (selectedLanguage != languageNum) {
-			// Load the saved language!
-			languageNum = selectedLanguage;
-			setFileIndices (NULL, gameSettings.numLanguages, languageNum);
-		}
-	}
+    int selectedLanguage = FGetC (fp);
+    if (selectedLanguage != languageNum) {
+        // Load the saved language!
+        languageNum = selectedLanguage;
+        setFileIndices (NULL, gameSettings.numLanguages, languageNum);
+    }
 
 	nosnapshot ();
 	if (FGetC (fp)) {
@@ -284,16 +293,13 @@ BOOL saveGame (char * fname) {
 		return FALSE;
 	}
 
-	Write( fp, &"SLUDSA", 6);
-    Flush( fp);
+	FWrite( fp, &"SLUDSA", 1, 6);
 	FPutC (fp, 0);
 	FPutC (fp, 0);
 	FPutC (fp, MAJOR_VERSION);
 	FPutC (fp, MINOR_VERSION);
-    Flush( fp);
 
-	Write ( fp, &fileTime, sizeof(FILETIME));
-    Flush( fp);
+	FWrite( fp, &fileTime, sizeof(FILETIME), 1);
 	// DON'T ADD ANYTHING NEW BEFORE THIS POINT!
 
 	FPutC (fp, allowAnyFilename);
@@ -350,6 +356,10 @@ BOOL saveGame (char * fname) {
 		put2bytes (currentFloor -> originalNum, fp);
 	} else FPutC (fp, 0);
 
+    if( zBufferNr) {
+        FPutC (fp, 1);
+        put2bytes (zBufferNr, fp);
+    } else FPutC (fp, 0);
 	/*if (zBuffer.tex) {
 		FPutC (fp, 1);
 		put2bytes (zBuffer.originalNum, fp);

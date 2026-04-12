@@ -10,6 +10,7 @@
 //#define EMULATOR
 
 struct zBufferData *zBuffer;
+int zBufferNr;
 
 void addZBufferLayer (int x, int y, int width, int height, int yz) {
 
@@ -31,6 +32,7 @@ void addZBufferLayer (int x, int y, int width, int height, int yz) {
 
 void killZBuffer () {
 	struct zBufferData *zbuffercursor =  zBuffer;
+    zBufferNr = 0;
 
 	while(zbuffercursor) {
 		struct zBufferData *deleteme = zbuffercursor;
@@ -45,6 +47,7 @@ BOOL setZBuffer (unsigned int y) {
 	int x, n;
 	ULONG stillToGo = 0;
 	int yPalette[16], sorted[16], sortback[16];
+    zBufferNr = y;
 
 	killZBuffer ();
 

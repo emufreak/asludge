@@ -630,7 +630,7 @@ BOOL loadPeople (BPTR fp) {
 		me -> frameTick = get2bytes (fp);
 		me -> walkSpeed = get2bytes (fp);
 		me -> spinSpeed = get2bytes (fp);
-		me -> y = getSigned (fp);
+		me -> floaty = getSigned (fp);
 		me -> show = FGetC (fp);
 		me -> walking = FGetC (fp);
 		me -> spinning = FGetC (fp);
@@ -846,7 +846,7 @@ BOOL savePeople (BPTR fp) {
 			FPutC (fp, 1);
 			saveFunction (me -> continueAfterWalking, fp);
 		} else {
-			FPutC (fp, 1);
+			FPutC (fp, 0);
 		}
 		put2bytes (me -> direction, fp);
 		put2bytes (me -> angle, fp);

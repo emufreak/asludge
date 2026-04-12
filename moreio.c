@@ -139,8 +139,8 @@ FLOAT getFloat (BPTR fp) {
 
 short getSigned (BPTR fp) {
 	short f;
-	LONG bytes_read = Read(fp, &f, sizeof(short));
-	if (bytes_read != sizeof (short)) {
+	LONG bytes_read = FRead(fp, &f, sizeof(short), 1);
+	if (bytes_read != 1) {
 		KPrintF("getSigned: Reading error in getSigned.\n");
 	}
 	f = shortSwap(f);
@@ -171,16 +171,12 @@ void put4bytes (ULONG i, BPTR fp) {
 
 void putFloat (FLOAT f, BPTR fp) {
 	f = FLOATSwap(f);
-    Flush( fp);
-	Write( fp, &f, sizeof (FLOAT));
-    Flush( fp);
+	FWrite( fp, &f, sizeof (FLOAT), 1);
 }
 
 void putSigned (short f, BPTR fp) {
 	f = shortSwap(f);
-    Flush( fp);
-	Write(fp, &f, sizeof(short));
-    Flush( fp);
+	FWrite(fp, &f, sizeof(short), 1);
 }
 
 char * readString (BPTR fp) {
