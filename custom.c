@@ -1570,3 +1570,60 @@ void CstUnfreeze() {
   KPrintF("CstUnfreeze: Finished\n");
 
 }
+
+void CstSaveSnapshot(BPTR fp) {
+    KPrintF("CstSaveSnapshot: Saving snapshot\n");
+    UWORD size = winWidth/8*winHeight*5;
+
+    if (CstPalette) {
+        FWrite(fp, CstPalette, 2, 32);
+    } else {
+        for (int i = 0; i < 32; i++) put2bytes(0, fp);
+    }
+
+    if (CstBackDrop) {
+        FWrite(fp, CstBackDrop, 1, size);
+    }
+}
+
+BOOL CstRestoreSnapshot(BPTR fp) {
+    KPrintF("CstRestoreSnapshot: Restoring snapshot\n");
+    UWORD size = winWidth/8*winHeight*5;
+
+    if (CstPalette) {
+        FRead(fp, CstPalette, 2, 32);
+        CstLoadPalette = 1;
+    } else {
+        for (int i = 0; i < 32; i++) get2bytes(fp);
+    }
+
+    if (!CstBackDrop) return FALSE;
+    FRead(fp, CstBackDrop, 1, size);
+
+    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
+    CstCleanupQueueDrawBuffer = CstAllocVec(sizeof(struct CleanupQueue), MEMF_ANY);
+    if (!CstCleanupQueueDrawBuffer) return FALSE;
+    CstCleanupQueueDrawBuffer->next = next;
+    CstCleanupQueueDrawBuffer->x = 0;
+    CstCleanupQueueDrawBuffer->y = 0;
+    CstCleanupQueueDrawBuffer->person = NULL;
+    CstCleanupQueueDrawBuffer->widthinwords = winWidth/16;
+    CstCleanupQueueDrawBuffer->height = winHeight;
+    CstCleanupQueueDrawBuffer->startxinbytes = 0;
+    CstCleanupQueueDrawBuffer->starty = 0;
+
+    next = CstCleanupQueueViewBuffer;
+    CstCleanupQueueViewBuffer = CstAllocVec(sizeof(struct CleanupQueue), MEMF_ANY);
+    if (!CstCleanupQueueViewBuffer) return FALSE;
+    CstCleanupQueueViewBuffer->next = next;
+    CstCleanupQueueViewBuffer->x = 0;
+    CstCleanupQueueViewBuffer->y = 0;
+    CstCleanupQueueViewBuffer->person = NULL;
+    CstCleanupQueueViewBuffer->widthinwords = winWidth/16;
+    CstCleanupQueueViewBuffer->height = winHeight;
+    CstCleanupQueueViewBuffer->startxinbytes = 0;
+    CstCleanupQueueViewBuffer->starty = 0;
+
+    KPrintF("CstRestoreSnapshot: Done\n");
+    return TRUE;
+}

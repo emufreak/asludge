@@ -200,12 +200,9 @@ BOOL resizeBackdrop (int x, int y) {
 }
 
 BOOL restoreSnapshot (BPTR fp) {
-	unsigned int picWidth = get2bytes (fp);
-	unsigned int picHeight = get2bytes (fp);
-
-	//Todo: Amigize this?
-
-	return TRUE;
+	get2bytes(fp);  // picWidth  - consumed for file format compatibility
+	get2bytes(fp);  // picHeight - consumed for file format compatibility
+	return CstRestoreSnapshot(fp);
 }
 
 void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp) {
@@ -218,9 +215,16 @@ void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp) {
 	}
 }
 
-BOOL saveSnapshot (BPTR fp) {
+void saveSnapshot (BPTR fp) {
     KPrintF("saveSnapshot: Starting\n");
-
+    if (backdropExists) {
+        FPutC(fp, 1);
+        put2bytes(sceneWidth, fp);
+        put2bytes(sceneHeight, fp);
+        CstSaveSnapshot(fp);
+    } else {
+        FPutC(fp, 0);
+    }
 }
 
 BOOL snapshot () {
