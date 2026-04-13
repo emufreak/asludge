@@ -218,6 +218,11 @@ void saveParallaxRecursive (struct parallaxLayer * me, BPTR fp) {
 	}
 }
 
+BOOL saveSnapshot (BPTR fp) {
+    KPrintF("saveSnapshot: Starting\n");
+
+}
+
 BOOL snapshot () {
 
 	KPrintF("snapshot: Not yet implemented on Amiga"); //Todo

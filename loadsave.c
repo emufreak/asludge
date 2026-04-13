@@ -99,7 +99,7 @@ struct loadedFunction * loadFunction (BPTR fp) {
 	unsigned int originalNumber = get2bytes (fp);
 	struct loadedFunction *buildFunc = loadFunctionCode (originalNumber);
 
-	buildFunc -> originalNumber = get2bytes (fp);
+	buildFunc -> originalNumber = originalNumber;
 	buildFunc -> calledBy = NULL;
 	if (FGetC (fp)) {
 		buildFunc -> calledBy = loadFunction (fp);
@@ -377,6 +377,8 @@ BOOL saveGame (char * fname) {
 	FPutC (fp, 0);
 
 	FPutC(fp, languageNum);	// Selected language
+
+    saveSnapshot(fp);
 
 	Close(fp);
 	clearStackLib ();

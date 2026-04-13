@@ -653,10 +653,6 @@ BOOL loadPeople (BPTR fp) {
 		me -> colourmix = FGetC (fp);
 		me -> transparency = FGetC (fp);
 		me -> thisType = loadObjectRef (fp);
-		// aaLoad
-		FGetC (fp);
-		getFloat (fp);
-		getFloat (fp);
 
 		me -> next = NULL;
 		* pointy = me;
