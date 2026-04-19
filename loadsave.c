@@ -214,7 +214,7 @@ BOOL loadGame (char * fname) {
 
     KPrintF("loadGame: Loading zbuffer\n");
 	if (FGetC (fp)) {
-		if (! setZBuffer (get2bytes (fp))) return FALSE;
+		if (! restoreZBuffer (fp)) return FALSE;
 	}
 
     KPrintF("loadGame: Loading speech, status bars and sounds\n");
@@ -356,14 +356,7 @@ BOOL saveGame (char * fname) {
 		put2bytes (currentFloor -> originalNum, fp);
 	} else FPutC (fp, 0);
 
-    if( zBufferNr) {
-        FPutC (fp, 1);
-        put2bytes (zBufferNr, fp);
-    } else FPutC (fp, 0);
-	/*if (zBuffer.tex) {
-		FPutC (fp, 1);
-		put2bytes (zBuffer.originalNum, fp);
-	} else FPutC (fp,0);*/
+    saveZBuffer(fp);
 
 	FPutC (fp, speechMode);
 	FPutC (fp, fadeMode);

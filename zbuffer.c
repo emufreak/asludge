@@ -100,6 +100,56 @@ BOOL setZBuffer (unsigned int y) {
 	return TRUE;
 }
 
+void saveZBuffer(BPTR fp) {
+	if (zBuffer) {
+		FPutC(fp, 1);
+		UWORD count = 0;
+		struct zBufferData *cursor = zBuffer;
+		while (cursor) { count++; cursor = cursor->nextPanel; }
+		put2bytes(count, fp);
+		cursor = zBuffer;
+		while (cursor) {
+			put2bytes(cursor->width, fp);
+			put2bytes(cursor->height, fp);
+			put2bytes(cursor->topx, fp);
+			put2bytes(cursor->topy, fp);
+			put2bytes(cursor->yz, fp);
+			UWORD size = cursor->width * cursor->height / 8;
+			FWrite(fp, cursor->bitplane, 1, size);
+			cursor = cursor->nextPanel;
+		}
+	} else {
+		FPutC(fp, 0);
+	}
+}
+
+BOOL restoreZBuffer(BPTR fp) {
+	killZBuffer();
+	UWORD count = get2bytes(fp);
+	if (count == 0) return TRUE;
+
+	zBuffer = CstAllocVec(sizeof(struct zBufferData), MEMF_ANY);
+	struct zBufferData *current = zBuffer;
+
+	while (count--) {
+		current->width  = get2bytes(fp);
+		current->height = get2bytes(fp);
+		current->topx   = get2bytes(fp);
+		current->topy   = get2bytes(fp);
+		current->yz     = get2bytes(fp);
+		UWORD size = current->width * current->height / 8;
+		current->bitplane = CstAllocVec(size, MEMF_CHIP);
+		FRead(fp, current->bitplane, 1, size);
+		if (count > 0) {
+			current->nextPanel = CstAllocVec(sizeof(struct zBufferData), MEMF_ANY);
+			current = current->nextPanel;
+		} else {
+			current->nextPanel = NULL;
+		}
+	}
+	return TRUE;
+}
+
 void sortZPal (int *oldpal, int *newpal, int size) {
 	int i, tmp;
 
