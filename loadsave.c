@@ -134,6 +134,9 @@ BOOL loadGame (char * fname) {
 	fp = openAndVerify (fname, 'S', 'A', ERROR_GAME_LOAD_NO, &ssgVersion);
 	if (fp == NULL) return FALSE;
 
+	KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+		AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
+
 	LONG bytes_read = FRead( fp, &savedGameTime, sizeof (FILETIME), 1);
 
 	if (bytes_read != 1) {
@@ -154,13 +157,24 @@ BOOL loadGame (char * fname) {
 		fontHeight = get2bytes (fp);
 		charOrder = readString(fp);
 	}
+
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+    AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
+
 	loadFont (fontNum, charOrder, fontHeight);
+
 	CstFreeVec(charOrder);
+
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
 
 	fontSpace = getSigned (fp);
 
 	killAllPeople ();
 	killAllRegions ();
+
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
 
 	int camerX = get2bytes (fp);
 	int camerY = get2bytes (fp);
@@ -170,7 +184,14 @@ BOOL loadGame (char * fname) {
 	brightnessLevel = FGetC (fp);
 
 	loadHandlers (fp);
-	loadRegions (fp);
+
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
+
+    loadRegions (fp);
+
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
 
 	mouseCursorAnim = CstAllocVec( sizeof( struct personaAnimation), MEMF_ANY);
 	if (! mouseCursorAnim) {
@@ -184,11 +205,12 @@ BOOL loadGame (char * fname) {
 	}
 	mouseCursorFrameNum = get2bytes (fp);
 
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
     KPrintF("loadGame: Loading functions\n");
 
 	struct loadedFunction * rFunc;
 	struct loadedFunction * * buildList = &allRunningFunctions;
-
 
 	int countFunctions = get2bytes (fp);
 	while (countFunctions --) {
@@ -198,24 +220,39 @@ BOOL loadGame (char * fname) {
 		buildList = & (rFunc -> next);
 	}
 
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
+
     KPrintF("loadGame: Loading global variables\n");
 	for (a = 0; a < numGlobals; a ++) {
 		unlinkVar (&globalVars[a]);
 		loadVariable (& globalVars[a], fp);
 	}
 
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
+
     KPrintF("loadGame: Loading people\n");
 	loadPeople (fp);
+
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
 
     KPrintF("loadGame: Loading floor\n");
 	if (FGetC (fp)) {
 		if (! setFloor (get2bytes (fp))) return FALSE;
 	} else setFloorNull ();
 
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
+
     KPrintF("loadGame: Loading zbuffer\n");
 	if (FGetC (fp)) {
 		if (! restoreZBuffer (fp)) return FALSE;
 	}
+
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
 
     KPrintF("loadGame: Loading speech, status bars and sounds\n");
 	speechMode = FGetC (fp);
@@ -224,10 +261,14 @@ BOOL loadGame (char * fname) {
 	loadStatusBars (fp);
 	loadSounds (fp);
 
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
+
     KPrintF("loadGame: Loading save encoding\n");
 	saveEncoding = get2bytes (fp);
 
-
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
 	// Read parallax layers
 	while (FGetC (fp)) {
 		int im = get2bytes (fp);
@@ -249,12 +290,18 @@ BOOL loadGame (char * fname) {
 		if (! restoreSnapshot (fp)) return FALSE;
 	}
 
+    KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
+	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
+
 	Close (fp);
 	clearStackLib ();
 
 	cameraX = camerX;
 	cameraY = camerY;
 	cameraZoom = camerZ;
+
+	KPrintF("loadGame END   - Chip: %ld  Fast: %ld  Largest: %ld\n",
+		AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
 
 	return TRUE;
 }
