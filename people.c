@@ -506,6 +506,10 @@ void killAllPeople () {
 		allPeople -> continueAfterWalking = NULL;
 		killPeople = allPeople;
 		allPeople = allPeople -> next;
+		for (int i = 0; i < 3; i++)
+			deleteAnim(killPeople->myPersona->animation[i]);
+		CstFreeVec(killPeople->myPersona->animation);
+		CstFreeVec(killPeople->myPersona);
 		removeObjectType (killPeople -> thisType);
 		CstFreeVec(killPeople);
 	}
@@ -528,6 +532,10 @@ void killMostPeople() {
             // Gone from the list... now free some memory
             if (killPeople->continueAfterWalking) abortFunction(killPeople->continueAfterWalking);
             killPeople->continueAfterWalking = NULL;
+            for (int i = 0; i < 3; i++)
+                deleteAnim(killPeople->myPersona->animation[i]);
+            CstFreeVec(killPeople->myPersona->animation);
+            CstFreeVec(killPeople->myPersona);
             removeObjectType(killPeople->thisType);
             CstFreeVec(killPeople);
         }
@@ -750,10 +758,10 @@ void removeOneCharacter (int i) {
         p->continueAfterWalking = NULL;
         struct onScreenPerson ** killPeople;
 
-		for(int i=0; i<3;i++)
-		{
-			deleteAnim( p->myPersona->animation[i]);
-		}
+		for (int i = 0; i < 3; i++)
+			deleteAnim(p->myPersona->animation[i]);
+		CstFreeVec(p->myPersona->animation);
+		CstFreeVec(p->myPersona);
 
         for (killPeople = &allPeople;
             *killPeople != p;
