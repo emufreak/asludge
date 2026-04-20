@@ -193,6 +193,7 @@ BOOL loadGame (char * fname) {
     KPrintF("loadGame START - Chip: %ld  Fast: %ld  Largest: %ld\n",
 	AvailMem(MEMF_CHIP), AvailMem(MEMF_FAST), AvailMem(MEMF_LARGEST));
 
+	deleteAnim(mouseCursorAnim);
 	mouseCursorAnim = CstAllocVec( sizeof( struct personaAnimation), MEMF_ANY);
 	if (! mouseCursorAnim) {
 		KPrintF("loadGame: Cannot allocate memory");
@@ -201,6 +202,8 @@ BOOL loadGame (char * fname) {
 
 	if (! loadAnim (mouseCursorAnim, fp)) {
 		KPrintF("loadGame: Cannot load anim");
+		deleteAnim(mouseCursorAnim);
+		mouseCursorAnim = NULL;
 		return FALSE;
 	}
 	mouseCursorFrameNum = get2bytes (fp);
