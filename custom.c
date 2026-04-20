@@ -148,9 +148,6 @@ void CstFadeIn() {
 APTR CstAllocVec( ULONG bytesize, ULONG requirements ) {
     UBYTE *retval = AllocVec( bytesize+8, requirements );
 
-    if(retval == 0x590F4) {
-        KPrintF("CstCstAllocVec: Allocated memory at 525F0\n", retval);
-    }
     if( retval == 0) {
         KPrintF("CstCstAllocVec: Allocation of ram failed. Reboot recommended\n", 40);
         Exit(1);
