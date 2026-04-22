@@ -339,7 +339,7 @@ void unlinkVar (struct variable *thisVar) {
 
 		case SVT_FASTARRAY:
 		thisVar->varData.fastArray -> timesUsed --;
-		if (thisVar->varData.theStack -> timesUsed <= 0) {
+		if (thisVar->varData.fastArray -> timesUsed <= 0) {
             CstFreeVec( thisVar->varData.fastArray -> fastVariables);
 			CstFreeVec(thisVar->varData.fastArray);
 			thisVar->varData.fastArray = NULL;

@@ -506,10 +506,15 @@ void killAllPeople () {
 		allPeople -> continueAfterWalking = NULL;
 		killPeople = allPeople;
 		allPeople = allPeople -> next;
-		for (int i = 0; i < 3; i++)
-			deleteAnim(killPeople->myPersona->animation[i]);
-		CstFreeVec(killPeople->myPersona->animation);
-		CstFreeVec(killPeople->myPersona);
+		// ToDo. Make proper memory handling for animation so that this works.
+        // for (int i = 0; i < 3; i++)
+		//	deleteAnim(killPeople->myPersona->animation[i]);
+		// CstFreeVec(killPeople->myPersona->animation);
+		// CstFreeVec(killPeople->myPersona);
+        // if( killPeople->myAnim) {
+        //    deleteAnim(killPeople->myAnim);
+        // }
+
 		removeObjectType (killPeople -> thisType);
 		CstFreeVec(killPeople);
 	}
@@ -532,10 +537,15 @@ void killMostPeople() {
             // Gone from the list... now free some memory
             if (killPeople->continueAfterWalking) abortFunction(killPeople->continueAfterWalking);
             killPeople->continueAfterWalking = NULL;
-            for (int i = 0; i < 3; i++)
-                deleteAnim(killPeople->myPersona->animation[i]);
-            CstFreeVec(killPeople->myPersona->animation);
-            CstFreeVec(killPeople->myPersona);
+            // ToDo. Make proper memory handling for animation so that this works.
+            // for (int i = 0; i < 3; i++)
+		    //	deleteAnim(killPeople->myPersona->animation[i]);
+		    // CstFreeVec(killPeople->myPersona->animation);
+		    // CstFreeVec(killPeople->myPersona);
+            // if( killPeople->myAnim) {
+            //    deleteAnim(killPeople->myAnim);
+            // }
+
             removeObjectType(killPeople->thisType);
             CstFreeVec(killPeople);
         }
