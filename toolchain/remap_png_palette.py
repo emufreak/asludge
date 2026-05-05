@@ -166,8 +166,6 @@ def pack_rows(rows, filter_type=0):
 def main():
     input_path  = sys.argv[1]
     output_path = sys.argv[2]
-    #input_path = "toolchain/work/say_1.png"
-    #output_path = "toolchain/work/say_1_remapped.png"
 
     with open(input_path, 'rb') as f:
         data = f.read()
@@ -187,17 +185,17 @@ def main():
     n_entries = len(plte) // 3
     old_palette = [(plte[i * 3], plte[i * 3 + 1], plte[i * 3 + 2]) for i in range(n_entries)]
 
+    if n_entries not in (16, 32):
+        sys.exit(f"Error: expected 16 or 32 palette entries, got {n_entries}")
+
     print(f"Input: {width}x{height}, {bit_depth}-bit, {n_entries} palette entries")
 
-    # Build target palette (same size as original)
+    # Target palette is always 32 entries: 16 placeholders then 16 Amiga ECS colors.
+    # 16-color input -> output expanded to 32 colors at 8-bit depth.
+    # 32-color input -> output stays at 32 colors, same bit depth.
     new_palette = [PLACEHOLDER] * 16 + list(TARGET_COLORS)
-    # Pad or truncate to match original palette size
-    while len(new_palette) < n_entries:
-        new_palette.append(PLACEHOLDER)
-    new_palette = new_palette[:n_entries]
 
     # Build index_map[old_index] = new_index
-    # For each old color, find its slot in the new palette
     color_to_new = {}
     for i, c in enumerate(new_palette):
         if c not in color_to_new:
@@ -225,7 +223,7 @@ def main():
             c = old_palette[old_i]
             print(f"    [{old_i:3d}] -> [{new_i:3d}]  #{c[0]:02x}{c[1]:02x}{c[2]:02x}")
 
-    # Decode and remap pixel data
+    # Decode pixel data at the original bit depth
     if bit_depth == 8:
         row_bytes = width
     elif bit_depth == 4:
@@ -239,25 +237,40 @@ def main():
 
     idat_raw = b''.join(d for t, d in chunks if t == b'IDAT')
     raw_pixels = zlib.decompress(idat_raw)
-
     rows = unfilter_rows(raw_pixels, row_bytes)
 
-    if bit_depth == 8:
+    if n_entries == 16 and bit_depth == 4:
+        # Expand: unpack each nibble to a full byte with the remapped index (now 16-31)
+        new_rows = []
+        for row in rows:
+            new_row = bytearray()
+            for byte in row:
+                new_row.append(index_map[(byte >> 4) & 0xf])
+                new_row.append(index_map[byte & 0xf])
+            new_rows.append(new_row)
+        out_bit_depth = 8
+        print(f"  Expanding: 4-bit -> 8-bit, 16 -> 32 palette entries")
+    elif bit_depth == 8:
         new_rows = remap_rows_8bit(rows, index_map)
+        out_bit_depth = 8
     elif bit_depth == 4:
         new_rows = remap_rows_4bit(rows, index_map)
+        out_bit_depth = 4
     elif bit_depth == 2:
         new_rows = remap_rows_2bit(rows, index_map)
+        out_bit_depth = 2
     elif bit_depth == 1:
         new_rows = remap_rows_1bit(rows, index_map)
+        out_bit_depth = 1
 
     new_idat_raw = pack_rows(new_rows, filter_type=0)
     new_idat = zlib.compress(new_idat_raw, level=9)
 
-    # Build new PLTE bytes
+    # Build new PLTE and IHDR
     new_plte = b''.join(bytes(c) for c in new_palette)
+    new_ihdr = ihdr[:8] + bytes([out_bit_depth]) + ihdr[9:]
 
-    # Remap tRNS chunk if present (palette transparency entries)
+    # Remap tRNS chunk if present
     trns_map = {}
     for t, d in chunks:
         if t == b'tRNS':
@@ -278,7 +291,9 @@ def main():
     out_chunks = []
     idat_written = False
     for tag, d in chunks:
-        if tag == b'PLTE':
+        if tag == b'IHDR':
+            out_chunks.append(make_chunk(b'IHDR', new_ihdr))
+        elif tag == b'PLTE':
             out_chunks.append(make_chunk(b'PLTE', new_plte))
         elif tag == b'tRNS' and new_trns is not None:
             out_chunks.append(make_chunk(b'tRNS', bytes(new_trns)))
@@ -286,7 +301,6 @@ def main():
             if not idat_written:
                 out_chunks.append(make_chunk(b'IDAT', new_idat))
                 idat_written = True
-            # drop additional IDAT chunks (data was merged above)
         else:
             out_chunks.append(make_chunk(tag, d))
 

@@ -1,5 +1,5 @@
 #include <hardware/custom.h>
-
+#include "support/gcc8_c_support.h"
 #include "custom_input.h"
 #include "graphics.h"
 #include "sludger.h"
@@ -20,8 +20,8 @@ void CsiCheckInput() {
         WORD counterx_diff = counterx_new - counterx_old;
 
         if(counterx_diff > 127) {
-            input.justMoved = TRUE;                
-            counterx_diff -= 256;    
+            input.justMoved = TRUE;
+            counterx_diff -= 256;
         } else if (counterx_diff < -128) {
             counterx_diff += 256;
             input.justMoved = TRUE;
@@ -32,7 +32,7 @@ void CsiCheckInput() {
         input.mouseX += counterx_diff;
 
         if( input.mouseX > (int) winWidth) {
-            input.mouseX = winWidth;            
+            input.mouseX = winWidth;
         }
         else if(input.mouseX < 0) {
             input.mouseX = 0;
@@ -40,17 +40,17 @@ void CsiCheckInput() {
 
         //KPrintF("CsiCheckInput: MouseX = %d\n", input.mouseX);
         counterx_old = counterx_new;
-    }    
+    }
 
     if(countery_new)
     {
         WORD countery_diff = countery_new - countery_old;
 
         if(countery_diff > 127) {
-            input.justMoved = TRUE;                
-            countery_diff -= 256;    
+            input.justMoved = TRUE;
+            countery_diff -= 256;
         } else if (countery_diff < -128) {
-            input.justMoved = TRUE;                
+            input.justMoved = TRUE;
             countery_diff += 256;
         } else if (countery_diff) {
             input.justMoved = TRUE;
@@ -59,7 +59,7 @@ void CsiCheckInput() {
         input.mouseY += countery_diff;
 
         if( input.mouseY > (int) winHeight) {
-            input.mouseY = winHeight;            
+            input.mouseY = winHeight;
         }
         else if(input.mouseY < 0) {
             input.mouseY = 0;
@@ -67,7 +67,7 @@ void CsiCheckInput() {
 
         //KPrintF("CsiCheckInput: MouseX = %d\n", input.mouseX);
         countery_old = countery_new;
-    } 
+    }
 
     input.leftRelease = FALSE;
     input.rightRelease = FALSE;
@@ -84,10 +84,14 @@ void CsiCheckInput() {
         input.rightRelease = TRUE;
     }
 
+    if(input.justMoved) {
+        KPrintF("CsiCheckInput: MouseX = %ld\n", input.mouseX);
+        KPrintF("CsiCheckInput: MouseY = %ld\n", input.mouseY);
+    }
 
     if(!((*(volatile UBYTE*)0xbfe001)&64)) {
-        input.leftClick = TRUE;              
-    } 
+        input.leftClick = TRUE;
+    }
     if(!((*(volatile UWORD*)0xdff016)&(1<<10)) ) {
         input.rightClick = TRUE;
     }

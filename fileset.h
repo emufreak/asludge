@@ -3,7 +3,7 @@
 extern BPTR bigDataFile;
 
 char * convertString(char * s);
-char * getNumberedString();
+char * getNumberedString (int value);
 void finishAccess ();
 unsigned int openFileFromNum (int num);
 BOOL openObjectSlice (int num);
