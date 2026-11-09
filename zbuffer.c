@@ -12,7 +12,11 @@
 struct zBufferData *zBuffer;
 int zBufferNr;
 
-void addZBufferLayer (int x, int y, int width, int height, int yz) {
+static int lastLayerId = 0;
+
+/* addZBufferLayer: a panel that hides the characters behind it, whose picture is the rectangle in front of them. Returns the
+   number that removeZBufferLayer takes. */
+int addZBufferLayer (int x, int y, int width, int height, int yz) {
 
 	struct zBufferData *createthis = CstAllocVec(sizeof(struct zBufferData), MEMF_ANY);
 	createthis->width = sceneWidth;
@@ -20,6 +24,7 @@ void addZBufferLayer (int x, int y, int width, int height, int yz) {
 	createthis->topx = 0;
 	createthis->topy = 0;
 	createthis->yz = yz;
+	createthis->layerId = ++lastLayerId > 0 ? lastLayerId : (lastLayerId = 1);
 	createthis->nextPanel = zBuffer;
 
 	zBuffer = createthis;
@@ -27,7 +32,24 @@ void addZBufferLayer (int x, int y, int width, int height, int yz) {
 	UWORD size = sceneWidth * sceneHeight / 8;
 	createthis->bitplane = CstAllocVec( size, MEMF_CHIP);
 	CstCreateZBufferLayer (createthis->bitplane, x, y, width, height);
+	return createthis->layerId;
+}
 
+/* removeZBufferLayer: take a layer off again. Number 0 means the newest one that addZBufferLayer made. The panels of the room's
+   z-buffer file are not touched. */
+BOOL removeZBufferLayer (int layerId) {
+	struct zBufferData **link = &zBuffer;
+	while (*link) {
+		struct zBufferData *panel = *link;
+		if (panel->layerId != 0 && (layerId == 0 || panel->layerId == layerId)) {
+			*link = panel->nextPanel;
+			CstFreeVec(panel->bitplane);
+			CstFreeVec(panel);
+			return TRUE;
+		}
+		link = &panel->nextPanel;
+	}
+	return FALSE;
 }
 
 void killZBuffer () {
@@ -77,6 +99,7 @@ BOOL setZBuffer (unsigned int y) {
 		currentitem->topx = get2bytes (bigDataFile);
 		currentitem->topy = get2bytes (bigDataFile);
 		currentitem->yz = get2bytes (bigDataFile);
+		currentitem->layerId = 0;
 
 		UWORD size = currentitem->width * currentitem->height / 8;
 		currentitem->bitplane = CstAllocVec( size, MEMF_CHIP);
@@ -137,6 +160,7 @@ BOOL restoreZBuffer(BPTR fp) {
 		current->topx   = get2bytes(fp);
 		current->topy   = get2bytes(fp);
 		current->yz     = get2bytes(fp);
+		current->layerId = 0;
 		UWORD size = current->width * current->height / 8;
 		current->bitplane = CstAllocVec(size, MEMF_CHIP);
 		FRead(fp, current->bitplane, 1, size);

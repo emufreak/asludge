@@ -11,6 +11,7 @@ struct sprite {
 	int texNum;
 	UWORD *data;
 	//unsigned char * data;
+	struct sprite *steps;		// copies at other sizes, one per step of the room's range (custom_scale.c), or NULL
 };
 
 void forgetSpriteBank (struct loadedSpriteBank * forgetme);

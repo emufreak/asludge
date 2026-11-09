@@ -18,6 +18,8 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 {
 	struct spriteBank *spritebanktoforget = &forgetme->bank;
 
+	CstForgetScaledSprites(forgetme);
+
 	for (int i = 0; i < spritebanktoforget->total; i++) {
 		struct sprite *cursprite = &spritebanktoforget->sprites[i];
 		if(cursprite->data) {
@@ -92,6 +94,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 		loadhere->sprites[i].height = get2bytes(bigDataFile);
 		loadhere->sprites[i].xhot = get2bytes(bigDataFile);
 		loadhere->sprites[i].yhot = get2bytes(bigDataFile);
+		loadhere->sprites[i].steps = NULL;
 
 		UWORD size;
 
@@ -129,6 +132,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 
 BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror)
 {
+	single = CstSpriteForPerson(single, thisPerson);	// the copy at the character's size, if the room has copies
 	WORD x =  thisPerson->x; // - single->xhot;
 	WORD y =  thisPerson->y; // - single->yhot;
 

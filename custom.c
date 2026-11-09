@@ -1,4 +1,4 @@
-#define CSTCOPSIZE 400
+#define CSTCOPSIZE 512
 #define CSTBPL1HIGH 28*2+1
 #define CSTBPL1LOW 29*2+1
 #define CSTBPL2HIGH 30*2+1
@@ -26,6 +26,10 @@
 #include "support/gcc8_c_support.h"
 #include "zbuffer.h"
 
+void CstRefreshSplits();
+static UWORD CstClampChannel( int level);
+static int CstSplitsInList = 0;      /* splits written into the Copper list at the moment */
+
 extern int varfadeOut;
 extern int varfadeIn;
 extern int numColorsAdapt;
@@ -33,7 +37,6 @@ extern struct zBufferData *zBuffer;
 extern unsigned int winWidth, winHeight;
 
 
-UWORD CsttargetColorR, CsttargetColorG, CsttargetColorB;
 UWORD textPaletteIndex = 0;
 struct Interrupt *CstVbint;
 UWORD CstLoadPalette = 0;
@@ -73,77 +76,98 @@ ULONG CstClColorTemplate[] = {
     0x1b00000, 0x1b20000, 0x1b40000, 0x1b60000, 0x1b80000, 0x1ba0000, 0x1bc0000, 0x1be0000
 };
 
+/* ---- Fades ---------------------------------------------------------------------------------------------------------------- */
+
+/* A fade moves the first `numColorsAdapt` colour registers one level on every pass of the game loop (a level is a sixteenth of a
+   channel, so a fade takes 15 passes at most): fadeOut towards one colour, fadeIn towards the palette of the last backdrop that
+   loaded one. The registers after them are not touched, so what is drawn in registers 16 to 31 stays as it is. The fade is over
+   when no register changes any more; a script waits for it by counting passes. */
+
+UWORD CstFadeColour = 0;        /* the colour fadeOut moves towards, as a colour word (0RGB) */
+UWORD CstFadedRegisters = 0;    /* the registers a fade has taken from the palette: a palette that is loaded leaves them as they
+                                   are, and fadeIn brings them to it (a room is loaded while the screen is black, then faded in) */
+
+static UWORD CstStepChannel( UWORD value, UWORD target) {
+  if( value < target) return value + 1;
+  if( value > target) return value - 1;
+  return value;
+}
+
+static UWORD CstStepColour( UWORD colour, UWORD target) {
+  UWORD r = CstStepChannel( (colour >> 8) & 15, (target >> 8) & 15);
+  UWORD g = CstStepChannel( (colour >> 4) & 15, (target >> 4) & 15);
+  UWORD b = CstStepChannel( colour & 15, target & 15);
+  return (r << 8) | (g << 4) | b;
+}
+
+/* To fade the first `count` registers one level: each moves towards its entry in the palette, or towards the one colour when
+   there is no palette. Says whether anything changed. */
+static BOOL CstFadeRegisters( int count, UWORD colour, UWORD *palette) {
+  UWORD *register_ = CstClColor + 1;   /* the Copper list holds a MOVE per register: its opcode, then the colour */
+  BOOL changed = FALSE;
+  for(int i=0; i<count; i++) {
+    UWORD target = palette ? palette[i] : colour;
+    if( *register_ != target) {
+      *register_ = CstStepColour( *register_, target);
+      changed = TRUE;
+    }
+    register_ += 2;
+  }
+  return changed;
+}
+
+static int CstClampRegisters( int count) {
+  return count < 0 ? 0 : count > 32 ? 32 : count;
+}
+
+static UWORD CstClampChannel( int level) {
+  return level < 0 ? 0 : level > 15 ? 15 : level;
+}
+
+/* fadeOut (count, r, g, b): the first `count` registers fade to the colour, each channel 0 to 15. */
+void CstStartFadeOut( int count, int r, int g, int b) {
+  CstFadeColour = (CstClampChannel( r) << 8) | (CstClampChannel( g) << 4) | CstClampChannel( b);
+  numColorsAdapt = CstClampRegisters( count);
+  if( numColorsAdapt > CstFadedRegisters) CstFadedRegisters = numColorsAdapt;
+  varfadeIn = 0;
+  varfadeOut = 1;
+}
+
+/* fadeIn (count): the first `count` registers fade to their palette. */
+void CstStartFadeIn( int count) {
+  numColorsAdapt = CstClampRegisters( count);
+  varfadeOut = 0;
+  varfadeIn = 1;
+}
+
 void CstFadeOut() {
-    volatile struct Custom *custom = (struct Custom*)0xdff000;
-    UWORD *cl = CstClColor+1;
-
-    int changed = 0;
-    for(int i=0; i<numColorsAdapt; i++)
-    {
-        UWORD r = (*cl & 0xf00) >> 8;
-        UWORD g = (*cl & 0xf0) >> 4;
-        UWORD b = (*cl & 0xf);
-
-        if( r != CsttargetColorR || g != CsttargetColorG || b != CsttargetColorB)
-        {
-            changed = 1;
-
-            if(r > CsttargetColorR) r--;
-            else if(r < CsttargetColorR) r++;
-            if(g > CsttargetColorG) g--;
-            else if(g < CsttargetColorG) g++;
-            if(b > CsttargetColorB) b--;
-            else if(b < CsttargetColorB) b++;
-
-            *cl = (r << 8) + (g << 4) + b;
-        }
-        cl += 2;
-    }
-
-    if(changed == 0) {
-        varfadeOut = 0;
-    }
+  if( !CstFadeRegisters( numColorsAdapt, CstFadeColour, NULL)) {
+    varfadeOut = 0;
+    KPrintF("FADE: out finished");
+  }
+  CstRefreshSplits();
 }
 
 void CstFadeIn() {
-    volatile struct Custom *custom = (struct Custom*)0xdff000;
-    UWORD *cl = CstClColor+1;
-    UWORD *targetcolor = CstPalette;
-
-    int changed = 0;
-
-    for(int i=0; i<numColorsAdapt; i++)
-    {
-        UWORD r = (*cl & 0xf00) >> 8;
-        UWORD g = (*cl & 0xf0) >> 4;
-        UWORD b = (*cl & 0xf);
-
-        UWORD tr = (*targetcolor & 0xf00) >> 8;
-        UWORD tg = (*targetcolor & 0xf0) >> 4;
-        UWORD tb = (*targetcolor & 0xf);
-
-        if( r != tr || g != tg || b != tb)
-        {
-            changed = 1;
-
-            if(r > tr) r--;
-            else if(r < tr) r++;
-            if(g > tg) g--;
-            else if(g < tg) g++;
-            if(b > tb) b--;
-            else if(b < tb) b++;
-
-            *cl = (r << 8) + (g << 4) + b;
-        }
-        cl += 2;
-        targetcolor++;
-    }
-
-    if(changed == 0) {
-        varfadeIn = 0;
-    }
+  if( !CstPalette || !CstFadeRegisters( numColorsAdapt, 0, CstPalette)) {
+    varfadeIn = 0;
+    if( numColorsAdapt >= CstFadedRegisters) CstFadedRegisters = 0;
+    KPrintF("FADE: in finished");
+  }
+  CstRefreshSplits();
 }
 
+/* To load the palette of a backdrop into the Copper list: the registers a fade has taken keep their colour. */
+static void CstLoadPaletteIntoCopper() {
+  if( !CstPalette) return;
+  UWORD *register_ = CstClColor + 1;
+  for(int i=0; i<32; i++) { //ToDo Support other number of bitplanes
+    if( i >= CstFadedRegisters) *register_ = CstPalette[i];
+    register_ += 2;
+  }
+  CstLoadPalette = 0;
+  CstRefreshSplits();
+}
 
 APTR CstAllocVec( ULONG bytesize, ULONG requirements ) {
     UBYTE *retval = AllocVec( bytesize+8, requirements );
@@ -277,6 +301,176 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   //custom->color[0] = 0x000;
 }
 
+/* ---- Drawing into the backdrop: fillArea, saveArea, restoreArea ----------------------------------------------------------- */
+
+/* A rectangle of the backdrop in words of 16 pixels across, with the masks that cut its first and last word to the pixels in it. */
+struct CstArea
+{
+  WORD firstword, words;
+  WORD y, rows;
+  UWORD firstmask, lastmask;
+};
+
+/* A box that is drawn into the backdrop and taken out again: its pixels before the drawing. */
+struct CstSavedArea
+{
+  struct CstArea area;
+  UWORD *planes;          /* five planes of area.words * area.rows words, one after the other; NULL: the slot is free */
+};
+
+#define CSTMAXSAVES 8
+static struct CstSavedArea CstSaves[CSTMAXSAVES];
+
+/* To find the part of a rectangle that is on the screen (x2 and y2 are the first column and row after it). */
+static BOOL CstClipArea( struct CstArea *area, int x1, int y1, int x2, int y2) {
+  if( x1 < 0) x1 = 0;
+  if( y1 < 0) y1 = 0;
+  if( x2 > (int) winWidth) x2 = winWidth;
+  if( y2 > (int) winHeight) y2 = winHeight;
+  if( x2 <= x1 || y2 <= y1) {
+    return FALSE;
+  }
+  area->firstword = x1 >> 4;
+  area->words = ((x2 - 1) >> 4) - area->firstword + 1;
+  area->y = y1;
+  area->rows = y2 - y1;
+  area->firstmask = 0xffff >> (x1 & 15);
+  area->lastmask = (UWORD) (0xffff << (15 - ((x2 - 1) & 15)));
+  return TRUE;
+}
+
+static ULONG CstAreaOffset( struct CstArea *area) {
+  return area->y * (winWidth / 8) + area->firstword * 2;
+}
+
+/* To queue the copy of a rectangle of the backdrop into one of the screen buffers (CstRestoreScreen does it before the next frame
+   is drawn into that buffer). */
+static void CstQueueBackdropRectangle( struct CleanupQueue **queue, struct CstArea *area) {
+  struct CleanupQueue *entry = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  entry->next = *queue;
+  entry->x = area->firstword * 16;
+  entry->y = area->y;
+  entry->person = NULL;
+  entry->widthinwords = area->words;
+  entry->height = area->rows;
+  entry->startxinbytes = area->firstword * 2;
+  entry->starty = area->y;
+  *queue = entry;
+}
+
+/* A change of the backdrop reaches both screen buffers: the one that is drawn into next, and the one that is shown. */
+static void CstQueueBackdropChange( struct CstArea *area) {
+  CstQueueBackdropRectangle( &CstCleanupQueueDrawBuffer, area);
+  CstQueueBackdropRectangle( &CstCleanupQueueViewBuffer, area);
+}
+
+/* To fill the pixels of an area with a colour: on each plane, the blitter sets them (D = A or C) or clears them (D = C and not A),
+   as the colour's bit for the plane says, where A is a word of ones that the area's masks cut to its pixels. */
+static void CstFillPlanes( struct CstArea *area, int colour) {
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+  LONG screenrow = winWidth / 8;
+  ULONG screenplane = screenrow * winHeight;
+  ULONG at = (ULONG) CstBackDrop + CstAreaOffset( area);
+
+  WaitBlit();
+  custom->bltafwm = area->firstmask;
+  custom->bltalwm = area->lastmask;
+  custom->bltcmod = screenrow - area->words * 2;
+  custom->bltdmod = screenrow - area->words * 2;
+  custom->bltcon1 = 0;
+  custom->bltadat = 0xffff;
+  for(int plane=0; plane<5; plane++) //ToDo other numbers of Bitplanes
+  {
+    custom->bltcon0 = 0x300 | (((colour >> plane) & 1) ? 0xfa : 0x0a);
+    custom->bltcpt = (APTR) at;
+    custom->bltdpt = (APTR) at;
+    custom->bltsize = (area->rows << 6) | area->words;
+    at += screenplane;
+    WaitBlit();
+  }
+}
+
+/* fillArea (x1, y1, x2, y2, colour): colour is a register, 0 to 31; the area runs up to but not including x2 and y2. */
+BOOL CstFillArea( int x1, int y1, int x2, int y2, int colour) {
+  struct CstArea area;
+  if( !CstBackDrop || colour < 0 || colour > 31 || !CstClipArea( &area, x1, y1, x2, y2)) {
+    return FALSE;
+  }
+  CstFillPlanes( &area, colour);
+  CstQueueBackdropChange( &area);
+  return TRUE;
+}
+
+/* To copy the five planes of an area between the backdrop and a saved block (A to D, no logic). */
+static void CstCopyArea( struct CstArea *area, UWORD *saved, BOOL fromBackdrop) {
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+  LONG screenrow = winWidth / 8;
+  ULONG screenplane = screenrow * winHeight;
+  ULONG blockplane = area->words * 2 * area->rows;
+  ULONG backdrop = (ULONG) CstBackDrop + CstAreaOffset( area);
+  ULONG block = (ULONG) saved;
+
+  WaitBlit();
+  custom->bltafwm = 0xffff;
+  custom->bltalwm = 0xffff;
+  custom->bltcon0 = 0x9f0;
+  custom->bltcon1 = 0;
+  custom->bltamod = fromBackdrop ? screenrow - area->words * 2 : 0;
+  custom->bltdmod = fromBackdrop ? 0 : screenrow - area->words * 2;
+  for(int plane=0; plane<5; plane++) //ToDo other numbers of Bitplanes
+  {
+    custom->bltapt = (APTR) (fromBackdrop ? backdrop : block);
+    custom->bltdpt = (APTR) (fromBackdrop ? block : backdrop);
+    custom->bltsize = (area->rows << 6) | area->words;
+    backdrop += screenplane;
+    block += blockplane;
+    WaitBlit();
+  }
+}
+
+static int CstFreeSaveSlot() {
+  for(int slot=0; slot<CSTMAXSAVES; slot++) {
+    if( !CstSaves[slot].planes) return slot;
+  }
+  return -1;
+}
+
+/* saveArea (x1, y1, x2, y2): keep the pixels of the backdrop under the area (whole words of 16 pixels: x1 rounds down and x2
+   up). Returns a number to give restoreArea, or 0 when there is no room. */
+int CstSaveArea( int x1, int y1, int x2, int y2) {
+  struct CstArea area;
+  int slot = CstFreeSaveSlot();
+  if( !CstBackDrop || slot < 0 || !CstClipArea( &area, x1 & ~15, y1, (x2 + 15) & ~15, y2)) {
+    return 0;
+  }
+  UWORD *block = CstAllocVec( 5 * area.words * 2 * area.rows, MEMF_CHIP);
+  CstCopyArea( &area, block, TRUE);
+  CstSaves[slot].area = area;
+  CstSaves[slot].planes = block;
+  return slot + 1;
+}
+
+/* restoreArea (number): put the saved pixels back into the backdrop and let the number go. */
+BOOL CstRestoreArea( int number) {
+  if( number < 1 || number > CSTMAXSAVES || !CstSaves[number - 1].planes || !CstBackDrop) {
+    return FALSE;
+  }
+  struct CstSavedArea *saved = &CstSaves[number - 1];
+  CstCopyArea( &saved->area, saved->planes, FALSE);
+  CstQueueBackdropChange( &saved->area);
+  CstFreeVec( saved->planes);
+  saved->planes = NULL;
+  return TRUE;
+}
+
+/* To let go of every saved area (the backdrop they belong to is gone). */
+static void CstForgetSavedAreas() {
+  for(int slot=0; slot<CSTMAXSAVES; slot++) {
+    if( CstSaves[slot].planes) CstFreeVec( CstSaves[slot].planes);
+    CstSaves[slot].planes = NULL;
+  }
+}
+
 /* ---- Frame statistics ------------------------------------------------------------------------------------------------- */
 
 #define CSTSTATPASSES 100
@@ -316,14 +510,41 @@ void CstFrameStats( BOOL overran)
 #define CSTPICTUREHEIGHT 200
 #define CSTBELOWPICTURE (CSTPICTURETOP + CSTPICTUREHEIGHT)
 #define CSTWAIT(line) ((((ULONG) (line)) << 24) | 0x00010000 | 0xFFFE)
+#define CSTMOVE(reg, value) ((((ULONG) 0x180 + 2 * (reg)) << 16) | (value))
+
+#define CSTMAXSPLITS 4          /* a split is two events in the list, each a WAIT and a MOVE: 4 splits take 16 of its longs */
+
+/* A Copper split gives a colour register another colour for the lines y1 to y2 - 1 of the picture; the lines before and after
+   have the register's colour of the moment. */
+struct CstSplit
+{
+  WORD y1, y2;
+  UWORD reg, colour;
+};
+
+/* One change of a register by the Copper: at a line, set it to a colour. */
+struct CstSplitEvent
+{
+  WORD line;
+  UWORD reg, colour;
+  BOOL sets;    /* the start of a split (the end of one is sorted before a start on the same line) */
+};
+
+static struct CstSplit CstSplits[CSTMAXSPLITS];
+static int CstSplitCount = 0;
+static ULONG *CstCopperTail = NULL;     /* where the part of the list starts that depends on the splits (after the colours) */
+static int CstCopperWidth = 0;          /* the screen's width in bytes, which the tail needs for the modulos */
 
 static ULONG *CstBlankBelowPicture( ULONG *cl);
 static ULONG *CstCopyLongs( ULONG *to, ULONG *from, int count);
 static ULONG *CstSetModulo( ULONG *cl, int width);
+static ULONG *CstCopperSplits( ULONG *cl);
 static ULONG *CstEndFrame( ULONG *cl);
+static void CstBuildCopperTail( ULONG *cl, int width);
 
-/* To make the Copper list: set the sprite pointers, the screen and the bitplane pointers, load the 32 colours, switch the
-   bitplanes off below the picture, and end the frame with the interrupt that the game loop waits for. */
+/* To make the Copper list: set the sprite pointers, the screen and the bitplane pointers, load the 32 colours, and end it with the
+   part that can change while the game runs (the splits), the switch-off of the bitplanes below the picture and the interrupt that
+   the game loop waits for. */
 UWORD * CstCreateCopperlist( int width) {
   /* From CstAllocVec like the screen buffers: the markers around the list are checked when CstFreeBuffer frees it (a list that
      grows past CSTCOPSIZE shows up as memory corruption), and a failed allocation is reported there and ends the program. */
@@ -336,10 +557,19 @@ UWORD * CstCreateCopperlist( int width) {
   cl = CstCopyLongs( cl, CstClBitplanes, 10);
   CstClColor = (UWORD *) cl;
   cl = CstCopyLongs( cl, CstClColorTemplate, 32);
+  CstCopperTail = cl;
+  CstCopperWidth = width;
+  CstSplitCount = 0;
+  CstSplitsInList = 0;
+  CstBuildCopperTail( cl, width);
+  return (UWORD *) list;
+}
+
+static void CstBuildCopperTail( ULONG *cl, int width) {
   cl = CstSetModulo( cl, width);
+  cl = CstCopperSplits( cl);
   cl = CstBlankBelowPicture( cl);
   cl = CstEndFrame( cl);
-  return (UWORD *) list;
 }
 
 static ULONG *CstCopyLongs( ULONG *to, ULONG *from, int count) {
@@ -378,7 +608,84 @@ static ULONG *CstEndFrame( ULONG *cl) {
   return cl;
 }
 
+/* ---- Copper splits (setCopperSplit, clearCopperSplits) ---- */
 
+/* The Copper runs the list top to bottom once a frame and a WAIT for a line that has gone by does not wait, so the changes of the
+   registers must be in the order of their lines. Every split gives two events (set the colour at y1, put the register back at
+   y2); they are sorted by line, and by "put back" before "set" on the same line, so that a split may start where another one
+   ends. Two splits on the same register must not overlap. The colour a register goes back to is the one it has in the list. */
+
+/* To add a split to the list. Says no if it is not on the picture or the table is full. */
+BOOL CstSetCopperSplit( int y1, int y2, int reg, int r, int g, int b) {
+  if( reg < 0 || reg > 31) return FALSE;
+  if( y1 < 0) y1 = 0;
+  if( y2 > CSTPICTUREHEIGHT) y2 = CSTPICTUREHEIGHT;
+  if( y2 <= y1 || CstSplitCount == CSTMAXSPLITS) return FALSE;
+
+  struct CstSplit *split = &CstSplits[CstSplitCount++];
+  split->y1 = y1;
+  split->y2 = y2;
+  split->reg = reg;
+  split->colour = (CstClampChannel( r) << 8) | (CstClampChannel( g) << 4) | CstClampChannel( b);
+  CstRefreshSplits();
+  return TRUE;
+}
+
+void CstClearCopperSplits() {
+  CstSplitCount = 0;
+  CstRefreshSplits();
+}
+
+/* To write the splits into the list again (they changed, or the colour a register goes back to did). */
+void CstRefreshSplits() {
+  if( CstCopperTail && (CstSplitCount > 0 || CstSplitsInList > 0)) {
+    CstBuildCopperTail( CstCopperTail, CstCopperWidth);
+  }
+}
+
+static int CstEventsOf( struct CstSplitEvent *events) {
+  int count = 0;
+  for(int i=0; i<CstSplitCount; i++) {
+    struct CstSplit *split = &CstSplits[i];
+    events[count].line = CSTPICTURETOP + split->y1;
+    events[count].reg = split->reg;
+    events[count].colour = split->colour;
+    events[count++].sets = TRUE;
+    events[count].line = CSTPICTURETOP + split->y2;
+    events[count].reg = split->reg;
+    events[count].colour = CstClColor[2 * split->reg + 1];
+    events[count++].sets = FALSE;
+  }
+  return count;
+}
+
+/* An insertion sort: there are at most eight events, and equal ones stay in the order they were made in. */
+static void CstSortEvents( struct CstSplitEvent *events, int count) {
+  for(int i=1; i<count; i++) {
+    struct CstSplitEvent moving = events[i];
+    int j = i;
+    while( j > 0 && (events[j - 1].line > moving.line || (events[j - 1].line == moving.line && events[j - 1].sets && !moving.sets))) {
+      events[j] = events[j - 1];
+      j--;
+    }
+    events[j] = moving;
+  }
+}
+
+static ULONG *CstCopperSplits( ULONG *cl) {
+  struct CstSplitEvent events[2 * CSTMAXSPLITS];
+  int count = CstEventsOf( events);
+  CstSortEvents( events, count);
+  for(int i=0; i<count; i++) {
+    *cl++ = CSTWAIT( events[i].line);
+    *cl++ = CSTMOVE( events[i].reg, events[i].colour);
+  }
+  CstSplitsInList = count / 2;
+  return cl;
+}
+
+/* To make the picture of a z-buffer layer: the plane is cleared, then the rectangle of the layer (any x and width) is set to ones.
+   The blitter writes a word of ones through the masks of the first and the last word of the rectangle. */
 void CstCreateZBufferLayer (BYTE *zbufferdata, UWORD x, UWORD y, UWORD width, UWORD height)
 {
   volatile struct Custom *custom = (struct Custom*)0xdff000;
@@ -397,24 +704,19 @@ void CstCreateZBufferLayer (BYTE *zbufferdata, UWORD x, UWORD y, UWORD width, UW
   custom->bltadat = 0;
   custom->bltsize = 256 * 64 + 20;
 
+  struct CstArea area;
+  if( !CstClipArea( &area, x, y, x + width, y + height)) {
+    return;
+  }
   WaitBlit();
-  UWORD bltxoffset = (x / 16)*2;
-  UWORD bltshift = x % 16;
-  UWORD bltafwm = 0xffff >> bltshift;
-  UWORD bltalwm = ~bltafwm;
-
-  UWORD bltwidth = width / 16;
-  if(bltalwm != 0) bltwidth += 1;
-
-  custom->bltafwm = bltafwm;
-  custom->bltalwm = bltalwm;
-  custom->bltdmod = 40 - bltwidth*2;
+  custom->bltafwm = area.firstmask;
+  custom->bltalwm = area.lastmask;
+  custom->bltdmod = winWidth / 8 - area.words * 2;
   custom->bltcon0 =  0x1f0;
   custom->bltcon1 = 0x0;
-  custom->bltdpt = zbufferdata + (y * 40) + bltxoffset;
-  custom->bltadat = 0xffff;;
-  custom->bltsize = height * 64 + bltwidth;
-
+  custom->bltdpt = zbufferdata + (area.y * (winWidth / 8)) + area.firstword * 2;
+  custom->bltadat = 0xffff;
+  custom->bltsize = (area.rows << 6) | area.words;
 }
 
 void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata)
@@ -439,6 +741,7 @@ void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata)
 }
 
 void CstFreeBuffer( ) {
+  CstForgetSavedAreas();
   if( CstDrawBuffer) CstFreeVec(CstDrawBuffer);
   if( CstViewBuffer) CstFreeVec(CstViewBuffer);
   if( CstCopperList) CstFreeVec(CstCopperList);
@@ -907,15 +1210,9 @@ void CstRestoreScreen()
     return;
   }
 
-  UWORD *colorpos = CstPalette;
-  UWORD *tmp = CstClColor;
-  if( CstLoadPalette)
+  if( CstLoadPalette && CstPalette)
   {
-    for(int i=0;i<32;i++) { //ToDo Support other number of bitplanes
-        *tmp++;
-        *tmp++ = *colorpos++;
-    }
-    CstLoadPalette = 0;
+    CstLoadPaletteIntoCopper();
   }
 
   WaitBlit();

@@ -57,9 +57,6 @@ int varfadeOut = 0;
 int varfadeIn = 0;
 int numColorsAdapt = 0;
 int speechMode = 0;
-int targetColorR = 0;
-int targetColorG = 0;
-int targetColorB = 0;
 
 extern frozenStuffStruct * frozenStuff;
 
@@ -92,7 +89,8 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 4, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	2, 5,										// setCharacterTransparency, setCharacterColourise
 	1,											// zoomCamera
 	1, 0, 0,									// playMovie, stopMovie, pauseMovie,
-	5, 1, 4, 1									// addZBufferLayer, printConsole, fadeOut, fadeIn
+	5, 1, 4, 1,									// addZBufferLayer, printConsole, fadeOut, fadeIn
+	6, 0, 5, 4, 1, -1							// setCopperSplit, clearCopperSplits, fillArea, saveArea, restoreArea, removeZBufferLayer
 };
 
 #pragma mark -
@@ -409,7 +407,7 @@ builtIn(addZBufferLayer)
 	trimStack (&fun -> stack);
 	if (! getValueType(&xpos, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
-	addZBufferLayer( xpos, ypos, width, height, yz);
+	setVariable (&fun -> reg, SVT_INT, addZBufferLayer( xpos, ypos, width, height, yz));
 	return BR_CONTINUE;
 }
 
@@ -2801,32 +2799,98 @@ builtIn(doBackgroundEffect)
 	return BR_CONTINUE;
 }
 
-builtIn(fadeOut)
+/* To take the integer parameters of a built-in off the stack: the first parameter ends up in values[0]. */
+static BOOL popIntegers (struct loadedFunction * fun, int count, int * values)
 {
-    UNUSEDALL
-    if (! getValueType(&targetColorB, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
-    trimStack (&fun -> stack);
-    if (! getValueType(&targetColorG, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (&fun -> stack);
-    if (! getValueType(&targetColorR, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (&fun -> stack);
-    if (! getValueType(&numColorsAdapt, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (&fun -> stack);
-
-    varfadeOut = 1;
-
-    return BR_CONTINUE;
+	for (int i = count - 1; i >= 0; i--) {
+		if (! getValueType (&values[i], SVT_INT, &fun -> stack -> thisVar)) return FALSE;
+		trimStack (&fun -> stack);
+	}
+	return TRUE;
 }
 
+//fadeOut( count, r, g, b ): the first `count` colour registers fade to the colour, each channel 0 to 15
+builtIn(fadeOut)
+{
+	UNUSEDALL
+	int v[4];
+	if (! popIntegers (fun, 4, v)) return BR_ERROR;
+	CstStartFadeOut (v[0], v[1], v[2], v[3]);
+	return BR_CONTINUE;
+}
+
+//fadeIn( count ): the first `count` colour registers fade to the palette
 builtIn(fadeIn)
 {
-    UNUSEDALL
-    if (! getValueType(&numColorsAdapt, SVT_INT, &fun -> stack -> thisVar)) return BR_ERROR;
-    trimStack (&fun -> stack);
+	UNUSEDALL
+	int v[1];
+	if (! popIntegers (fun, 1, v)) return BR_ERROR;
+	CstStartFadeIn (v[0]);
+	return BR_CONTINUE;
+}
 
-    varfadeIn = 1;
+//setCopperSplit( y1, y2, register, r, g, b ): lines y1 to y2 - 1 of the picture show the colour register in another colour
+builtIn(setCopperSplit)
+{
+	UNUSEDALL
+	int v[6];
+	if (! popIntegers (fun, 6, v)) return BR_ERROR;
+	BOOL done = CstSetCopperSplit (v[0], v[1], v[2], v[3], v[4], v[5]);
+	if (! done) KPrintF ("setCopperSplit: Not on the picture, bad register or too many splits");
+	setVariable (&fun -> reg, SVT_INT, done ? 1 : 0);
+	return BR_CONTINUE;
+}
 
-    return BR_CONTINUE;
+//clearCopperSplits(): every colour register has its own colour on every line again
+builtIn(clearCopperSplits)
+{
+	UNUSEDALL
+	CstClearCopperSplits ();
+	return BR_CONTINUE;
+}
+
+//fillArea( x1, y1, x2, y2, colour ): colour register 0 to 31 into the backdrop, up to but not including x2 and y2
+builtIn(fillArea)
+{
+	UNUSEDALL
+	int v[5];
+	if (! popIntegers (fun, 5, v)) return BR_ERROR;
+	setVariable (&fun -> reg, SVT_INT, CstFillArea (v[0], v[1], v[2], v[3], v[4]) ? 1 : 0);
+	return BR_CONTINUE;
+}
+
+//saveArea( x1, y1, x2, y2 ): keep the backdrop under the area (whole words of 16 pixels); returns the number for restoreArea, or 0
+builtIn(saveArea)
+{
+	UNUSEDALL
+	int v[4];
+	if (! popIntegers (fun, 4, v)) return BR_ERROR;
+	setVariable (&fun -> reg, SVT_INT, CstSaveArea (v[0], v[1], v[2], v[3]));
+	return BR_CONTINUE;
+}
+
+//restoreArea( number ): put what saveArea kept back into the backdrop
+builtIn(restoreArea)
+{
+	UNUSEDALL
+	int v[1];
+	if (! popIntegers (fun, 1, v)) return BR_ERROR;
+	setVariable (&fun -> reg, SVT_INT, CstRestoreArea (v[0]) ? 1 : 0);
+	return BR_CONTINUE;
+}
+
+//removeZBufferLayer( [number] ): take a layer of addZBufferLayer off again; without a number, the newest
+builtIn(removeZBufferLayer)
+{
+	UNUSEDALL
+	int v[1] = {0};
+	if (numParams > 1) {
+		KPrintF ("removeZBufferLayer: Too many parameters");
+		return BR_ERROR;
+	}
+	if (numParams == 1 && ! popIntegers (fun, 1, v)) return BR_ERROR;
+	setVariable (&fun -> reg, SVT_INT, removeZBufferLayer (v[0]) ? 1 : 0);
+	return BR_CONTINUE;
 }
 
 #define FUNC(special,name)		{builtIn_ ## name},
@@ -3003,6 +3067,12 @@ FUNC (TRUE, addZBufferLayer)
 FUNC (TRUE, printConsole)
 FUNC (TRUE, fadeOut)
 FUNC (TRUE, fadeIn)
+FUNC (TRUE, setCopperSplit)
+FUNC (TRUE, clearCopperSplits)
+FUNC (TRUE, fillArea)
+FUNC (TRUE, saveArea)
+FUNC (TRUE, restoreArea)
+FUNC (TRUE, removeZBufferLayer)
 };
 #undef FUNC
 

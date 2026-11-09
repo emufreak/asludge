@@ -73,6 +73,8 @@ BOOL addPerson(int x, int y, int objNum, struct persona *p) {
     newPerson->b = 0;
     newPerson->colourmix = 0;
     newPerson->transparency = 0;
+    newPerson->scaleStep = 0;
+    newPerson->scaleFrame = -1;
     newPerson->myPersona = p;
 
     setFrames(newPerson, ANI_STAND);
@@ -1072,6 +1074,7 @@ BOOL setPersonExtra (int thisNum, int extra) {
 void setScale (short int h, short int d) {
 	scaleHorizon = h;
 	scaleDivide = d;
+	CstScaleChanged (h, d);
 }
 
 void setShown (BOOL h, int ob) {

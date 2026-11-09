@@ -12,6 +12,7 @@ struct spriteBank {
 
 struct loadedSpriteBank {
 	int ID, timesUsed;
+	BOOL scaled;		// the sprites have copies at other sizes (custom_scale.c)
 	struct spriteBank bank;
 	struct loadedSpriteBank * next;
 };

@@ -50,6 +50,7 @@ struct onScreenPerson {
 	struct objectType * thisType;
 	int extra, spinSpeed;
 	unsigned char r,g,b,colourmix,transparency;
+	int scaleStep, scaleFrame;	// the size, in tenths, that the sprite drawn has now, and the animation frame it was taken up at (custom_scale.c)
 };
 
 struct personaAnimation * makeNullAnim ();

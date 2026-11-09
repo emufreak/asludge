@@ -134,6 +134,7 @@ int main_sludge(int argc, char *argv[])
 	KPrintF("Start new function num\n");
 	startNewFunctionNum (0, 0, NULL, noStack, TRUE);
 
+	CsiOpenKeyboard ();
 	KPrintF("Starting main loop");
 
 	volatile struct Custom *custom = (struct Custom*)0xdff000;
@@ -179,6 +180,7 @@ int main_sludge(int argc, char *argv[])
 		FrameCounter = 0;
 	}
 	//Amiga Cleanup
+	CsiCloseKeyboard ();
 	CstFreeVec(sludgeFile);
 }
 

@@ -3,6 +3,7 @@
 #include <hardware/custom.h>
 
 #include "custom.h"
+#include "custom_input.h"
 #include "sludger.h"
 #include "builtin.h"
 #include "errors.h"
@@ -592,6 +593,23 @@ BOOL handleInput () {
 		if (! startNewFunctionNum (currentEvents -> rightMouseFunction, 0, NULL, noStack, TRUE)) return FALSE;
 	}
 
+	if (currentEvents -> spaceFunction) {
+		const char * keyName = CsiNextKeyName ();
+		if (keyName) {
+			struct variableStack * tempStack = CstAllocVec( sizeof(struct variableStack), MEMF_ANY);
+			if(!tempStack) {
+				KPrintF("handleInput: Cannot allocate memory for variablestack");
+				return FALSE;
+			}
+			initVarNew (tempStack -> thisVar);
+			makeTextVar (&tempStack -> thisVar, keyName);
+			tempStack -> next = NULL;
+			if (! startNewFunctionNum (currentEvents -> spaceFunction, 1, NULL, &tempStack, TRUE)) return FALSE;
+		}
+	} else {
+		CsiNextKeyName ();		// nobody listens: the key is let go
+	}
+
 	lastRegion = overRegion;
 	return runSludge ();
 }
@@ -1034,6 +1052,7 @@ void saveHandlers (BPTR fp) {
 void sludgeDisplay () {
   	volatile struct Custom *custom = (struct Custom*)0xdff000;
 	CstSwapBuffer();
+	CstBuildScaledSprites();
     if( varfadeOut) CstFadeOut();
     if( varfadeIn) CstFadeIn();
 	displayCursor();
