@@ -59,7 +59,7 @@ ULONG CstClSprites[] = { 0x001200000, 0x001220000,0x001240000,0x001260000, 0x001
                  0x001360000, 0x001380000, 0x0013a0000, 0x0013c0000, 0x0013e0000  };
 
 ULONG CstClScreen[] = { 0x001fc0000, 0x001060000, 0x0009687ff,
-        0x0008e2c81, 0x000902cc1,0x000920038, 0x0009400d0,
+        0x0008e2c81, 0x00090f4c1,0x000920038, 0x0009400d0,   /* DIWSTRT $2C81, DIWSTOP $F4C1: line 44 to line 244 */
         0x001020000, 0x001040009, 0x001080000, 0x0010a0000, 0x001005200 };
 
 ULONG CstClBitplanes[] = { 0x0e00000, 0x0e20000, 0x0e40000, 0x0e60000,
@@ -277,54 +277,107 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   //custom->color[0] = 0x000;
 }
 
-UWORD * CstCreateCopperlist( int width) {
+/* ---- Frame statistics ------------------------------------------------------------------------------------------------- */
 
-  ULONG *retval = AllocMem(  CSTCOPSIZE, MEMF_CHIP);
+#define CSTSTATPASSES 100
+#define CSTFRAMELINES 313        /* raster lines in a PAL frame */
+#define CSTFRAMESTART 301        /* the game loop starts a pass at the Copper interrupt on this line */
 
-  if( retval == 0) {
-    KPrintF("CstCreateCopperlist: Allocation of Ram for Copper failed.\n", 40);
-    Exit(1);
+/* To measure the game loop: after the work of a pass, note the raster line it ended on, and every 100 passes write one line to
+   the log: the lines the work took on average and at most (a frame is 313 lines, 64 microseconds each) and the number of
+   passes that ran over a frame, which the loop then waits one more frame for. `overran` says that the frame interrupt came while
+   the pass was working. */
+void CstFrameStats( BOOL overran)
+{
+  static UWORD passes, overruns, longest;
+  static ULONG total;
+
+  UWORD line = (*(volatile ULONG *) 0xDFF004 >> 8) & 0x1ff;
+  UWORD used = line >= CSTFRAMESTART ? line - CSTFRAMESTART : line + CSTFRAMELINES - CSTFRAMESTART;   /* before or after the next start line */
+  if( overran) {
+    overruns++;
+  } else {
+    total += used;
+    if( used > longest) longest = used;
   }
-  ULONG *cl = retval;
-  CstClCursor = (UWORD *)cl;
+  if( ++passes == CSTSTATPASSES) {
+    KPrintF("FRAME: %ld passes, the work took %ld lines on average and %ld at most (of 313), %ld ran over a frame\n",
+            (long) CSTSTATPASSES, (long) (total / (CSTSTATPASSES - overruns > 0 ? CSTSTATPASSES - overruns : 1)), (long) longest, (long) overruns);
+    KPrintF("CHIP: %ld bytes free, the largest block %ld", (long) AvailMem( MEMF_CHIP), (long) AvailMem( MEMF_CHIP | MEMF_LARGEST));
+    passes = overruns = longest = 0;
+    total = 0;
+  }
+}
 
-  ULONG *clpartinstruction;
-  clpartinstruction = CstClSprites;
-  for(int i=0; i<16;i++)
-    *cl++ = *clpartinstruction++;
+/* ---- The Copper list ------------------------------------------------------------------------------------------------ */
 
-  clpartinstruction = CstClScreen;
+/* The picture is 200 lines of the 256 the screen has; it starts on raster line 44 (DIWSTRT), so line 244 is the first below it. */
+#define CSTPICTURETOP 44
+#define CSTPICTUREHEIGHT 200
+#define CSTBELOWPICTURE (CSTPICTURETOP + CSTPICTUREHEIGHT)
+#define CSTWAIT(line) ((((ULONG) (line)) << 24) | 0x00010000 | 0xFFFE)
 
-  for(int i=0; i<12;i++)
-    *cl++ = *clpartinstruction++;
+static ULONG *CstBlankBelowPicture( ULONG *cl);
+static ULONG *CstCopyLongs( ULONG *to, ULONG *from, int count);
+static ULONG *CstSetModulo( ULONG *cl, int width);
+static ULONG *CstEndFrame( ULONG *cl);
 
-  clpartinstruction = CstClBitplanes;
-  for(int i=0; i<10;i++)
-    *cl++ = *clpartinstruction++;
+/* To make the Copper list: set the sprite pointers, the screen and the bitplane pointers, load the 32 colours, switch the
+   bitplanes off below the picture, and end the frame with the interrupt that the game loop waits for. */
+UWORD * CstCreateCopperlist( int width) {
+  /* From CstAllocVec like the screen buffers: the markers around the list are checked when CstFreeBuffer frees it (a list that
+     grows past CSTCOPSIZE shows up as memory corruption), and a failed allocation is reported there and ends the program. */
+  ULONG *list = CstAllocVec( CSTCOPSIZE, MEMF_CHIP);
+  ULONG *cl = list;
 
-
-  clpartinstruction = CstClColorTemplate;
+  CstClCursor = (UWORD *) cl;
+  cl = CstCopyLongs( cl, CstClSprites, 16);
+  cl = CstCopyLongs( cl, CstClScreen, 12);
+  cl = CstCopyLongs( cl, CstClBitplanes, 10);
   CstClColor = (UWORD *) cl;
-  for(int i=0; i<32;i++)
-    *cl++ = *clpartinstruction++;
+  cl = CstCopyLongs( cl, CstClColorTemplate, 32);
+  cl = CstSetModulo( cl, width);
+  cl = CstBlankBelowPicture( cl);
+  cl = CstEndFrame( cl);
+  return (UWORD *) list;
+}
 
-  /* Screen is bigger than real screen? Setup BPLxMod accordingly*/
+static ULONG *CstCopyLongs( ULONG *to, ULONG *from, int count) {
+  for(int i=0; i<count; i++)
+    *to++ = *from++;
+  return to;
+}
+
+/* A screen that is wider than the 40 bytes the display fetches needs the bitplane modulos. */
+static ULONG *CstSetModulo( ULONG *cl, int width) {
   if(width > 40) {
-    int tmp = width - 40;
     UWORD *cw = (UWORD *) cl;
     *cw++ = 0x108;
-    *cw++ = tmp;
+    *cw++ = width - 40;
     *cw++ = 0x10a;
-    *cw++ = tmp;
+    *cw++ = width - 40;
+    cl = (ULONG *) cw;
   }
-
-  *cl++ = 0xffdffffe;
-  *cl++ = 0x2d01ff00;
-  *cl++ = 0x9c8010;
-
-  *cl++ = 0xfffffffe;
-  return (UWORD *) retval;
+  return cl;
 }
+
+/* Below the picture the display fetches no bitplanes and shows black, whatever colour 0 is at that moment (a white flash
+   would otherwise light the band up). The list sets BPLCON0 and COLOR00 again at the top of the next frame. */
+static ULONG *CstBlankBelowPicture( ULONG *cl) {
+  *cl++ = CSTWAIT( CSTBELOWPICTURE);
+  *cl++ = 0x01000200;   /* BPLCON0: no bitplanes */
+  *cl++ = 0x01800000;   /* COLOR00: black */
+  return cl;
+}
+
+static ULONG *CstEndFrame( ULONG *cl) {
+  *cl++ = 0xffdffffe;   /* wait for the end of line 255, so that the waits that follow may be below it */
+  *cl++ = 0x2d01ff00;   /* wait for line 301 ... */
+  *cl++ = 0x9c8010;     /* ... and raise the Copper interrupt */
+  *cl++ = 0xfffffffe;
+  return cl;
+}
+
 
 void CstCreateZBufferLayer (BYTE *zbufferdata, UWORD x, UWORD y, UWORD width, UWORD height)
 {
@@ -382,220 +435,6 @@ void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata)
 
   CstClCursor[1] = hiptr;
   CstClCursor[3] = loptr;
-
-}
-
-__attribute__((optimize("Ofast")))
-UBYTE *CstDrawZBuffer( struct sprite *sprite, struct zBufferData *zbuffer, WORD x, WORD y)
-{
-  volatile struct Custom *custom = (struct Custom*)0xdff000;
-  //In Case nothing needs to be done return sprite mask without changes
-
-  WORD zbufferset = 0;
-
-  #ifdef EMULATOR
-    debug_register_bitmap(CstZBufferResult, "SpriteMask", sprite->width, sprite->height, 1, 0);
-    debug_register_bitmap(CstZBufferWork, "tmbpuffer", sprite->width+16, sprite->height, 1, 0);
-  #endif
-
-  while(zbuffer)
-  {
-    WORD spritex1oncanvas = x;
-    UWORD spritex2oncanvas = spritex1oncanvas+sprite->width;
-    WORD spritey1oncanvas = y;
-    UWORD spritey2oncanvas = spritey1oncanvas + sprite->height;
-
-    WORD zbufferx1oncanvas = zbuffer->topx;
-    WORD zbufferx2oncanvas = zbufferx1oncanvas + zbuffer->width;
-
-    WORD zbuffery1oncanvas = zbuffer->topy;
-    WORD zbuffery2oncanvas = zbuffery1oncanvas + zbuffer->height;
-
-    BOOL zbufferfromright = FALSE;
-    BOOL zbufferfromleft = FALSE;
-    BOOL zbufferfrombottom = FALSE;
-    BOOL zbufferfromtop = FALSE;
-
-    //Sprite will be drawn behind the zBuffer. We need to do something
-    if(spritey2oncanvas < zbuffer->yz)
-    {
-      //sprite ------------x1+++++++++++++++++++x2-----------------*/
-      /*zbuffer-------------------x1++++++++++?????????------------*/
-      if(spritex1oncanvas <= zbufferx1oncanvas && spritex2oncanvas > zbufferx1oncanvas)
-        zbufferfromright = TRUE;
-      //sprite -------------------------x1++++??????-------*/
-      /*zbuffer-------------------x1+++++++++++x2----------*/
-      else if(spritex1oncanvas > zbufferx1oncanvas && spritex1oncanvas < zbufferx2oncanvas)
-        zbufferfromleft = TRUE;
-
-      //Overlap on X-Axis. Now Check y-axis
-      if( zbufferfromleft || zbufferfromright)
-      {
-        if(spritey1oncanvas <= zbuffery1oncanvas && spritey2oncanvas > zbuffery1oncanvas)
-          zbufferfrombottom = TRUE;
-
-        else if(spritey1oncanvas > zbuffery1oncanvas && spritey1oncanvas < zbuffery2oncanvas)
-          zbufferfromtop = TRUE;
-      }
-
-      //Overlap on both Axis
-      if( (zbufferfromright || zbufferfromleft) && (zbufferfrombottom || zbufferfromtop))
-      {
-
-        ULONG bltapt;
-        UWORD xdiff;
-        UWORD xdiffbyte;
-        UWORD xdiffrest;
-        UWORD bytewidth, width, rest;
-        if(zbufferfromright)
-        {
-          //Get Distance R
-          /*sprite  ------------x1++++++++++?????????-------------------------*/
-          //zbuffer ------------------x1+++++++++++++++++++x2-----------------*/
-
-          xdiff = zbufferx1oncanvas - spritex1oncanvas;
-          xdiffbyte = (xdiff / 16) * 2;
-          xdiffrest = (xdiff - xdiffbyte * 8);
-          bytewidth = (sprite->width/16)*2 + 2;
-
-          if( zbufferx2oncanvas > spritex2oncanvas)
-          {
-            WaitBlit();
-
-            custom->bltafwm = 0xffff;
-            custom->bltalwm = 0xffff;
-            custom->bltdpt = CstZBufferWork;
-            custom->bltcon1 = 0;
-
-            if (xdiffrest) {
-              xdiffbyte += 2;
-
-              bltapt = (ULONG) zbuffer->bitplane - xdiffbyte;
-              custom->bltcon0 = xdiffrest * 4096 + 0x9f0;
-              custom->bltamod = zbuffer->width/8 - bytewidth;
-              custom->bltdmod = 0;
-            }
-            else
-            {
-              xdiffbyte += 2;
-              bltapt = (ULONG) zbuffer->bitplane - xdiffbyte;
-              custom->bltcon0 = 0x9f0;
-              custom->bltamod = zbuffer->width/8 - bytewidth;
-              custom->bltdmod = 0;
-            }
-          }
-          else
-          {
-              KPrintF("Cstdrawzbuffer: Current version only supports zbuffer size equal to screen size");
-              return FALSE;
-          }
-        }
-        else
-        //ZbufferFromLeft
-        {
-          //Get Distance R
-          /*sprite  ------------x1++++++++++?????????-------------------------*/
-          //zbuffer ------------------x1+++++++++++++++++++x2-----------------*/
-
-          xdiff = spritex1oncanvas - zbufferx1oncanvas;
-          xdiffbyte = (xdiff / 16) * 2;
-          xdiffrest = (xdiff - xdiffbyte * 8);
-
-
-          bytewidth = (sprite->width/16)*2;
-          if(sprite->height == 60) {
-            sprite->height = 60;
-          }
-
-          custom->bltafwm = 0xffff;
-          custom->bltalwm = 0xffff;
-          custom->bltcon1 = 0;
-
-          if (xdiffrest) {
-            bytewidth += 2;
-            //xdiffbyte += -2;
-            bltapt = (ULONG) zbuffer->bitplane + xdiffbyte;
-            WaitBlit();
-            custom->bltdpt = CstZBufferWork;
-            custom->bltcon0 = (16 - xdiffrest) * 4096 + 0x9f0;
-            custom->bltamod = zbuffer->width/8 - bytewidth;
-            custom->bltdmod = 0;
-          }
-          else
-          {
-            //xdiffbyte += -2;
-            bltapt = (ULONG) zbuffer->bitplane + xdiffbyte;
-            WaitBlit();
-            custom->bltdpt = CstZBufferWork + 2;
-            custom->bltcon0 = 4096 + 0x9f0;
-            custom->bltamod = zbuffer->width/8 - bytewidth;
-            custom->bltdmod = 2;
-          }
-
-
-        }
-
-        //Get Distance R
-        //zbuffer ------------x1+++++++++++++++++++x2-----------------*/
-        /*sprite--------------RRRRRRRRx1++++++++++?????????------------*/
-        UWORD ydiff = spritey1oncanvas - zbuffery1oncanvas;
-
-        UWORD height;
-        if( zbuffery2oncanvas > spritey2oncanvas)
-          height = sprite->height;
-        else
-          height = zbuffery2oncanvas - spritey1oncanvas;
-
-        custom->bltapt = (APTR) bltapt + ydiff*zbuffer->width/8;
-        UWORD bltsize =  height*64+bytewidth/2;
-        custom->bltsize = height*64+bytewidth/2;
-
-        WaitBlit();
-
-        custom->bltafwm = 0xffff;
-        custom->bltalwm = 0xffff;
-        custom->bltamod = 2;
-        custom->bltbmod = 0;
-        custom->bltdmod = 0;
-        custom->bltcon0 = 0xd0c; //Copy A to D
-        custom->bltcon1 = 0;
-
-        custom->bltapt = (APTR) CstZBufferWork + 2;
-
-        if (zbufferset == 0) {
-          custom->bltbpt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
-        }
-        else {
-          custom->bltbpt = (APTR) CstZBufferResult;
-        }
-        custom->bltdpt = (APTR) CstZBufferResult;
-        custom->bltsize = (sprite->height<<6)+sprite->width/16;
-        zbufferset = 1;
-      }
-    }
-    zbuffer = zbuffer->nextPanel;
-  }
-
-  if(zbufferset == 0)
-  {
-    WaitBlit();
-
-    custom->bltafwm = 0xffff;
-    custom->bltalwm = 0xffff;
-    custom->bltamod = 0;
-    custom->bltbmod = 0;
-    custom->bltcmod = 0;
-    custom->bltdmod = 0;
-    custom->bltcon0 = 0x9f0; //Copy A to D
-    custom->bltcon1 = 0;
-
-    custom->bltapt = (APTR) ((ULONG) sprite->data)+(sprite->width/8)*sprite->height*5;
-    custom->bltdpt = (APTR) CstZBufferResult;
-    custom->bltsize = (sprite->height<<6)+sprite->width/16;
-
-  }
-
-  return CstZBufferResult;
 
 }
 
@@ -1113,247 +952,268 @@ void CstRestoreScreen()
   //custom->color[0] = 0x000;
 }
 
-__attribute__((optimize("Ofast")))
+/* ---- Drawing a sprite ----------------------------------------------------------------------------------------------- */
+
+/* The Makefile has no optimisation flag (-Ofast is commented out), so the engine is compiled without optimising, except for
+   what asks for it. The drawing is what runs for every sprite on every frame: it is compiled with -Ofast, and its helpers are
+   inlined into CstScaleSprite, so that splitting it into small functions costs nothing. */
+#pragma GCC push_options
+#pragma GCC optimize ("Ofast")
+#define CSTINLINE static inline __attribute__((always_inline))
+
+#define CSTSCREENWORDS 20   /* winWidth / 16 */
+
+/* Where a sprite lands on the screen, clipped: the part of it that has a pixel on the screen. A sprite is `words` words wide
+   (a multiple of 16 pixels), and x, y, its top left corner on the screen, may lie off the screen on every side. */
+struct CstPlacement
+{
+  WORD x, y;
+  WORD words;
+  WORD firstword, lastword;   /* the words of a row that have a pixel on the screen */
+  WORD firstrow, endrow;      /* the rows that have one: first, and the one after the last */
+};
+
+CSTINLINE BOOL CstPlaceSprite( struct CstPlacement *place, struct sprite *single, WORD x, WORD y);
+CSTINLINE UBYTE *CstSpriteMask( struct sprite *single, struct onScreenPerson *person, struct CstPlacement *place);
+CSTINLINE void CstBlitSprite( struct sprite *single, UBYTE *mask, struct CstPlacement *place, UWORD *destination);
+CSTINLINE void CstQueueCleanup( struct onScreenPerson *person, struct CstPlacement *place, BOOL bothbuffers);
+CSTINLINE void CstQueueCleanupRectangle( struct CleanupQueue **queue, struct onScreenPerson *person, struct CstPlacement *place, int firstscreenword, int lastscreenword);
+CSTINLINE int CstCharacterDepth( struct onScreenPerson *person);
+CSTINLINE BOOL CstBehindPanel( struct sprite *single, struct onScreenPerson *person, int depth, struct CstPlacement *place, struct zBufferData *panel);
+CSTINLINE UBYTE *CstTakePanelOut( struct CstPlacement *place, struct zBufferData *panel, int firstrow, int endrow, UBYTE *own, UBYTE *mask);
+CSTINLINE void CstCopyMask( UBYTE *from, UBYTE *to, LONG offset, LONG row, int words, int rows);
+
+/* To draw a sprite: place it on the screen, find the mask that its pixels are drawn through (its own, less what the z-buffer
+   puts in front of it), blit its five planes through that mask, and queue the clean-up that puts the background back. */
 void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD x, WORD y, UWORD destinationtype)
 {
-  if( single->width == 320)
-  {
-    single->width = 320;
+  struct CstPlacement place;
+  if( !CstPlaceSprite( &place, single, x, y)) {
+    return;
+  }
+  UBYTE *mask = CstSpriteMask( single, person, &place);
+  UWORD *destination = destinationtype == SCREEN ? (UWORD *) CstDrawBuffer : (UWORD *) CstBackDrop;
+  CstBlitSprite( single, mask, &place, destination);
+  CstQueueCleanup( person, &place, destinationtype != SCREEN);
+}
+
+/* To place a sprite: find the first and the last column and row of it that are on the screen, if there are any. */
+CSTINLINE BOOL CstPlaceSprite( struct CstPlacement *place, struct sprite *single, WORD x, WORD y)
+{
+  int firstcolumn = x < 0 ? -x : 0;
+  int lastcolumn = (int) winWidth - x - 1;
+  if( lastcolumn > single->width - 1) lastcolumn = single->width - 1;
+  int firstrow = y < 0 ? -y : 0;
+  int endrow = (int) winHeight - y;
+  if( endrow > single->height) endrow = single->height;
+  if( lastcolumn < firstcolumn || endrow <= firstrow) {
+    return FALSE;   /* nothing of it is on the screen */
   }
 
-  UBYTE *mask = CstDrawZBuffer( single, zBuffer, x, y);
+  place->x = x;
+  place->y = y;
+  place->words = single->width >> 4;
+  place->firstword = firstcolumn >> 4;
+  place->lastword = lastcolumn >> 4;
+  place->firstrow = firstrow;
+  place->endrow = endrow;
+  return TRUE;
+}
 
-  UWORD *destination = 0;
-  switch(destinationtype)
-  {
-    case SCREEN:
-      destination = (UWORD *) CstDrawBuffer;
-      break;
-    case BACKDROP:
-      destination = (UWORD *) CstBackDrop;
-      break;
-  }
-
-  UWORD extrawords; //When Input is shifted sometimes an extra word has to be written to cover the whole sprite
-  UWORD cutwordssource; //If some words are completely outside of screen
-  UWORD cutmaskpixel; //Single pixels outside of Screen need to be masked out to prevent corruption of background
-  UWORD bltalwm; //Mask out all or part of last word as out of range of source.
-  ULONG bltapt; //Start Position Source Mask
-  ULONG bltbpt; //Start Position Source
-  ULONG bltcpt; //Start Position Background
-  ULONG bltdpt; //Start Position DrawBuffer
-  ULONG bltcon0; //Channel configuration and shift mask
-  ULONG bltcon1; //Shift Source
-  ULONG ystartdst;
-  ULONG ystartsrc;
-  ULONG blitheight;
-
-  if( y < 0) {
-    if(y + single->height < 0) {
-      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-      return;
-    }
-    ystartdst = 0;
-    ystartsrc = y*-1;
-    blitheight = single->height+y;
-  } else if(y+single->height > (int) winHeight) {
-    if(y  > (int) winHeight) {
-      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-      return;
-    }
-    ystartdst = y;
-    ystartsrc = 0;
-    blitheight = winHeight-y;
-  } else {
-    ystartdst = y;
-    ystartsrc = 0;
-    blitheight = single->height;
-  }
-
-
-  if( x < 0)
-  { //Leftmost part outside screen
-
-    if(x + single->width < 0) {
-      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-      return;
-    }
-
-    cutwordssource = (x*-1)/16;
-    cutmaskpixel = (x*-1)%16;
-
-    extrawords = cutmaskpixel > 0 ? 1 : 0;
-    //extrawords = 1;
-    if( cutmaskpixel > 0)
-    {
-      extrawords = 1;
-      bltcon0 = 0xfca + ((16-cutmaskpixel) << 12);
-      bltcon1 = ((16-cutmaskpixel) << 12);
-      bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
-      bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
-    }
-    else
-    {
-      extrawords = 0;
-      bltcon0 = 0xfca;
-      bltcon1 = 0;
-      bltcpt = ((ULONG) destination) + ystartdst*winWidth/8;
-      bltdpt = ((ULONG) destination) + ystartdst*winWidth/8;
-    }
-
-    bltalwm = 0; //Last Word of this channel almost masked out
-    bltapt = ((ULONG) mask)+cutwordssource*2+ystartsrc*single->width/8;
-    bltbpt = ((ULONG) single->data)+cutwordssource*2+ystartsrc*single->width/8;
-
-
-    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
-    CstCleanupQueueDrawBuffer->next = next;
-
-    CstCleanupQueueDrawBuffer->x = x;
-    CstCleanupQueueDrawBuffer->y = y;
-    CstCleanupQueueDrawBuffer->person = person;
-
-    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords; //Width in X Bytes
-    CstCleanupQueueDrawBuffer->height = blitheight;
-    CstCleanupQueueDrawBuffer->startxinbytes = 0;
-    CstCleanupQueueDrawBuffer->starty = ystartdst;
-    if( destinationtype != SCREEN)
-    {
-      next = CstCleanupQueueViewBuffer;
-      CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
-      CstCleanupQueueViewBuffer->next = next;
-      CstCleanupQueueViewBuffer->x = x;
-      CstCleanupQueueViewBuffer->y = y;
-      CstCleanupQueueViewBuffer->person = person;
-      CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource+extrawords; //Width in X Bytes
-      CstCleanupQueueViewBuffer->height = blitheight;
-      CstCleanupQueueViewBuffer->startxinbytes = 0;
-      CstCleanupQueueViewBuffer->starty = ystartdst;
-    }
-  }
-  else if(x + single->width > (int) winWidth)
-  { //Rightmost part outside screen
-
-    if(x - single->width > (int) winWidth)
-    {
-      KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
-      return;
-    }
-    extrawords = 0; //Shifted out part of source outside screen. No need to blit this
-    cutwordssource = (x+single->width - winWidth)/16;
-    cutmaskpixel = 0;
-    bltapt = ((ULONG) mask)+ystartsrc*single->width/8;
-    bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
-    bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
-    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
-    bltcon0 = 0xfca + ((x%16) << 12);
-    bltcon1 = ((x%16) << 12);
-    bltalwm = 0xffff << (x%16);
-
-    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
-    CstCleanupQueueDrawBuffer->next = next;
-
-    CstCleanupQueueDrawBuffer->x = x;
-    CstCleanupQueueDrawBuffer->y = y;
-    CstCleanupQueueDrawBuffer->person = person;
-    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource; //Width in X Bytes
-    CstCleanupQueueDrawBuffer->height =  blitheight; //Height
-    CstCleanupQueueDrawBuffer->startxinbytes =  (x/16)*2; //X Start in Bytes;
-    CstCleanupQueueDrawBuffer->starty = ystartdst;
-
-    if( destinationtype != SCREEN)
-    {
-      next = CstCleanupQueueViewBuffer;
-      CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
-      CstCleanupQueueViewBuffer->next = next;
-
-      CstCleanupQueueViewBuffer->x = x;
-      CstCleanupQueueViewBuffer->y = y;
-      CstCleanupQueueViewBuffer->person = person;
-      CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource;
-      CstCleanupQueueViewBuffer->height =  blitheight;
-      CstCleanupQueueViewBuffer->startxinbytes =  (x/16)*2; //X Start in Bytes;
-      CstCleanupQueueViewBuffer->starty = ystartdst;
-    }
-  }
-  else
-  { //Whole Sprite on Screen
-
-    extrawords = 1;
-    cutwordssource = 0;
-    cutmaskpixel = 0;
-    bltalwm = 0; //Last Word of this channel almost masked out
-    bltapt = ((ULONG) mask) +ystartsrc*single->width/8;
-    bltbpt = (ULONG) single->data+ystartsrc*single->width/8;
-    bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
-    bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
-    bltcon0 = 0xfca + ((x%16) << 12);
-    bltcon1 = ((x%16) << 12);
-
-    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
-    CstCleanupQueueDrawBuffer->next = next;
-
-    CstCleanupQueueDrawBuffer->x = x;
-    CstCleanupQueueDrawBuffer->y = y;
-    CstCleanupQueueDrawBuffer->person = person;
-    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
-    CstCleanupQueueDrawBuffer->height =  blitheight;
-    CstCleanupQueueDrawBuffer->startxinbytes =  (x/16)*2;
-    CstCleanupQueueDrawBuffer->starty = ystartdst;
-
-    if( destinationtype != SCREEN)
-    {
-      next = CstCleanupQueueViewBuffer;
-      CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue),MEMF_ANY);
-      CstCleanupQueueViewBuffer->next = next;
-
-      CstCleanupQueueViewBuffer->x = x;
-      CstCleanupQueueViewBuffer->y = y;
-      CstCleanupQueueViewBuffer->person = person;
-      CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
-      CstCleanupQueueViewBuffer->height =  blitheight;
-      CstCleanupQueueViewBuffer->startxinbytes =  (x/16)*2;
-      CstCleanupQueueViewBuffer->starty = ystartdst;
-    }
-  }
-
-  UWORD bltafwm = 0xffff >> cutmaskpixel;
-  WORD bltamod = cutwordssource*2-(extrawords*2); //Jump to next line
-  WORD bltbmod = cutwordssource*2-(extrawords*2); //Jump to next line
-  WORD bltcmod = winWidth/8-single->width/8-extrawords*2+cutwordssource*2;
-  WORD bltdmod = winWidth/8-single->width/8-extrawords*2+cutwordssource*2;
-
+/* To blit a sprite: for each of the five bitplanes, copy the sprite's pixels to the screen where the mask is set and keep the
+   screen where it isn't (D = A and B, or C and not A; A the mask, B the plane, C the screen). The blitter shifts both A and B
+   right by x mod 16 and writes one word more than the sprite has, for what the shift pushes out of the last word. That word is
+   left out when the sprite ends at the right edge of the screen (those pixels are off it), and the first word is written one
+   word to the left of the screen when the sprite starts off the left edge (the mask keeps it from changing anything there). */
+CSTINLINE void CstBlitSprite( struct sprite *single, UBYTE *mask, struct CstPlacement *place, UWORD *destination)
+{
   volatile struct Custom *custom = (struct Custom*)0xdff000;
+  int shift = place->x & 15;
+  int firstscreenword = (place->x >> 4) + place->firstword;   /* -1 when the first word starts off the left edge */
+  int words = place->lastword - place->firstword + 1;
+  int written = words + (shift ? 1 : 0);
+  if( firstscreenword + written > CSTSCREENWORDS) written = CSTSCREENWORDS - firstscreenword;
+
+  UWORD firstwordmask = firstscreenword < 0 ? 0xffff >> (16 - shift) : 0xffff;   /* the pixels left of the screen */
+  UWORD lastwordmask = written > words ? 0 : 0xffff << shift;   /* the extra word has no pixels of its own; if it is left out, the bits
+                                                                   the shift would push out of the last word are cleared, or they would
+                                                                   come in at the start of the next row */
+  LONG sourcerow = place->words * 2;
+  LONG sourceoffset = place->firstrow * sourcerow + place->firstword * 2;
+  LONG screenrow = winWidth / 8;
+  LONG screenoffset = (place->y + place->firstrow) * screenrow + firstscreenword * 2;
+  ULONG sourceplane = sourcerow * single->height;
+  ULONG screenplane = screenrow * winHeight;
+  UWORD size = ((place->endrow - place->firstrow) << 6) | written;
+
+  ULONG bltapt = (ULONG) mask + sourceoffset;
+  ULONG bltbpt = (ULONG) single->data + sourceoffset;
+  ULONG bltcpt = (ULONG) destination + screenoffset;
+
   WaitBlit();
-
-  custom->bltafwm = bltafwm;
-  custom->bltalwm = bltalwm;
-  custom->bltamod = bltamod;
-  custom->bltbmod = bltbmod;
-  custom->bltcmod = bltcmod;
-  custom->bltdmod = bltdmod;
-  custom->bltcon0 = bltcon0;
-  custom->bltcon1 = bltcon1;
-
-  UWORD bltbptplus = (single->width >> 3)*single->height;
-  UWORD bltcptplus = winWidth/8*winHeight;
-  for(int i=0;i<5;i++) //ToDo other numbers of Bitplanes
+  custom->bltafwm = firstwordmask;
+  custom->bltalwm = lastwordmask;
+  custom->bltamod = sourcerow - written * 2;
+  custom->bltbmod = sourcerow - written * 2;
+  custom->bltcmod = screenrow - written * 2;
+  custom->bltdmod = screenrow - written * 2;
+  custom->bltcon0 = 0xfca + (shift << 12);
+  custom->bltcon1 = shift << 12;
+  for(int plane=0; plane<5; plane++) //ToDo other numbers of Bitplanes
   {
     custom->bltapt = (APTR) bltapt;
     custom->bltbpt = (APTR) bltbpt;
     custom->bltcpt = (APTR) bltcpt;
-    custom->bltdpt = (APTR) bltdpt;
-    custom->bltsize = (blitheight << 6) + single->width/16-cutwordssource+extrawords;
-    bltbpt += bltbptplus;
-    bltcpt += bltcptplus;
-    bltdpt += bltcptplus;
+    custom->bltdpt = (APTR) bltcpt;
+    custom->bltsize = size;
+    bltbpt += sourceplane;
+    bltcpt += screenplane;
     WaitBlit();
   }
-
 }
+
+/* To queue the clean-up of a sprite: remember the rectangle that it covers, so that the background is copied back over it before
+   the next frame is drawn into this buffer. A paste into the backdrop changes both buffers, so it is queued for both. */
+CSTINLINE void CstQueueCleanup( struct onScreenPerson *person, struct CstPlacement *place, BOOL bothbuffers)
+{
+  int firstscreenword = (place->x >> 4) + place->firstword;
+  int lastscreenword = firstscreenword + place->lastword - place->firstword + ((place->x & 15) ? 1 : 0);
+  if( firstscreenword < 0) firstscreenword = 0;
+  if( lastscreenword > CSTSCREENWORDS - 1) lastscreenword = CSTSCREENWORDS - 1;
+
+  CstQueueCleanupRectangle( &CstCleanupQueueDrawBuffer, person, place, firstscreenword, lastscreenword);
+  if( bothbuffers) {
+    CstQueueCleanupRectangle( &CstCleanupQueueViewBuffer, person, place, firstscreenword, lastscreenword);
+  }
+}
+
+CSTINLINE void CstQueueCleanupRectangle( struct CleanupQueue **queue, struct onScreenPerson *person, struct CstPlacement *place, int firstscreenword, int lastscreenword)
+{
+  struct CleanupQueue *entry = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
+  entry->next = *queue;
+  entry->x = place->x;
+  entry->y = place->y;
+  entry->person = person;
+  entry->widthinwords = lastscreenword - firstscreenword + 1;
+  entry->height = place->endrow - place->firstrow;
+  entry->startxinbytes = firstscreenword * 2;
+  entry->starty = place->y + place->firstrow;
+  *queue = entry;
+}
+
+/* ---- The mask of a sprite, and the z-buffer -------------------------------------------------------------------------- */
+
+/* The z-buffer is a list of panels, each a one-bit picture of what is in front of a character that stands behind it: the panel
+   hides a sprite wherever its bit is set. A panel has a cut-off line: a character is in front of it if its y is greater than the
+   cut-off, behind it if it isn't. */
+
+/* To find the mask of a sprite: take its own, and for every panel that the sprite is behind and that overlaps it, take the panel's
+   pixels out of it. A character with NOZBUFFER ignores the panels. The mask is the sprite's own if no panel touches it, and
+   CstZBufferResult if one does. */
+CSTINLINE UBYTE *CstSpriteMask( struct sprite *single, struct onScreenPerson *person, struct CstPlacement *place)
+{
+  UBYTE *own = (UBYTE *) single->data + (single->width >> 3) * single->height * 5;
+  if( person && (person->extra & EXTRA_NOZB)) {
+    return own;
+  }
+
+  if( !zBuffer) {
+    return own;
+  }
+  int depth = person ? CstCharacterDepth( person) : 0;
+  UBYTE *mask = own;
+  for(struct zBufferData *panel = zBuffer; panel; panel = panel->nextPanel) {
+    if( !CstBehindPanel( single, person, depth, place, panel)) continue;
+    int firstrow = place->firstrow;
+    int endrow = place->endrow;
+    if( firstrow < panel->topy - place->y) firstrow = panel->topy - place->y;
+    if( endrow > panel->topy + panel->height - place->y) endrow = panel->topy + panel->height - place->y;
+    if( endrow <= firstrow) continue;
+    mask = CstTakePanelOut( place, panel, firstrow, endrow, own, mask);
+  }
+  return mask;
+}
+
+/* The line that a character's depth is judged by: its y, rounded up (it is in front of a panel if y is greater than the cut-off). */
+CSTINLINE int CstCharacterDepth( struct onScreenPerson *person)
+{
+  int depth = (int) person->y;
+  if( person->y > depth) depth++;
+  return depth;
+}
+
+/* A character is behind a panel unless its y is greater than the cut-off. A sprite pasted into the backdrop has no character;
+   it is behind a panel if its bottom edge is above the cut-off. Only panels as wide as the screen are supported. */
+CSTINLINE BOOL CstBehindPanel( struct sprite *single, struct onScreenPerson *person, int depth, struct CstPlacement *place, struct zBufferData *panel)
+{
+  if( panel->width != (int) winWidth || panel->topx != 0) return FALSE;
+  if( person) return depth <= panel->yz;
+  return place->y + single->height < panel->yz;
+}
+
+/* To take a panel out of a mask, in two blits. The first moves the panel's bits into the sprite's own column grid, which is
+   shifted by x mod 16 against the screen's: it reads one word more than the sprite has, and the first word it writes is
+   the one that has no word before it (the panel may lack one before the first, so what it reads there is not the panel's;
+   those bits are off the screen anyway) and is skipped. The second clears the mask where the panel has a bit: D = B and not A.
+   Only the words and rows of the sprite that are on the screen are touched. The first panel that touches a sprite copies the
+   sprite's mask into CstZBufferResult, unless it covers all of what is on the screen. */
+CSTINLINE UBYTE *CstTakePanelOut( struct CstPlacement *place, struct zBufferData *panel, int firstrow, int endrow, UBYTE *own, UBYTE *mask)
+{
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+  int shift = place->x & 15;
+  int words = place->lastword - place->firstword + 1;
+  int read = shift ? words + 1 : words;
+  int rows = endrow - firstrow;
+  LONG spriterow = place->words * 2;
+  LONG spriteoffset = firstrow * spriterow + place->firstword * 2;
+  LONG panelrow = panel->width / 8;
+  LONG paneloffset = (place->y + firstrow - panel->topy) * panelrow + ((place->x >> 4) + place->firstword) * 2;
+
+  if( mask == own && (firstrow != place->firstrow || endrow != place->endrow)) {
+    CstCopyMask( own, CstZBufferResult, place->firstrow * spriterow + place->firstword * 2, spriterow, words, place->endrow - place->firstrow);
+    mask = CstZBufferResult;
+  }
+
+  WaitBlit();
+  custom->bltafwm = 0xffff;
+  custom->bltalwm = 0xffff;
+  custom->bltcon0 = 0x9f0 + ((shift ? 16 - shift : 0) << 12);
+  custom->bltcon1 = 0;
+  custom->bltamod = panelrow - read * 2;
+  custom->bltdmod = 0;
+  custom->bltapt = (APTR) ((ULONG) panel->bitplane + paneloffset);
+  custom->bltdpt = (APTR) CstZBufferWork;
+  custom->bltsize = (rows << 6) | read;
+
+  WaitBlit();
+  custom->bltcon0 = 0xd0c;
+  custom->bltamod = (read - words) * 2;
+  custom->bltbmod = spriterow - words * 2;
+  custom->bltdmod = spriterow - words * 2;
+  custom->bltapt = (APTR) ((ULONG) CstZBufferWork + (shift ? 2 : 0));
+  custom->bltbpt = (APTR) ((ULONG) mask + spriteoffset);
+  custom->bltdpt = (APTR) ((ULONG) CstZBufferResult + spriteoffset);
+  custom->bltsize = (rows << 6) | words;
+  return CstZBufferResult;
+}
+
+/* To copy a rectangle of a sprite's mask. */
+CSTINLINE void CstCopyMask( UBYTE *from, UBYTE *to, LONG offset, LONG row, int words, int rows)
+{
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+  WaitBlit();
+  custom->bltafwm = 0xffff;
+  custom->bltalwm = 0xffff;
+  custom->bltcon0 = 0x9f0;
+  custom->bltcon1 = 0;
+  custom->bltamod = row - words * 2;
+  custom->bltdmod = row - words * 2;
+  custom->bltapt = (APTR) ((ULONG) from + offset);
+  custom->bltdpt = (APTR) ((ULONG) to + offset);
+  custom->bltsize = (rows << 6) | words;
+}
+
+#pragma GCC pop_options
 
 void CstSetCl(UWORD *copperlist)
 {
@@ -1412,6 +1272,7 @@ void CstSwapBuffer( ) {
 BOOL CstReserveBackdrop(int width, int height) {
 
   KPrintF("CstReserveBackdrop: Begin");
+  KPrintF("CHIP: %ld bytes free at the start", (long) AvailMem( MEMF_CHIP));
 
   width = width / 8;
 
@@ -1479,6 +1340,7 @@ BOOL CstReserveBackdrop(int width, int height) {
     return FALSE;
   }
 
+  KPrintF("CHIP: %ld bytes free with the screen buffers", (long) AvailMem( MEMF_CHIP));
   KPrintF("CstReserveBackdrop: Setting Copperlist");
   CstSetCl( CstCopperList);
   KPrintF("CstReserveBackdrop: Copperlist Set");

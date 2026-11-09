@@ -149,6 +149,7 @@ int main_sludge(int argc, char *argv[])
 		handleInput();
 		//custom->color[0] = 0x000;
 		//WaitVbl();
+        CstFrameStats (FrameCounter > 0);
         FrameCounter = 2;
 		while( FrameCounter < gameSettings.refreshRate)
 		{

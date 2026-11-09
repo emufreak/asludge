@@ -1096,12 +1096,14 @@ builtIn(callEvent)
 
 
 BOOL reallyWantToQuit = FALSE;
+extern int weAreDoneSoQuit;
 
 builtIn(quitGame)
 {
 	//KPrintF("running quitGame\n");
 	UNUSEDALL
 	reallyWantToQuit = TRUE;
+	weAreDoneSoQuit = 1;	// the main loop of main_sludge.c ends on this flag
 	//quit_event.type=SDL_QUIT; Todo: Amigize
 	//SDL_PushEvent(&quit_event);
 	return BR_CONTINUE;

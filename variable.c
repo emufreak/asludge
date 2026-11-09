@@ -489,12 +489,12 @@ char * getTextFromAnyVar (const struct variable *from) {
 
 		case SVT_INT:
 		{
-			char * buff = CstAllocVec(10, MEMF_ANY);
+			char * buff = CstAllocVec(12, MEMF_ANY);	// "-2147483648" and its end byte
 			if (! buff) {
 				KPrintF("getTextFromAnyVar: Cannot allocate Memory");
 				return NULL;
 			}
-			sprintf (buff, "%i", from->varData.intValue);
+			sprintf (buff, "%d", from->varData.intValue);	// the engine's own sprintf knows %d, %s and %c only
 			return buff;
 		}
 

@@ -992,7 +992,6 @@ BOOL runSludge () {
 				}
 				else {
 					thisFunction -> timeLeft--;
-					KPrintF("Counting down timeleft\n");
 					break;
 				}
 			} else {

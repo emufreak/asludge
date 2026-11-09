@@ -321,6 +321,7 @@ int main(int argc, char *argv[]) {
 	KPrintF("Starting main_sludge\n");
 
 	main_sludge(argc, argv);
+	KPrintF("main_sludge ended");   /* the game loop ends when quitGame () is called */
 
 
 

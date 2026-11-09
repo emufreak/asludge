@@ -25,6 +25,7 @@ void CstCreateZBufferLayer (BYTE *zbufferdata, UWORD x, UWORD y, UWORD width, UW
 void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata);
 void CstDrawBackdrop();
 void CstFadeIn();
+void CstFrameStats( BOOL overran);
 void CstFadeOut();
 void CstFreeBuffer();
 void CstFreeVec( APTR memptr);

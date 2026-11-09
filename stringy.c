@@ -5,7 +5,7 @@
 
 #ifndef va_start
 #define va_start(ap, last) (ap = (va_list)&last + sizeof(last))
-#define va_arg(ap, type) (*(type*)(ap += sizeof(type)) - 1)
+#define va_arg(ap, type) (*(type*)((ap += sizeof(type)) - sizeof(type)))   /* the argument at ap, then ap moves on (the old macro read the next one, less 1) */
 #define va_end(ap) (ap = (va_list)0)
 #endif
 
@@ -46,7 +46,7 @@ char * joinStrings (const char * s1, const char * s2) {
 typedef char* va_list;
 
 #define va_start(ap, last) (ap = (va_list)&last + sizeof(last))
-#define va_arg(ap, type) (*(type*)(ap += sizeof(type)) - 1)
+#define va_arg(ap, type) (*(type*)((ap += sizeof(type)) - sizeof(type)))   /* the argument at ap, then ap moves on (the old macro read the next one, less 1) */
 #define va_end(ap) (ap = (va_list)0)
 
 char* itoa(int value, char* str, int base) {
