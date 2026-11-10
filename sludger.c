@@ -1009,8 +1009,10 @@ BOOL runSludge () {
 					thisFunction -> timeLeft = 0;
 				}
 				else {
+					/* A thread that waits counts down and the others go on (as in OpenSLUDGE). A break here stopped the pass at the first
+					   waiting thread, so every older thread was held up for as long as a newer one waited: with a spawned thread that paused
+					   ten frames at a time, a pause (100) in the first thread took 1000 frames. */
 					thisFunction -> timeLeft--;
-					break;
 				}
 			} else {
 				if (thisFunction -> isSpeech) {

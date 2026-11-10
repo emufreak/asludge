@@ -169,7 +169,69 @@ static void CstLoadPaletteIntoCopper() {
   CstRefreshSplits();
 }
 
+/* The interpreter makes a small object for nearly everything it does (a stack entry for every value it pushes, strings, stacks),
+   and Exec's AllocVec and FreeVec are slow next to what a script instruction needs. Requests for ordinary memory of up to 52 bytes
+   are served from blocks of 32 and 64 bytes cut out of chunks of 16 KB, kept on free lists and never given back to Exec. A pooled
+   block starts with a marker word 0xD00D0000 | block size << 8 | requested size, which is how CstFreeVec knows it; four bytes
+   after the requested size hold an end marker that CstFreeVec checks. */
+
+/* Switched off (CST_POOL is not defined): a script instruction costs about 220 microseconds on an A1200, and the pool gained 15 to
+   30 % in a benchmark, but with it AvailMem hung after the first 100 passes (not understood). Define CST_POOL to try it again. */
+#ifdef CST_POOL
+#define CST_POOL_CHUNK 16384
+#define CST_POOL_MAGIC 0xD00D0000UL
+#define CST_POOL_SMALL 32
+#define CST_POOL_LARGE 64
+
+static UBYTE *CstPoolFreeSmall = NULL;
+static UBYTE *CstPoolFreeLarge = NULL;
+
+static BOOL CstPoolRefill( ULONG block, UBYTE **list) {
+    UBYTE *chunk = AllocVec( CST_POOL_CHUNK, MEMF_ANY);
+    if( !chunk) return FALSE;
+    for( ULONG offset = 0; offset + block <= CST_POOL_CHUNK; offset += block) {
+        UBYTE *b = chunk + offset;
+        *(ULONG *) (b + 4) = (ULONG) *list;
+        *list = b;
+    }
+    return TRUE;
+}
+
+static APTR CstPoolAlloc( ULONG bytesize) {
+    ULONG block = bytesize <= CST_POOL_SMALL - 8 ? CST_POOL_SMALL : CST_POOL_LARGE;
+    UBYTE **list = block == CST_POOL_SMALL ? &CstPoolFreeSmall : &CstPoolFreeLarge;
+    if( !*list && !CstPoolRefill( block, list)) {
+        KPrintF("CstAllocVec: Allocation of ram failed. Reboot recommended\n", 40);
+        Exit(1);
+    }
+    UBYTE *b = *list;
+    *list = (UBYTE *) *(ULONG *) (b + 4);
+    *(ULONG *) b = CST_POOL_MAGIC | (block << 8) | bytesize;
+    *(ULONG *) (b + 4 + bytesize) = 0xBEEFDEADUL;
+    return b + 4;
+}
+
+static void CstPoolFree( UBYTE *b) {
+    ULONG header = *(ULONG *) b;
+    ULONG block = (header >> 8) & 0xff;
+    ULONG bytesize = header & 0xff;
+    static UWORD reported = 0;
+    if( *(ULONG *) (b + 4 + bytesize) != 0xBEEFDEADUL && reported < 20) {
+        reported++;
+        KPrintF("CstFreeVec: pooled block of %ld bytes overflowed\n", (long) bytesize);
+    }
+    UBYTE **list = block == CST_POOL_SMALL ? &CstPoolFreeSmall : &CstPoolFreeLarge;
+    *(ULONG *) b = 0x12345678;
+    *(ULONG *) (b + 4) = (ULONG) *list;
+    *list = b;
+}
+
+#endif
+
 APTR CstAllocVec( ULONG bytesize, ULONG requirements ) {
+#ifdef CST_POOL
+    if( requirements == MEMF_ANY && bytesize <= CST_POOL_LARGE - 8) return CstPoolAlloc( bytesize);
+#endif
     UBYTE *retval = AllocVec( bytesize+8, requirements );
 
     if( retval == 0) {
@@ -198,6 +260,12 @@ void CstFreeVec( APTR memptr ) {
     }
 
     UBYTE *startmarker = memptr - 4;
+#ifdef CST_POOL
+    if( (*(ULONG *) startmarker & 0xffff0000UL) == CST_POOL_MAGIC) {
+        CstPoolFree( startmarker);
+        return;
+    }
+#endif
     UBYTE *cursor = startmarker;
     UBYTE *endmarker = startmarker;
     ULONG *lengthdump;
@@ -229,7 +297,7 @@ void CstFreeVec( APTR memptr ) {
 
 void CstBlankScreen( int x1, int y1, int x2, int y2) {
 
-  KPrintF("CstBlankScreen: started\n");
+  // (quiet) KPrintF("CstBlankScreen: started\n");
 
   if( !CstBackDrop) {
     KPrintF("CstBlankScreen: Backdrop empty nothing to do\n");
@@ -262,7 +330,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   UWORD bltsize = height*64+width/2;
   UWORD blitsize = width*height;
 
-  KPrintF("CstBlankScreen: Starting Blits\n");
+  // (quiet) KPrintF("CstBlankScreen: Starting Blits\n");
 
   for(int i2=0;i2<5;i2++)
   {
@@ -272,7 +340,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
     bltdpt += 40*256;
   }
 
-  KPrintF("CstBlankScreen: Finished Blits\n");
+  // (quiet) KPrintF("CstBlankScreen: Finished Blits\n");
 
   struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
   CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
@@ -296,7 +364,7 @@ void CstBlankScreen( int x1, int y1, int x2, int y2) {
   CstCleanupQueueViewBuffer->startxinbytes = x1/8;
   CstCleanupQueueViewBuffer->starty = y1;
 
-  KPrintF("CstBlankScreen: end\n");
+  // (quiet) KPrintF("CstBlankScreen: end\n");
 
   //custom->color[0] = 0x000;
 }
@@ -841,7 +909,7 @@ void CstInitVBlankHandler( ) {
 void CstLoadBackdrop( BPTR fp, int x, int y, int loadpalette) {
 
 
-	KPrintF("CstLoadBackDrop: Loading of Background started");
+	// (quiet) KPrintF("CstLoadBackDrop: Loading of Background started");
 
     UWORD width = get2bytes(fp);
     UWORD height = get2bytes(fp);
@@ -916,7 +984,7 @@ void CstLoadBackdrop( BPTR fp, int x, int y, int loadpalette) {
   UWORD offset = widthbytesbackdrop*y + x / 8;
   backdropcursor += offset;
 
- 	KPrintF("CstLoadBackDrop: Starting Blit");
+ 	// (quiet) KPrintF("CstLoadBackDrop: Starting Blit");
 
 
   WaitBlit();
@@ -945,7 +1013,7 @@ void CstLoadBackdrop( BPTR fp, int x, int y, int loadpalette) {
 
   WaitBlit();
 
- 	KPrintF("CstLoadBackDrop: Freeing Memory");
+ 	// (quiet) KPrintF("CstLoadBackDrop: Freeing Memory");
 
 
   CstFreeVec(tmpbuffer);
@@ -976,7 +1044,7 @@ void CstLoadBackdrop( BPTR fp, int x, int y, int loadpalette) {
   CstCleanupQueueViewBuffer->startxinbytes = 0;
   CstCleanupQueueViewBuffer->starty = 0;
 
-  KPrintF("CstLoadBackDrop: Finished");
+  // (quiet) KPrintF("CstLoadBackDrop: Finished");
 
 }
 
@@ -1440,11 +1508,16 @@ CSTINLINE int CstCharacterDepth( struct onScreenPerson *person)
 }
 
 /* A character is behind a panel unless its y is greater than the cut-off. A sprite pasted into the backdrop has no character;
-   it is behind a panel if its bottom edge is above the cut-off. Only panels as wide as the screen are supported. */
+   it is behind a panel if its bottom edge is above the cut-off, except for a front panel (cut-off CSTFRONTPANEL or more: the frame,
+   the toolbar and the text boxes of the game): pictures pasted into the backdrop are the game's own interface, drawn on that
+   panel's ground (the toolbar's buttons, a box's corners), and the panel must not hide them. Only panels as wide as the screen are
+   supported. */
+#define CSTFRONTPANEL 1000
 CSTINLINE BOOL CstBehindPanel( struct sprite *single, struct onScreenPerson *person, int depth, struct CstPlacement *place, struct zBufferData *panel)
 {
   if( panel->width != (int) winWidth || panel->topx != 0) return FALSE;
   if( person) return depth <= panel->yz;
+  if( panel->yz >= CSTFRONTPANEL) return FALSE;
   return place->y + single->height < panel->yz;
 }
 

@@ -62,7 +62,7 @@ struct screenRegion * getRegionForObject (int obj) {
 
 void killAllRegions () {
 	struct screenRegion * killRegion;
-    KPrintF("killAllRegions started\n");
+    // (quiet) KPrintF("killAllRegions started\n");
 
 	while (allScreenRegions) {
 		killRegion = allScreenRegions;
@@ -71,7 +71,7 @@ void killAllRegions () {
 		CstFreeVec(killRegion);
 	}
 	overRegion = NULL;
-    KPrintF("killAllRegions finished\n");
+    // (quiet) KPrintF("killAllRegions finished\n");
 }
 
 void loadRegions (BPTR fp) {

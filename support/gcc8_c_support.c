@@ -314,102 +314,102 @@ void debug_save(const void* addr, unsigned int size, const char* name) {
 	debug_cmd(barto_cmd_save, (unsigned int)&resource, 0, 0);
 }
 
-FLOAT __addsf3( FLOAT a, FLOAT b) {
+__attribute__((used)) FLOAT __addsf3( FLOAT a, FLOAT b) {
 	return IEEESPAdd( a, b);
 }
 
-DOUBLE __adddf3( DOUBLE a, DOUBLE b) {
+__attribute__((used)) DOUBLE __adddf3( DOUBLE a, DOUBLE b) {
 	return IEEEDPAdd( a, b);
 }
 
-DOUBLE __divdf3( DOUBLE a, DOUBLE b) {
+__attribute__((used)) DOUBLE __divdf3( DOUBLE a, DOUBLE b) {
 	return IEEEDPDiv( a, b);
 }
 
-FLOAT __divsf3( FLOAT a, FLOAT b) {
+__attribute__((used)) FLOAT __divsf3( FLOAT a, FLOAT b) {
 	return IEEESPDiv( a, b);
 }
 
-int __eqsf2( FLOAT a, FLOAT b) {
+__attribute__((used)) int __eqsf2( FLOAT a, FLOAT b) {
 	return IEEESPCmp( a, b);
 }
 
-DOUBLE __extendsfdf2 (FLOAT a) {
+__attribute__((used)) DOUBLE __extendsfdf2 (FLOAT a) {
 	return IEEEDPFieee( a );
 }
 
-LONG __fixdfsi(DOUBLE value) {
+__attribute__((used)) LONG __fixdfsi(DOUBLE value) {
 	return IEEEDPFix(value);
 }
 
-LONG __fixsfsi(FLOAT value) {
+__attribute__((used)) LONG __fixsfsi(FLOAT value) {
 	return IEEESPFix(value);
 }
 
 
-DOUBLE __floatsidf (int i) {
+__attribute__((used)) DOUBLE __floatsidf (int i) {
 	return IEEEDPFlt((LONG) i);  
 }
 
-FLOAT __floatsisf(int i) {
+__attribute__((used)) FLOAT __floatsisf(int i) {
 	return IEEESPFlt((LONG) i); 
 }
 
-FLOAT __floatunsisf(unsigned int i) {	
+__attribute__((used)) FLOAT __floatunsisf(unsigned int i) {	
 	return IEEESPFlt((LONG) i); 
 }
 
-DOUBLE __muldf3( DOUBLE leftParm, DOUBLE rightParm ) {
+__attribute__((used)) DOUBLE __muldf3( DOUBLE leftParm, DOUBLE rightParm ) {
 	return IEEEDPMul( leftParm, rightParm);
 }
 
  //FLOAT IEEESPMul( FLOAT leftParm, FLOAT rightParm );
-FLOAT __mulsf3( FLOAT leftParm, FLOAT rightParm ) {
+__attribute__((used)) FLOAT __mulsf3( FLOAT leftParm, FLOAT rightParm ) {
 	return IEEESPMul( leftParm, rightParm);
 }
 
 
-int __gesf2( FLOAT a, FLOAT b) {
+__attribute__((used)) int __gesf2( FLOAT a, FLOAT b) {
 	return IEEESPCmp( a, b);
 }
 
-int __gtdf2( DOUBLE a, DOUBLE b) {
+__attribute__((used)) int __gtdf2( DOUBLE a, DOUBLE b) {
 	return IEEEDPCmp( a, b);
 }
 
-int __gtsf2( FLOAT a, FLOAT b) {
+__attribute__((used)) int __gtsf2( FLOAT a, FLOAT b) {
 	return IEEESPCmp( a, b);
 }
 
-int __lesf2( FLOAT a, FLOAT b) {
+__attribute__((used)) int __lesf2( FLOAT a, FLOAT b) {
 	return IEEESPCmp( a, b);
 }
 
-int __ltdf2( DOUBLE a, DOUBLE b) {
+__attribute__((used)) int __ltdf2( DOUBLE a, DOUBLE b) {
 	return IEEEDPCmp( a, b);
 }
 
-int __ltsf2( FLOAT a, FLOAT b) {
+__attribute__((used)) int __ltsf2( FLOAT a, FLOAT b) {
 	return IEEESPCmp( a, b);
 }
 
-int __nesf2( FLOAT a, FLOAT b) {
+__attribute__((used)) int __nesf2( FLOAT a, FLOAT b) {
 	return IEEESPCmp( a, b);
 }
 
-DOUBLE __subdf3 (DOUBLE a, DOUBLE b) {
+__attribute__((used)) DOUBLE __subdf3 (DOUBLE a, DOUBLE b) {
 	return IEEEDPSub( a, b);
 }
 
-FLOAT __subsf3 (float a, float b) {
+__attribute__((used)) FLOAT __subsf3 (float a, float b) {
 	return IEEESPSub( a, b);
 }
 
-FLOAT __truncdfsf2(DOUBLE a) {
+__attribute__((used)) FLOAT __truncdfsf2(DOUBLE a) {
 	return IEEEDPTieee( a);
 }
 
-unsigned int __fixunssfsi (float a) {
+__attribute__((used)) unsigned int __fixunssfsi (float a) {
 	return IEEESPFix(a);
 }
 
