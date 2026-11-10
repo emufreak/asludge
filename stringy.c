@@ -3,11 +3,7 @@
 #include "custom.h"
 #include "support/gcc8_c_support.h"
 
-#ifndef va_start
-#define va_start(ap, last) (ap = (va_list)&last + sizeof(last))
-#define va_arg(ap, type) (*(type*)((ap += sizeof(type)) - sizeof(type)))   /* the argument at ap, then ap moves on (the old macro read the next one, less 1) */
-#define va_end(ap) (ap = (va_list)0)
-#endif
+#include <stdarg.h>   /* the compiler's own va_list, va_start and va_arg: the old hand-made ones took the address of the last named parameter, which breaks as soon as sprintf is inlined (-O2) */
 
 
 int strcmp(const char* s1, const char* s2)
@@ -43,11 +39,7 @@ char * joinStrings (const char * s1, const char * s2) {
 	return newString;
 }
 
-typedef char* va_list;
 
-#define va_start(ap, last) (ap = (va_list)&last + sizeof(last))
-#define va_arg(ap, type) (*(type*)((ap += sizeof(type)) - sizeof(type)))   /* the argument at ap, then ap moves on (the old macro read the next one, less 1) */
-#define va_end(ap) (ap = (va_list)0)
 
 char* itoa(int value, char* str, int base) {
     char* rc;

@@ -6,7 +6,7 @@
 #include "support/gcc8_c_support.h"
 #include "freeze.h"
 
-extern UWORD FrameCounter;
+extern volatile UWORD FrameCounter;
 
 extern struct zBufferData *zBuffer;  // In zbuffer.cpp
 extern struct onScreenPerson * allPeople;

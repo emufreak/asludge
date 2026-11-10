@@ -17,7 +17,7 @@
 #include "main_sludge.h"
 //#define EMULATOR
 
-UWORD FrameCounter = 0;
+volatile UWORD FrameCounter = 0;   // counted by the vertical-blank interrupt server (interruptHandler) and waited on in main_sludge: must be volatile, or -O1 turns the wait into an endless loop
 //config
 
 struct ExecBase *SysBase;

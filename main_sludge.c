@@ -29,7 +29,7 @@ extern struct settingsStruct gameSettings;
 extern FLOAT cameraZoom;
 extern int specialSettings;
 extern struct variableStack ** noStack;
-extern UWORD FrameCounter;
+extern volatile UWORD FrameCounter;
 
 int dialogValue = 0;
 

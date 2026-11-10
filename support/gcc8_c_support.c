@@ -109,14 +109,15 @@ void* memmove(void *dest, const void *src, unsigned long len) {
 	return dest;
 }
 
-// vbcc
-typedef unsigned char *va_list;
-#define va_start(ap, lastarg) ((ap)=(va_list)(&lastarg+1)) 
+// The compiler's own va_list and va_start. The old vbcc-style one (ap = &lastarg + 1) only works while the last named
+// parameter really lives on the stack where the caller put it, and that holds only for a function that is not inlined or
+// register-allocated. KPrintF used to be pinned to noinline and O1; it needs neither now. Same change in stringy.c (sprintf).
+#include <stdarg.h>
 
 void KPutCharX();
 void PutChar();
 
-__attribute__((noinline)) __attribute__((optimize("O1")))
+__attribute__((noinline))
 void KPrintF(const char* fmt, ...) {
 	va_list vl;
 	va_start(vl, fmt);
@@ -130,7 +131,7 @@ void KPrintF(const char* fmt, ...) {
 	}
 }
 
-int main();
+int main(int argc, char *argv[]);
 
 extern void (*__preinit_array_start[])() __attribute__((weak));
 extern void (*__preinit_array_end[])() __attribute__((weak));
@@ -152,7 +153,11 @@ __attribute__((used)) __attribute__((section(".text.unlikely"))) void _start() {
 	for (i = 0; i < count; i++)
 		__init_array_start[i]();
 
-	main();
+	// main reads argc and argv. They used to be left out, so main took whatever stood on the stack above _start's return
+	// address: at -O0 that was _start's own locals (count and i, both 0, hence "argc == 0": the game is found in game/), at -O1
+	// it is what AmigaDOS left there, and main_sludge went on to Open () a wild pointer. argc == 0 is the behaviour the engine
+	// was written and tested with.
+	main(0, 0);
 
 	// call dtors
 	count = __fini_array_end - __fini_array_start;

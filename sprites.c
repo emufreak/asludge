@@ -30,24 +30,29 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 	CstFreeVec(spritebanktoforget->sprites);
 
 
-	struct loadedSpriteBank *precedingbank = allLoadedBanks;
-
-	while(precedingbank != NULL && precedingbank->next->ID != forgetme->ID)
+	// Take the bank out of the chain (newest bank first, so the one to forget is often the head). The old loop started at the head
+	// and read precedingbank->next->ID, which for the head, or for any bank, ran off the end of the chain and read address 0:
+	// harmless on the Amiga at -O0 and -O1, but at -O2 the compiler concludes from that dereference that ->next is never NULL,
+	// drops the NULL test and the loop never ends (the engine hung at the second font change).
+	if (allLoadedBanks == forgetme)
 	{
-		precedingbank = precedingbank->next;
+		allLoadedBanks = forgetme->next;
 	}
+	else
+	{
+		struct loadedSpriteBank *precedingbank = allLoadedBanks;
 
-	if(precedingbank)
-	{
-		//Forget element in the middle of the chain or the last one
-		precedingbank->next = forgetme->next;
-		CstFreeVec( forgetme);
-	} else
-	{
-		//Forget first element in the chain
-		allLoadedBanks = allLoadedBanks->next;
-		CstFreeVec( forgetme);
+		while (precedingbank != NULL && precedingbank->next != forgetme)
+		{
+			precedingbank = precedingbank->next;
+		}
+
+		if (precedingbank)
+		{
+			precedingbank->next = forgetme->next;
+		}
 	}
+	CstFreeVec( forgetme);
 }
 
 BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
@@ -96,7 +101,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 		loadhere->sprites[i].yhot = get2bytes(bigDataFile);
 		loadhere->sprites[i].steps = NULL;
 
-		UWORD size;
+		UWORD size = 0;	// a bank type the switch below does not know reads nothing and fails, instead of an undefined size
 
 		switch( loadhere->type)
 		{
