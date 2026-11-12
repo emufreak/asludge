@@ -2,9 +2,11 @@
 #include <proto/dos.h>
 
 #include "fileset.h"
+#include "gamefile.h"
 #include "moreio.h"
 #include "support/gcc8_c_support.h"
 #include "version.h"
+#include "profile.h"
 
 BPTR bigDataFile = NULL;
 
@@ -20,8 +22,14 @@ char * convertString(char * s) {
 }
 
 void finishAccess () {
+#ifdef PROFILE
+	if (sliceBusy) PROF_LEAVE();
+#endif
 	sliceBusy = FALSE;
 }
+
+// The game file is read through gamefile.c (a block cache and one Read for big pieces): Seek, FGetC and FRead on it cost 3 ms a
+// packet and 28 microseconds a byte on an A1200. Every offset below is absolute.
 
 char * getNumberedString (int value) {
 
@@ -30,65 +38,56 @@ char * getNumberedString (int value) {
 		return NULL;
 	}
 
-	Seek(bigDataFile, (value << 2) + startOfTextIndex, OFFSET_BEGINNING);
-	value = get4bytes (bigDataFile);
-	Seek (bigDataFile, value, OFFSET_BEGINING);
+	PROF_ENTER (PFC_STRING);
+	GfSeek ((value << 2) + startOfTextIndex);
+	value = GfGet4 ();
+	GfSeek (value);
 
 	char * s = readString (bigDataFile);
+	PROF_LEAVE ();
 
 	return s;
 }
 
 unsigned int openFileFromNum (int num) {
-//	FILE * dbug = fopen ("debuggy.txt", "at");
 
 	if (sliceBusy) {
 		KPrintF("Can't read from data file", "I'm already reading something");
 		return 0;
 	}
 
-	Seek( bigDataFile,  startOfDataIndex + (num << 2), OFFSET_BEGINING);
-	Seek( bigDataFile, get4bytes (bigDataFile), OFFSET_CURRENT);
-//	fprintf (dbug, "Jumping to %li (for data) \n", ftell (bigDataFile));
+	PROF_ENTER (PFC_DATA);
+	GfSeek (startOfDataIndex + (num << 2));
+	ULONG relative = GfGet4 ();
+	GfSeek (GfTell () + relative);		// (relative to the end of the index entry)
 	sliceBusy = TRUE;
-//	fclose (dbug);
 
-	return get4bytes (bigDataFile);
+	return GfGet4 ();
 }
 
 BOOL openObjectSlice (int num) {
-    // BPTR dbug = FOpen("debuggy.txt", MODE_NEWFILE);
-
-    // FPrintf(dbug, "\nTrying to open object %i\n", num);
 
     if (sliceBusy) {
         KPrintF("Can't read from data file", "I'm already reading something");
         return FALSE;
     }
 
-    // FPrintf(dbug, "Going to position %ld\n", startOfObjectIndex + (num << 2));
-    Seek(bigDataFile, startOfObjectIndex + (num << 2), OFFSET_BEGINNING);
-    Seek(bigDataFile, get4bytes(bigDataFile), OFFSET_BEGINNING);
-    // FPrintf(dbug, "Told to skip forward to %ld\n", FTell(bigDataFile));
-    // FClose(dbug);
+    PROF_ENTER (PFC_OBJTYPE);
+    GfSeek (startOfObjectIndex + (num << 2));
+    GfSeek (GfGet4 ());
     return sliceBusy = TRUE;
 }
 
 BOOL openSubSlice (int num) {
-//	FILE * dbug = fopen ("debuggy.txt", "at");
-
-//	fprintf (dbug, "\nTrying to open sub %i\n", num);
 
 	if (sliceBusy) {
 		KPrintF("Can't read from data file", "I'm already reading something");
 		return FALSE;
 	}
 
-//	fprintf (dbug, "Going to position %li\n", startOfSubIndex + (num << 2));
-	Seek(bigDataFile, startOfSubIndex + (num << 2), OFFSET_BEGINNING);
-	Seek(bigDataFile, get4bytes (bigDataFile), OFFSET_BEGINNING);
-//	fprintf (dbug, "Told to skip forward to %li\n", ftell (bigDataFile));
-//	fclose (dbug);
+	PROF_ENTER (PFC_FUNCLOAD);
+	GfSeek (startOfSubIndex + (num << 2));
+	GfSeek (GfGet4 ());
 	return sliceBusy = TRUE;
 }
 
@@ -96,11 +95,12 @@ void setFileIndices (BPTR fp, unsigned int numLanguages, unsigned int skipBefore
 	if (fp) {
 		// Keep hold of the file handle, and let things get at it
 		bigDataFile = fp;
-		startIndex = Seek( fp, 0, OFFSET_CURRENT);
+		startIndex = Seek( fp, 0, OFFSET_CURRENT);		// (dos knows how far the header reads got: it takes its read-ahead into account)
+		GfInit (fp);
+		GfSeek (startIndex);
 	} else {
 		// No file pointer - this means that we reuse the bigDataFile
-		fp = bigDataFile;
-        Seek(fp, startIndex, OFFSET_BEGINNING);
+		GfSeek (startIndex);
 	}
 	sliceBusy = FALSE;
 
@@ -112,24 +112,26 @@ void setFileIndices (BPTR fp, unsigned int numLanguages, unsigned int skipBefore
 	// STRINGS
 	int skipAfter = numLanguages - skipBefore;
 	while (skipBefore) {
-        Seek(fp, get4bytes(fp),OFFSET_BEGINING);
+		GfSeek (GfGet4 ());
 		skipBefore --;
 	}
-	startOfTextIndex = Seek( fp, 0, OFFSET_CURRENT) + 4;
+	startOfTextIndex = GfTell () + 4;
 
-	Seek(fp, get4bytes (fp), OFFSET_BEGINNING);
+	GfSeek (GfGet4 ());
 
 	while (skipAfter) {
-        Seek( fp, get4bytes (fp), OFFSET_BEGINING);
+		GfSeek (GfGet4 ());
 		skipAfter --;
 	}
 
-	startOfSubIndex = Seek( fp, 0, OFFSET_CURRENT) + 4;
-    Seek( fp, get4bytes (fp), OFFSET_CURRENT);
+	startOfSubIndex = GfTell () + 4;
+	ULONG length = GfGet4 ();
+	GfSeek (GfTell () + length);
 
-	startOfObjectIndex = Seek( fp, 0, OFFSET_CURRENT) + 4;
-	Seek (fp, get4bytes (fp), OFFSET_CURRENT);
+	startOfObjectIndex = GfTell () + 4;
+	length = GfGet4 ();
+	GfSeek (GfTell () + length);
 
 	// Remember that the data section starts here
-	startOfDataIndex =  Seek( fp, 0, OFFSET_CURRENT);
+	startOfDataIndex = GfTell ();
 }

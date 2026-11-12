@@ -5,6 +5,8 @@
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 #include "moreio.h"
+#include "fileset.h"
+#include "gamefile.h"
 
 BOOL allowAnyFilename = TRUE;
 
@@ -105,9 +107,17 @@ FLOAT FLOATSwap( FLOAT f )
 	return dat2.f;
 }
 
+/* To read count bytes of fp into destination: from the game file through gamefile.c (one Read for a big piece), from any other file
+   with FRead. Returns the bytes read. */
+ULONG readBytes (BPTR fp, void * destination, ULONG count) {
+	if (fp == bigDataFile) return GfRead (destination, count);
+	return count ? FRead (fp, destination, 1, count) : 0;
+}
+
 int get2bytes (BPTR fp) {
 	int f1, f2;
 
+	if (fp == bigDataFile) return GfGet2 ();
 	f1 = FGetC (fp);
 	f2 = FGetC (fp);
 
@@ -117,6 +127,7 @@ int get2bytes (BPTR fp) {
 ULONG get4bytes (BPTR fp) {
 	int f1, f2, f3, f4;
 
+	if (fp == bigDataFile) return GfGet4 ();
 	f1 = FGetC (fp);
 	f2 = FGetC (fp);
 	f3 = FGetC (fp);
@@ -129,7 +140,7 @@ ULONG get4bytes (BPTR fp) {
 
 FLOAT getFloat (BPTR fp) {
 	FLOAT f;
-	LONG blocks_read = FRead( fp, &f, sizeof (FLOAT), 1 );
+	LONG blocks_read = readBytes (fp, &f, sizeof (FLOAT)) == sizeof (FLOAT) ? 1 : 0;
 	if (blocks_read != 1) {
 		KPrintF("Reading error in getFloat.\n");
 	}
@@ -139,7 +150,7 @@ FLOAT getFloat (BPTR fp) {
 
 short getSigned (BPTR fp) {
 	short f;
-	LONG bytes_read = FRead(fp, &f, sizeof(short), 1);
+	LONG bytes_read = readBytes (fp, &f, sizeof (short)) == sizeof (short) ? 1 : 0;
 	if (bytes_read != 1) {
 		KPrintF("getSigned: Reading error in getSigned.\n");
 	}
@@ -185,7 +196,10 @@ char * readString (BPTR fp) {
 	//debugOut ("MOREIO: readString - len %i\n", len);
 	char * s = CstAllocVec(len+1,MEMF_ANY);
 	if(s == 0) return NULL;
-	for (a = 0; a < len; a ++) {
+	if (fp == bigDataFile) {
+		GfRead (s, len);
+		for (a = 0; a < len; a ++) s[a] = (char) (s[a] - 1);
+	} else for (a = 0; a < len; a ++) {
 		s[a] = (char) (FGetC (fp) - 1);
 	}
 	s[len] = 0;

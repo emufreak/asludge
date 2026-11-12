@@ -4,6 +4,7 @@
 #include "custom.h"
 #include "objtypes.h"
 #include "fileset.h"
+#include "gamefile.h"
 #include "moreio.h"
 #include "support/gcc8_c_support.h"
 
@@ -53,15 +54,15 @@ struct objectType * loadObjectType (int i) {
     if (newType) {
         if (openObjectSlice(i)) {
             nameNum = get2bytes(bigDataFile);
-            newType->r = (BYTE) FGetC(bigDataFile);
-            newType->g = (BYTE) FGetC(bigDataFile);
-            newType->b = (BYTE) FGetC(bigDataFile);
-            newType->speechGap = FGetC(bigDataFile);
-            newType->walkSpeed = FGetC(bigDataFile);
+            newType->r = (BYTE) GfGetC();
+            newType->g = (BYTE) GfGetC();
+            newType->b = (BYTE) GfGetC();
+            newType->speechGap = GfGetC();
+            newType->walkSpeed = GfGetC();
             newType->wrapSpeech = get4bytes(bigDataFile);
             newType->spinSpeed = get2bytes(bigDataFile);
 
-            FGetC(bigDataFile);
+            GfGetC();
             getFloat(bigDataFile);
             getFloat(bigDataFile);
 
@@ -96,8 +97,8 @@ void removeObjectType (struct objectType * oT) {
 //			fclose (debuggy2);
 
 			* huntRegion = oT -> next;
-			CstFreeVec(oT -> allCombis);
-			CstFreeVec(oT -> screenName);
+			if (oT -> allCombis) CstFreeVec(oT -> allCombis);		// (NULL for an object with no combinations: every region removed logged a line, which costs frames)
+			if (oT -> screenName) CstFreeVec(oT -> screenName);
 			CstFreeVec(oT);
 			return;
 		} else {

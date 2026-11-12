@@ -2,6 +2,7 @@
 #include "backdrop.h"
 #include "custom.h"
 #include "fileset.h"
+#include "gamefile.h"
 #include "graphics.h"
 #include "moreio.h"
 #include "stringy.h"
@@ -75,13 +76,13 @@ BOOL setZBuffer (unsigned int y) {
 
 	if (! openFileFromNum (y)) return FALSE;
 
-	if (FGetC (bigDataFile) != 'a' || FGetC (bigDataFile) != 's' || FGetC (bigDataFile) != 'z' || FGetC (bigDataFile) != 'b')
+	if (GfGetC () != 'a' || GfGetC () != 's' || GfGetC () != 'z' || GfGetC () != 'b')
 	{
 		 KPrintF("Not a Z-buffer file");
 		 return FALSE;
 	}
 
-	UWORD numelements = FGetC(bigDataFile);
+	UWORD numelements = GfGetC();
 
 	UWORD size;
 	UWORD count;
@@ -103,7 +104,7 @@ BOOL setZBuffer (unsigned int y) {
 
 		UWORD size = currentitem->width * currentitem->height / 8;
 		currentitem->bitplane = CstAllocVec( size, MEMF_CHIP);
-		count = FRead( bigDataFile, currentitem->bitplane, 1, size);
+		count = GfRead( currentitem->bitplane, size);
 
 		if(numelements > 0) {
 			currentitem->nextPanel = CstAllocVec(sizeof(struct zBufferData), MEMF_ANY);

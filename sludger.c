@@ -8,6 +8,7 @@
 #include "builtin.h"
 #include "errors.h"
 #include "fileset.h"
+#include "gamefile.h"
 #include "graphics.h"
 #include "loadsave.h"
 #include "language.h"
@@ -20,8 +21,17 @@
 #include "talk.h"
 #include "variable.h"
 #include "version.h"
+#include "profile.h"
 
-#define CACHEFUNCTIONMAX 10
+/* How many functions the script has run are kept for the next call (a list searched one by one). It was 10; the core calls a hundred
+   different functions for one click, so most calls read the function again from the game file. 64 is where Road stops gaining: the
+   hover, a take and a box are as quick as with 128 or 256, which cost 50 and 190 KB of chip RAM more (wiki/queries/a3e-speed-2.md). */
+#ifndef CACHEFUNCTIONMAX
+#define CACHEFUNCTIONMAX 64
+#endif
+#ifdef PROFILE
+ULONG fnHits = 0, fnMisses = 0, fnEvictions = 0, fnCapacity = CACHEFUNCTIONMAX;
+#endif
 
 extern int varfadeIn;
 extern int varfadeOut;
@@ -120,6 +130,8 @@ BOOL continueFunction (struct loadedFunction * fun) {
 		advanceNow = TRUE;
 		param = fun -> compiledLines[fun -> runThisLine].param;
 		com = fun -> compiledLines[fun -> runThisLine].theCommand;
+		PROF_FUNCTION (fun -> originalNumber);
+		PROF_OP (com);
 		//KPrintF("Processing Type %ld",com);
 
 //		fprintf (stderr, "com: %d param: %d (%s)\n", com, param,
@@ -623,13 +635,13 @@ BOOL initSludge (char * filename) {
 	if (! fp) return FALSE;
 	if (FGetC (fp)) {
 		numBIFNames = get2bytes (fp);
-		allBIFNames = CstAllocVec(numBIFNames,MEMF_ANY);
+		allBIFNames = CstAllocVec(sizeof (char *) * numBIFNames,MEMF_ANY);		// (this was numBIFNames bytes for numBIFNames pointers: the loop below wrote past the block)
 		if(allBIFNames == 0) return FALSE;
 		for (int fn = 0; fn < numBIFNames; fn ++) {
 			allBIFNames[fn] = (char *) readString (fp);
 		}
 		numUserFunc = get2bytes (fp);
-		allUserFunc = CstAllocVec(numUserFunc,MEMF_ANY);
+		allUserFunc = CstAllocVec(sizeof (char *) * numUserFunc,MEMF_ANY);		// (the same: numUserFunc bytes for numUserFunc pointers)
 		if( allUserFunc == 0) return FALSE;
 
 		for (int fn = 0; fn < numUserFunc; fn ++) {
@@ -784,6 +796,10 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 		current = current->next;
 	}
 
+#ifdef PROFILE
+	ProfCall (originalNumber, newFunc == NULL);
+	if (newFunc) fnHits ++; else fnMisses ++;
+#endif
 	if( !newFunc)
 	{
 		//KPrintF("loadFunctionCode: Function not in cache. Loading new function\n");
@@ -801,10 +817,10 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 		if (! openSubSlice (originalNumber)) return FALSE;
 
 
-		newFunc-> unfreezable	= FGetC (bigDataFile);
-		numLines				= get2bytes (bigDataFile);
-		newFunc -> numArgs		= get2bytes (bigDataFile);
-		newFunc -> numLocals	= get2bytes (bigDataFile);
+		newFunc-> unfreezable	= GfGetC ();
+		numLines				= GfGet2 ();
+		newFunc -> numArgs		= GfGet2 ();
+		newFunc -> numLocals	= GfGet2 ();
 
 		newFunc -> compiledLines = CstAllocVec( sizeof(struct lineOfCode) * numLines,MEMF_ANY);
 		if (! newFunc -> compiledLines) {
@@ -813,8 +829,8 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 		}
 
 		for (numLinesRead = 0; numLinesRead < numLines; numLinesRead ++) {
-			newFunc -> compiledLines[numLinesRead].theCommand = (enum sludgeCommand) FGetC(bigDataFile);
-			newFunc -> compiledLines[numLinesRead].param = get2bytes (bigDataFile);
+			newFunc -> compiledLines[numLinesRead].theCommand = (enum sludgeCommand) GfGetC();
+			newFunc -> compiledLines[numLinesRead].param = GfGet2 ();
 		}
 		finishAccess ();
 
@@ -897,6 +913,9 @@ struct loadedFunction *loadFunctionCode (unsigned int originalNumber) {
 		if( huntanddestroy)
 		{
 			numCachedFunctions--;
+#ifdef PROFILE
+			fnEvictions ++;
+#endif
 			CstFreeVec(huntanddestroy->theFunction->compiledLines);
 			CstFreeVec(huntanddestroy->theFunction);
 			CstFreeVec(huntanddestroy);

@@ -7,6 +7,7 @@
 #include "sprbanks.h"
 #include "sprites.h"
 #include "fileset.h"
+#include "gamefile.h"
 #include "moreio.h"
 #include "support/gcc8_c_support.h"
 
@@ -70,7 +71,7 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 	}
 
 	get2bytes(bigDataFile); // Ignore first 2 bytes
-	loadhere->type = FGetC(bigDataFile);
+	loadhere->type = GfGetC();
 	total = get2bytes(bigDataFile);
 
 	if (total <= 0) {
@@ -121,8 +122,8 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 				break;
 		}
 
-		loadhere->sprites[i].data = CstAllocVec(sizeof(UWORD) * size, MEMF_CHIP);
-		UWORD count = FRead(bigDataFile, loadhere->sprites[i].data, 2, size / 2);
+		loadhere->sprites[i].data = CstAllocVec(size, MEMF_CHIP);		// (the size was doubled before: sizeof (UWORD) * size, with size in bytes)
+		UWORD count = GfRead(loadhere->sprites[i].data, size & ~1) / 2;
 		if (!count) {
 			KPrintF("loadSpriteBank: Cannot read sprite Data from File\n");
 			return FALSE;

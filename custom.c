@@ -23,8 +23,10 @@
 
 #include "custom.h"
 #include "moreio.h"
+#include "gamefile.h"
 #include "support/gcc8_c_support.h"
 #include "zbuffer.h"
+#include "profile.h"
 
 void CstRefreshSplits();
 static UWORD CstClampChannel( int level);
@@ -229,6 +231,9 @@ static void CstPoolFree( UBYTE *b) {
 #endif
 
 APTR CstAllocVec( ULONG bytesize, ULONG requirements ) {
+#ifdef PROFILE
+    profAllocs++;
+#endif
 #ifdef CST_POOL
     if( requirements == MEMF_ANY && bytesize <= CST_POOL_LARGE - 8) return CstPoolAlloc( bytesize);
 #endif
@@ -259,6 +264,9 @@ void CstFreeVec( APTR memptr ) {
         return;
     }
 
+#ifdef PROFILE
+    profFrees++;
+#endif
     UBYTE *startmarker = memptr - 4;
 #ifdef CST_POOL
     if( (*(ULONG *) startmarker & 0xffff0000UL) == CST_POOL_MAGIC) {
@@ -272,6 +280,7 @@ void CstFreeVec( APTR memptr ) {
     ULONG length = 0;
     if( *startmarker != 0xde || *(startmarker+1) != 0xad || *(startmarker+2) != 0xbe || *(startmarker+3) != 0xef) {
         KPrintF("CstFreeVec: Memory corruption detected\n");
+        return;                         /* (not a block of ours, or one that was freed already: Exec must not see it, it would damage its free list) */
     } else {
         *cursor++ = 0x12;
         *cursor++ = 0x34;
@@ -964,12 +973,12 @@ void CstLoadBackdrop( BPTR fp, int x, int y, int loadpalette) {
   debug_register_bitmap(tmpbuffer, "tmpmask.bpl", width, height, 1, 0);
 #endif
 
-  UWORD count = FRead( fp, tmpbuffer, 2, size/2);
+  UWORD count = readBytes( fp, tmpbuffer, size & ~1) / 2;
   if(!count) {
     KPrintF("Error while reading stream");
     return;
   }
-  count = FRead( fp, tmpmask, 2, sizeplane/2);
+  count = readBytes( fp, tmpmask, sizeplane & ~1) / 2;
 
 
   if(!count) {

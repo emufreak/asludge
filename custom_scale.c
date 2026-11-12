@@ -89,31 +89,54 @@ static void CstMapAxis( short *map, int count, int from, int hotspot, int size, 
 }
 
 /* To fill a copy: its pixel in a column and a row is the original's pixel in the column and the row that the maps say, all six
-   planes (the sixth is the mask). The copy starts out empty (transparent), so only pixels with ink are copied. */
+   planes (the sixth is the mask). The copy starts out empty (transparent), so only pixels with ink are copied.
+   This runs for every pixel of every copy of every sprite of a scaled character (Road: Pen, 69 sprites at three sizes), and it
+   took 3.6 s of the room entry, most of it in the 32-bit multiplications of the plane offsets, which are library calls on a 68000
+   (wiki/queries/a3e-speed-2.md). Now the offsets are worked out once for the copy, a column's source byte and bit once for the
+   copy, and a pixel costs a mask test and, for a pixel with ink, six pointer moves. The result is the same bit for bit. */
+static short CstSourceByte[CSTMAXCOPYSIDE];
+static UBYTE CstSourceBit[CSTMAXCOPYSIDE];         /* 0: the column has no source, so the mask test fails */
+
 static void CstFillCopy( struct sprite *copy, struct sprite *original, int step, int fromx, int fromy) {
   int destrow = copy->width >> 3, sourcerow = original->width >> 3;
   ULONG destplane = destrow * copy->height, sourceplane = sourcerow * original->height;
   UBYTE *dest = (UBYTE *) copy->data;
   UBYTE *source = (UBYTE *) original->data;
   UBYTE *sourcemask = source + 5 * sourceplane;
+  ULONG dest1 = destplane, dest2 = 2 * destplane, dest3 = 3 * destplane, dest4 = 4 * destplane, destmask = 5 * destplane;
+  ULONG source1 = sourceplane, source2 = 2 * sourceplane, source3 = 3 * sourceplane, source4 = 4 * sourceplane;
 
   CstMapAxis( CstColumnMap, copy->width, fromx, original->xhot, original->width, step);
   CstMapAxis( CstRowMap, copy->height, fromy, original->yhot, original->height, step);
+  for(int column=0; column<copy->width; column++) {
+    int sx = CstColumnMap[column];
+    if( sx < 0) {
+      CstSourceByte[column] = 0;
+      CstSourceBit[column] = 0;
+    } else {
+      CstSourceByte[column] = sx >> 3;
+      CstSourceBit[column] = 0x80 >> (sx & 7);
+    }
+  }
   for(int row=0; row<copy->height; row++) {
     int sy = CstRowMap[row];
     if( sy < 0) continue;
+    UBYTE *sourcemaskrow = sourcemask + sy * sourcerow;
+    UBYTE *sourcerowstart = source + sy * sourcerow;
+    UBYTE *destrowstart = dest + row * destrow;
     for(int column=0; column<copy->width; column++) {
-      int sx = CstColumnMap[column];
-      if( sx < 0) continue;
-      int sourcebyte = sy * sourcerow + (sx >> 3);
-      UBYTE sourcebit = 0x80 >> (sx & 7);
-      if( !(sourcemask[sourcebyte - 0] & sourcebit)) continue;
-      int destbyte = row * destrow + (column >> 3);
+      UBYTE sourcebit = CstSourceBit[column];
+      int sourcebyte = CstSourceByte[column];
+      if( !(sourcemaskrow[sourcebyte] & sourcebit)) continue;
       UBYTE destbit = 0x80 >> (column & 7);
-      dest[5 * destplane + destbyte] |= destbit;
-      for(int plane=0; plane<5; plane++) {      //ToDo other numbers of Bitplanes
-        if( source[plane * sourceplane + sourcebyte] & sourcebit) dest[plane * destplane + destbyte] |= destbit;
-      }
+      UBYTE *d = destrowstart + (column >> 3);
+      UBYTE *p = sourcerowstart + sourcebyte;
+      d[destmask] |= destbit;
+      if( p[0] & sourcebit) d[0] |= destbit;
+      if( p[source1] & sourcebit) d[dest1] |= destbit;
+      if( p[source2] & sourcebit) d[dest2] |= destbit;
+      if( p[source3] & sourcebit) d[dest3] |= destbit;
+      if( p[source4] & sourcebit) d[dest4] |= destbit;
     }
   }
 }

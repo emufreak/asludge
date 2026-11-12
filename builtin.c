@@ -24,6 +24,7 @@
 #include "utils.h"
 #include "variable.h"
 #include "zbuffer.h"
+#include "profile.h"
 
 extern BOOL allowAnyFilename;
 extern unsigned char brightnessLevel;
@@ -416,6 +417,13 @@ builtIn(printConsole)
     UNUSEDALL
     char *newText = getTextFromAnyVar(&(fun->stack->thisVar));
     trimStack(&fun->stack);
+#ifdef PROFILE
+    if (newText[0] == 'P' && newText[1] == 'R' && newText[2] == 'O' && newText[3] == 'F' && newText[4] == ':') {
+        ProfCommand(newText + 5);
+        CstFreeVec(newText);
+        return BR_CONTINUE;
+    }
+#endif
     KPrintF("%s\n", newText);
     CstFreeVec(newText);
     return BR_CONTINUE;
@@ -3098,7 +3106,14 @@ enum builtReturn callBuiltIn (int whichFunc, int numParams, struct loadedFunctio
 		if (builtInFunctionArray[whichFunc].func)
 		{
 			//fprintf (stderr, "Calling %i: %s\n", whichFunc, builtInFunctionNames[whichFunc]);			return builtInFunctionArray[whichFunc].func (numParams, fun);
+#ifdef PROFILE
+			ULONG profStart = ProfBuiltinBegin ();
+			enum builtReturn profResult = builtInFunctionArray[whichFunc].func (numParams, fun);
+			ProfBuiltinEnd (whichFunc, profStart);
+			return profResult;
+#else
 			return builtInFunctionArray[whichFunc].func (numParams, fun);
+#endif
 		}
 	}
 

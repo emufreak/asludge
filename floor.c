@@ -1,6 +1,7 @@
 #include "custom.h"
 #include "floor.h"
 #include "fileset.h"
+#include "gamefile.h"
 #include "moreio.h"
 #include "support/gcc8_c_support.h"
 #include "line.h"
@@ -162,7 +163,7 @@ BOOL setFloor (int fileNum) {
 	// Find out how many polygons there are and reserve memory
 
 	currentFloor -> originalNum = fileNum;
-	currentFloor -> numPolygons = FGetC (bigDataFile);
+	currentFloor -> numPolygons = GfGetC ();
 	currentFloor -> polygon = CstAllocVec(  sizeof( struct floorPolygon) * currentFloor -> numPolygons, MEMF_ANY);
 	if (!(currentFloor -> polygon)) {
 		KPrintF("setFloor: Cannot allocate memory");
@@ -175,7 +176,7 @@ BOOL setFloor (int fileNum) {
 
 		// Find out how many vertex IDs there are and reserve memory
 
-		currentFloor -> polygon[i].numVertices = FGetC (bigDataFile);
+		currentFloor -> polygon[i].numVertices = GfGetC ();
 		currentFloor -> polygon[i].vertexID = CstAllocVec(sizeof (int) * currentFloor -> polygon[i].numVertices, MEMF_ANY);
 		if (!(currentFloor -> polygon[i].vertexID)) {
 			KPrintF("setFloor: Cannot allocate memory");

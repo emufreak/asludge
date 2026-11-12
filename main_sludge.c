@@ -20,6 +20,10 @@
 #include "sludger.h"
 #include "talk.h"
 #include "variable.h"
+#include "profile.h"
+#ifdef PROFILE
+extern int numUserFunc;
+#endif
 
 #define PATHSLASH '/'
 #define MAX_PATH        1024          // maximum size of a path name
@@ -40,6 +44,10 @@ int weAreDoneSoQuit;
 
 int main_sludge(int argc, char *argv[])
 {
+#ifdef PROFILE
+	KPrintF("PROF: code starts at %lx\n", (long) &main_sludge);
+	ProfStackFill ();
+#endif
 
 	/* Dimensions of our window. */
 	//AMIGA TODO: Maybe remove as there will be no windowed mode
@@ -133,6 +141,9 @@ int main_sludge(int argc, char *argv[])
 	//initSoundStuff (hMainWindow); Todo Amiga: Maybe move soundstuff here
 	KPrintF("Start new function num\n");
 	startNewFunctionNum (0, 0, NULL, noStack, TRUE);
+#ifdef PROFILE
+	ProfInit (numUserFunc);
+#endif
 
 	CsiOpenKeyboard ();
 	KPrintF("Starting main loop");
@@ -144,7 +155,9 @@ int main_sludge(int argc, char *argv[])
 
 	while ( !weAreDoneSoQuit ) {
 		//custom->color[0] = 0xf00;
+		PROF_ENTER (PFC_DISPLAY);
 		sludgeDisplay ();
+		PROF_LEAVE ();
 		CsiCheckInput();
 		walkAllPeople();
 		handleInput();
@@ -152,6 +165,7 @@ int main_sludge(int argc, char *argv[])
 		//WaitVbl();
         CstFrameStats (FrameCounter > 0);
         FrameCounter = 2;
+		PROF_ENTER (PFC_WAIT);
 		while( FrameCounter < gameSettings.refreshRate)
 		{
 		}
@@ -177,6 +191,7 @@ int main_sludge(int argc, char *argv[])
 			vpos&=0x1ff00;
 		}
 
+		PROF_LEAVE ();
 		FrameCounter = 0;
 	}
 	//Amiga Cleanup

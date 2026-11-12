@@ -9,5 +9,6 @@ void put4bytes (ULONG i, BPTR fp);
 void putFloat (FLOAT f, BPTR fp);
 void putSigned (short f, BPTR fp);
 char * readString (BPTR fp);
+ULONG readBytes (BPTR fp, void * destination, ULONG count);
 short shortSwap( short s );
 void writeString (char * s, BPTR fp);
