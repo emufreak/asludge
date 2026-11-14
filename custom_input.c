@@ -75,31 +75,25 @@ void CsiCheckInput() {
         countery_old = countery_new;
     }
 
-    input.leftRelease = FALSE;
-    input.rightRelease = FALSE;
+    /* A click is the moment a button goes down, as in OpenSLUDGE (the window system gives one event per press): leftClick and
+       rightClick are TRUE for the one pass in which the button went down, and leftRelease and rightRelease for the one pass
+       in which it came up. They used to stay TRUE for as long as the button was held, so handleInput started onLeftMouse /
+       onRightMouse again in every pass: a right click that was held for a second turned the verb round fifty times, and a left
+       click that was held a moment too long clicked the next text box away, or started the next action. */
+    static BOOL leftHeld = FALSE, rightHeld = FALSE;
+    BOOL leftDown = !((*(volatile UBYTE*)0xbfe001)&64);
+    BOOL rightDown = !((*(volatile UWORD*)0xdff016)&(1<<10));
 
-    if(input.leftClick && ((*(volatile UBYTE*)0xbfe001)&64))
-    {
-        input.leftClick = FALSE;
-        input.leftRelease = TRUE;
-    }
-
-    if(input.rightClick && ((*(volatile UWORD*)0xdff016)&(1<<10)))
-    {
-        input.rightClick = FALSE;
-        input.rightRelease = TRUE;
-    }
+    input.leftClick = leftDown && !leftHeld;
+    input.rightClick = rightDown && !rightHeld;
+    input.leftRelease = !leftDown && leftHeld;
+    input.rightRelease = !rightDown && rightHeld;
+    leftHeld = leftDown;
+    rightHeld = rightDown;
 
     if(input.justMoved) {
         KPrintF("CsiCheckInput: MouseX = %ld\n", input.mouseX);
         KPrintF("CsiCheckInput: MouseY = %ld\n", input.mouseY);
-    }
-
-    if(!((*(volatile UBYTE*)0xbfe001)&64)) {
-        input.leftClick = TRUE;
-    }
-    if(!((*(volatile UWORD*)0xdff016)&(1<<10)) ) {
-        input.rightClick = TRUE;
     }
 
     CsiCheckKeys();
