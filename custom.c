@@ -580,6 +580,36 @@ void CstFrameStats( BOOL overran)
   }
 }
 
+/* ---- Frames per second ---------------------------------------------------------------------------------------------- */
+
+#define CSTTICKSPERSECOND 50     /* the frame interrupt of a PAL screen (313 lines, see CSTFRAMELINES) */
+
+extern volatile ULONG VblankTicks;      /* main.c: counted by the frame interrupt */
+extern int lastFramesPerSecond;         /* sludger.c: what the script's getFramesPerSecond () returns */
+
+/* To count the frames the game loop really achieves: call it once per pass. When a second of frame interrupts has gone by, the
+   passes made in that time (scaled to exactly one second if the pass that closed it ran a little over) become the number that
+   getFramesPerSecond () returns: 50 for a loop that keeps up, 25 for one that needs two frames a pass. It is -1 until the first
+   second is over. */
+void CstCountFrame()
+{
+  static BOOL started = FALSE;
+  static ULONG secondStart;
+  static ULONG passes;
+
+  if( !started) {
+    started = TRUE;
+    secondStart = VblankTicks;
+  }
+  passes++;
+  ULONG elapsed = VblankTicks - secondStart;
+  if( elapsed >= CSTTICKSPERSECOND) {
+    lastFramesPerSecond = elapsed == CSTTICKSPERSECOND ? (int) passes : (int) ((passes * CSTTICKSPERSECOND + elapsed / 2) / elapsed);
+    passes = 0;
+    secondStart += elapsed;
+  }
+}
+
 /* ---- The Copper list ------------------------------------------------------------------------------------------------ */
 
 /* The picture is 200 lines of the 256 the screen has; it starts on raster line 44 (DIWSTRT), so line 244 is the first below it. */

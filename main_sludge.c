@@ -164,6 +164,7 @@ int main_sludge(int argc, char *argv[])
 		//custom->color[0] = 0x000;
 		//WaitVbl();
         CstFrameStats (FrameCounter > 0);
+        CstCountFrame ();   // the frames per second that getFramesPerSecond () returns
         FrameCounter = 2;
 		PROF_ENTER (PFC_WAIT);
 		while( FrameCounter < gameSettings.refreshRate)

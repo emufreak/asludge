@@ -26,6 +26,7 @@ void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata);
 void CstDrawBackdrop();
 void CstFadeIn();
 void CstFrameStats( BOOL overran);
+void CstCountFrame();
 void CstFadeOut();
 void CstStartFadeIn( int count);
 void CstScaleChanged( int horizon, int divide);
