@@ -1344,6 +1344,7 @@ CSTINLINE void CstQueueCleanup( struct onScreenPerson *person, struct CstPlaceme
 CSTINLINE void CstQueueCleanupRectangle( struct CleanupQueue **queue, struct onScreenPerson *person, struct CstPlacement *place, int firstscreenword, int lastscreenword);
 CSTINLINE int CstCharacterDepth( struct onScreenPerson *person);
 CSTINLINE BOOL CstBehindPanel( struct sprite *single, struct onScreenPerson *person, int depth, struct CstPlacement *place, struct zBufferData *panel);
+CSTINLINE BOOL CstOnFrontPanel( struct sprite *single, struct CstPlacement *place);
 CSTINLINE UBYTE *CstTakePanelOut( struct CstPlacement *place, struct zBufferData *panel, int firstrow, int endrow, UBYTE *own, UBYTE *mask);
 CSTINLINE void CstCopyMask( UBYTE *from, UBYTE *to, LONG offset, LONG row, int words, int rows);
 
@@ -1484,6 +1485,9 @@ CSTINLINE UBYTE *CstSpriteMask( struct sprite *single, struct onScreenPerson *pe
   if( !zBuffer) {
     return own;
   }
+  if( !person && CstOnFrontPanel( single, place)) {
+    return own;
+  }
   int depth = person ? CstCharacterDepth( person) : 0;
   UBYTE *mask = own;
   for(struct zBufferData *panel = zBuffer; panel; panel = panel->nextPanel) {
@@ -1518,6 +1522,23 @@ CSTINLINE BOOL CstBehindPanel( struct sprite *single, struct onScreenPerson *per
   if( person) return depth <= panel->yz;
   if( panel->yz >= CSTFRONTPANEL) return FALSE;
   return place->y + single->height < panel->yz;
+}
+
+/* A picture pasted into the backdrop is part of the game's interface (the corners of a narration box, the toolbar's buttons) when its
+   centre is on a front panel: no panel of the room may hide it either. The corners of a narration box in the middle of Fork were missing
+   wherever the oak and the rocks have a panel (3 of 4). A prop that the room pastes has its centre on the room's picture and is hidden by
+   the room's panels as before (only a prop pasted while a box covers its centre, River's water under a long box, would ignore them). */
+CSTINLINE BOOL CstOnFrontPanel( struct sprite *single, struct CstPlacement *place)
+{
+  int cx = place->x + (single->width >> 1);
+  int cy = place->y + (single->height >> 1);
+  if( cx < 0 || cx >= (int) winWidth) return FALSE;
+  for(struct zBufferData *panel = zBuffer; panel; panel = panel->nextPanel) {
+    if( panel->yz < CSTFRONTPANEL || panel->width != (int) winWidth || panel->topx != 0) continue;
+    if( cy < panel->topy || cy >= panel->topy + panel->height) continue;
+    if( panel->bitplane[(cy - panel->topy) * (panel->width >> 3) + (cx >> 3)] & (0x80 >> (cx & 7))) return TRUE;
+  }
+  return FALSE;
 }
 
 /* To take a panel out of a mask, in two blits. The first moves the panel's bits into the sprite's own column grid, which is
