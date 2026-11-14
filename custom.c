@@ -1115,7 +1115,9 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
   }
 
 
-   if( x < 0) { //Leftmost part outside screen
+  int firstword; //First word of a row that the blit writes (-1: it starts one word left of the screen)
+
+  if( x < 0) { //Leftmost part outside screen
     if(x + single->width < 0) {
       KPrintF("CstScaleSprite: Sprite not on screen nothing to do");
       return;
@@ -1131,28 +1133,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 - 2;
     bltcon0 = ((16-cutmaskpixel) << 12);
-
-    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
-    CstCleanupQueueDrawBuffer->next = next;
-    CstCleanupQueueDrawBuffer->x = 0;
-    CstCleanupQueueDrawBuffer->y = 0;
-    CstCleanupQueueDrawBuffer->person = NULL;
-    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
-    CstCleanupQueueDrawBuffer->height = blitheight;
-    CstCleanupQueueDrawBuffer->startxinbytes = 0;
-    CstCleanupQueueDrawBuffer->starty = ystartdst;
-
-    next = CstCleanupQueueViewBuffer;
-    CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
-    CstCleanupQueueViewBuffer->next = next;
-    CstCleanupQueueViewBuffer->x = 0;
-    CstCleanupQueueViewBuffer->y = 0;
-    CstCleanupQueueViewBuffer->person = NULL;
-    CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
-    CstCleanupQueueViewBuffer->height = blitheight;
-    CstCleanupQueueViewBuffer->startxinbytes = 0;
-    CstCleanupQueueViewBuffer->starty = ystartdst;
+    firstword = -1;
   } else if(x + single->width > (int) winWidth) { //Rightmost part outside screen
 
     if(x - single->width > (int) winWidth)
@@ -1168,28 +1149,7 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltcon0 = ((single->width%16) << 12);
-
-    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
-    CstCleanupQueueDrawBuffer->next = next;
-    CstCleanupQueueDrawBuffer->x = x;
-    CstCleanupQueueDrawBuffer->y = ystartdst;
-    CstCleanupQueueDrawBuffer->person = NULL;
-    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource;
-    CstCleanupQueueDrawBuffer->height = blitheight;
-    CstCleanupQueueDrawBuffer->startxinbytes = (x/16)*2;
-    CstCleanupQueueDrawBuffer->starty = ystartdst;
-
-    next = CstCleanupQueueViewBuffer;
-    CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
-    CstCleanupQueueViewBuffer->next = next;
-    CstCleanupQueueViewBuffer->x = x;
-    CstCleanupQueueViewBuffer->y = ystartdst;
-    CstCleanupQueueViewBuffer->person = NULL;
-    CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource;
-    CstCleanupQueueViewBuffer->height = blitheight;
-    CstCleanupQueueViewBuffer->startxinbytes = (x/16)*2;
-    CstCleanupQueueViewBuffer->starty = ystartdst;
+    firstword = x/16;
   } else { //Whole Sprite on Screen
 
     extrawords = 1;
@@ -1200,29 +1160,29 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
     bltcpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltdpt = ((ULONG) destination) + ystartdst*winWidth/8 + (x/16)*2;
     bltcon0 = ((x%16) << 12);
+    firstword = x/16;
+  }
 
-    struct CleanupQueue *next = CstCleanupQueueDrawBuffer;
-    CstCleanupQueueDrawBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
-    CstCleanupQueueDrawBuffer->next = next;
-    CstCleanupQueueDrawBuffer->x = x;
-    CstCleanupQueueDrawBuffer->y = ystartdst;
-    CstCleanupQueueDrawBuffer->person = NULL;
-    CstCleanupQueueDrawBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
-    CstCleanupQueueDrawBuffer->height = blitheight;
-    CstCleanupQueueDrawBuffer->startxinbytes = (x/16)*2;
-    CstCleanupQueueDrawBuffer->starty = ystartdst;
-
-    next = CstCleanupQueueViewBuffer;
-    CstCleanupQueueViewBuffer = CstAllocVec( sizeof(struct CleanupQueue), MEMF_ANY);
-    CstCleanupQueueViewBuffer->next = next;
-    CstCleanupQueueViewBuffer->x = x;
-    CstCleanupQueueViewBuffer->y = ystartdst;
-    CstCleanupQueueViewBuffer->person = NULL;
-    CstCleanupQueueViewBuffer->widthinwords = single->width/16+cutwordssource+extrawords;
-    CstCleanupQueueViewBuffer->height = blitheight;
-    CstCleanupQueueViewBuffer->startxinbytes = (x/16)*2;
-    CstCleanupQueueViewBuffer->starty = ystartdst;
-
+  /* The paste changes the backdrop, so both screen buffers must get the new pixels, and the clean-up rectangle must hold every word
+     the blit writes below. It used to be single->width/16 + extrawords words: a glyph is narrower than 16 pixels, so that was one
+     word, while the blit (blitwidth, at least one word, plus the extra word the shift pushes pixels into) writes two. The pixels
+     of a glyph that crossed into the second word never reached the buffers' own copy of the picture, except by the rectangle of
+     another paste, so the last glyph of a line showed without them, and the two buffers showed different ones when a box was
+     drawn over several frames (the box's fill is restored into one buffer a frame before the other): the last letter flickered. */
+  struct CstArea area;
+  area.firstword = firstword;
+  area.words = (int) blitwidth - (int) cutwordssource + (int) extrawords;
+  if( area.firstword < 0) { //the word left of the screen is not on it
+    area.words += area.firstword;
+    area.firstword = 0;
+  }
+  if( area.firstword + area.words > (int) (winWidth / 16)) {
+    area.words = winWidth / 16 - area.firstword;
+  }
+  area.y = ystartdst;
+  area.rows = blitheight;
+  if( area.words > 0) {
+    CstQueueBackdropChange( &area);
   }
 
   UWORD bltafwm = 0xffff >> cutmaskpixel;
