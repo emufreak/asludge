@@ -59,6 +59,7 @@ struct personaAnimation * makeNullAnim ();
 void animatePerson (int obj, struct personaAnimation * fram);
 void animatePersonUsingPersona (int obj, struct persona * per, BOOL owned);
 BOOL addPerson(int x, int y, int objNum, struct persona *p, BOOL owned);
+void freeCostumePersona (struct persona * p);
 struct personaAnimation * copyAnim (struct personaAnimation * orig);
 struct personaAnimation * createPersonaAnim (int num, struct variableStack **stacky);
 void deleteAnim (struct personaAnimation * orig);

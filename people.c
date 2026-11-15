@@ -57,6 +57,17 @@ static void freeOwnedPersona(struct onScreenPerson *person) {
 	person->ownsPersona = FALSE;
 }
 
+/* To free a costume that a script made with costume (...) and does not use any more (the built-in freeCostume): its animations (each
+   takes its count off its sprite bank, and a bank that nothing uses any more is unloaded), the array and the persona. No person may
+   show it and no variable may be used again: the engine does not count the variables that hold a costume. */
+void freeCostumePersona(struct persona *p) {
+	if (!p) return;
+	for (int i = 0; i < p->numDirections * 3; i++)
+		if (p->animation[i]) deleteAnim(p->animation[i]);
+	CstFreeVec(p->animation);
+	CstFreeVec(p);
+}
+
 BOOL addPerson(int x, int y, int objNum, struct persona *p, BOOL owned) {
 
 	struct onScreenPerson *newPerson = CstAllocVec(sizeof(struct onScreenPerson), MEMF_ANY);

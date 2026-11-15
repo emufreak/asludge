@@ -91,7 +91,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 4, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	1,											// zoomCamera
 	1, 0, 0,									// playMovie, stopMovie, pauseMovie,
 	5, 1, 4, 1,									// addZBufferLayer, printConsole, fadeOut, fadeIn
-	6, 0, 5, 4, 1, -1							// setCopperSplit, clearCopperSplits, fillArea, saveArea, restoreArea, removeZBufferLayer
+	6, 0, 5, 4, 1, -1, 1							// setCopperSplit, clearCopperSplits, fillArea, saveArea, restoreArea, removeZBufferLayer, freeCostume
 };
 
 #pragma mark -
@@ -2910,6 +2910,23 @@ builtIn(removeZBufferLayer)
 	return BR_CONTINUE;
 }
 
+//freeCostume( costume ): give back the animations and sprite banks of a costume that nothing uses any more: no person shows it (it was
+//removed) and no variable is used again (the game drops its own copies). The engine does not count the variables that hold a costume,
+//so a costume still in use is freed memory: A5 found that out with removeCharacter. Returns 1 when a costume was freed.
+builtIn(freeCostume)
+{
+	UNUSEDALL
+	BOOL freed = FALSE;
+	if (fun -> stack -> thisVar.varType == SVT_COSTUME) {
+		freeCostumePersona (fun -> stack -> thisVar.varData.costumeHandler);
+		fun -> stack -> thisVar.varData.costumeHandler = NULL;
+		freed = TRUE;
+	}
+	trimStack (&fun -> stack);
+	setVariable (&fun -> reg, SVT_INT, freed ? 1 : 0);
+	return BR_CONTINUE;
+}
+
 #define FUNC(special,name)		{builtIn_ ## name},
 static struct builtInFunctionData builtInFunctionArray[] =
 {
@@ -3090,6 +3107,7 @@ FUNC (TRUE, fillArea)
 FUNC (TRUE, saveArea)
 FUNC (TRUE, restoreArea)
 FUNC (TRUE, removeZBufferLayer)
+FUNC (TRUE, freeCostume)
 };
 #undef FUNC
 
