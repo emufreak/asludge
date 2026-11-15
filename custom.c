@@ -27,6 +27,11 @@
 #include "support/gcc8_c_support.h"
 #include "zbuffer.h"
 #include "profile.h"
+#include "sludger.h"
+
+extern struct loadedFunction *allRunningFunctions;   /* sludger.c: the script threads */
+extern char **allUserFunc;
+extern int numUserFunc;
 
 void CstRefreshSplits();
 static UWORD CstClampChannel( int level);
@@ -177,43 +182,54 @@ static void CstLoadPaletteIntoCopper() {
    block starts with a marker word 0xD00D0000 | block size << 8 | requested size, which is how CstFreeVec knows it; four bytes
    after the requested size hold an end marker that CstFreeVec checks. */
 
-/* Switched off (CST_POOL is not defined): a script instruction costs about 220 microseconds on an A1200, and the pool gained 15 to
-   30 % in a benchmark, but with it AvailMem hung after the first 100 passes (not understood). Define CST_POOL to try it again. */
+/* On since A5 (the Makefile defines CST_POOL). It was off from A3e: the pool gained 15 to 30 % in a benchmark and 4 % in Road, and
+   with it AvailMem hung after the first 100 passes; that was defect 1 (the pointer arrays of initSludge), which is fixed. The reason to
+   have it is not the first minutes but the whole game: Exec's free list is searched from its head by every free, and the interpreter
+   frees about 330 blocks a second; the list grew from 150 blocks to 600 in 8,000 frames, and by the Graves it made a script instruction
+   twice as slow (the same acts took 18.5 minutes of game time without the pool and 10.7 with it, at the real speed). A pooled block never
+   goes back to Exec, so the small blocks do not cut its free list up. */
 #ifdef CST_POOL
-#define CST_POOL_CHUNK 16384
+#define CST_POOL_CHUNK 8192
 #define CST_POOL_MAGIC 0xD00D0000UL
-#define CST_POOL_SMALL 32
-#define CST_POOL_LARGE 64
+#define CST_POOL_LARGE 64            /* the biggest block; a request of up to CST_POOL_LARGE - 8 bytes is pooled */
+#define CST_POOL_CLASSES 5
 
-static UBYTE *CstPoolFreeSmall = NULL;
-static UBYTE *CstPoolFreeLarge = NULL;
+static const UBYTE CstPoolBlock[CST_POOL_CLASSES] = { 16, 24, 32, 48, 64 };     /* the block sizes: 8, 16, 24, 40 and 56 bytes and the 8 of the markers */
+static UBYTE *CstPoolFree[CST_POOL_CLASSES];
+static ULONG CstPoolChunks[CST_POOL_CLASSES];     /* the chunks taken from Exec, for the log (and never given back) */
 
-static BOOL CstPoolRefill( ULONG block, UBYTE **list) {
+static int CstPoolClass( ULONG block) {
+    return block == 16 ? 0 : block == 24 ? 1 : block == 32 ? 2 : block == 48 ? 3 : 4;
+}
+
+static BOOL CstPoolRefill( int class) {
+    ULONG block = CstPoolBlock[class];
     UBYTE *chunk = AllocVec( CST_POOL_CHUNK, MEMF_ANY);
     if( !chunk) return FALSE;
+    CstPoolChunks[class]++;
     for( ULONG offset = 0; offset + block <= CST_POOL_CHUNK; offset += block) {
         UBYTE *b = chunk + offset;
-        *(ULONG *) (b + 4) = (ULONG) *list;
-        *list = b;
+        *(ULONG *) (b + 4) = (ULONG) CstPoolFree[class];
+        CstPoolFree[class] = b;
     }
     return TRUE;
 }
 
 static APTR CstPoolAlloc( ULONG bytesize) {
-    ULONG block = bytesize <= CST_POOL_SMALL - 8 ? CST_POOL_SMALL : CST_POOL_LARGE;
-    UBYTE **list = block == CST_POOL_SMALL ? &CstPoolFreeSmall : &CstPoolFreeLarge;
-    if( !*list && !CstPoolRefill( block, list)) {
+    int class = bytesize <= 8 ? 0 : bytesize <= 16 ? 1 : bytesize <= 24 ? 2 : bytesize <= 40 ? 3 : 4;
+    ULONG block = CstPoolBlock[class];
+    if( !CstPoolFree[class] && !CstPoolRefill( class)) {
         KPrintF("CstAllocVec: Allocation of ram failed. Reboot recommended\n", 40);
         Exit(1);
     }
-    UBYTE *b = *list;
-    *list = (UBYTE *) *(ULONG *) (b + 4);
+    UBYTE *b = CstPoolFree[class];
+    CstPoolFree[class] = (UBYTE *) *(ULONG *) (b + 4);
     *(ULONG *) b = CST_POOL_MAGIC | (block << 8) | bytesize;
     *(ULONG *) (b + 4 + bytesize) = 0xBEEFDEADUL;
     return b + 4;
 }
 
-static void CstPoolFree( UBYTE *b) {
+static void CstPoolFreeBlock( UBYTE *b) {
     ULONG header = *(ULONG *) b;
     ULONG block = (header >> 8) & 0xff;
     ULONG bytesize = header & 0xff;
@@ -222,10 +238,10 @@ static void CstPoolFree( UBYTE *b) {
         reported++;
         KPrintF("CstFreeVec: pooled block of %ld bytes overflowed\n", (long) bytesize);
     }
-    UBYTE **list = block == CST_POOL_SMALL ? &CstPoolFreeSmall : &CstPoolFreeLarge;
+    int class = CstPoolClass( block);
     *(ULONG *) b = 0x12345678;
-    *(ULONG *) (b + 4) = (ULONG) *list;
-    *list = b;
+    *(ULONG *) (b + 4) = (ULONG) CstPoolFree[class];
+    CstPoolFree[class] = b;
 }
 
 #endif
@@ -270,7 +286,7 @@ void CstFreeVec( APTR memptr ) {
     UBYTE *startmarker = memptr - 4;
 #ifdef CST_POOL
     if( (*(ULONG *) startmarker & 0xffff0000UL) == CST_POOL_MAGIC) {
-        CstPoolFree( startmarker);
+        CstPoolFreeBlock( startmarker);
         return;
     }
 #endif
@@ -575,6 +591,26 @@ void CstFrameStats( BOOL overran)
     KPrintF("FRAME: %ld passes, the work took %ld lines on average and %ld at most (of 313), %ld ran over a frame\n",
             (long) CSTSTATPASSES, (long) (total / (CSTSTATPASSES - overruns > 0 ? CSTSTATPASSES - overruns : 1)), (long) longest, (long) overruns);
     KPrintF("CHIP: %ld bytes free, the largest block %ld", (long) AvailMem( MEMF_CHIP), (long) AvailMem( MEMF_CHIP | MEMF_LARGEST));
+    {
+      long threads = 0;     /* every running script thread costs the interpreter something in every pass, asleep or not (A5) */
+      for( struct loadedFunction *thread = allRunningFunctions; thread; thread = thread->next) threads++;
+      KPrintF("THREADS: %ld running", threads);
+#ifdef CST_POOL
+      KPrintF("POOL: %ld KB in chunks (%ld, %ld, %ld, %ld, %ld of 8 KB for blocks of 16, 24, 32, 48, 64 bytes)", (long) ((CstPoolChunks[0] + CstPoolChunks[1] + CstPoolChunks[2] + CstPoolChunks[3] + CstPoolChunks[4]) * (CST_POOL_CHUNK / 1024)), (long) CstPoolChunks[0], (long) CstPoolChunks[1], (long) CstPoolChunks[2], (long) CstPoolChunks[3], (long) CstPoolChunks[4]);
+#endif
+      {
+        long chunks = 0;    /* exec's free list is searched from its head for every allocation and every free: its length is the cost (A5) */
+        Forbid();
+        for( struct MemHeader *header = (struct MemHeader *) SysBase->MemList.lh_Head; header->mh_Node.ln_Succ; header = (struct MemHeader *) header->mh_Node.ln_Succ)
+          for( struct MemChunk *chunk = header->mh_First; chunk; chunk = chunk->mc_Next) chunks++;
+        Permit();
+        KPrintF("CHUNKS: %ld free blocks", chunks);
+      }
+      for( struct loadedFunction *thread = allRunningFunctions; thread; thread = thread->next) {
+        KPrintF("THR: %s wait %ld%s", allUserFunc && thread->originalNumber >= 0 && thread->originalNumber < numUserFunc ? allUserFunc[thread->originalNumber] : "?",
+                (long) thread->timeLeft, thread->calledBy ? ", called" : ", thread");
+      }
+    }
     passes = overruns = longest = 0;
     total = 0;
   }

@@ -51,13 +51,14 @@ struct onScreenPerson {
 	int extra, spinSpeed;
 	unsigned char r,g,b,colourmix,transparency;
 	int scaleStep, scaleFrame;	// the size, in tenths, that the sprite drawn has now, and the animation frame it was taken up at (custom_scale.c)
+	BOOL ownsPersona;	// myPersona was made for this person (a copy of an animation) and goes with it; a costume variable keeps its own
 };
 
 struct personaAnimation * makeNullAnim ();
 
 void animatePerson (int obj, struct personaAnimation * fram);
-void animatePersonUsingPersona (int obj, struct persona * per);
-BOOL addPerson(int x, int y, int objNum, struct persona *p);
+void animatePersonUsingPersona (int obj, struct persona * per, BOOL owned);
+BOOL addPerson(int x, int y, int objNum, struct persona *p, BOOL owned);
 struct personaAnimation * copyAnim (struct personaAnimation * orig);
 struct personaAnimation * createPersonaAnim (int num, struct variableStack **stacky);
 void deleteAnim (struct personaAnimation * orig);

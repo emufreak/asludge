@@ -141,9 +141,15 @@ void KPrintF(const char* fmt, ...) {
 		char temp[128];
 		RawDoFmt((CONST_STRPTR)fmt, vl, PutChar, temp);
 		UaeDbgLog(86, temp);
-	} else {
+	}
+#ifdef SERIAL_LOG
+	// Without the UAE trap (a real Amiga) the text goes to the serial port through exec's RawPutChar, which waits for the UART for
+	// every character: at 9600 baud a 100-character line stops the game for 100 ms, and the game logs a line every two seconds
+	// and at every text box. A game for a real machine writes nothing; build with -DSERIAL_LOG to log to a serial cable.
+	else {
 		RawDoFmt((CONST_STRPTR)fmt, vl, KPutCharX, 0);
 	}
+#endif
 }
 
 int main(int argc, char *argv[]);

@@ -20,6 +20,7 @@ struct loadedSpriteBank {
 extern struct loadedSpriteBank * allLoadedBanks;
 struct loadedSpriteBank * loadBankForAnim (int ID);
 BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere);
+void CstLogBanks (void);
 
 
 #endif

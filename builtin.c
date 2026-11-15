@@ -424,6 +424,11 @@ builtIn(printConsole)
         return BR_CONTINUE;
     }
 #endif
+    if (newText[0] == 'B' && newText[1] == 'A' && newText[2] == 'N' && newText[3] == 'K' && newText[4] == 'S' && !newText[5]) {
+        CstLogBanks();
+        CstFreeVec(newText);
+        return BR_CONTINUE;
+    }
     KPrintF("%s\n", newText);
     CstFreeVec(newText);
     return BR_CONTINUE;
@@ -1605,6 +1610,7 @@ builtIn(addCharacter)
 	struct persona * p;
 	int x, y, objectNumber;
 
+	BOOL owned = fun -> stack -> thisVar.varType == SVT_ANIM;   // getCostumeFromVar makes a persona of an animation: the person's own
 	p = getCostumeFromVar (&(fun -> stack -> thisVar));
 	if (p == NULL) return BR_ERROR;
 
@@ -1615,7 +1621,7 @@ builtIn(addCharacter)
 	trimStack (&fun -> stack);
 	if (! getValueType(&objectNumber, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
-	if (addPerson (x, y, objectNumber, p)) return BR_CONTINUE;
+	if (addPerson (x, y, objectNumber, p, owned)) return BR_CONTINUE;
 	return BR_ERROR;
 }
 
@@ -1765,12 +1771,13 @@ builtIn(setCostume)
 	//KPrintF("running setCostume\n");
 	UNUSEDALL
 	int obj;
+	BOOL owned = fun -> stack -> thisVar.varType == SVT_ANIM;
 	struct persona * pp = getCostumeFromVar(&(fun -> stack -> thisVar));
 	if (pp == NULL) return BR_ERROR;
 	trimStack (&fun -> stack);
 	if (! getValueType(&obj, SVT_OBJTYPE,&fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
-	animatePersonUsingPersona(obj, pp);
+	animatePersonUsingPersona(obj, pp, owned);
 	return BR_CONTINUE;
 }
 

@@ -27,7 +27,7 @@
    different functions for one click, so most calls read the function again from the game file. 64 is where Road stops gaining: the
    hover, a take and a box are as quick as with 128 or 256, which cost 50 and 190 KB of chip RAM more (wiki/queries/a3e-speed-2.md). */
 #ifndef CACHEFUNCTIONMAX
-#define CACHEFUNCTIONMAX 128
+#define CACHEFUNCTIONMAX 64
 #endif
 #ifdef PROFILE
 ULONG fnHits = 0, fnMisses = 0, fnEvictions = 0, fnCapacity = CACHEFUNCTIONMAX;

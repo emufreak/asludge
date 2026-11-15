@@ -43,7 +43,21 @@ int TF_abs (int a) {
 }
 
 
-BOOL addPerson(int x, int y, int objNum, struct persona *p) {
+/* To free the persona of a person that made it: the three animations of the one-direction persona that getCostumeFromVar makes of an
+   animation (each takes its count off its sprite bank, and a bank that nothing uses any more is unloaded), the array and the persona.
+   A persona that a costume variable holds is not the person's: the variable is not counted, and the game uses the costume again (a
+   freed costume in use was the A5 hang). */
+static void freeOwnedPersona(struct onScreenPerson *person) {
+	if (!person->ownsPersona || !person->myPersona) return;
+	for (int i = 0; i < 3; i++)
+		deleteAnim(person->myPersona->animation[i]);
+	CstFreeVec(person->myPersona->animation);
+	CstFreeVec(person->myPersona);
+	person->myPersona = NULL;
+	person->ownsPersona = FALSE;
+}
+
+BOOL addPerson(int x, int y, int objNum, struct persona *p, BOOL owned) {
 
 	struct onScreenPerson *newPerson = CstAllocVec(sizeof(struct onScreenPerson), MEMF_ANY);
     if (!newPerson) return FALSE;
@@ -76,6 +90,7 @@ BOOL addPerson(int x, int y, int objNum, struct persona *p) {
     newPerson->scaleStep = 0;
     newPerson->scaleFrame = -1;
     newPerson->myPersona = p;
+    newPerson->ownsPersona = owned;
 
     setFrames(newPerson, ANI_STAND);
 
@@ -116,14 +131,16 @@ void animatePerson (int obj, struct personaAnimation * fram) { // Set a new SING
     }
 }
 
-void animatePersonUsingPersona (int obj, struct persona * per) { // Set a new costume
+void animatePersonUsingPersona (int obj, struct persona * per, BOOL owned) { // Set a new costume
     struct onScreenPerson * moveMe = findPerson(obj);
     if (moveMe) {
         // if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
         // moveMe -> continueAfterWalking = NULL;
         // moveMe -> walking = false;
         moveMe -> spinning = FALSE;
+        if (moveMe -> myPersona != per) freeOwnedPersona(moveMe);   // the one it made for itself: it was lost, and its banks stayed loaded
         moveMe -> myPersona = per;
+        moveMe -> ownsPersona = owned;
         rethinkAngle(moveMe);
         if (moveMe->walking) {
             setFrames(moveMe, ANI_WALK);
@@ -508,14 +525,7 @@ void killAllPeople () {
 		allPeople -> continueAfterWalking = NULL;
 		killPeople = allPeople;
 		allPeople = allPeople -> next;
-		// ToDo. Make proper memory handling for animation so that this works.
-        // for (int i = 0; i < 3; i++)
-		//	deleteAnim(killPeople->myPersona->animation[i]);
-		// CstFreeVec(killPeople->myPersona->animation);
-		// CstFreeVec(killPeople->myPersona);
-        // if( killPeople->myAnim) {
-        //    deleteAnim(killPeople->myAnim);
-        // }
+		freeOwnedPersona(killPeople);   // what the person made for itself; a costume variable's persona stays
 
 		removeObjectType (killPeople -> thisType);
 		CstFreeVec(killPeople);
@@ -539,14 +549,7 @@ void killMostPeople() {
             // Gone from the list... now free some memory
             if (killPeople->continueAfterWalking) abortFunction(killPeople->continueAfterWalking);
             killPeople->continueAfterWalking = NULL;
-            // ToDo. Make proper memory handling for animation so that this works.
-            // for (int i = 0; i < 3; i++)
-		    //	deleteAnim(killPeople->myPersona->animation[i]);
-		    // CstFreeVec(killPeople->myPersona->animation);
-		    // CstFreeVec(killPeople->myPersona);
-            // if( killPeople->myAnim) {
-            //    deleteAnim(killPeople->myAnim);
-            // }
+            freeOwnedPersona(killPeople);   // what the person made for itself (a prop's animation); a costume variable's persona stays
 
             removeObjectType(killPeople->thisType);
             CstFreeVec(killPeople);
@@ -619,6 +622,7 @@ BOOL loadPeople (BPTR fp) {
 		}
 
 		me -> myPersona = CstAllocVec( sizeof( struct persona), MEMF_ANY);
+		me -> ownsPersona = FALSE;   // (a loaded costume is freed by nobody yet; the 3-animation free is for a copy of an animation)
 		if (!(me -> myPersona)) {
 			KPrintF("loadPeople: Cannot allocate memory");
 			return FALSE;
@@ -770,10 +774,7 @@ void removeOneCharacter (int i) {
         p->continueAfterWalking = NULL;
         struct onScreenPerson ** killPeople;
 
-		for (int i = 0; i < 3; i++)
-			deleteAnim(p->myPersona->animation[i]);
-		CstFreeVec(p->myPersona->animation);
-		CstFreeVec(p->myPersona);
+		freeOwnedPersona(p);
 
         for (killPeople = &allPeople;
             *killPeople != p;

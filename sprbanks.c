@@ -6,6 +6,22 @@
 
 struct loadedSpriteBank * allLoadedBanks = NULL;
 
+/* To log what is in chip RAM as sprite banks, one line per bank: the file number, the sprites, the bytes of their pixels and how many
+   animations use it. A game asks for it with printConsole ("BANKS") (A5: which banks stay loaded after their room is left). */
+void CstLogBanks (void) {
+	long total = 0;
+	for (struct loadedSpriteBank *bank = allLoadedBanks; bank; bank = bank->next) {
+		long bytes = 0;
+		for (int i = 0; i < bank->bank.total; i++) {
+			struct sprite *s = &bank->bank.sprites[i];
+			if (s->data) bytes += (long) (s->width >> 3) * s->height * 6;
+		}
+		total += bytes;
+		KPrintF("BANK: file %ld, %ld sprites, %ld bytes, used by %ld%s", (long) bank->ID, (long) bank->bank.total, bytes, (long) bank->timesUsed, bank->scaled ? ", scaled" : "");
+	}
+	KPrintF("BANK: total %ld bytes", total);
+}
+
 struct loadedSpriteBank * loadBankForAnim (int ID) {
 	// KPrintF("loadBankForAnim: Looking for sprite bank with ID %d\n", ID);
 	struct loadedSpriteBank * returnMe = allLoadedBanks;
