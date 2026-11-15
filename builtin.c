@@ -459,6 +459,8 @@ builtIn(pasteImage)
 	if (pp == NULL) return BR_CONTINUE;
 
 	pasteCursor (x, y, pp);
+	deleteAnim (pp);	/* the copy getAnimationFromVar made (and the bank use it counted) was never let go: about 50 bytes of chip RAM
+							   lost for every pasteImage, the frame counter's, the toolbar's, a box's corners, River's water */
 	//KPrintF("pasteimage: Finished\n");
 	return BR_CONTINUE;
 }
