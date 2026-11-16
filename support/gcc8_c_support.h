@@ -23,6 +23,7 @@ void memclr(void* dest, unsigned long len);
 unsigned long strlen (const char *);
 void warpmode(int on); // bool on/off
 void KPrintF(const char* fmt, ...); // output to debugger
+extern int KLogOn;                  // 0 = KPrintF writes nothing: gamedata.ini has DEBUGMODE=0 (language.c readIniFile)
 
 // WinUAE debug overlay, coordinates are PAL-based (0,0)-(768,576)
 void debug_clear();

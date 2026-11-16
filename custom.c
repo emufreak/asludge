@@ -692,6 +692,7 @@ void CstFrameStats( BOOL overran)
   static UWORD passes, overruns, longest;
   static ULONG total;
 
+  if( !KLogOn) return;     /* DEBUGMODE=0: the statistics have no reader, and the thread and free list walks cost time */
   UWORD line = (*(volatile ULONG *) 0xDFF004 >> 8) & 0x1ff;
   UWORD used = line >= CSTFRAMESTART ? line - CSTFRAMESTART : line + CSTFRAMELINES - CSTFRAMESTART;   /* before or after the next start line */
   if( overran) {

@@ -132,8 +132,13 @@ void* memmove(void *dest, const void *src, unsigned long len) {
 void KPutCharX();
 void PutChar();
 
+// A run to see the game at the speed a player gets it logs nothing: gamedata.ini with DEBUGMODE=0 sets this to 0 (the default is 1,
+// every test and tour reads the log). Under the debugger the formatting and the trap cost time; on a real machine there is no trap.
+int KLogOn = 1;
+
 __attribute__((noinline))
 void KPrintF(const char* fmt, ...) {
+	if (!KLogOn) return;
 	va_list vl;
 	va_start(vl, fmt);
 	long(*UaeDbgLog)(long mode, const char* string) = (long(*)(long, const char*))0xf0ff60;

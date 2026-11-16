@@ -82,7 +82,7 @@ void readIniFile (char * filename) {
 	gameSettings.antiAlias = 1;
 	gameSettings.fixedPixels = FALSE;
 	gameSettings.noStartWindow = FALSE;
-	gameSettings.debugMode = FALSE;
+	gameSettings.debugMode = TRUE;   /* on the Amiga DEBUGMODE=0 means no log at all (KPrintF); the default is the log, as all tests expect */
 
 	CstFreeVec(langName);
 	langName = NULL;
@@ -164,6 +164,7 @@ void readIniFile (char * filename) {
 
 		Close(fp);
 	}
+	KLogOn = gameSettings.debugMode;
 }
 
 unsigned int stringToInt (char * s) {
