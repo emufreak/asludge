@@ -790,6 +790,7 @@ struct CstSplitEvent
 static struct CstSplit CstSplits[CSTMAXSPLITS];
 static int CstSplitCount = 0;
 static ULONG *CstCopperTail = NULL;     /* where the part of the list starts that depends on the splits (after the colours) */
+static BOOL CstSplitsDirty = FALSE;     /* the tail must be written again, at the end of the frame (CstApplySplits) */
 static int CstCopperWidth = 0;          /* the screen's width in bytes, which the tail needs for the modulos */
 
 static ULONG *CstBlankBelowPicture( ULONG *cl);
@@ -893,11 +894,30 @@ void CstClearCopperSplits() {
   CstRefreshSplits();
 }
 
-/* To write the splits into the list again (they changed, or the colour a register goes back to did). */
+/* To have the splits written into the list again (they changed, or the colour a register goes back to did). The list is not
+   written here but by CstApplySplits, once the frame is over: the Copper reads the list while the beam draws the picture, and a
+   write at any other time tears it. The Copper waits at the first WAIT of the tail for most of the frame and, when it goes on,
+   takes the instruction that is at its place in the list at that moment, so a split that was rewritten under it can leave the
+   register white for the rest of the frame (the options below the one the mouse is over, in the dialog panel), or set it at the
+   old split's line. Found 2026-11-16. */
 void CstRefreshSplits() {
   if( CstCopperTail && (CstSplitCount > 0 || CstSplitsInList > 0)) {
-    CstBuildCopperTail( CstCopperTail, CstCopperWidth);
+    CstSplitsDirty = TRUE;
   }
+}
+
+/* Called by the game loop right after it has waited for the end of the frame, at raster line 300 or 301. The Copper raises its
+   interrupt at line 301 (the last instruction but one of the list) and then stops at the end of the list until the next frame
+   starts, so from line 302 on nothing reads the tail and it can be written as a whole: 20 or 30 longs, a few microseconds, with
+   the next frame's first instructions (the sprites, the colours) a good ten lines away. */
+void CstApplySplits() {
+  if( !CstSplitsDirty) return;
+  CstSplitsDirty = FALSE;
+  ULONG line;
+  do {
+    line = (*(volatile ULONG *) 0xdff004) & 0x1ff00;
+  } while( line >= (300 << 8) && line <= (301 << 8));
+  CstBuildCopperTail( CstCopperTail, CstCopperWidth);
 }
 
 static int CstEventsOf( struct CstSplitEvent *events) {

@@ -191,6 +191,7 @@ int main_sludge(int argc, char *argv[])
 			vpos=*(volatile ULONG*)0xDFF004;
 			vpos&=0x1ff00;
 		}
+		CstApplySplits ();   // the Copper splits that changed in this pass are written now, with the Copper done with its list (custom.c)
 
 		PROF_LEAVE ();
 		FrameCounter = 0;

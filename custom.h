@@ -38,6 +38,7 @@ void CstStartFadeOut( int count, int r, int g, int b);
 BOOL CstSetCopperSplit( int y1, int y2, int reg, int r, int g, int b);
 void CstClearCopperSplits();
 void CstRefreshSplits();
+void CstApplySplits();
 BOOL CstFillArea( int x1, int y1, int x2, int y2, int colour);
 int CstSaveArea( int x1, int y1, int x2, int y2);
 BOOL CstRestoreArea( int number);
