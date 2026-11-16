@@ -424,6 +424,13 @@ builtIn(printConsole)
         return BR_CONTINUE;
     }
 #endif
+#ifdef LEAKTRACK
+    if (newText[0] == 'L' && newText[1] == 'E' && newText[2] == 'A' && newText[3] == 'K' && newText[4] == 'S' && !newText[5]) {
+        CstLeakDump();
+        CstFreeVec(newText);
+        return BR_CONTINUE;
+    }
+#endif
     if (newText[0] == 'B' && newText[1] == 'A' && newText[2] == 'N' && newText[3] == 'K' && newText[4] == 'S' && !newText[5]) {
         CstLogBanks();
         CstFreeVec(newText);
@@ -587,6 +594,7 @@ builtIn(substring)
 
     newString = CstAllocVec(endoffset - startoffset + 1, MEMF_ANY);
     if (!newString) {
+        CstFreeVec(wholeString);
         return BR_ERROR;
     }
 
@@ -595,6 +603,7 @@ builtIn(substring)
 
     makeTextVar(&fun->reg, newString);
     CstFreeVec(newString);
+    CstFreeVec(wholeString);	// the copy of the whole string was never freed (same in the original OpenSLUDGE)
     return BR_CONTINUE;
 }
 

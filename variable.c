@@ -227,7 +227,10 @@ BOOL getValueType (int *toHere, enum variableType vT, const struct variable *v) 
 }
 
 BOOL loadStringToVar (struct variable *thisVar, int value) {
-	makeTextVar (thisVar, getNumberedString (value));
+	char * text = getNumberedString (value);
+	if (! text) return FALSE;
+	makeTextVar (thisVar, text);
+	CstFreeVec (text);		// makeTextVar keeps a copy: this one was never freed, a block for every string literal a script ran (same in the original OpenSLUDGE)
 	return (BOOL) (thisVar->varData.theString != NULL);
 }
 

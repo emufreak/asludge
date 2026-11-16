@@ -26,6 +26,7 @@ void CstDisplayCursor(UWORD x, UWORD y, UWORD height, UBYTE *spritedata);
 void CstDrawBackdrop();
 void CstFadeIn();
 void CstFrameStats( BOOL overran);
+void CstLeakDump( void);        /* LEAKTRACK builds only: printConsole ("LEAKS") */
 void CstCountFrame();
 void CstFadeOut();
 void CstStartFadeIn( int count);

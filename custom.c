@@ -246,7 +246,117 @@ static void CstPoolFreeBlock( UBYTE *b) {
 
 #endif
 
+#ifdef LEAKTRACK
+/* A debugging build (build-engine.ps1 -Define LEAKTRACK,CST_POOL, a game folder with printConsole ("LEAKS") in it): every block that
+   CstAllocVec hands out is entered in a table (its address, the address its caller returns to, its size, a serial number) and taken
+   out again by CstFreeVec. printConsole ("LEAKS") lists the blocks that are alive, grouped by caller and size, the most numerous first,
+   with the contents of the newest block of each group. Two such lists, taken at the same point of a repeated walk, show what grows.
+   The table is 512 KB: run with 4 MB of chip RAM (a3.ps1 -ChipMb 4). Nothing of this exists in a normal build. */
+#define LT_SLOTS 32768UL
+struct LtRec { ULONG ptr; ULONG ra; ULONG size; ULONG serial; };
+static struct LtRec *LtTable;
+static ULONG LtSerial, LtLive, LtFull, LtMiss;
+
+static ULONG LtHash( ULONG p) { return ((p >> 2) * 2654435761UL >> 11) & (LT_SLOTS - 1); }
+
+static void LtAdd( APTR p, ULONG size, ULONG ra) {
+    if( !LtTable) {
+        LtTable = AllocVec( LT_SLOTS * sizeof (struct LtRec), MEMF_ANY | MEMF_CLEAR);
+        if( !LtTable) return;
+    }
+    ULONG h = LtHash( (ULONG) p);
+    for( ULONG n = 0; n < LT_SLOTS; n++, h = (h + 1) & (LT_SLOTS - 1)) {
+        struct LtRec *r = &LtTable[h];
+        if( r->ptr == 0) {
+            r->ptr = (ULONG) p; r->ra = ra; r->size = size; r->serial = ++LtSerial; LtLive++;
+            return;
+        }
+    }
+    LtFull++;
+}
+
+static void LtRemove( APTR p) {
+    if( !LtTable) return;
+    ULONG i = LtHash( (ULONG) p);
+    ULONG n;
+    for( n = 0; n < LT_SLOTS; n++, i = (i + 1) & (LT_SLOTS - 1)) {
+        if( LtTable[i].ptr == (ULONG) p) break;
+        if( LtTable[i].ptr == 0) { LtMiss++; return; }
+    }
+    if( n == LT_SLOTS) { LtMiss++; return; }
+    LtTable[i].ptr = 0;
+    LtLive--;
+    ULONG j = i;
+    for(;;) {                                   /* close the gap: later entries of the cluster move back if their own place allows it */
+        j = (j + 1) & (LT_SLOTS - 1);
+        if( LtTable[j].ptr == 0) break;
+        ULONG k = LtHash( LtTable[j].ptr);
+        if( i <= j ? (i < k && k <= j) : (i < k || k <= j)) continue;
+        LtTable[i] = LtTable[j];
+        LtTable[j].ptr = 0;
+        i = j;
+    }
+}
+
+#define LT_GROUPS 600
+struct LtGroup { ULONG ra; ULONG size; ULONG count; ULONG first; ULONG last; ULONG sample; };
+static struct LtGroup LtGroups[LT_GROUPS];
+
+static void LtText( char *out, const UBYTE *p, ULONG size) {
+    static const char hex[] = "0123456789abcdef";
+    ULONG n = size < 16 ? size : 16;
+    char *o = out;
+    for( ULONG i = 0; i < n; i++) { *o++ = hex[p[i] >> 4]; *o++ = hex[p[i] & 15]; if( (i & 3) == 3) *o++ = ' '; }
+    *o++ = '|';
+    for( ULONG i = 0; i < n; i++) *o++ = (p[i] >= 32 && p[i] < 127) ? (char) p[i] : '.';
+    *o = 0;
+}
+
+void CstLeakDump( void) {
+    if( !LtTable) { KPrintF("LEAK: nothing tracked\n"); return; }
+    ULONG used = 0, lost = 0;
+    for( ULONG s = 0; s < LT_SLOTS; s++) {
+        struct LtRec *r = &LtTable[s];
+        if( !r->ptr) continue;
+        ULONG g;
+        for( g = 0; g < used; g++) if( LtGroups[g].ra == r->ra && LtGroups[g].size == r->size) break;
+        if( g == used) {
+            if( used == LT_GROUPS) { lost++; continue; }
+            used++;
+            LtGroups[g].ra = r->ra; LtGroups[g].size = r->size; LtGroups[g].count = 0;
+            LtGroups[g].first = r->serial; LtGroups[g].last = 0; LtGroups[g].sample = 0;
+        }
+        LtGroups[g].count++;
+        if( r->serial < LtGroups[g].first) LtGroups[g].first = r->serial;
+        if( r->serial >= LtGroups[g].last) { LtGroups[g].last = r->serial; LtGroups[g].sample = r->ptr; }
+    }
+    KPrintF("LEAK: ---- live %ld, allocations so far %ld, groups %ld (not shown %ld), table full %ld, unknown frees %ld, code base %lx\n",
+            (long) LtLive, (long) LtSerial, (long) used, (long) lost, (long) LtFull, (long) LtMiss, (unsigned long) &CstAllocVec);
+    for( ULONG top = 0; top < 70; top++) {      /* the 70 most numerous groups, one after the other */
+        ULONG best = used;
+        for( ULONG g = 0; g < used; g++) if( LtGroups[g].count && (best == used || LtGroups[g].count > LtGroups[best].count)) best = g;
+        if( best == used) break;
+        char text[80];
+        LtText( text, (const UBYTE *) LtGroups[best].sample, LtGroups[best].size);
+        KPrintF("LEAK: ra %lx size %ld count %ld serial %ld..%ld  %s\n", (unsigned long) LtGroups[best].ra, (long) LtGroups[best].size,
+                (long) LtGroups[best].count, (long) LtGroups[best].first, (long) LtGroups[best].last, text);
+        LtGroups[best].count = 0;
+    }
+    KPrintF("LEAK: ---- end\n");
+}
+
+static APTR CstAllocVecReal( ULONG bytesize, ULONG requirements );
+
+__attribute__((noinline)) APTR CstAllocVec( ULONG bytesize, ULONG requirements ) {
+    APTR p = CstAllocVecReal( bytesize, requirements);
+    LtAdd( p, bytesize, (ULONG) __builtin_return_address( 0));
+    return p;
+}
+
+static APTR CstAllocVecReal( ULONG bytesize, ULONG requirements ) {
+#else
 APTR CstAllocVec( ULONG bytesize, ULONG requirements ) {
+#endif
 #ifdef PROFILE
     profAllocs++;
 #endif
@@ -282,6 +392,9 @@ void CstFreeVec( APTR memptr ) {
 
 #ifdef PROFILE
     profFrees++;
+#endif
+#ifdef LEAKTRACK
+    LtRemove( memptr);
 #endif
     UBYTE *startmarker = memptr - 4;
 #ifdef CST_POOL
