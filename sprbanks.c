@@ -14,7 +14,7 @@ void CstLogBanks (void) {
 		long bytes = 0;
 		for (int i = 0; i < bank->bank.total; i++) {
 			struct sprite *s = &bank->bank.sprites[i];
-			if (s->data) bytes += (long) (s->width >> 3) * s->height * 6;
+			if (s->data) bytes += bank->bank.type == 1 ? (long) (4 * s->height + 8) : (long) (s->width >> 3) * s->height * 6;
 		}
 		total += bytes;
 		KPrintF("BANK: file %ld, %ld sprites, %ld bytes, used by %ld%s", (long) bank->ID, (long) bank->bank.total, bytes, (long) bank->timesUsed, bank->scaled ? ", scaled" : "");

@@ -91,7 +91,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 4, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	1,											// zoomCamera
 	1, 0, 0,									// playMovie, stopMovie, pauseMovie,
 	5, 1, 4, 1,									// addZBufferLayer, printConsole, fadeOut, fadeIn
-	6, 0, 5, 4, 1, -1, 1							// setCopperSplit, clearCopperSplits, fillArea, saveArea, restoreArea, removeZBufferLayer, freeCostume
+	6, 0, 5, 4, 1, -1, 1, 1						// setCopperSplit, clearCopperSplits, fillArea, saveArea, restoreArea, removeZBufferLayer, freeCostume, setFadeMask
 };
 
 #pragma mark -
@@ -2855,6 +2855,16 @@ builtIn(fadeIn)
 	return BR_CONTINUE;
 }
 
+//setFadeMask( mask ): the colour registers 16 to 30 (bit n is register 16 + n) that fade with every fadeOut and fadeIn besides the first `count`
+builtIn(setFadeMask)
+{
+	UNUSEDALL
+	int v[1];
+	if (! popIntegers (fun, 1, v)) return BR_ERROR;
+	CstSetFadeMask (v[0]);
+	return BR_CONTINUE;
+}
+
 //setCopperSplit( y1, y2, register, r, g, b ): lines y1 to y2 - 1 of the picture show the colour register in another colour
 builtIn(setCopperSplit)
 {
@@ -3117,6 +3127,7 @@ FUNC (TRUE, saveArea)
 FUNC (TRUE, restoreArea)
 FUNC (TRUE, removeZBufferLayer)
 FUNC (TRUE, freeCostume)
+FUNC (TRUE, setFadeMask)
 };
 #undef FUNC
 

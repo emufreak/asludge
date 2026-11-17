@@ -16,5 +16,6 @@ struct sprite {
 
 void forgetSpriteBank (struct loadedSpriteBank * forgetme);
 BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror);
+BOOL hardwareSprite (struct sprite *single, struct onScreenPerson * thisPerson);
 
 #endif

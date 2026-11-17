@@ -342,6 +342,7 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
 
 void drawPeople () {
 
+	CstHwSpriteBegin ();
 	shufflePeople ();
 
 	struct onScreenPerson * thisPerson = allPeople;
@@ -389,7 +390,11 @@ void drawPeople () {
 			if (m != 2) {
 				BOOL r = FALSE;
 
-				r = scaleSprite ( &myAnim->theSprites->bank.sprites[fNum], thisPerson, m);
+				if (myAnim->theSprites->bank.type == 1) {
+					r = hardwareSprite ( &myAnim->theSprites->bank.sprites[fNum], thisPerson);	// a sprite bank: a hardware sprite (A6)
+				} else {
+					r = scaleSprite ( &myAnim->theSprites->bank.sprites[fNum], thisPerson, m);
+				}
 				if (r) {
 					if (thisPerson -> thisType -> screenName[0]) {
 						if (personRegion.thisType != thisPerson -> thisType) lastRegion = NULL;

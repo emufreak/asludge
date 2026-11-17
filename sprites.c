@@ -100,6 +100,10 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 		loadhere->sprites[i].height = get2bytes(bigDataFile);
 		loadhere->sprites[i].xhot = get2bytes(bigDataFile);
 		loadhere->sprites[i].yhot = get2bytes(bigDataFile);
+		if (loadhere->type == 1) {		// a sprite bank's hotspot may lie outside the picture (a wisp's window is cut to its ink): two's complement
+			loadhere->sprites[i].xhot = (WORD) loadhere->sprites[i].xhot;
+			loadhere->sprites[i].yhot = (WORD) loadhere->sprites[i].yhot;
+		}
 		loadhere->sprites[i].steps = NULL;
 
 		UWORD size = 0;	// a bank type the switch below does not know reads nothing and fails, instead of an undefined size
@@ -134,6 +138,24 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 
 	//KPrintF("loadSpriteBank: Complete\n");
 	return TRUE;
+}
+
+/* A person whose animation comes from a type 1 bank (a hardware sprite, custom_hwsprite.c): placed as scaleSprite places a blit, shown by
+   a sprite channel instead. The same test says whether the mouse is over it. */
+BOOL hardwareSprite (struct sprite *single, struct onScreenPerson * thisPerson)
+{
+	int x = thisPerson->x;
+	int y = thisPerson->y;
+	if (!(thisPerson->extra & EXTRA_FIXTOSCREEN)) {
+		x -= cameraX;
+		y -= cameraY;
+	}
+	int x1 = x - single->xhot;		// (no quirk for a negative hotspot here: the bank's own numbers, tools/amiga/amigaart.py)
+	int y1 = y - (single->yhot - thisPerson->floaty);
+
+	CstHwSprite (single->data, single->height, x1, y1);
+
+	return input.mouseX >= x1 && input.mouseX <= x1 + single->width && input.mouseY >= y1 && input.mouseY <= y1 + single->height;
 }
 
 BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror)

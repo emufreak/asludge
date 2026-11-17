@@ -11,7 +11,7 @@
 #define CSTBPL5LOW 37*2+1
 #define CSTMAXWIDTHSPRITE 208
 #define CSTMAXHEIGHTSPRITE 200
-//#define EMULATOR
+#define EMULATOR
 
 #include <exec/execbase.h>
 #include <exec/types.h>
@@ -70,7 +70,7 @@ ULONG CstClSprites[] = { 0x001200000, 0x001220000,0x001240000,0x001260000, 0x001
 
 ULONG CstClScreen[] = { 0x001fc0000, 0x001060000, 0x0009687ff,
         0x0008e2c81, 0x00090f4c1,0x000920038, 0x0009400d0,   /* DIWSTRT $2C81, DIWSTOP $F4C1: line 44 to line 244 */
-        0x001020000, 0x001040009, 0x001080000, 0x0010a0000, 0x001005200 };
+        0x001020000, 0x001040024, 0x001080000, 0x0010a0000, 0x001005200 };
 
 ULONG CstClBitplanes[] = { 0x0e00000, 0x0e20000, 0x0e40000, 0x0e60000,
     0x0e80000, 0x0ea0000, 0x0ec0000, 0x0ee0000,
@@ -107,20 +107,38 @@ static UWORD CstStepColour( UWORD colour, UWORD target) {
   return (r << 8) | (g << 4) | b;
 }
 
-/* To fade the first `count` registers one level: each moves towards its entry in the palette, or towards the one colour when
-   there is no palette. Says whether anything changed. */
-static BOOL CstFadeRegisters( int count, UWORD colour, UWORD *palette) {
+/* A fade mask (E14, A6): registers 16 to 30 (bit n is register 16 + n) that fade with every fade, besides the first `count`. The
+   wisps are hardware sprites and can only draw in registers that lie between the frame's: a flash brightens them, and not the frame. */
+UWORD CstFadeMask = 0;          /* set by setFadeMask */
+UWORD CstFadedMask = 0;         /* the registers of the mask that a fade has taken from the palette (a mask that changes while they are faded must not strand them) */
+
+static BOOL CstRegisterFades( int i, int count, UWORD mask) {
+  return i < count || (i >= 16 && i < 31 && ((mask >> (i - 16)) & 1));
+}
+
+/* To fade the first `count` registers and those of the mask one level: each moves towards its entry in the palette, or towards the
+   one colour when there is no palette. Says whether anything changed. */
+static BOOL CstFadeRegisters( int count, UWORD colour, UWORD *palette, UWORD mask) {
   UWORD *register_ = CstClColor + 1;   /* the Copper list holds a MOVE per register: its opcode, then the colour */
   BOOL changed = FALSE;
-  for(int i=0; i<count; i++) {
-    UWORD target = palette ? palette[i] : colour;
-    if( *register_ != target) {
-      *register_ = CstStepColour( *register_, target);
-      changed = TRUE;
+  int last = count;
+  if( mask) last = 31;
+  for(int i=0; i<last; i++) {
+    if( CstRegisterFades( i, count, mask)) {
+      UWORD target = palette ? palette[i] : colour;
+      if( *register_ != target) {
+        *register_ = CstStepColour( *register_, target);
+        changed = TRUE;
+      }
     }
     register_ += 2;
   }
   return changed;
+}
+
+/* setFadeMask (mask): the registers 16 to 30 that fade with every fadeOut and fadeIn from now on. */
+void CstSetFadeMask( int mask) {
+  CstFadeMask = (UWORD) (mask & 0x7fff);
 }
 
 static int CstClampRegisters( int count) {
@@ -136,6 +154,7 @@ void CstStartFadeOut( int count, int r, int g, int b) {
   CstFadeColour = (CstClampChannel( r) << 8) | (CstClampChannel( g) << 4) | CstClampChannel( b);
   numColorsAdapt = CstClampRegisters( count);
   if( numColorsAdapt > CstFadedRegisters) CstFadedRegisters = numColorsAdapt;
+  CstFadedMask |= CstFadeMask;
   varfadeIn = 0;
   varfadeOut = 1;
 }
@@ -148,7 +167,7 @@ void CstStartFadeIn( int count) {
 }
 
 void CstFadeOut() {
-  if( !CstFadeRegisters( numColorsAdapt, CstFadeColour, NULL)) {
+  if( !CstFadeRegisters( numColorsAdapt, CstFadeColour, NULL, CstFadeMask)) {
     varfadeOut = 0;
     KPrintF("FADE: out finished");
   }
@@ -156,9 +175,10 @@ void CstFadeOut() {
 }
 
 void CstFadeIn() {
-  if( !CstPalette || !CstFadeRegisters( numColorsAdapt, 0, CstPalette)) {
+  if( !CstPalette || !CstFadeRegisters( numColorsAdapt, 0, CstPalette, CstFadeMask | CstFadedMask)) {
     varfadeIn = 0;
     if( numColorsAdapt >= CstFadedRegisters) CstFadedRegisters = 0;
+    CstFadedMask = 0;
     KPrintF("FADE: in finished");
   }
   CstRefreshSplits();
@@ -169,7 +189,7 @@ static void CstLoadPaletteIntoCopper() {
   if( !CstPalette) return;
   UWORD *register_ = CstClColor + 1;
   for(int i=0; i<32; i++) { //ToDo Support other number of bitplanes
-    if( i >= CstFadedRegisters) *register_ = CstPalette[i];
+    if( i >= CstFadedRegisters && !CstRegisterFades( i, 0, CstFadedMask)) *register_ = CstPalette[i];
     register_ += 2;
   }
   CstLoadPalette = 0;
@@ -1827,6 +1847,7 @@ void CstSwapBuffer( ) {
   copword[CSTBPL5LOW] = lowword;
   copword[CSTBPL5HIGH] = highword;
 
+  CstHwSpriteSwap();    /* the sprites of the persons go to the screen with the picture they were drawn for (custom_hwsprite.c) */
 }
 
 BOOL CstReserveBackdrop(int width, int height) {

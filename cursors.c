@@ -33,6 +33,10 @@ void pasteCursor (int x, int y, struct personaAnimation * c) {
 
 				//int fNumSign = myAnim -> frames[thisPerson -> frameNum].frameNum;
 	
+	if (c->theSprites->bank.type == 1) {		// a sprite bank is for hardware sprites (custom_hwsprite.c): its blocks are no pictures to paste
+		KPrintF("pasteImage: a type 1 bank can't be pasted");
+		return;
+	}
 	struct sprite *spritetouse = &c->theSprites->bank.sprites[c->frames[0].frameNum];
 
 	UWORD absx =  x - spritetouse->xhot;
