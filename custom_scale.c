@@ -192,6 +192,7 @@ static void CstForgetCopies( struct sprite *original) {
 }
 
 void CstForgetScaledSprites( struct loadedSpriteBank *bank) {
+  CstPictureChanged();      /* the copies that persons were drawn with go (A7.1) */
   for(int i=0; i<bank->bank.total; i++) {
     CstForgetCopies( &bank->bank.sprites[i]);
   }
@@ -218,6 +219,7 @@ static void CstMakeCopies( struct loadedSpriteBank *bank) {
     }
   }
   bank->scaled = TRUE;
+  CstPictureChanged();
 }
 
 /* ---- Which sizes, which banks, and when ------------------------------------------------------------------------------------ */

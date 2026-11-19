@@ -33,6 +33,7 @@ int addZBufferLayer (int x, int y, int width, int height, int yz) {
 	UWORD size = sceneWidth * sceneHeight / 8;
 	createthis->bitplane = CstAllocVec( size, MEMF_CHIP);
 	CstCreateZBufferLayer (createthis->bitplane, x, y, width, height);
+	CstPictureChanged ();	// the persons' masks may be other ones now (A7.1)
 	return createthis->layerId;
 }
 
@@ -46,6 +47,7 @@ BOOL removeZBufferLayer (int layerId) {
 			*link = panel->nextPanel;
 			CstFreeVec(panel->bitplane);
 			CstFreeVec(panel);
+			CstPictureChanged ();
 			return TRUE;
 		}
 		link = &panel->nextPanel;
@@ -56,6 +58,7 @@ BOOL removeZBufferLayer (int layerId) {
 void killZBuffer () {
 	struct zBufferData *zbuffercursor =  zBuffer;
     zBufferNr = 0;
+	CstPictureChanged ();
 
 	while(zbuffercursor) {
 		struct zBufferData *deleteme = zbuffercursor;
@@ -121,6 +124,7 @@ BOOL setZBuffer (unsigned int y) {
 
 	finishAccess ();
 
+	CstPictureChanged ();
 	return TRUE;
 }
 
@@ -148,7 +152,7 @@ void saveZBuffer(BPTR fp) {
 }
 
 BOOL restoreZBuffer(BPTR fp) {
-	killZBuffer();
+	killZBuffer();		// (it counts as a change of the picture)
 	UWORD count = get2bytes(fp);
 	if (count == 0) return TRUE;
 

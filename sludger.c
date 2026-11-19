@@ -1077,8 +1077,9 @@ void sludgeDisplay () {
     if( varfadeOut) CstFadeOut();
     if( varfadeIn) CstFadeIn();
 	displayCursor();
-	CstRestoreScreen();
-	drawPeople();
+	drawPeople();		// works out the persons' pictures and places, and records the ones the blitter draws (A7.1)
+	CstRestoreScreen();	// puts the backdrop back under last time's persons, unless nothing changed
+	CstDrawPeople();	// blits the recorded persons
 }
 
 BOOL stackSetByIndex (struct variableStack * vS, unsigned int theIndex, const struct variable * va) {

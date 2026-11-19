@@ -343,6 +343,7 @@ BOOL doBorderStuff (struct onScreenPerson * moveMe) {
 void drawPeople () {
 
 	CstHwSpriteBegin ();
+	CstPeopleBegin ();		// A7.1: the persons that are blitted are recorded as they are found and drawn by CstDrawPeople
 	shufflePeople ();
 
 	struct onScreenPerson * thisPerson = allPeople;

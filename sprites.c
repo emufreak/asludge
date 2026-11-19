@@ -19,6 +19,8 @@ void forgetSpriteBank (struct loadedSpriteBank * forgetme)
 {
 	struct spriteBank *spritebanktoforget = &forgetme->bank;
 
+	CstPictureChanged ();	// a bank loaded later may lie where this one did: pictures are told apart by address (A7.1)
+
 	CstForgetScaledSprites(forgetme);
 
 	for (int i = 0; i < spritebanktoforget->total; i++) {

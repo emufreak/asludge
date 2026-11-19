@@ -50,6 +50,9 @@ void CstLoadBackdrop( BPTR fp, int x, int y, int loadpalette);
 void CstPasteChar( struct sprite *single, WORD x, WORD y);
 BOOL CstReserveBackdrop(int width, int height);
 void CstRestoreScreen();
+void CstPeopleBegin();          /* A7.1: a pass starts to record the persons it draws */
+void CstDrawPeople();           /* A7.1: the persons are blitted after the restore, unless nothing changed since the buffer was drawn */
+void CstPictureChanged();       /* A7.1: a z-buffer panel or a sprite bank was made or freed: the persons are drawn again */
 void CstSaveSnapshot(BPTR fp);
 BOOL CstRestoreSnapshot(BPTR fp);
 void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD x, WORD y, UWORD destinationtype);

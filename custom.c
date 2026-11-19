@@ -58,6 +58,8 @@ struct CleanupQueue *CstCleanupQueueViewBuffer = NULL;
 struct CleanupQueue *CstCleanupQueueDrawBuffer = NULL;
 UWORD *CstClColor;
 UWORD CstFrameCounter = 0;
+ULONG CstPassesDrawn = 0, CstPassesSkipped = 0;     /* A7.1: the passes that blitted persons, and those that left the draw buffer alone */
+static void CstForgetSignatures();      /* A7.1, with the rest of it below */
 UWORD *CstPalette;
 UWORD *CstClCursor;
 UBYTE *CstZBufferResult;
@@ -724,6 +726,8 @@ void CstFrameStats( BOOL overran)
   if( ++passes == CSTSTATPASSES) {
     KPrintF("FRAME: %ld passes, the work took %ld lines on average and %ld at most (of 313), %ld ran over a frame\n",
             (long) CSTSTATPASSES, (long) (total / (CSTSTATPASSES - overruns > 0 ? CSTSTATPASSES - overruns : 1)), (long) longest, (long) overruns);
+    KPrintF("DRAW: persons blitted in %ld passes, the buffer left alone in %ld", (long) CstPassesDrawn, (long) CstPassesSkipped);
+    CstPassesDrawn = CstPassesSkipped = 0;
     KPrintF("CHIP: %ld bytes free, the largest block %ld", (long) AvailMem( MEMF_CHIP), (long) AvailMem( MEMF_CHIP | MEMF_LARGEST));
     {
       long threads = 0;     /* every running script thread costs the interpreter something in every pass, asleep or not (A5) */
@@ -1046,6 +1050,7 @@ void CstFreeBuffer( ) {
   if( CstBackDropBackup) CstFreeVec(CstBackDropBackup);
   CstDrawBuffer = NULL;
   CstViewBuffer = NULL;
+  CstForgetSignatures();
   CstCopperList = NULL;
   CstBackDrop = NULL;
   CstBackDropBackup = NULL;
@@ -1309,6 +1314,14 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
 
   bltcon0 = 0;
 
+  /* A glyph that starts at or beyond the right edge is not on the screen. The test below (x - width > winWidth) let one that starts a few
+     pixels beyond through: its blit began at word 20 of the row, which is word 0 of the next row, and wrote the glyph there (the pixels at the
+     left edge of the line below the text were wrong), and no clean-up rectangle was queued for it (it is clipped to no words), so the
+     screen buffers did not even see it. Found by the check build of A7.4 (a text at y 168 with a glyph at x 325). */
+  if( x >= (int) winWidth) {
+    return;
+  }
+
   blitwidth = single->width/16;
   if(blitwidth == 0) blitwidth = 1;
 
@@ -1458,18 +1471,35 @@ void CstPasteChar( struct sprite *single, WORD x, WORD y)
 }
 
 
+static BOOL CstPeopleUnchanged();       /* A7.1, below */
+static BOOL CstPeopleSkipped = FALSE;   /* this pass leaves the draw buffer as it is: no restore, and CstDrawPeople draws nothing */
+#ifdef DIRTYCHECK
+static BOOL CstCheckArmed = FALSE;      /* a buffer is checked once the restore has had something to do: before the first backdrop it holds whatever the memory held */
+#endif
+
 void CstRestoreScreen()
 {
   volatile struct Custom *custom = (struct Custom*)0xdff000;
   //custom->color[0] = 0xf00;
   //struct CleanupQueue *cursor  = CstCleanupQueueDrawBuffer;
+  CstPeopleSkipped = FALSE;
   if(!CstCleanupQueueDrawBuffer || !CstDrawBuffer) {
     return;
   }
+#ifdef DIRTYCHECK
+  CstCheckArmed = TRUE;
+#endif
 
   if( CstLoadPalette && CstPalette)
   {
     CstLoadPaletteIntoCopper();
+  }
+
+  /* A7.1: the draw buffer holds the backdrop and exactly the persons that this pass draws, so there is nothing to restore and nothing
+     to draw: its queue holds only the rectangles of those persons, which stay for the pass after next. */
+  if( CstPeopleUnchanged()) {
+    CstPeopleSkipped = TRUE;
+    return;
   }
 
   WaitBlit();
@@ -1537,6 +1567,7 @@ CSTINLINE BOOL CstBehindPanel( struct sprite *single, struct onScreenPerson *per
 CSTINLINE BOOL CstOnFrontPanel( struct sprite *single, struct CstPlacement *place);
 CSTINLINE UBYTE *CstTakePanelOut( struct CstPlacement *place, struct zBufferData *panel, int firstrow, int endrow, UBYTE *own, UBYTE *mask);
 CSTINLINE void CstCopyMask( UBYTE *from, UBYTE *to, LONG offset, LONG row, int words, int rows);
+CSTINLINE void CstRecordPerson( struct sprite *single, struct onScreenPerson *person, struct CstPlacement *place);
 
 /* To draw a sprite: place it on the screen, find the mask that its pixels are drawn through (its own, less what the z-buffer
    puts in front of it), blit its five planes through that mask, and queue the clean-up that puts the background back. */
@@ -1546,10 +1577,13 @@ void CstScaleSprite( struct sprite *single, struct onScreenPerson *person, WORD 
   if( !CstPlaceSprite( &place, single, x, y)) {
     return;
   }
+  if( destinationtype == SCREEN) {
+    CstRecordPerson( single, person, &place);     /* A7.1: CstDrawPeople draws it, after the restore, unless nothing changed */
+    return;
+  }
   UBYTE *mask = CstSpriteMask( single, person, &place);
-  UWORD *destination = destinationtype == SCREEN ? (UWORD *) CstDrawBuffer : (UWORD *) CstBackDrop;
-  CstBlitSprite( single, mask, &place, destination);
-  CstQueueCleanup( person, &place, destinationtype != SCREEN);
+  CstBlitSprite( single, mask, &place, (UWORD *) CstBackDrop);
+  CstQueueCleanup( person, &place, TRUE);
 }
 
 /* To place a sprite: find the first and the last column and row of it that are on the screen, if there are any. */
@@ -1654,6 +1688,226 @@ CSTINLINE void CstQueueCleanupRectangle( struct CleanupQueue **queue, struct onS
   entry->startxinbytes = firstscreenword * 2;
   entry->starty = place->y + place->firstrow;
   *queue = entry;
+}
+
+/* ---- A7.1: the persons are drawn after the restore, and not at all when nothing has changed ------------------------------------ */
+
+/* drawPeople (people.c) used to blit every shown person as it went. It now only works out which picture each person has and where, and
+   records it (CstRecordPerson, from CstScaleSprite): CstDrawPeople blits the recorded persons after CstRestoreScreen, and does not, when
+   the buffer it would draw into already holds exactly that. Each screen buffer keeps the signature it was drawn with: the picture of
+   every person, in the order drawn, with its place, its depth and its flags, and the version of the z-buffer and the sprite banks. The
+   buffer is out of date only if one of those differs or if its clean-up queue holds a rectangle of the backdrop, which every change of the
+   backdrop queues for both buffers (CstQueueBackdropChange, CstBlankScreen, CstLoadBackdrop, ...: an entry that has no person). Any
+   change redraws everything, in this pass and in the next (one for each buffer), as before. Hardware sprites, the mouse test and the
+   animation ticks are not part of it: they run in every pass. */
+
+#define CSTMAXJOBS 64           /* persons one pass can draw (the busiest room has about a dozen); the rest are not drawn */
+
+struct CstJob
+{
+  struct sprite *single;
+  struct onScreenPerson *person;
+  struct CstPlacement place;
+  WORD depth;                   /* the line the z-buffer judges the person by (CstCharacterDepth) */
+  UWORD extra;                  /* the person's EXTRA_ flags: NOZB takes the z-buffer out of the mask */
+};
+
+struct CstSigEntry
+{
+  struct sprite *single;
+  WORD x, y;
+  WORD depth;
+  UWORD extra;
+};
+
+struct CstSignature
+{
+  BOOL valid;                   /* the buffer has been drawn with this (not after the buffers were made or freed) */
+  UWORD count;
+  ULONG picture;                /* CstPictureVersion */
+  struct CstSigEntry entry[CSTMAXJOBS];
+};
+
+static struct CstJob CstJobs[CSTMAXJOBS];
+static UWORD CstJobCount = 0;
+static BOOL CstJobsLost = FALSE;
+static struct CstSignature CstSigs[2];
+static struct CstSignature *CstSigDraw = &CstSigs[0];   /* the signature of the draw buffer; swapped with the buffers (CstSwapBuffer) */
+static struct CstSignature *CstSigView = &CstSigs[1];
+static ULONG CstPictureVersion = 0;
+
+/* A z-buffer panel was made, freed or replaced, or a sprite bank went (a new one may sit at the address of the old one): the pictures
+   that persons were drawn with may be other ones now. */
+void CstPictureChanged()
+{
+  CstPictureVersion++;
+}
+
+/* The buffers are made or freed: nothing is known about what they hold. */
+static void CstForgetSignatures()
+{
+  CstSigs[0].valid = FALSE;
+  CstSigs[1].valid = FALSE;
+}
+
+/* The pass starts (drawPeople): no person is recorded yet. */
+void CstPeopleBegin()
+{
+  CstJobCount = 0;
+  CstJobsLost = FALSE;
+}
+
+CSTINLINE void CstRecordPerson( struct sprite *single, struct onScreenPerson *person, struct CstPlacement *place)
+{
+  if( CstJobCount >= CSTMAXJOBS) {
+    CstJobsLost = TRUE;
+    return;
+  }
+  struct CstJob *job = &CstJobs[CstJobCount++];
+  job->single = single;
+  job->person = person;
+  job->place = *place;
+  job->depth = person ? (WORD) CstCharacterDepth( person) : 0;
+  job->extra = person ? (UWORD) person->extra : 0;
+}
+
+/* Does the draw buffer hold exactly what the persons of this pass would make of the backdrop? */
+static BOOL CstPeopleUnchanged()
+{
+  struct CstSignature *sig = CstSigDraw;
+#ifdef NOSKIP
+  return FALSE;                  /* (the check build with the skip switched off: what differs then was wrong before A7.1) */
+#endif
+  if( !sig->valid || CstJobsLost || sig->count != CstJobCount || sig->picture != CstPictureVersion) {
+    return FALSE;
+  }
+  for(struct CleanupQueue *entry = CstCleanupQueueDrawBuffer; entry; entry = entry->next) {
+    if( !entry->person) return FALSE;      /* a change of the backdrop that the buffer has not had yet */
+  }
+  for(int i=0; i<CstJobCount; i++) {
+    struct CstJob *job = &CstJobs[i];
+    struct CstSigEntry *was = &sig->entry[i];
+    if( was->single != job->single || was->x != job->place.x || was->y != job->place.y || was->depth != job->depth || was->extra != job->extra) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+#ifdef DIRTYCHECK
+/* The check build (A7.4): after every pass, what the draw buffer holds is compared with what a full restore and draw gives, the backdrop
+   with every person of this pass blitted over it, made in a spare buffer. A difference means that something changed a picture without
+   changing the signature or queueing a rectangle. Chip RAM: one more screen buffer; time: the whole screen compared in every pass. */
+static UBYTE *CstCheckBase = NULL;
+static ULONG CstCheckPasses = 0, CstCheckWrong = 0, CstCheckSkipped = 0;     /* (the passes that left the buffer alone, all told: CstPassesSkipped is reset every 100 passes) */
+
+static void CstDirtyCheck()
+{
+  if( !CstCheckArmed) return;
+  if( !CstCheckBase) {
+    CstCheckBase = CstAllocVec( CstBackdropSize + 2 * (winWidth / 8), MEMF_CHIP);
+    if( !CstCheckBase) {
+      KPrintF("DCHK: no memory for the spare buffer");
+      return;
+    }
+  }
+  UWORD *fresh = (UWORD *) (CstCheckBase + winWidth / 8);       /* (a row of border on both sides, as the screen buffers have) */
+  ULONG *to = (ULONG *) fresh;
+  ULONG *from = (ULONG *) CstBackDrop;
+  for(int i=0; i<CstBackdropSize / 4; i++) *to++ = *from++;
+  for(int i=0; i<CstJobCount; i++) {
+    struct CstJob *job = &CstJobs[i];
+    UBYTE *mask = CstSpriteMask( job->single, job->person, &job->place);
+    CstBlitSprite( job->single, mask, &job->place, fresh);
+  }
+  volatile struct Custom *custom = (struct Custom*)0xdff000;
+  WaitBlit();
+
+  ULONG *drawn = (ULONG *) CstDrawBuffer;
+  ULONG *good = (ULONG *) fresh;
+  ULONG wrong = 0;
+  int firstplane = -1, minrow = 9999, maxrow = -1, minword = 9999, maxword = -1;
+  ULONG firstdrawn = 0, firstgood = 0, firstback = 0;
+  for(int i=0; i<CstBackdropSize / 4; i++) {
+    if( drawn[i] != good[i]) {
+      ULONG at = (ULONG) i * 4;
+      int plane = at / CstBackdropSizePlane;
+      int inplane = at % CstBackdropSizePlane;
+      int row = inplane / (winWidth / 8);
+      int word = (inplane % (winWidth / 8)) / 2;
+      if( firstplane < 0) {
+        firstplane = plane;
+        firstdrawn = drawn[i];
+        firstgood = good[i];
+        firstback = ((ULONG *) CstBackDrop)[i];
+      }
+      if( row < minrow) minrow = row;
+      if( row > maxrow) maxrow = row;
+      if( word < minword) minword = word;
+      if( word + 1 > maxword) maxword = word + 1;
+      wrong++;
+    }
+  }
+  CstCheckPasses++;
+  if( CstPeopleSkipped) CstCheckSkipped++;
+  if( wrong) {
+    CstCheckWrong++;
+    if( CstCheckWrong <= 40 || CstCheckWrong % 50 == 0) {
+      KPrintF("DCHK: pass %ld, %ld longs differ: rows %ld to %ld, words %ld to %ld, first in plane %ld; %ld persons, skipped %ld",
+              (long) CstCheckPasses, (long) wrong, (long) minrow, (long) maxrow, (long) minword, (long) maxword, (long) firstplane,
+              (long) CstJobCount, (long) CstPeopleSkipped);
+      KPrintF("DCHK: the first long is %08lx in the buffer, %08lx in a fresh draw, %08lx in the backdrop", (long) firstdrawn, (long) firstgood, (long) firstback);
+      if( CstCheckWrong <= 3) {
+        for(int i=0; i<CstJobCount; i++) {
+          struct CstJob *job = &CstJobs[i];
+          KPrintF("DCHK: person %ld at x %ld, y %ld, %ld x %ld px, words %ld to %ld, rows %ld to %ld, depth %ld, extra %ld", (long) i, (long) job->place.x, (long) job->place.y,
+                  (long) job->single->width, (long) job->single->height, (long) job->place.firstword, (long) job->place.lastword, (long) job->place.firstrow, (long) job->place.endrow,
+                  (long) job->depth, (long) job->extra);
+        }
+        for(struct CleanupQueue *entry = CstCleanupQueueDrawBuffer; entry; entry = entry->next) {
+          KPrintF("DCHK: queue x %ld y %ld, %ld words, %ld rows, from byte %ld row %ld, person %ld", (long) entry->x, (long) entry->y, (long) entry->widthinwords, (long) entry->height,
+                  (long) entry->startxinbytes, (long) entry->starty, (long) (entry->person != NULL));
+        }
+      }
+    }
+  }
+  if( CstCheckPasses % 500 == 0) {
+    KPrintF("DCHK: %ld passes checked, %ld wrong, %ld of them left the buffer alone",
+            (long) CstCheckPasses, (long) CstCheckWrong, (long) CstCheckSkipped);
+  }
+}
+#endif
+
+/* The persons of this pass are blitted over the restored draw buffer, in the order recorded (back to front), each with the clean-up
+   rectangle that the restore of the pass after next will need; or, when CstRestoreScreen found the buffer unchanged, nothing is. */
+void CstDrawPeople()
+{
+  if( !CstDrawBuffer) {
+    return;
+  }
+  if( CstPeopleSkipped) {
+    CstPassesSkipped++;
+  } else {
+    struct CstSignature *sig = CstSigDraw;
+    for(int i=0; i<CstJobCount; i++) {
+      struct CstJob *job = &CstJobs[i];
+      UBYTE *mask = CstSpriteMask( job->single, job->person, &job->place);
+      CstBlitSprite( job->single, mask, &job->place, (UWORD *) CstDrawBuffer);
+      CstQueueCleanup( job->person, &job->place, FALSE);
+      sig->entry[i].single = job->single;
+      sig->entry[i].x = job->place.x;
+      sig->entry[i].y = job->place.y;
+      sig->entry[i].depth = job->depth;
+      sig->entry[i].extra = job->extra;
+    }
+    sig->count = CstJobCount;
+    sig->picture = CstPictureVersion;
+    sig->valid = !CstJobsLost;
+    if( CstJobCount) CstPassesDrawn++;
+  }
+#ifdef DIRTYCHECK
+  CstDirtyCheck();
+#endif
 }
 
 /* ---- The mask of a sprite, and the z-buffer -------------------------------------------------------------------------- */
@@ -1810,6 +2064,9 @@ void CstSwapBuffer( ) {
   struct CleanupQueue *tmp2 = CstCleanupQueueViewBuffer;
   CstCleanupQueueViewBuffer = CstCleanupQueueDrawBuffer;
   CstCleanupQueueDrawBuffer = tmp2;
+  struct CstSignature *sigtmp = CstSigView;      /* what each buffer was drawn with goes with it (A7.1) */
+  CstSigView = CstSigDraw;
+  CstSigDraw = sigtmp;
 
   UWORD *copword = CstCopperList;
   ULONG ptr = (ULONG) CstViewBuffer;
@@ -1902,6 +2159,7 @@ BOOL CstReserveBackdrop(int width, int height) {
   KPrintF("CstReserveBackdrop: ViewBuffer reserved");
 
   CstDrawBuffer += width/4; //divide with 4 because pointer is ulong
+  CstForgetSignatures();
   CstViewBuffer += width/4; //divide with 4 because pointer is ulong
 
   CstZBufferResult = CstAllocVec( CSTMAXWIDTHSPRITE/8*CSTMAXHEIGHTSPRITE,MEMF_CHIP);

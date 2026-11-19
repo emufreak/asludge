@@ -69,6 +69,7 @@ BOOL freeze () {
 
 	newFreezer -> zBuffer = zBuffer;
 	zBuffer = NULL;
+	CstPictureChanged ();
 
 	newFreezer -> speech = speech;
 	initSpeech ();
@@ -131,6 +132,7 @@ void unfreeze () {
 
 	killZBuffer ();
 	zBuffer = frozenStuff->zBuffer;
+	CstPictureChanged ();
 
 	if (currentEvents) CstFreeVec(currentEvents);
 	currentEvents = frozenStuff -> currentEvents;
