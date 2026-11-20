@@ -15,7 +15,7 @@
 #include <proto/mathieeesingtrans.h>
 #include <libraries/mathieeesp.h>
 #include "main_sludge.h"
-//#define EMULATOR
+#define EMULATOR
 
 volatile UWORD FrameCounter = 0;   // counted by the vertical-blank interrupt server (interruptHandler) and waited on in main_sludge: must be volatile, or -O1 turns the wait into an endless loop
 volatile ULONG VblankTicks = 0;    // every tick of that interrupt since the start, never reset (FrameCounter is): CstCountFrame measures the frames per second against it

@@ -8,7 +8,7 @@
 #include "stringy.h"
 #include "support/gcc8_c_support.h"
 
-//#define EMULATOR
+#define EMULATOR
 
 struct zBufferData *zBuffer;
 int zBufferNr;
