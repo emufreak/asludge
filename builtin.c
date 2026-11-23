@@ -92,7 +92,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 4, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	1, 0, 0,									// playMovie, stopMovie, pauseMovie,
 	5, 1, 4, 1,									// addZBufferLayer, printConsole, fadeOut, fadeIn
 	6, 0, 5, 4, 1, -1, 1, 1,					// setCopperSplit, clearCopperSplits, fillArea, saveArea, restoreArea, removeZBufferLayer, freeCostume, setFadeMask
-	5											// setHitBox
+	3											// setHitMargin
 };
 
 #pragma mark -
@@ -2962,18 +2962,18 @@ builtIn(freeCostume)
 	return BR_CONTINUE;
 }
 
-//setHitBox( object, x1, y1, x2, y2 ): the mouse counts as over every person of the object when it is inside the box from (x1, y1) to
-//(x2, y2), offsets from the person's position that include both ends, besides the frame of its picture. It makes a small picture easy to
-//click (the wisps). It holds for the persons made later too. An empty box (x2 < x1 or y2 < y1) takes it away.
-builtIn(setHitBox)
+//setHitMargin( object, x, y ): the mouse counts as over a person of the object when it is within x pixels left or right and y pixels above
+//or below the frame of its picture, as if the frame were that much bigger on every side. It makes a small picture that changes all the
+//time easy to click (the wisps). It holds for the persons made later too. 0, 0 (a negative number is 0) takes it away.
+builtIn(setHitMargin)
 {
 	UNUSEDALL
-	int v[4];
+	int v[2];
 	int objNum;
-	if (! popIntegers (fun, 4, v)) return BR_ERROR;
+	if (! popIntegers (fun, 2, v)) return BR_ERROR;
 	if (! getValueType (&objNum, SVT_OBJTYPE, &fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (&fun -> stack);
-	setObjectHitBox (objNum, v[0], v[1], v[2], v[3]);
+	setObjectHitMargin (objNum, v[0], v[1]);
 	return BR_CONTINUE;
 }
 
@@ -3159,7 +3159,7 @@ FUNC (TRUE, restoreArea)
 FUNC (TRUE, removeZBufferLayer)
 FUNC (TRUE, freeCostume)
 FUNC (TRUE, setFadeMask)
-FUNC (TRUE, setHitBox)
+FUNC (TRUE, setHitMargin)
 };
 #undef FUNC
 

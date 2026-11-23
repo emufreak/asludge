@@ -143,14 +143,18 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 	return TRUE;
 }
 
-/* The mouse over the hit box that setHitBox gave the person's object: a rectangle around the person's position (x and y: on the screen),
-   which counts besides the frame of the picture. It moves with the picture when the person floats. */
-static BOOL overHitBox (struct onScreenPerson * thisPerson, int x, int y)
+/* Is the mouse over the frame of a person's picture (from x1, y1 to x2, y2 on the screen, both ends in)? An object that setHitMargin gave
+   an extra size counts the frame as that much bigger on every side: a small picture that changes all the time (a wisp) is easier to hit. */
+static BOOL mouseOverFrame (struct onScreenPerson * thisPerson, int x1, int y1, int x2, int y2)
 {
 	struct objectType * t = thisPerson -> thisType;
-	if (! t || ! t -> hasHitBox) return FALSE;
-	y += thisPerson -> floaty;
-	return input.mouseX >= x + t -> hitX1 && input.mouseX <= x + t -> hitX2 && input.mouseY >= y + t -> hitY1 && input.mouseY <= y + t -> hitY2;
+	if (t) {
+		x1 -= t -> hitMarginX;
+		x2 += t -> hitMarginX;
+		y1 -= t -> hitMarginY;
+		y2 += t -> hitMarginY;
+	}
+	return input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2;
 }
 
 /* A person whose animation comes from a type 1 bank (a hardware sprite, custom_hwsprite.c): placed as scaleSprite places a blit, shown by
@@ -168,8 +172,7 @@ BOOL hardwareSprite (struct sprite *single, struct onScreenPerson * thisPerson)
 
 	CstHwSprite (single->data, single->height, x1, y1);
 
-	if (input.mouseX >= x1 && input.mouseX <= x1 + single->width && input.mouseY >= y1 && input.mouseY <= y1 + single->height) return TRUE;
-	return overHitBox (thisPerson, x, y);
+	return mouseOverFrame (thisPerson, x1, y1, x1 + single->width, y1 + single->height);
 }
 
 BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror)
@@ -204,8 +207,5 @@ BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOO
 
     CstScaleSprite( single, thisPerson, x1, y1,SCREEN);
 
-	if (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2) {
-		return TRUE;
-	}
-	return overHitBox (thisPerson, x, y);
+	return mouseOverFrame (thisPerson, x1, y1, x2, y2);
 }

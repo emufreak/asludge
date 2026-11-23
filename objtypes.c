@@ -10,56 +10,56 @@
 
 struct objectType * allObjectTypes = NULL;
 
-/* The hit boxes that setHitBox gave to objects. They are kept by object number, not in the object types: the type of a person
-   goes with the person (removeCharacter), and the box has to be there again when the person is made again. loadObjectType copies the
-   box into the new type, so the test in sprites.c reads the person's own type and searches nothing. */
-#define HITBOXMAX 16
+/* The extra click size that setHitMargin gave to objects. It is kept by object number, not in the object types: the type of a person
+   goes with the person (removeCharacter), and the margin has to be there again when the person is made again. loadObjectType copies
+   the margin into the new type, so the test in sprites.c reads the person's own type and searches nothing. */
+#define HITMARGINMAX 16
 static struct {
 	int objectNum;
-	short x1, y1, x2, y2;
-} hitBoxes[HITBOXMAX];
-static int hitBoxCount = 0;
+	short x, y;
+} hitMargins[HITMARGINMAX];
+static int hitMarginCount = 0;
 
-static void applyHitBox (struct objectType * t) {
+static void applyHitMargin (struct objectType * t) {
 	int i;
-	t -> hasHitBox = FALSE;
-	for (i = 0; i < hitBoxCount; i ++) {
-		if (hitBoxes[i].objectNum == t -> objectNum) {
-			t -> hasHitBox = TRUE;
-			t -> hitX1 = hitBoxes[i].x1;
-			t -> hitY1 = hitBoxes[i].y1;
-			t -> hitX2 = hitBoxes[i].x2;
-			t -> hitY2 = hitBoxes[i].y2;
+	t -> hitMarginX = 0;
+	t -> hitMarginY = 0;
+	for (i = 0; i < hitMarginCount; i ++) {
+		if (hitMargins[i].objectNum == t -> objectNum) {
+			t -> hitMarginX = hitMargins[i].x;
+			t -> hitMarginY = hitMargins[i].y;
 			return;
 		}
 	}
 }
 
-/* setHitBox (object, x1, y1, x2, y2): a box around the position of every person of the object, besides the frame of the picture, in which
-   the mouse counts as over the person. An empty box (x2 < x1 or y2 < y1) takes the object's box away again. */
-void setObjectHitBox (int objectNum, int x1, int y1, int x2, int y2) {
+/* setHitMargin (object, x, y): the mouse counts as over a person of the object when it is within x pixels left or right and y pixels above
+   or below the frame of the person's picture (the frame grown by that much on every side). Both 0 (a negative number counts as 0) takes
+   the object's margin away again. */
+void setObjectHitMargin (int objectNum, int x, int y) {
 	struct objectType * t;
 	int i;
-	for (i = 0; i < hitBoxCount; i ++) {
-		if (hitBoxes[i].objectNum == objectNum) break;
+	if (x < 0) x = 0;
+	if (y < 0) y = 0;
+	for (i = 0; i < hitMarginCount; i ++) {
+		if (hitMargins[i].objectNum == objectNum) break;
 	}
-	if (i == hitBoxCount) {
-		if (i == HITBOXMAX) {
-			KPrintF ("setHitBox: too many objects with a hit box");
+	if (i == hitMarginCount) {
+		if (x == 0 && y == 0) return;		// (no margin before, none now)
+		if (i == HITMARGINMAX) {
+			KPrintF ("setHitMargin: too many objects with a margin");
 			return;
 		}
-		hitBoxCount ++;
+		hitMarginCount ++;
 	}
-	hitBoxes[i].objectNum = objectNum;
-	hitBoxes[i].x1 = x1;
-	hitBoxes[i].y1 = y1;
-	hitBoxes[i].x2 = x2;
-	hitBoxes[i].y2 = y2;
-	if (x2 < x1 || y2 < y1) {
-		hitBoxes[i] = hitBoxes[-- hitBoxCount];		// (the last entry takes its place)
+	hitMargins[i].objectNum = objectNum;
+	hitMargins[i].x = x;
+	hitMargins[i].y = y;
+	if (x == 0 && y == 0) {
+		hitMargins[i] = hitMargins[-- hitMarginCount];		// (the last entry takes its place)
 	}
 	for (t = allObjectTypes; t; t = t -> next) {
-		if (t -> objectNum == objectNum) applyHitBox (t);		// the persons and regions that exist already
+		if (t -> objectNum == objectNum) applyHitMargin (t);		// the persons and regions that exist already
 	}
 }
 
@@ -131,7 +131,7 @@ struct objectType * loadObjectType (int i) {
             finishAccess();
             newType->screenName = getNumberedString(nameNum);
             newType->objectNum = i;
-            applyHitBox (newType);
+            applyHitMargin (newType);
             newType->next = allObjectTypes;
             allObjectTypes = newType;
             return newType;
