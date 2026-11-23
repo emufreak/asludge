@@ -9,6 +9,7 @@
 #include "fileset.h"
 #include "gamefile.h"
 #include "moreio.h"
+#include "objtypes.h"
 #include "support/gcc8_c_support.h"
 
 extern int cameraX, cameraY;
@@ -142,6 +143,16 @@ BOOL loadSpriteBank (int fileNum, struct spriteBank *loadhere) {
 	return TRUE;
 }
 
+/* The mouse over the hit box that setHitBox gave the person's object: a rectangle around the person's position (x and y: on the screen),
+   which counts besides the frame of the picture. It moves with the picture when the person floats. */
+static BOOL overHitBox (struct onScreenPerson * thisPerson, int x, int y)
+{
+	struct objectType * t = thisPerson -> thisType;
+	if (! t || ! t -> hasHitBox) return FALSE;
+	y += thisPerson -> floaty;
+	return input.mouseX >= x + t -> hitX1 && input.mouseX <= x + t -> hitX2 && input.mouseY >= y + t -> hitY1 && input.mouseY <= y + t -> hitY2;
+}
+
 /* A person whose animation comes from a type 1 bank (a hardware sprite, custom_hwsprite.c): placed as scaleSprite places a blit, shown by
    a sprite channel instead. The same test says whether the mouse is over it. */
 BOOL hardwareSprite (struct sprite *single, struct onScreenPerson * thisPerson)
@@ -157,7 +168,8 @@ BOOL hardwareSprite (struct sprite *single, struct onScreenPerson * thisPerson)
 
 	CstHwSprite (single->data, single->height, x1, y1);
 
-	return input.mouseX >= x1 && input.mouseX <= x1 + single->width && input.mouseY >= y1 && input.mouseY <= y1 + single->height;
+	if (input.mouseX >= x1 && input.mouseX <= x1 + single->width && input.mouseY >= y1 && input.mouseY <= y1 + single->height) return TRUE;
+	return overHitBox (thisPerson, x, y);
 }
 
 BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOOL mirror)
@@ -195,5 +207,5 @@ BOOL scaleSprite (struct sprite *single, struct onScreenPerson * thisPerson, BOO
 	if (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2) {
 		return TRUE;
 	}
-	return FALSE;
+	return overHitBox (thisPerson, x, y);
 }

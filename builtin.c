@@ -91,7 +91,8 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 4, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	1,											// zoomCamera
 	1, 0, 0,									// playMovie, stopMovie, pauseMovie,
 	5, 1, 4, 1,									// addZBufferLayer, printConsole, fadeOut, fadeIn
-	6, 0, 5, 4, 1, -1, 1, 1						// setCopperSplit, clearCopperSplits, fillArea, saveArea, restoreArea, removeZBufferLayer, freeCostume, setFadeMask
+	6, 0, 5, 4, 1, -1, 1, 1,					// setCopperSplit, clearCopperSplits, fillArea, saveArea, restoreArea, removeZBufferLayer, freeCostume, setFadeMask
+	5											// setHitBox
 };
 
 #pragma mark -
@@ -427,6 +428,21 @@ builtIn(printConsole)
 #ifdef LEAKTRACK
     if (newText[0] == 'L' && newText[1] == 'E' && newText[2] == 'A' && newText[3] == 'K' && newText[4] == 'S' && !newText[5]) {
         CstLeakDump();
+        CstFreeVec(newText);
+        return BR_CONTINUE;
+    }
+#endif
+#ifdef HITTEST
+    /* A test build (build-engine.ps1 -Define HITTEST): "MOUSE x y" puts the mouse there, as if it had moved (the harness cannot move it) */
+    if (newText[0] == 'M' && newText[1] == 'O' && newText[2] == 'U' && newText[3] == 'S' && newText[4] == 'E' && newText[5] == ' ') {
+        int mx = 0, my = 0;
+        char *p = newText + 6;
+        while (*p >= '0' && *p <= '9') mx = mx * 10 + (*p++ - '0');
+        while (*p == ' ') p++;
+        while (*p >= '0' && *p <= '9') my = my * 10 + (*p++ - '0');
+        input.mouseX = mx;
+        input.mouseY = my;
+        input.justMoved = TRUE;
         CstFreeVec(newText);
         return BR_CONTINUE;
     }
@@ -2946,6 +2962,21 @@ builtIn(freeCostume)
 	return BR_CONTINUE;
 }
 
+//setHitBox( object, x1, y1, x2, y2 ): the mouse counts as over every person of the object when it is inside the box from (x1, y1) to
+//(x2, y2), offsets from the person's position that include both ends, besides the frame of its picture. It makes a small picture easy to
+//click (the wisps). It holds for the persons made later too. An empty box (x2 < x1 or y2 < y1) takes it away.
+builtIn(setHitBox)
+{
+	UNUSEDALL
+	int v[4];
+	int objNum;
+	if (! popIntegers (fun, 4, v)) return BR_ERROR;
+	if (! getValueType (&objNum, SVT_OBJTYPE, &fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (&fun -> stack);
+	setObjectHitBox (objNum, v[0], v[1], v[2], v[3]);
+	return BR_CONTINUE;
+}
+
 #define FUNC(special,name)		{builtIn_ ## name},
 static struct builtInFunctionData builtInFunctionArray[] =
 {
@@ -3128,6 +3159,7 @@ FUNC (TRUE, restoreArea)
 FUNC (TRUE, removeZBufferLayer)
 FUNC (TRUE, freeCostume)
 FUNC (TRUE, setFadeMask)
+FUNC (TRUE, setHitBox)
 };
 #undef FUNC
 

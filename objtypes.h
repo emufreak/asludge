@@ -16,9 +16,12 @@ struct objectType {
 	int speechGap, walkSpeed, wrapSpeech, spinSpeed;
 	unsigned short int flags;
 	struct combination * allCombis;
+	BOOL hasHitBox;							// setHitBox: a person of this object also takes the mouse over the rectangle below
+	short hitX1, hitY1, hitX2, hitY2;		// (offsets from the person's position, on the screen; both ends belong to the box)
 };
 
 int getCombinationFunction (int withThis, int thisObject);
+void setObjectHitBox (int objectNum, int x1, int y1, int x2, int y2);
 struct objectType * findObjectType (int i);
 BOOL initObjectTypes ();
 struct objectType * loadObjectType (int i);
