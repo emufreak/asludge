@@ -88,7 +88,7 @@ ULONG CstClColorTemplate[] = {
 /* ---- Fades ---------------------------------------------------------------------------------------------------------------- */
 
 /* A fade moves the first `numColorsAdapt` colour registers one level on every pass of the game loop (a level is a sixteenth of a
-   channel, so a fade takes 15 passes at most): fadeOut towards one colour, fadeIn towards the palette of the last backdrop that
+   channel, so a fade takes 15 passes at most; setFadeSpeed makes it more levels a pass): fadeOut towards one colour, fadeIn towards the palette of the last backdrop that
    loaded one. The registers after them are not touched, so what is drawn in registers 16 to 31 stays as it is. The fade is over
    when no register changes any more; a script waits for it by counting passes. */
 
@@ -96,9 +96,15 @@ UWORD CstFadeColour = 0;        /* the colour fadeOut moves towards, as a colour
 UWORD CstFadedRegisters = 0;    /* the registers a fade has taken from the palette: a palette that is loaded leaves them as they
                                    are, and fadeIn brings them to it (a room is loaded while the screen is black, then faded in) */
 
+/* setFadeSpeed (levels): a fade that starts from now on moves a channel up to this many levels on every pass, so it takes 15 / levels
+   passes at most (1, the default, is 15 passes). A flash of the original is at its colour at once and back in about 8 frames. The speed
+   is taken when a fade starts (CstFadeStep), so a script can set it, start a fade and set it back. */
+UWORD CstFadeSpeed = 1;
+static UWORD CstFadeStep = 1;   /* the speed of the fade that runs */
+
 static UWORD CstStepChannel( UWORD value, UWORD target) {
-  if( value < target) return value + 1;
-  if( value > target) return value - 1;
+  if( value < target) return target - value > CstFadeStep ? value + CstFadeStep : target;
+  if( value > target) return value - target > CstFadeStep ? value - CstFadeStep : target;
   return value;
 }
 
@@ -143,6 +149,11 @@ void CstSetFadeMask( int mask) {
   CstFadeMask = (UWORD) (mask & 0x7fff);
 }
 
+/* setFadeSpeed (levels): 1 to 15 (out of range is clamped) */
+void CstSetFadeSpeed( int levels) {
+  CstFadeSpeed = (UWORD) (levels < 1 ? 1 : levels > 15 ? 15 : levels);
+}
+
 static int CstClampRegisters( int count) {
   return count < 0 ? 0 : count > 32 ? 32 : count;
 }
@@ -157,6 +168,7 @@ void CstStartFadeOut( int count, int r, int g, int b) {
   numColorsAdapt = CstClampRegisters( count);
   if( numColorsAdapt > CstFadedRegisters) CstFadedRegisters = numColorsAdapt;
   CstFadedMask |= CstFadeMask;
+  CstFadeStep = CstFadeSpeed;
   varfadeIn = 0;
   varfadeOut = 1;
 }
@@ -164,6 +176,7 @@ void CstStartFadeOut( int count, int r, int g, int b) {
 /* fadeIn (count): the first `count` registers fade to their palette. */
 void CstStartFadeIn( int count) {
   numColorsAdapt = CstClampRegisters( count);
+  CstFadeStep = CstFadeSpeed;
   varfadeOut = 0;
   varfadeIn = 1;
 }

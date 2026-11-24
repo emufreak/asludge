@@ -36,6 +36,7 @@ void CstForgetScaledSprites( struct loadedSpriteBank *bank);
 struct sprite *CstSpriteForPerson( struct sprite *single, struct onScreenPerson *person);
 void CstStartFadeOut( int count, int r, int g, int b);
 void CstSetFadeMask( int mask);
+void CstSetFadeSpeed( int levels);
 BOOL CstSetCopperSplit( int y1, int y2, int reg, int r, int g, int b);
 void CstClearCopperSplits();
 void CstRefreshSplits();

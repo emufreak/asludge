@@ -92,7 +92,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 4, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	1, 0, 0,									// playMovie, stopMovie, pauseMovie,
 	5, 1, 4, 1,									// addZBufferLayer, printConsole, fadeOut, fadeIn
 	6, 0, 5, 4, 1, -1, 1, 1,					// setCopperSplit, clearCopperSplits, fillArea, saveArea, restoreArea, removeZBufferLayer, freeCostume, setFadeMask
-	3											// setHitMargin
+	3, 1										// setHitMargin, setFadeSpeed
 };
 
 #pragma mark -
@@ -2977,6 +2977,17 @@ builtIn(setHitMargin)
 	return BR_CONTINUE;
 }
 
+//setFadeSpeed( levels ): the fades started from now on move each colour channel up to `levels` levels a pass (1 to 15, 1 is the
+//default: a fade of 15 passes). A flash is at its colour in one pass with 15.
+builtIn(setFadeSpeed)
+{
+	UNUSEDALL
+	int v[1];
+	if (! popIntegers (fun, 1, v)) return BR_ERROR;
+	CstSetFadeSpeed (v[0]);
+	return BR_CONTINUE;
+}
+
 #define FUNC(special,name)		{builtIn_ ## name},
 static struct builtInFunctionData builtInFunctionArray[] =
 {
@@ -3160,6 +3171,7 @@ FUNC (TRUE, removeZBufferLayer)
 FUNC (TRUE, freeCostume)
 FUNC (TRUE, setFadeMask)
 FUNC (TRUE, setHitMargin)
+FUNC (TRUE, setFadeSpeed)
 };
 #undef FUNC
 
